@@ -1,0 +1,18 @@
+Uzdevumi pēc atrisinājuma struktūras
+==================================================
+
+.. list-table::
+    :widths: 5 40 5 40
+    :header-rows: 0
+
+{% for i in range(0, problems|length, 2) %}
+    * - {{ problems[i].problemID }}
+      - {{ problems[i].problemText_lv }}
+      {%- if i+1 < problems|length %}
+      - {{ problems[i+1].problemID }}
+      - {{ problems[i+1].problemText_lv }}
+      {%- else %}
+      - 
+      - 
+      {%- endif %}
+{% endfor %}

@@ -1,0 +1,11 @@
+{
+    "task": {
+        "query": "...",
+        "worksheet": "../tests/adapt-worksheet/worksheet.json",
+        "template": "templates/regular.rst.jinja"
+    },
+    "implementation": {},
+    "result": {
+        "current_worksheet": "../tests/adapt-worksheet/worksheet.json"
+    }
+}

@@ -1,0 +1,273 @@
+{
+    "snippets": [
+      {
+        "type": "annotation",
+        "value": "Invariants -- tas, kas paliek nemainīgs (kādā norisē, kādos apstākļos)."
+      },
+      {
+        "type": "text",
+        "value": "Piemēram,\n• mašīnas braukšanas ātrums visā ceļa posmā nav nemainīgs lielums, jo, uzsākot braucienu, tas ātrums ir nulle, bet kaut kādā ceļa posmā tas ir nemainīgs jeb invariants;\n• pulksteņa rādītāja spicā gala attālums līdz centram, kur tas ir piestiprināts, ir nemainīgs jeb invariants, bet spicā gala attālums līdz skaitlim 12, pulksteņa rādītājam kustoties, nav nemainīgs."
+      },
+      {
+        "type": "text",
+        "value": "Invariantu metode bieži ir lietojama tādu uzdevumu risināšanā, kuros tiek aplūkots kāds process – noteiktu darbību izpilde ar dotajiem lielumiem, un ir jāpierāda, ka no sākotnējiem datiem norādīto rezultātu NAV iespējams iegūt. Tad uzdevuma risinājumā var rīkoties pēc tālāk aprakstītā plāna."
+      },
+      {
+        "type": "theorem",
+        "value": "Invariantu metode\nAtrast piemērotu īpašību, kura\n1) piemīt sākumā dotajiem lielumiem;\n2) ir invarianta, tas ir, saglabājas, veicot pieļaujamās darbības;\n3) nepiemīt tam lielumam, kas būtu jāiegūst galarezultātā."
+      },
+      {
+        "type": "text",
+        "value": "Invariants atkarībā no uzdevuma var būt, piemēram, elementu skaits, summa, starpība, reizinājums, paritāte (būt pārā vai nepāra skaitlim), dalāmība ar 3, dalāmība ar 4, periodiskums."
+      },
+      {
+        "type": "section_title",
+        "value": "Uzdevumu piemēri"
+      },
+      {
+        "type": "problem",
+        "value": "1. Sākumā bija 10 papīra gabali. Dažus no tiem sagrieza vai nu 5, vai 7 daļās. Visus iegūtos gabalus sajauca un dažus no tiem atkal sagrieza vai nu 5, vai 7 daļās. Vai, tādā veidā turpinot, var iegūt tieši 999 papīra gabalus?"
+      },
+      {
+        "type": "solution",
+        "value": "Atsinājums. Aplūkosim, kā izmainās kopējais gabalu skaits, atkarībā no tā, cik daļās tiek sagriezts viens gabals.\n\n![](page1_a.png)\n\n"
+      },
+      {
+        "type": "text",
+        "value": "Ievērojam, ka sākumā bija doti 10 papīra gabali – pāra skaitlis.\nJa papīra gabalu sagriež\n• 5 daļās, tad kopējais gabalu skaits palielinās par 4 (par pāra skaitli), tātad tas bija pāra skaitlis un paliek pāra skaitlis, jo, saskaitot divus pāra skaitļus, iegūst pāra skaitli;\n• 7 daļās, tad kopējais gabalu skaits palielinās par 6 (par pāra skaitli), tātad tas bija pāra skaitlis un paliek pāra skaitlis, jo, saskaitot divus pāra skaitļus, iegūst pāra skaitli."
+      },
+      {
+        "type": "text",
+        "value": "Tātad kopējais papīra gabalu skaits vienmēr būs pāra skaitlis. Tā kā 999 ir nepāra skaitlis, tad tieši 999 papīra gabalus iegūt nevarēs. Uzdevums atrisināts.\nINVARIANTS – kopējais papīra gabalu skaits vienmēr ir pāra skaitlis."
+      },
+      {
+        "type": "problem",
+        "value": "2. Uz tāfeles uzrakstīti skaitļi 1; 2; 3; ...; 10. Vienā gājienā var izvēlēties jebkurus divus no tiem un abiem pieskaitīt pa vieniniekam. Vai, atkārtojot šādus gājienus, var panākt, lai visi skaitļi kļūtu vienādi?"
+      },
+      {
+        "type": "solution",
+        "value": "Atsinājums. Sākumā doto skaitļu summa ir nepāra skaitlis:\n$$1+2+3+4+5+6+7+8+9+10=55$$\nKatrā gājienā, pieskaitot pa vieniniekam diviem skaitļiem, visu skaitļu summa palielinās par 2 (par pāra skaitli). Pie nepāra skaitļa pieskaitot pāra skaitli, iegūst nepāra skaitli. Tātad visu skaitļu summa pēc katra gājiena paliek nepāra skaitlis.\n\nBeigās prasīts iegūt desmit vienādus skaitļus, bet desmit vienādu skaitļu summa $10 \\cdot x$ ir pāra skaitlis. Tātad nevar panākt, lai visi skaitļi kļūtu vienādi. Uzdevums atrisināts.\n\nINVARIANTS – visu skaitļu summa vienmēr ir nepāra skaitlis."
+      },
+      {
+        "type": "problem",
+        "value": "3. Pamestā mājā dzīvo 2016 spoki. Spoku ķērājs vienā reizē var noķert vai nu tieši 33, vai tieši 17 spokus, bet tad uzreiz uzrodas attiecīgi vai nu 48, vai 14 jauni spoki. Vai iespējams, ka kādā brīdī šajā mājā būs tieši viens spoks?"
+      },
+      {
+        "type": "solution",
+        "value": "Atsinājums. Aplūkosim, kā izmainās kopējais spoku skaits, atkarībā no tā, cik spoki tiek noķerti. \n\n![](page2_a.png)\n\nIevērojam, ka kopējais spoku skaits izmainās par skaitli, kas dalās ar 3."
+      },
+      {
+        "type": "text",
+        "value": "**Atceries!**\nViens skaitlis dalās ar otru skaitli, ja šos skaitļus var izdalīt bez atlikuma."
+      },
+      {
+        "type": "text",
+        "value": "Sākumā bija 2016 spoki -- skaitlis, kas dalās ar 3, jo skaitļa 2016 ciparu summa ir $2+0+1+6=9$, kas dalās ar 3, tātad arī pats skaitlis dalās ar 3.\nJa pie skaitļa, kas dalās ar 3, pieskaita vai no tā atņem skaitli, kas dalās ar 3, vienmēr iegūst skaitli, kas dalās ar 3, jo $3k \\pm 3m = 3 \\cdot (k \\pm m)$.\nTātad kopējais spoku skaits pēc katra ķēriena dalās ar 3. Tā kā skaitlis 1 nedalās ar 3, tad nav iespējams, ka kādā brīdī mājā būs tieši viens spoks. Uzdevums atrisināts.\nINVARIANTS -- kopējais spoku skaits vienmēr dalās ar 3."
+      },
+      {
+        "type": "text",
+        "value": "**Iegaumē!**\nJa uzdevumā ir jautājums „Vai var...?”, „Vai iespējams...?” un atbilde ir\n• **JĀ**, tad risinājumā jāpārāda piemērs, kurā visas uzdevuma prasības ir izpildītas;\n• **NĒ**, tad ar dažu atsevišķu piemēru apskati, kuros neizdodas panākt vēlamo, nepietiek, bet ir vajadzīgs pierādījums, kas balstās uz vispārīgiem spriedumiem, ka tiešām nekādā gadījumā prasīto nebūs iespējams iegūt."
+      },
+      {
+        "type": "section_title",
+        "value": "Paritāte"
+      },
+      {
+        "type": "annotation",
+        "value": "Apskatīsim uzdevumus, kuru atrisināšanas pamatā ir viens apsvērums – \"būt pāra vai nepāra skaitlim\"."
+      },
+      {
+        "type": "problem",
+        "value": "4. Kvadrāts sastāv no $4 \\times 4$ rūtiņām. Četras rūtiņas nokrāsotas melnas tā, ka katrā rindā un katrā kolonnā ir tieši viena melna rūtiņa. Vienā gājienā atļauts izvēlēties vienu rindu vai vienu kolonnu un mainīt tajā krāsojumu uz pretējo — melnās rūtiņas pārkrāsot baltas, bet baltās — melnas. Vai var gadīties, ka kvadrātā paliek tieši 3 melnas rūtiņas?"
+      },
+      {
+        "type": "solution",
+        "value": "Atsinājums. Uzdevuma risinājumā gan rindas, gan kolonnas sauksim par līnijām.\nPieņemsim, ka kādā gājienā tiek izmainīts rūtiņu krāsojums līnijā $t$. Tabulā apskatīsim, kā gājiena rezultātā mainās melno rūtiņu skaits līnijā $t$ un arī visā kvadrātā.\nApskatīsim visus gadījumus, kā var izvietot melnās rūtiņas uz līnijas $t$:\n\n![](page3_a.png)\n\n\n\nSecinām, ka jebkura gājiena rezultātā melno rūtiņu skaits kvadrātā mainās par pāra skaitli. Tā kā uzdevuma sākumā ir 4 melnās rūtiņas (pāra skaitlis), tad melno rūtiņu skaits nevar kļūt vienāds ar 3 (nepāra skaitlis). Uzdevums atrisināts.\nINVARIANTS -- melno rūtiņu skaits ir pāra skaitlis."
+      },
+      {
+        "type": "problem",
+        "value": "5. Uz tāfeles rindā uzrakstīti skaitļi 1, 2, 3, ..., 2014. Vienā gājienā atļauts nodzēst jebkurus divus blakus esošus skaitļus un to vietā uzrakstīt šo skaitļu starpību. Vai iespējams, ka, veicot atļautos gājienus, uz tāfeles paliek tikai viens vienīgs skaitlis 0?"
+      },
+      {
+        "type": "solution",
+        "value": "Atsinājums. Izmantojot aritmētiskās progresijas locekļu summas formulu, aprēķinām uz tāfeles uzrakstīto skaitļu summu:\n\n$$1+2+\\cdots+2014=\\frac{(1+2014)\\cdot 2014}{2}=2015\\cdot 1007$$\n\nŠī summa ir nepāra skaitlis.\nJa tiek nodzēsti divi blakus esoši skaitļi $a$ un $b$, un to vietā uzrakstīta šo skaitļu starpība $(a-b)$, tad uz tāfeles uzrakstīto skaitļu summa samazinās par $(a+b)-(a-b)=a+b-a+b=2b$, tas ir, par pāra skaitli.\n\nJa visu sākumā doto skaitļu summa ir NEPĀRA skaitlis, bet, nodzēšot divus blakus esošus skaitļus, uz tāfeles uzrakstīto skaitļu summa samazinās par pāra skaitli, tad, katrreiz atņemot no nepāra skaitļa pāra skaitli, iegūsim NEPĀRA skaitli. Līdz ar to skaitli 0 nevar iegūt, jo nulle ir pāra skaitlis. Uzdevums atrisināts.\n\nINVARIANTS -- skaitļu summa ir nepāra skaitlis."
+      },
+      {
+        "type": "problem",
+        "value": "6. Uz displeja ekrāna uzrakstīta burtu virkne XXOXOO. Burtu grupu XO var aizstāt ar OOXXOO, bet burtu grupu OOX var aizstāt ar burtu X. Vai, izpildot šādas operācijas, var iegūt burtu virkni OXOXOXOXOXOXOXO?"
+      },
+      {
+        "type": "solution",
+        "value": "Atsinājums. Aplūkosim burtu X un burtu O skaita starpību.\nSākumā virknē šī burtu skaita starpība ir nulle, bet beigu virknē tā ir $(-1)$.\nIzdarot pirmā veida aizvietošanu, šī starpība samazinās par 2, bet, izdarot otrā veida aizvietošanu, tā palielinās par 2 (skat. tabulu). \n\n![](page3_b.png)\n\n Redzam, ka ar katru pieļaujamo operāciju starp burtu O skaitu un burtu X skaitu mainās par pāra skaitli. Tā kā sākotnējā burtu virknē šī starpība ir nulle (pāra skaitlis), tad tā nevar beigu virknē kļūt vienāda ar nepāra skaitli ($-1$). Uzdevums atrisināts.\n\nINVARIANTS -- X un O skaita starpība virknē, kas var iegūt uz ekrāna, ir pāra skaitlis."
+      },
+      {
+        "type": "text",
+        "value": "**Dalāmība un specifiskas atlikumu vērtības**\n\nDažreiz par invarianto īpašību var izvēlēties, piemēram, īpašību “dalīties ar 3”, “dalot ar 3, dot atlikumu 1”, “dalot ar 3, dot atlikumu 2”, “dalīties ar 4” utt.\n\n**Iegaumē!**\n\n**Dalāmības pazīmes:**\n- skaitlis dalās ar 2 (vai 5), ja tas beidzas ar pāra ciparu (ar 0 vai 5);\n- skaitlis dalās ar 3 (vai 9), ja tā ciparu summa dalās ar 3 (vai 9);\n- skaitlis dalās ar 11, ja tā ciparu summas, kas atrodas pāra pozīcijās, un ciparu summas, kas atrodas nepāra pozīcijās, starpība dalās ar 11.\n\nAtlikums, ko iegūst, dalot naturālu skaitli ar 3 (vai 9), ir vienāds ar atlikumu, ko iegūst, dalot ar 3 (vai 9) šī skaitļa ciparu summu."
+      },
+      {
+        "type": "problem",
+        "value": "7. Ar naturālu skaitli drīkst izdarīt šādas operācijas:\na) reizināt ar 2;\nb) dalīt ar 2, ja skaitlis ir pāra skaitlis;\nc) pierakstīt galā to pašu skaitli (piemēram, ar šo operāciju no skaitļa 2015 var iegūt skaitli 20152015).\nVai ar šīm operācijām, izdarat tās vairākas reizes, no skaitļa 24 var iegūt skaitli 2015?"
+      },
+      {
+        "type": "solution",
+        "value": "Atsinājums. Izpētīsim vispirms abus skaitļus: doto un to, kuru jāiegūst. Skaitlim 24 izpildās īpašība “dalās ar 3”, bet skaitlim 2015 šī īpašība nepiemīt.\n\nPierādīsim: ja kāds skaitlis dalās ar 3, tad skaitlis, kas no tā tiek iegūts ar šajā uzdevumā pieļaujamajām operācijām, arī dalīsies ar 3. Tiešām:\n\na) ja $n$ dalās ar 3, tad arī $2n$ dalās ar 3,\nb) ja pāra skaitlis $2n$ dalās ar 3, tad $n$ dalās ar 3,\nc) apgalvojums par trešo operāciju izriet no dalāmības pazīmes ar 3. Ja skaitļa $n$ ciparu summa dalās ar 3, tad arī jauniegūtā skaitļa $nn$ ciparu summa dalās ar 3, jo tā ir divreiz lielāka nekā sākotnējā skaitļa $n$ ciparu summa. Tātad arī pats jauniegūtais skaitlis $nn$ dalās ar 3.\n\nTā kā uzdevumā dotais skaitlis 24 dalās ar 3, tad arī visi skaitļi, kurus var iegūt no 24, dalās ar 3. Bet skaitlis 2015 ar 3 nedalās, tādēļ ar uzdevumā dotajām operācijām skaitli 2015 nevarēs iegūt. Uzdevums atrisināts.\n\nINVARIANTS -- visi iegūtie skaitļi dalās ar 3."
+      },
+      {
+        "type": "problem",
+        "value": "8. Uz tāfeles ir uzrakstīti cipari 2, 3, 4, 5. Atļauts izvēlēties dažus no tiem un sastādīt no tiem skaitli A. Pēc tam skaitli A reizināt ar 13, un ciparus, kurus iegūst reizināšanas rezultātā, uzraksta uz tāfeles izvēlēto ciparu vietā. (Piemēram, izvēloties ciparus 2, 3, 4, varam no tiem sastādīt skaitli A = 324 un iegūt skaitli 13 \\cdot A = 13 \\cdot 324 = 4212, pie tam cipars 2 tiek iegūts divas reizes. Tagad uz tāfeles ir uzrakstīti cipari 1, 2, 2, 4, 5). Vai var aprakstīto operāciju palīdzību var panākt, ka uz tāfeles būs uzrakstīti cipari: 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7?"
+      },
+      {
+        "type": "solution",
+        "value": "Atsinājums. Izmantosim, ka naturāls skaitlis, dalot to ar 3, dod tādu pašu atlikumu, kādu dod šī skaitļa ciparu summa, dalot to ar 3.\n\nJa vienas operācijas izpildes sākumā izvēlēto ciparu summa, dalot ar 3, dod atlikumu $r$, tad tādu pašu atlikumu $r$ dod arī no šiem cipariem izveidotais skaitlis $A$. Tā kā $13A = A + 12A$ un $12A$ dalās ar 3, tad tādu pašu atlikumu $r$, dalot ar 3, dod arī jauniegūtais skaitlis $13A$; tātad tādu pašu atlikumu $r$, dalot ar 3, dod arī to ciparu summa, kurus pēc operācijas izpildes beigās uzraksta uz tāfeles sākumā izvēlēto ciparu vietā. Tātad operācijas izpildes gaitā nemainās uz tāfeles uzrakstīto ciparu summas atlikums, dalot ar 3.\n\nIevērosim, ka sākumā uzrakstīto ciparu summa ir 14, un tā dod atlikumu 2, dalot ar 3. Tātad visām ciparu virk­nēm, kas parādās uz tāfeles, ir atlikums 2, dalot to summu ar 3.\n\nBet galarezultātā prasītās virknes ciparu summa ir:\n$$(2+2+3+3+4+4+5+5+6+6+7+7)=2\\cdot 27=54;$$\ntā dod atlikumu 0, dalot ar 3.\n\nTātad prasīto ciparu virkni nevar iegūt. Uzdevums atrisināts.\n\nINVARIANTS – uz tāfeles esošo ciparu summa, dalot to ar 3, dod atlikumu 2."
+      },
+      {
+        "type": "section_title",
+        "value": "Periodiskums"
+      },
+      {
+        "type": "problem",
+        "value": "9. Bezgalīgu skaitļu virkni 1; 2; 3; 5; 8; 3; 1; 4; 5; 9; 4; 3; 7; 0; 7; 7; ... veido pēc šāda likuma: pirmie divi skaitļi ir 1 un 2, bet katrs nākamais skaitlis, sākot ar trešo, ir divu iepriekšējo skaitļu summas pēdējais cipars. Vai šajā skaitļu virknē kaut kur blakus atrodas skaitļi 2 un 4?"
+      },
+      {
+        "type": "solution",
+        "value": "Atsinājums. Pāra skaitļus apzīmēsim ar $p$, bet nepāra skaitļus – ar $n$.\nIevērojam, ka $n+n=p$; $n+p=n$; $p+n=n$; $p+p=p$.\nTā kā virknes locekļus nosaka divu iepriekšējo skaitļu summas pēdējais cipars, tad tā veidojas šādi:\n$$n; p; n; p; n; p; n; p; n; p; n; p; n; p; n; p; \\ldots$$\nŠajā virknē periodiski atkārtojas grupa $(n; p; n)$. Virknē nekur blakus neatrodas divi pāra skaitļi, tādēļ šajā virknē nekur blakus neatradīsies skaitļi 2 un 4. Uzdevums atrisināts.\n\nINVARIANTS -- virknē periodiski atkārtojas grupa $(n; p; n)$."
+      },
+      {
+        "type": "section_title",
+        "value": "Sarežģītāki invarianti"
+      },
+      {
+        "type": "problem",
+        "value": "10. Rindā uzrakstīti 2015 vieninieki. Atļauts nodzēst jebkurus divus uzrakstītus skaitļus $a$ un $b$ un to vietā uzrakstīt vienu jaunu skaitli $\\frac{a+b}{4}$. Tā turpina, kamēr paliek uzrakstīts viens skaitlis. Vai var gadīties, ka tas ir mazāks nekā 0,0001?"
+      },
+      {
+        "type": "solution",
+        "value": "Atsinājums. Pieņemsim, ka tiek nodzēsti skaitļi $a$ un $b$ un to vietā uzrakstīts skaitlis $\\frac{a+b}{4}$.\n\nPierādīsim, ka\n\n$$\\frac{1}{a}+\\frac{1}{b} \\geq \\frac{1}{\\frac{a+b}{4}} \\quad (1)$$\n\ntas ir, katra gājiena rezultātā visu uzrakstīto skaitļu apgriezto lielumu summa nepalielinās.\n\nVeicot ekvivalentus pārveidojumus, pakāpeniski iegūstam:\n\n$$\\frac{a+b}{ab} \\geq \\frac{4}{a+b}$$\n\n$$(a+b)^2 \\geq 4ab$$\n\n$$a^2+2ab+b^2 \\geq 4ab$$\n\n$$a^2-2ab+b^2 \\geq 0$$\n\n$$(a-b)^2 \\geq 0$$\n\nPēdējā nevienādība ir patiesa, jo izteiksmes kvadrāts vienmēr ir nenegatīvs. Tā kā tika veikti ekvivalentie pārveidojumi, tad arī nevienādība (1) ir patiesa.\n\nSākumā visu uzrakstīto skaitļu apgriezto lielumu summa ir $2015 \\cdot \\frac{1}{1}=2015$; tātad arī beigās tā nav lielāka kā 2015.\n\nJa beigās palikušo vienīgo skaitli apzīmējam ar $x$, tad šī summa ir $\\frac{1}{x}$; tāpēc $\\frac{1}{x} \\leq 2015$ un\n\n$$x \\geq \\frac{1}{2015} > \\frac{1}{10000}=0,0001.$$\n\nTātad beigās uz tāfeles uzrakstītais skaitlis nevar būt mazāks kā 0,0001. Uzdevums atrisināts.\n\nINVARIANTS -- visu ierakstīto skaitļu apgriezto lielumu summa vienmēr lielāka vai vienāda ar 2015."
+      },
+      {
+        "type": "text",
+        "value": "**Par kādu bieži sastopamu kļūdu**\n\nGadījumos, kad zināms, ka kāda īpašība piemīt sākotnējam lielumam, saglabājas izpildāmo gājienu rezultātā un piemīt arī beigās vajadzīgajam rezultātam, tad šī informācija vien vēl **neļauj secināt**, vai vajadzīgais beigu rezultāts iegūstams no sākotnējā lieluma, izpildot pieļautos gājienus. Tādos gadījumos uzdevuma risināšanai jāmeklē citi invarianti, varbūt veids, kā iegūt vajadzīgo gala rezultātu, utt.\n\nJa izdodas atrast īpašību, kas\n- **piemīt** sākumā dotajiem lielumiem,\n- ir invarianta, t.i., **saglabājas**, veicot pieļaujamās operācijas,\n- **piemīt** tiem lielumiem, kuri jāiegūst gala rezultātā,\n\ntad no tā vien vēl **nevar secināt**, ka gala rezultātā vajadzīgos lielumus tiešām varēs iegūt."
+      },
+      {
+        "type": "problem",
+        "value": "11. Uz tāfeles uzrakstīts skaitlis 2016. Ar vienu gājienu tam var vai nu pieskaitīt 12, vai atņemt 18. Vai, daudzkārt izdarat šādus gājienus, var iegūt skaitli 1000?"
+      },
+      {
+        "type": "text",
+        "value": "**Kurš no risinājumiem ir pareizs?**\n\n**Jānīša risinājums.** Sākumā dotais skaitlis ir pāra skaitlis. Gan 12, gan 18 arī ir pāra skaitļi. Pāra skaitlim pieskaitot vai no tā atņemot pāra skaitli, iegūst pāra skaitli. Tātad uz tāfeles visu laiku parādīsies tikai pāra skaitļi. Arī beigās iegūstamais skaitlis 1000 ir pāra skaitlis. Tātad to **var** iegūt ar norādītajām darbībām.\n\n**Pēterīša risinājums.** Sākumā dotais skaitlis dalās ar 3. Gan 12, gan 18 arī dalās ar 3. Ja skaitlim, kas dalās ar 3, pieskaita vai no tā atņem skaitli, kas dalās ar 3, tad atkal iegūst skaitli, kas dalās ar 3. Tātad uz tāfeles visu laiku parādīsies tikai tādi skaitļi, kas dalās ar trīs. Bet beigās iegūstamais skaitlis 1000 ar 3 nedalās. Tātad to **nevar** iegūt ar norādītajām darbībām.\n\n**Pēterīša spriedums ir pareizs, bet Jānīša spriedums ir kļūdains.**\nJānītis savā risinājumā koncentrējās uz īpašību “būt pāra skaitlim”. Viņš atzīmēja, ka šī īpašība piemīt gan visiem skaitļiem, kurus var iegūt, gan arī skaitlim 1000, par kura iegūšanas iespējamību jautāts uzdevumā. Tādējādi Jānītis konstatēja, ka ar skaitļa paritāti saistīti apsvērumi **netraucē** skaitļa 1000 iegūšanai. Bet no tā vēl neizriet, ka 1000 iegūšanai netraucē nekādi citi apsvērumi! Gluži otrādi, kā to savā risinājumā atradis Pēterītis, dalāmība ar 3 ir apsvērums, kas parāda, ka 1000 ar atļautajiem gājieniem nevar iegūt.\n\nSituācija ir apmēram tāda pati, kāda rastos, ja Jānītim un Pēterītim būtu uzdots noskaidrot, vai celiņu cauri džungļiem no Mumbo ciema uz Tumbo ciemu neapdraud nekādas briesmas. Jānītis, ķīmiski analizējot gaisa sastāvu, neklūdīgi noskaidro, ka ceļā tuvumā nav neviena lauvas, un no tā secina, ka var droši doties ceļā. Turpretī Pēterītis koncentrējas uz jaguāru meklēšanu un konstatē, ka 10 metrus no celiņa guļ veselā jaguāru saime. Kādi no šiem secinājumiem ir pareizs, varat saprast paši."
+      },
+      {
+        "type": "title",
+        "value": "Uzdevumi treniņam"
+      },
+      {
+        "type": "section_title",
+        "value": "5.-8. klasei"
+      },
+      {
+        "type": "problem",
+        "value": "1. Niknajam jūras laupītājam Smuīdim ir četras kaudzes ar zelta monētām. Viņš māk vienu kaudzi sadalīt 3 vai 5 mazākās kaudzēs. Vai, atkārtoti izpildot šādas darbības, Smuīdirs varēs iegūt tieši 2015 kaudzes, ko piešķirt saviem palīgiem?"
+      },
+      {
+        "type": "problem",
+        "value": "2. Bagātajai Austrumu princesei Smuidrai zem gultas ir 6 lādes. Sākumā lādēs ir attiecīgi 1, 5, 0, 0, 2, 3 zelta monētas. Katru stundu viņa izvēlas 2 lādes un katrā no tām pieliek klāt 1 monētu. Vai, atkārtoti izpildot šādas darbības, var panākt, ka kādā brīdī visās lādēs būs vienāds skaits monētu?"
+      },
+      {
+        "type": "problem",
+        "value": "3. Sensenos laikos saimnieciskajam Gotfrīdam bija 99 aitas un 21 kamielis, un viņa mājlopu Gotfrīdam nebija. Bagdadē par 4 kamieļiem pretī varēja saņemt 8 aitas, bet Damaskā par 5 aitām pretī varēja saņemt 3 kamieļus. Vai, atkārtoti mainot dzīvniekus tikai šajās divās pilsētās, Gotfrīds varēja iegūt tieši 2015 mājlopus?"
+      },
+      {
+        "type": "problem",
+        "value": "4. Autoserviss „Šrotiņš” ir 39 mašīnas. Naskais Maigonis katra mēneša 20. datumā vienu pārdod 7 restaurētas mašīnas un to vietā nopērk 16 vecas mašīnas, vai arī 19 mašīnas nodedz metāllūžņos un to vietā nopērk 4 vecas mašīnas. Nekādas citas darbības, kas maina mašīnu skaitu, netiek veiktas. Vai iespējams, ka „Šrotiņā” kādā mēneša 21. datumā būs tieši 2015 mašīnas?"
+      },
+      {
+        "type": "section_title",
+        "value": "9.-12. klasei"
+      },
+      {
+        "type": "problem",
+        "value": "5. Regulārā astoņstūra virsotnēs pēc kārtas uzrakstīti skaitļi 7, 15, 3, 17, 1, 9, 5, 11. Ar skaitļiem atļauts veikt šādas darbības:\n- pieskaitīt kādam skaitlim divus skaitļus, kas atrodas blakus virsotnēs;\n- atņemt no skaitļa divkāršotu pretējā virsotnē uzrakstīto skaitli, ja starpība ir pozitīva.\n\nVai, atkārtoti izpildot šīs darbības, var panākt, ka vienā no virsotnēm būs ierakstīts skaitlis 2014?"
+      },
+      {
+        "type": "problem",
+        "value": "6. Ar naturālu skaitli atļauts veikt šādas darbības:\n- pieskaitīt 6;\n- dalīt ar 4, ja skaitlis dalās ar 4;\n- mainīt vietām skaitļa ciparus (skaitļa sākumā nedrīkst atrasties nulle).\n\nVai, atkārtoti izpildot šīs darbības, no skaitļa 30 var iegūt skaitli 2015?"
+      },
+      {
+        "type": "problem",
+        "value": "7. Vienā gājienā no 1. att. dotās figūras var izvēlēties jebkuru 2. att. redzamo figūru (var arī pagriezt) un tajā ierakstītajiem skaitļiem vai nu pieskaitīt 1, vai arī atņemt 1. Vai, atkārtoti izpildot šādus gājienus, var panākt, ka visās šūnās ir ierakstīts skaitlis 2015? \n\n![](page7_a.png)\n\n \n\n![](page7_b.png)\n\n"
+      },
+      {
+        "type": "problem",
+        "value": "8. Ar naturālu skaitli atļauts izdarīt šādas darbības:\n- pieskaitīt skaitlim tā ciparu summu;\n- atņemt no skaitļa tā ciparu summu.\n\nVai, atkārtoti izpildot šīs darbības, no skaitļa 139 var iegūt skaitli a) 63; b) 193?"
+      },
+      {
+        "type": "title",
+        "value": "Uzdevumu atrisinājumi"
+      },
+      {
+        "type": "problem",
+        "value": "1. Niknajam jūras laupītājam Smuīdim ir četras kaudzes ar zelta monētām. Viņš māk vienu kaudzi sadalīt 3 vai 5 mazākās kaudzēs. Vai, atkārtoti izpildot šādas darbības, Smuīdirs varēs iegūt tieši 2015 kaudzes, ko piešķirt saviem palīgiem?"
+      },
+      {
+        "type": "solution",
+        "value": "Atsinājums. Ievērojam, ka sākumā bija 4 kaudzes — pāra skaitlis.\nJa vienu kaudzi sadala:\n- 3 daļās, tad kopējais kaudzīšu skaits palielinās par 2 (par pāra skaitli);\n- 5 daļās, tad kopējais kaudzīšu skaits palielinās par 4 (par pāra skaitli).\nTātad kopējais kaudzīšu skaits vienmēr būs pāra skaitlis. Tā kā 2015 ir nepāra skaitlis, tad tieši 2015 kaudzēs iegūt nevarēs."
+      },
+      {
+        "type": "problem",
+        "value": "2. Bagātajai Austrumu princesei Smuidrai zem gultas ir 6 lādes. Sākumā lādēs ir attiecīgi 1, 5, 0, 0, 2, 3 zelta monētas. Katru stundu viņa izvēlas 2 lādes un katrā no tām pieliek klāt 1 monētu. Vai, atkārtoti izpildot šādas darbības, var panākt, ka kādā brīdī visās lādēs būs vienāds skaits monētu?"
+      },
+      {
+        "type": "solution",
+        "value": "Atsinājums. Sākumā lādēs esošo monētu kopējais skaits ir nepāra skaitlis:\n\n$$1+5+0+0+2+3=11$$\n\nKatru stundu, pieliekot pa vienai monētai katrā no divām izvēlētajām lādēm, visu monētu kopējais skaits palielinās par 2 (par pāra skaitli). Neviena skaita pieaugšana par pāra skaitli nepārvērtīs nepāra skaitli pāra skaitlī. Tātad visos lādēs vienāds monētu skaits nevar tikt sasniegts, jo tas prasītu pāra skaitli."
+      },
+      {
+        "type": "problem",
+        "value": "3. Sensenos laikos saimnieciskajam Gotfrīdam bija 99 aitas un 21 kamielis, cu mājlopu Gotfrīdam nebija. Bagdadē par 4 kamieļiem pretī varēja saņemt 8 aitas, bet Damaskā par 5 aitām pretī varēja saņemt 3 kamieļus. Vai, atkārtoti mainot dzīvniekus tikai šajās divās pilsētās, Gotfrīds varēja iegūt tieši 2015 mājlopus?"
+      },
+      {
+        "type": "solution",
+        "value": "Atsinājums. Ievērojam, ka sākumā kopējais mājlopu skaits ir\n\n$$99+21=120$$\n\n— pāra skaitlis.\nJa par 4 kamieļiem var saņemt 8 aitas, kopējais mājlopu skaits palielinās par 4 (par pāra skaitli);\nJa par 5 aitām pretī saņem 3 kamieļus, kopējais mājlopu skaits samazinās par 2 (par pāra skaitli).\nTātad kopējais mājlopu skaits vienmēr būs pāra skaitlis. Tā kā 2015 ir nepāra skaitlis, tad tieši 2015 mājlopus iegūt nevarēs."
+      },
+      {
+        "type": "problem",
+        "value": "4. Autoserviss „Šrotiņš” ir 39 mašīnas. Naskais Maigonis katra mēneša 20. datumā vienu pārdod 7 restaurētas mašīnas un to vietā nopērk 16 vecas mašīnas, vai arī 19 mašīnas nodedz metāllūžņos un to vietā nopērk 4 vecas mašīnas. Nekādas citas darbības, kas maina mašīnu skaitu, netiek veiktas. Vai iespējams, ka „Šrotiņā” kādā mēneša 21. datumā būs tieši 2015 mašīnas?"
+      },
+      {
+        "type": "solution",
+        "value": "Atsinājums. Aplūkosim, kā izmainās kopējais mašīnu skaits, atkarībā no, kuru darbību Maigonis veic:\n- pārdod 7 restaurētas mašīnas un nopērk 16 vecas mašīnas: kopējais skaits palielinās par 9;\n- nodedzina 19 mašīnas un nopērk 4 vecas mašīnas: kopējais skaits samazinās par 15.\n\nGan 9, gan -15 ir skaitļi, kas dalās ar 3.\nSākotnēji mašīnu skaits ir 39, kas dalās ar 3.\nVeicot katru no pieļaujamām darbībām, kopējais skaits mainās par skaitli, kas dalās ar 3.\nTātad visos gadījumos mašīnu skaits dalās ar 3.\nSkaitlis 2015 ar 3 nedalās, jo $2+0+1+5=8$ un $8 \\mod 3 = 2$.\nTātad nav iespējams, ka „Šrotiņā” kāda mēneša 21. datumā būs tieši 2015 mašīnas."
+      },
+      {
+        "type": "problem",
+        "value": "5. Regulārā astoņstūra virsotnēs pēc kārtas uzrakstīti skaitļi 7, 15, 3, 17, 1, 9, 5, 11. Ar skaitļiem atļauts veikt šādas darbības:\n- pieskaitīt kādam skaitlim divus skaitļus, kas atrodas blakus virsotnēs;\n- atņemt no skaitļa divkāršotu pretējā virsotnē uzrakstīto skaitli, ja starpība ir pozitīva.\n\nVai, atkārtoti izpildot šīs darbības, var panākt, ka vienā no virsotnēm būs ierakstīts skaitlis 2014?"
+      },
+      {
+        "type": "solution",
+        "value": "Atsinājums. Visi skaitļi, kas uzrakstīti regulārā astoņstūra virsotnēs, sākumā ir nepāra skaitļi.\nIevērojam, ja:\n1) nepāra skaitlim pieskaita divus nepāra skaitļus, iegūst nepāra skaitli;\n2) nepāra skaitlim atņem pāra skaitli, iegūst nepāra skaitli.\nTāpēc neatkarīgi no tā, cik reizes abas darbības tiek izpildītas, virsotnēs vienmēr būs nepāra skaitļi.\nTā kā 2014 ir pāra skaitlis, tas nevar tikt ierakstīts kādā virsotnē."
+      },
+      {
+        "type": "problem",
+        "value": "6. Ar naturālu skaitli atļauts veikt šādas darbības:\n- pieskaitīt 6;\n- dalīt ar 4, ja skaitlis dalās ar 4;\n- mainīt vietām skaitļa ciparus (skaitļa sākumā nedrīkst atrasties nulle).\n\nVai, atkārtoti izpildot šīs darbības, no skaitļa 30 var iegūt skaitli 2015?"
+      },
+      {
+        "type": "solution",
+        "value": "Atsinājums. Skaitlim 30 īpašība \"dalās ar 3\", bet skaitlim 2015 šī īpašība nepieder.\nPierādīsim: ja kāds skaitlis dalās ar 3, tad veicot jebkuru no uzdevumā dotajām darbībām, arī rezultāts dalās ar 3.\nIevērojam, ja:\n- skaitlis k dalās ar 3, tad arī (k+6) dalās ar 3 (jo katrs saskaitāmais dalās ar 3, tad arī summa dalās ar 3);\n- ja skaitlis dalās ar 4 un ar 3, tad arī k/4 dalās ar 3 (jo piemērojami reizinātāji);\n- apgalvojums \"mainīt vietām skaitļa ciparus\" ir no dalāmības pazīmes ar 3 (ja skaitļa ciparu summa dalās ar 3, tad arī paša skaitļa ciparu permutācija dod skaitli, kas dalās ar 3).\nTātad, ja dots skaitlis dalās ar 3, tad arī pēc darbību atkārtotas pielietošanas jauniegūtais skaitlis dalās ar 3.\nTā kā 2015 ar 3 nedalās, tad to nevar iegūt."
+      },
+      {
+        "type": "problem",
+        "value": "7. Vienā gājienā no 1. att. dotās figūras var izvēlēties jebkuru 2. att. redzamo figūru (var arī pagriezt) un tajā ierakstītajiem skaitļiem vai nu pieskaitīt 1, vai arī atņemt 1. Vai, atkārtoti izpildot šādus gājienus, var panākt, ka visās šūnās ir ierakstīts skaitlis 2015? \n\n![](page7_a.png)\n\n \n\n![](page7_b.png)\n\n"
+      },
+      {
+        "type": "solution",
+        "value": "Atsinājums. Šūnās ierakstītie skaitļi 1, 2, ..., 19 veido aritmētisko progresiju ar diferenci 1.\nIzmantojot aritmētiskās progresijas locekļu summas formulu, aprēķinām sākumā šūnās ierakstīto skaitļu summu:\n\n$$\\frac{(1+19) \\cdot 19}{2}=190.$$\n\nJa katrā šūnā ir ierakstīts skaitlis 2015, tad visu šūnu summa ir\n\n$$2015 \\times 19=38285.$$\n\nIevērosim, ka ar katru izdarīto gājienu, pie trim vai četrām blakus esošām šūnām pieskaita vai atņem 1, un tā rezultātā visu šūnu kopējā summa palielinās vai samazinās par 3 vai 4. Tā kā skaitļi 3 un 4 dalās ar 1, tad kopējā summa var mainīties par jebkuru naturālu skaitli.\nTādēļ var atrast tādu gājienu virkni, kas sākotnējo summu 190 pārvērš summā 38285 un tālāk, ja nepieciešams, sadala korekti skaitļus šūnās."
+      },
+      {
+        "type": "problem",
+        "value": "8. Ar naturālu skaitli atļauts izdarīt šādas darbības:\n- pieskaitīt skaitlim tā ciparu summu;\n- atņemt no skaitļa tā ciparu summu.\n\nVai, atkārtoti izpildot šīs darbības, no skaitļa 139 var iegūt skaitli a) 63; b) 193?"
+      },
+      {
+        "type": "solution",
+        "value": "Atsinājums. a) Skaitli 63 var iegūt šādi:\n\n$$139-13=126-9=117-9=108-9=99-18=81-18=63.$$\n\nb) Atlikums, ko iegūst, dalot naturālu skaitli ar 9, ir vienāds ar atlikumu, ko iegūst, dalot ar 9 šī skaitļa ciparu summu. Tāpēc naturāla skaitļa un tā ciparu summas starpība noteikti dalās ar 9. Kaut vienu reizi izpildot atņemšanas variantu, visu starpā iegūstamie skaitļi dalīsies ar 9.\n\nTā kā sākumā dots skaitlis 139, tas ar 9 nedalās, tāpēc, ja skaitlim visu laiku pieskaita tā ciparu summu, skaitlis palielināsies. Skaitļi pārvērtīsies šādi:\n\n$$139+13=152+8=160+7=167+14=181+11=192+12=204+6=210+3=213\\rightarrow \\dots$$\n\nVisi tālāk iegūstamie skaitļi ir lielāki nekā 193, tātad skaitli 193 nevarēs iegūt."
+      }
+    ]
+  }
+  

@@ -1,0 +1,158 @@
+[
+    {
+        "id": "P006A",
+        "original": "*Kāds ir mazākais* (1) sešciparu skaitlis, kas sastāv tikai no cipariem 2, 0, 1, 3 un dalās ar 9?",
+        "modified": "Atrodiet  mazāko sešciparu skaitli, kas sastāv tikai no cipariem 2, 0, 1, 3 un dalās ar 9.",
+        "explanations": "(1) \"Kāds ir mazākais\" should be replaced by \"Atrodiet mazāko\" since there is a unique object the problem talks about."
+    },
+    {
+        "id": "P006B",
+        "original": "Vai eksistē tādi naturāli skaitļi a un b, *ka* (1): 8⋅a−12⋅b=2023.",
+        "modified": "Vai eksistē tādi naturāli skaitļi a un b, lai 8⋅a−12⋅b=2023.",
+        "explanations": "(1) Replace \"ka\" by \"lai\" to express intention."
+    },
+    {
+        "id": "P006C",
+        "original": "Cik *4-centu* (1) pastmarku *nepieciešams* (2), lai izveidotu *vērtību 35 centi* (3), izmantojot tikai 4-centu (1) un 9-centu (1)  pastmarkas?",
+        "modified": "Cik 4 centu pastmarku var izmantot, lai izveidotu 35 centu vērtību, izmantojot tikai 4 centu un 9 centu pastmarkas?",
+        "explanations": "(1) Expression \"4 centu pastmarka\" (space with no hyphen) is a correct usage.\n(2) \"nepieciešams\" is ambiguous here -- either write \"cik pastmarku minimāli nepieciešams\" (what is the least necessary number of postage stamps), or \"cik pastmarku var izmantot\" (how. many postage stamps can be used). \n(3) \"35 centu vērtība\" is the appropriate word order. "
+    },
+    {
+        "id": "P006D",
+        "original": "*Cik ir* (1) lielākā iespējamā ciparu summa septiņciparu naturālam skaitlim, kas dalās ar 8?",
+        "modified": "Kāda ir lielākā iespējamā ciparu summa septiņciparu naturālam skaitlim, kas dalās ar 8?",
+        "explanations": "(1) Regarding \"summa\" (a sum) one should say \"kāda ir\" rather than \"cik ir\"."
+    },
+    {
+        "id": "P006E",
+        "original": "Vai skaitļa kvadrāts *noteikti ir* (1)  lielāks *nekā* (2) pats skaitlis?",
+        "modified": "Vai skaitļa kvadrātam noteikti jābūt lielākam par pašu skaitli?",
+        "explanations": "(1) \"noteikti jābūt\" is better here compared to \"noteikti ir\" as it is about the necessity (not about already existing numbers).\n(2) \"lielāks par\" is better compared to \"lielāks nekā\" as \"nekā\" points to a certain, defined number (rather than a square that is a variable quantity)."
+    },
+    {
+        "id": "P006F",
+        "original": "Vai vienmēr, *negatīvam skaitlim pieskaitot* (1) tā kvadrātu, iegūst pozitīvu skaitli (2)?",
+        "modified": "Vai vienmēr, pieskaitot negatīvam skaitlim tā kvadrātu, iegūst pozitīvu rezultātu?",
+        "explanations": "(1) In \"pieskaitot negatīvam skaitlim\" the word order focuses on the action verb \"pieskaitīt\".\n(2) Avoid repetition of \"skaitlis\""
+    },
+    {
+        "id": "P006G",
+        "original": "*Kāds* (1) mazākais skaits punktu jānodzēš, lai *nekādi trīs* (2) no atlikušajiem punktiem neatrastos uz vienas taisnes?",
+        "modified": "Kāds ir mazākais punktu skaits, kas jānodzēš, lai nevieni trīs no atlikušajiem punktiem neatrastos uz vienas taisnes?",
+        "explanations": "(1) \"Kāds ir\" (instead of \"kāds\") emphasizes our need to know the value.\n(2) As all the points are given, we can use \"neviens\" in plural -- \"nevieni trīs punkti\" would mean \"no three points (out of the given ones) ...\" "
+    },
+    {
+        "id": "P006H1",
+        "original": "*Tabulā ar izmēriem 6×6 rūtiņas* (1) ierakstīti skaitļi 1, 0 un 1, katrā rūtiņā *viens skaitlis* (2). ",
+        "modified": "Tabulā, kuras izmērs ir 6×6 rūtiņas, ierakstīti skaitļi 1, 0 un 1, katrā rūtiņā pa skaitlim.",
+        "explanations": "(1) For clarity use a clause and separate it with commas.\n(2) \"pa skaitlim\" would be better as it avoids using \"viens\" too much."
+    },
+    {
+        "id": "P006H2",
+        "original": "Guna aprēķināja katrā rindā, katrā kolonnā un abās galvenajās diagonālēs ierakstīto skaitļu summas. Vai *noteikti* (1) starp iegūtajām summām *ir* (1) vismaz divas vienādas?",
+        "modified": "Guna aprēķināja katrā rindā, katrā kolonnā un abās galvenajās diagonālēs ierakstīto skaitļu summas. Vai starp iegūtajām summām noteikti jābūt vismaz divām vienādām?",
+        "explanations": NaN
+    },
+    {
+        "id": "P006I",
+        "original": "Pirtiņā ir četras lāvas. *Pirtī* (1) pērties iegāja deviņi cilvēki. Vai noteikti būs tāda lāva, uz kuras *sēdēs* (2) vismaz trīs cilvēki *tad, kad* (3) visi būs apsēdušies?",
+        "modified": "Pirtiņā ir četras lāvas. Tur pērties iegāja deviņi cilvēki. Kad visi būs apsēdušies (2), vai noteikti būs tāda lāva, uz kuras sēž (3) vismaz trīs cilvēki?",
+        "explanations": "(1) Avoid repeating \"pirtī\", \"pirtiņā\".\n(2) Do not use future tense in a subordinate clause \"sēdēs\", if future is clear from \"būs tāda lāva\".\n(3) Replace \"... tad, kad ...\" (too many auxiliary words) by \"Kad ..., ...\" to express adjective clause describing time."
+    },
+    {
+        "id": "P006J",
+        "original": "Daina, izmantojot visus ciparus, burtnīcā ierakstīja desmitciparu skaitli. Vai šis skaitlis *noteikti dalās* (1) ar 3?",
+        "modified": "Daina, izmantojot visus ciparus, burtnīcā ierakstīja desmitciparu skaitli. Vai šim skaitlim noteikti jādalās ar 3?",
+        "explanations": "(1) \"noteikti jādalās\" Is preferable to \"noteikti dalās\" (as \"dalās\" would imply that there is one specific number)."
+    },
+    {
+        "id": "P006K",
+        "original": "Vai var atrast tādus četrus dažādus naturālus skaitļus a,b,c,d, *ka* (1) 1a+1b+1c+d1=1?",
+        "modified": "Vai var atrast tādus četrus dažādus naturālus skaitļus a,b,c,d, lai 1a+1b+1c+d1=1?",
+        "explanations": "(1) Replace \"ka\" by \"lai\" to express intention."
+    },
+    {
+        "id": "P006L",
+        "original": "Klasē ir 40 skolēnu. Vai *noteikti ir* (1) tāds mēnesis, kurā savu dzimšanas dienu atzīmē vismaz četri šīs klases skolēni?",
+        "modified": "Klasē ir 40 skolēnu. Vai noteikti jābūt tādam mēnesim, kurā savu dzimšanas dienu atzīmē vismaz četri šīs klases skolēni?",
+        "explanations": "(1) \"noteikti jābūt\" is better here compared to \"noteikti ir\" as it is about the necessity (not about already existing numbers)."
+    },
+    {
+        "id": "P006M",
+        "original": "Ar vienu *„gājienu”* (1) var izvēlēties jebkurus divus no tiem un abiem pieskaitīt vieninieku. Vai, atkārtojot *šādus* (2) „gājienus”, var panākt, *lai* (3) visi skaitļi kļūtu vienādi?",
+        "modified": "Uz tāfeles uzrakstīti skaitļi 0; 1; 0; 0. Ar vienu gājienu var izvēlēties jebkurus divus no tiem un abiem pieskaitīt vieninieku. Vai, atkārtojot gājienus, var panākt, ka visi skaitļi kļūst vienādi?",
+        "explanations": "(1) Gājiens should not be quoted, as it expresses action. \n(2) For brevity avoid redundant pronoun \"šādus\"\n(3) \"... panākt, ka\" is more appropriate compared to \"... panākt, lai\""
+    },
+    {
+        "id": "P024A",
+        "original": "*Tā kā* (1) secība atkārtojas ik pēc 6 kauliņiem un 605=6⋅100+5, *tad* (1) uz 605. kauliņa būs redzami tikpat punktiņi, cik uz 5. kauliņa, tas ir, 5.",
+        "modified": "Secība atkārtojas ik pēc 6 kauliņiem, un 6⋅100+5=605, tāpēc uz 605. kauliņa būs redzams tikpat punktiņu, cik uz 5. kauliņa, tas ir, 5.",
+        "explanations": "(1) For variety replace construct \"tā kā ... tad ...\" by \"... tāpēc ...\" if the first part of the sentence logically implies the second part."
+    },
+    {
+        "id": "P024B",
+        "original": "*Tā kā* (1) katrs nākamais virknes loceklis ir atkarīgs tikai no viena iepriekšējā, *tad* (1), līdzko parādās kāds šajā virknē jau iepriekš bijis skaitlis, izveidojas periods.",
+        "modified": "Katrs nākamais virknes loceklis ir atkarīgs tikai no viena iepriekšējā, tāpēc parādoties kādam jau bijušam skaitlim, izveidojas periods.",
+        "explanations": "(1) For variety replace construct \"tā kā ... tad ...\" by \"... tāpēc ...\" if the first part of the sentence logically implies the second part."
+    },
+    {
+        "id": "P024C",
+        "original": "*Tā kā* (1) 2018 ir pāra skaitlis, *tad* (1) šajā vietā virknē ir skaitlis 13.",
+        "modified": "2018 ir pāra skaitlis, tāpēc šajā vietā virknē ir skaitlis 13.",
+        "explanations": "(1) For variety replace construct \"tā kā ... tad ...\" by \"... tāpēc ...\" if the first part of the sentence logically implies the second part."
+    },
+    {
+        "id": "P024D",
+        "original": "*Tā kā* (1) katrs nākamais virknes loceklis ir atkarīgs tikai no viena iepriekšējā, *tad* (1), līdzko parādās kāds šajā virknē jau iepriekš bijis skaitlis, izveidojas periods.",
+        "modified": "Katrs nākamais virknes loceklis ir atkarīgs tikai no viena iepriekšējā, tāpēc parādoties kādam jau bijušam skaitlim, izveidojas periods.",
+        "explanations": "(1) For variety replace construct \"tā kā ... tad ...\" by \"... tāpēc ...\" if the first part of the sentence logically implies the second part."
+    },
+    {
+        "id": "P049A",
+        "original": "Vai *eksistē tādi* (1) divi dažādi trīsciparu naturāli skaitļi A un B, *ka* (2) ...",
+        "modified": "Vai iespējams atrast divus dažādus trīsciparu naturālus skaitļus A un B, lai ...",
+        "explanations": "(1) Replace \"vai eksistē\" by \"iespējams atrast\" for variety and informal language.\n(2) Replace \"ka\" by \"lai\" to express intention."
+    },
+    {
+        "id": "P049B",
+        "original": "Dagnis no 10 klasesbiedriem ir saņēmis 54 jaunas *īsziņas*, no katra klases biedra vismaz vienu *īsziņu* (1).",
+        "modified": "Dagnis no 10 klasesbiedriem ir saņēmis 54 jaunas īsziņas, no katra klases biedra vismaz vienu.",
+        "explanations": "(1) Use ellipse for \"īsziņas\" (or a similar repetitive noun) if it is clear from the context."
+    },
+    {
+        "id": "P049C",
+        "original": "Vai, izdarot vairākus šādus gājienus, var panākt, *lai* (1) uz tāfeles vienlaicīgi *būtu* (1) uzrakstīti skaitļi 43 ; 45 ; 52 ?",
+        "modified": "Vai, veicot vairākus gājienus, var panākt, ka uz tāfeles vienlaicīgi uzrakstīti skaitļi 43 ; 45 ; 52?",
+        "explanations": "(1) Start an adjective clause by \"ka\". Once there is no conjunction \"lai\", no need for \"būtu\". "
+    },
+    {
+        "id": "P049D",
+        "original": "Vai noteikti šajā rindā *var atrast tādu* (1) skaitli, kam kaimiņš pa kreisi ir mazāks nekā tā kaimiņš pa labi?",
+        "modified": "Vai noteikti šajā rindā būs skaitlis, kura “kaimiņš” pa kreisi ir mazāks nekā tā “kaimiņš” pa labi?",
+        "explanations": "(1) Unless we ask the problem solver to find something, replace \"var atrast\" by \"būs\" or \"eksistē\". "
+    },
+    {
+        "id": "P050A",
+        "original": "*Tā kā* (1) 18+y+y ir jādalās ar 9, *tad* (1) derīgās vērtības ir 27 un 36.",
+        "modified": "18+y+y ir jādalās ar 9, tāpēc derīgās vērtības ir 27 un 36.",
+        "explanations": "(1) For variety replace construct \"tā kā ... tad ...\" by \"... tāpēc ...\" if the first part of the sentence logically implies the second part."
+    },
+    {
+        "id": "P050B",
+        "original": "*Tā kā* (1) 33+y+y ir jādalās ar 9, *tad* (1) derīgās vērtības ir 36 un 45.",
+        "modified": "33+y+y ir jādalās ar 9, tāpēc derīgās vērtības ir 36 un 45.",
+        "explanations": "(1) For variety replace construct \"tā kā ... tad ...\" by \"... tāpēc ...\" if the first part of the sentence logically implies the second part."
+    },
+    {
+        "id": "P050C",
+        "original": "Summu 36 nevar *iegūt* (1), jo, saskaitot divus vienādus ciparus, nevar *iegūt* 3.",
+        "modified": "Nevar izveidot summu 36, jo, saskaitot divus vienādus ciparus, nevar iegūt 3. ",
+        "explanations": "(1) Replace by a synonym (in our case \"iegūt\" by \"izveidot\"), if the same word repeats in a single sentence."
+    },
+    {
+        "id": "P050D",
+        "original": "**Tabulas 3×3** (1) rūtiņās katrā rūtiņā jāieraksta pa vienam naturālam skaitlim tā, lai katrā rindā, *katrā* (2) kolonnā un *katrā* (2) diagonālē ierakstīto skaitļu summas būtu vienādas.",
+        "modified": "Tabulā ar izmēriem 3×3 rūtiņas katrā jāieraksta pa naturālam skaitlim tā, lai katrā rindā, kolonnā un diagonālē ierakstīto skaitļu summas būtu vienādas.",
+        "explanations": "(1) Avoid \"Tabula 3x3\", if the dimensions of table is meant. Rather write \"tabula ar izmēriem 3x3\".\n(2) Avoid repeating word \"katrs\", \"katrā\"; one such word will apply to every item in the list. "
+    }
+]

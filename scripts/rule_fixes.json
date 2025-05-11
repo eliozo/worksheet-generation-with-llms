@@ -1,0 +1,16 @@
+{
+    "snippets": [
+        {
+            "type": "solution",
+            "value": "Ja katrā mēnesī būtu dzimis ne vairāk kā viens skolēns, tad visos mēnešos kopā būtu dzimuši ne vairāk kā $12$ skolēnu, bet pulciņā ir $13$ skolēni. Tātad noteikti ir tāds mēnesis, kurā dzimuši vismaz divi no šī pulciņa skolēniem.",
+            "value_fixed": "Ja katrā mēnesī būtu dzimis ne vairāk kā viens skolēns, tad visos mēnešos kopā būtu dzimuši ne vairāk kā $12$ skolēnu, bet pulciņā ir $13$ skolēni. Tātad noteikti jābūt tādam mēnesim, kurā dzimuši vismaz divi no šī pulciņa skolēniem.",
+            "rule": "P006L"
+        },
+        {
+            "type": "solution",
+            "value": "Ievērosim, ka skaitli 5 var izteikt kā trīs naturālu skaitļu summu tikai divos veidos: $3 + 1 + 1$ un $2 + 2 + 1$ (ja nav būtiska saskaitāmo secība). Taču, ņemot vērā arī to, kura no konfetēm pirmajā gadījumā ir dāvināta 3 eksemplāros un kura no konfektem otrajā gadījumā -- vienā eksemplārā, iegūstam 6 dažādas iespējas:\n\n![](pigeonhole_2025_page2A.png)\n\nTā kā ir 7 rūķīši un 6 dažādas iespējas, kā uzdāvināt konfektes, tad pēc Dirihlē principa noteikti ir tādi divi rūķīši, kam Sniegbaltīte uzdāvināja vienādas konfekšu komplektus.",
+            "value_fixed": "Ievērosim, ka skaitli 5 var izteikt kā trīs naturālu skaitļu summu tikai divos veidos: $3 + 1 + 1$ un $2 + 2 + 1$ (ja nav būtiska saskaitāmo secība). Taču, ņemot vērā arī to, kura no konfetēm pirmajā gadījumā ir dāvināta 3 eksemplāros un kura no konfektem otrajā gadījumā -- vienā eksemplārā, iegūstam 6 dažādas iespējas:\n\n![](pigeonhole_2025_page2A.png)\n\nTā kā ir 7 rūķīši un 6 dažādas iespējas, kā uzdāvināt konfektes, tad pēc Dirihlē principa noteikti jābūt diviem rūķīšiem, kam Sniegbaltīte uzdāvināja vienādas konfekšu komplektus.",
+            "rule": "P006L"
+        }
+    ]
+}

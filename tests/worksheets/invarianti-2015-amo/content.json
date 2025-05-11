@@ -1,0 +1,88 @@
+{
+    "snippets": [
+      {
+        "type": "title",
+        "value": "INVARIANTU METODE -- KRĀSOŠANA"
+      },
+      {
+        "type": "subtitle",
+        "value": "Teorija un piemēri, gatavojoties Atklātajai matemātikas olimpiādei"
+      },
+      {
+        "type": "text",
+        "value": "Invariantu metodi var izmantot arī uzdevumos par figūru sagriešanu vai salikšanu. Šādos gadījumos bieži tiek izmantota iekārsošana.\n\nPats galvenais šāda tipa uzdevumos ir atrast tādu iekārsošanas veidu, lai rastos pretruna — iekāršoto rūtiņu skaits lielajā figūrā atšķirtos no kopējā iekāršoto rūtiņu skaita mazajās figūrās.\n\nRūtiņas var iekāršot dažādi. Visbiežāk tiek lietota iekārsošana kā šaha galdiņam, tacu rūtiņas pēc nepieciešamības var iekāršot arī, piemēram, joslās, pa diagonālēm vai kādā citā īpašā rūtiņu iekāršošanas veidā."
+      },
+      {
+        "type": "text",
+        "value": "Arī šī mācību gada Sagatavošanas olimpiāde (http://nms.lu.lv/olimpiades/valsts/m-z/) katras klāsu grupas uzdevumu komplektā viens uzdevums bija saistīts ar iekāršošanu un tās izmantošanu."
+      },
+      {
+        "type": "example",
+        "value": "**1. piemērs**\n\nVai taisnstūri ar izmēriem a) $5 \\times 6$, b) $4 \\times 8$, c) $4 \\times 11$ rūtiņas var noklāt ar 1. att. dotajām figūrām?\n\nTaisnstūrim jābūt pilnībā noklātam. Figūras nedrīkst iziet ārpus taisnstūra, figūras nedrīkst pārklāties, figūras drīkst pagriezt. \n\n![](page1_a.png)\n\n"
+      },
+      {
+        "type": "solution",
+        "value": "Atsinājums\n\na) Nē, nevar. Ievērojam, ka katra mazā figūra satur 4 rūtiņas. Dotajā $5 \\times 6$ rūtiņu taisnstūrī kopā ir 30 rūtiņas. Tā kā 30 nedalās ar 4, tad taisnstūri nevar noklāt.\n\nb) Jā, var, skat. 2. att.\n\nc) Nē, nevar. Taisnstūrī kopā ir 44 rūtiņas, bet vienā figūrā ir 4 rūtiņas. Tātad, ja uzdevuma prasības varētu izpildīt, taisnstūris būtu noklāts ar tieši 11 figūrām. Iekāršosim taisnstūra šaha galdiņa veidā (skat. 3. att.), pa vienam melnā krāsā ir nokrāsotas 22 (pāra skaitlis) rūtiņas. Katrai figūrai šajā iekārtojumā tiktu novērtēta dota figūra, tā noklās vai nu tieši 2 baltas un 2 melnas rūtiņas vai arī tieši 3 melnas rūtiņas un 1 baltu rūtiņu vai arī 3 baltas un 1 melnu rūtiņu. Tāpēc arī nākotnes konfigurācijā taisnstūris būs noklāts tā, ka var noklāt tikai nepāra skaita melno rūtiņu. Tā kā nepāra skaitlis nevar būt vienāds ar pāra skaitli — melno rūtiņu skaitu visā taisnstūrī, tad taisnstūri pilnībā pārklāt nevar. \n\n![](page1_b.png)\n\n \n\n![](page1_c.png)\n\n \n\n![](page1_d.png)\n\n"
+      },
+      {
+        "type": "text",
+        "value": "**Iegaumē!**\n\nJa uzdevumā ir jautājums „Vai var...?”, „Vai iespējams...?” un atbilde ir\n- **„JĀ”**, tad risinājumā jāpārāda piemērs, kurā visas uzdevuma prasības ir izpildītas;\n- **„NĒ”**, tad ar dažu atsevišķu piemēru apskati, kuros neizdodas panākt vēlamo, nepietiek, bet ir vajadzīgs pierādījums, kas balstās uz vispārīgiem spriedumiem, ka tiešām nekādā gadījumā prasīto nebūs iespējams iegūt."
+      },
+      {
+        "type": "example",
+        "value": "**2. piemērs**\n\nVai kvadrātu ar izmēriem $6 \\times 6$ rūtiņas var pārklāt ar 18 domino kauliņiem tā, lai 13 kauliņi atrastos horizontāli, bet 5 — vertikāli? Katrs kauliņš pārklāj tieši 2 rūtiņas, kauliņi nedrīkst pārklāties. \n\n![](page2_a.png)\n\n \n\n![](page2_b.png)\n\n \n\n![](page2_c.png)\n\n"
+      },
+      {
+        "type": "solution",
+        "value": "**Atsinājums**\n\nNē, prasīto nevar izdarīt. Iekrāsosim doto kvadrātu joslās (skat. 5. att.). Tad kvadrātā ir 18 melnas un 18 baltas rūtiņas.\n\nVispirms izvietosim 5 vertikālos kauliņus. Lai kur katru no tiem novietotu, vienmēr tiks noklātas divas blakus rindu rūtiņas, t.i., viena melna (skat. 6. att.). Pēc piecu vertikālo kauliņu novietošanas būs noklātas 5 melnas un 5 baltas rūtiņas. Nenoklātas paliek 13 melnas un 13 baltas rūtiņas. Arī vienu horizontālo kauliņu var noklāt vai nu 2 baltas, vai 2 melnas rūtiņas, tas ir, pāra skaita melnas vai pāra skaita baltas (skat. 7. att.). Tātad ar 13 horizontālajiem kauliņiem var noklāt tikai pāra skaita melnas un pāra skaita baltas rūtiņas. Iegūtā pretruna, jo pēc vertikālo kauliņu novietošanas vēl ir jānoklāj nepāra skaits melnas un nepāra skaits baltas rūtiņas."
+      },
+      {
+        "type": "example",
+        "value": "**3. piemērs**\n\nKādu lielāko skaitu 8. att. doto figūru var izgriezt no 9. att. dotās figūras? Griezuma līnijām jāiet pa rūtiņu malām, 8. att. figūra var būt pagriezta vai apgriezta spoguļattēlā. \n\n![](page2_d.png)\n\n \n\n![](page2_e.png)\n\n"
+      },
+      {
+        "type": "solution",
+        "value": "**Atsinājums**\n\nLielākais figūru skaits, ko var izgriezt, ir 4, skat. 10. att.\n\nPierādīsim, ka vairāk figūru nevar izgriezt. Iekrāsojam 9. att. figūru kā šaha galdiņu (skat. 11. att.). Kā lai novietotu 8. att. figūru, tā vienmēr noklāj tieši divas baltas un tieši divas melnas rūtiņas (skat. 12. att.). Tā kā 11. att. figūra satur tieši deviņas baltas rūtiņas, tad no tās var izgriezt ne vairāk kā četras figūras, jo $9:2=4, \\text{atl. }1$. \n\n![](page2_f.png)\n\n \n\n![](page2_g.png)\n\n \n\n![](page2_h.png)\n\n"
+      },
+      {
+        "type": "text",
+        "value": "**Iegaumē!**\n\nJa uzdevumā ir jautājums „Kāds ir lielākais...?”, „Kāds ir mazākais ...?”, tad uzdevuma risinājumā jāsastāv no divām daļām:\n1) atrast šo vislielāko (vismazāko) vērtību un parādīt piemēru;\n2) pierādīt, ka lielāka (mazāka) vērtība nevar būt."
+      },
+      {
+        "type": "text",
+        "value": "Tālāk dotie piemēri vairāk paredzēti 9.-12. klases skolēniem, bet tos var izmantot arī jaunāku klašu skolēni."
+      },
+      {
+        "type": "example",
+        "value": "**4. piemērs**\n\nVai kvadrātu ar izmēriem $9 \\times 9$ rūtiņas var noklāt ar 26 figūrām, kādas dotas 13. att., un vienu 14. att. doto figūru? Kvadrātam jābūt pilnībā noklātam. Figūras nedrīkst pārklāties, figūras drīkst pagriezt. \n\n![](page3_a.png)\n\n \n\n![](page3_b.png)\n\n"
+      },
+      {
+        "type": "solution",
+        "value": "**Atsinājums**\n\nNē, prasīto nevar izdarīt. Iekrāsojam kvadrātu trīs krāsās diagonālveidā (skat. 15. att.), tā, lai novietojot 14. att. figūru satvertu tieši divas vienas krāsas rūtiņas. Nezaudējot vispārīgumu, varam pieņemt, ka tā attēla vienmēr uz balto rūtiņu. Tādā gadījumā nenoklātās paliek 25 rūtiņas, no kurām ir 9 baltas rūtiņas, 8 zilas rūtiņas un 8 sarkanas rūtiņas. Tātad, ja mēģinātu novietot 26 figūras 13. attēlā, katra noklās tieši 3 rūtiņas (vienu baltu, vienu zilu un vienu sarkanu rūtiņu). Tāpēc nenoklātajās daļās dažādo krāsu rūtiņu skaits nav vienāds, un 13. att. figūru nevar izmantot pilnai pārklāšanai. \n\n![](page3_c.png)\n\n"
+      },
+      {
+        "type": "example",
+        "value": "**5. piemērs**\n\nKādu lielāko skaitu 16. att. doto figūru var izgriezt no 17. att. dotās figūras? Griezuma līnijām jāiet pa rūtiņu malām, 16. att. figūra var būt pagriezta vai apgriezta spoguļattēlā. \n\n![](page3_d.png)\n\n \n\n![](page3_e.png)\n\n"
+      },
+      {
+        "type": "solution",
+        "value": "**Atsinājums**\n\nLielākais figūru skaits, ko var izgriezt, ir 9, skat. 18. att.\n\nPierādīsim, ka vairāk figūru nevar izgriezt. Iekrāsojam 17. att. figūru kā parādīts 19. att. Lai kā novietotu 16. att. figūru, tā vienmēr noklāj tieši vienu sarkano rūtiņu. Tā kā ir tieši deviņas iekrāsotas rūtiņas, tad nevar izgriezt vairāk kā 9 figūras. \n\n![](page3_f.png)\n\n \n\n![](page3_g.png)\n\n"
+      },
+      {
+        "type": "example",
+        "value": "**6. piemērs**\n\nRegulārs trijstūris ar malas garumu 5 sadalīts 25 mazākos regulāros trijstūros ar malas garumu 1 (skat. 20. att.). Kādu lielāko skaitu rombu, kas izveidots no diviem mazajiem trijstūriem, var izgriezt no dotā trijstūra? \n\n![](page4_a.png)\n\n"
+      },
+      {
+        "type": "solution",
+        "value": "**Atsinājums**\n\nLielākais rombu skaits, ko var izgriezt, ir 10, skat. 21. att.\n\nPierādīsim, ka vairāk kā 10 rombus izgriezt nevar. Iekrāsojam mazos trijstūrus, kā parādīts 22. att. Ievērosim, ka katrs izgrieztais rombs satur vienu baltu un vienu melnu trijstūri. Tā kā melno trijstūru skaits ir 10, tad vairāk kā 10 rombus izgriezt nevar. \n\n![](page4_b.png)\n\n \n\n![](page4_c.png)\n\n"
+      },
+      {
+        "type": "example",
+        "value": "**7. piemērs**\n\nVai kubu ar izmēriem $6 \\times 6 \\times 6$ vienības kubiņi var salikt no 27 paralēlskaldņiem, kuru izmēri ir $1 \\times 2 \\times 4$ vienības kubiņi?"
+      },
+      {
+        "type": "solution",
+        "value": "**Atsinājums**\n\nNē, nevar. Iekrāsojam kubiņus, tā kā parādīts 23. att. Iekrāsoto kubiņu skaits ir $9 \\cdot 3 = 27$. Katrs paralēlskaldnis satur vai nu 0, vai 2 iekāršotos kubiņus. Tas nozīmē, ka doto paralēlskaldņu kopā pārklāto paralēlskaldņu kubiņu skaits būs pāra skaitlis. Tā kā ir 27 (nepāra skaitlis) iekāršoto kubiņu, tad uzdevumā prasītais nav iespējams. \n\n![](page4_d.png)\n\n"
+      }
+    ]
+}

@@ -1,0 +1,144 @@
+{
+    "snippets": [
+        {
+            "type": "problem",
+            "value": "LV.AMO.2004.7.1. Ja skait\u013ci $a$ un $b$ ir da\u017e\u0101di, tad ar $\\max (a, b)$ apz\u012bm\u0113jam liel\u0101ko no \ntiem.\n\nDots, ka skait\u013ci $x;\\ y;\\ z;\\ t;\\ x+z;\\ y+t$ visi ir da\u017e\u0101di un\n\n$$\\max (x, y)+\\max (z, t)=\\max (x+z;\\ y+t)$$\n\nPier\u0101d\u012bt, ka $(x-y)(z-t)>0$."
+        },
+        {
+            "type": "problem",
+            "value": "LV.AMO.2004.7.2. Taisnle\u0146\u0137a trijst\u016br\u012b $ABC$ novilkts augstums $CH$ pret hipoten\u016bzu $AB$. Punkts \n$M$ atrodas uz hipoten\u016bzas un $BM=BC$; punkts $N$ atrodas uz katetes $AC$ un \n$CN=CH$. Pier\u0101d\u012bt, ka $MN \\perp AC$. \n\n(*Piez\u012bme:* dr\u012bkst izmantot to, ka katra trijst\u016bra iek\u0161\u0113jo le\u0146\u0137u lielumu summa \nir $180^{\\circ}$.)"
+        },
+        {
+            "type": "problem",
+            "value": "LV.AMO.2004.7.3. K\u0101dam maz\u0101kajam natur\u0101lajamam $n$ visas da\u013cas \n$\\frac{5}{n+7}, \\frac{6}{n+8}, \\frac{7}{n+9}, \\ldots, \\frac{35}{n+37}, \\frac{36}{n+38}$\nir nesa\u012bsin\u0101mas?"
+        },
+        {
+            "type": "problem",
+            "value": "LV.AMO.2004.7.4. Izliekt\u0101 $7$-st\u016br\u012b $ABCDEFG$ punkti \n$A_{1}, B_{1}, C_{1}, D_{1}, E_{1}, F_{1}, G_{1}$ ir attiec\u012bgi malu \n$DE,\\ EF,\\ FG,\\ GA,\\ AB,\\ BC,\\ CD$ viduspunkti. Dots, ka \n$AA_{1} \\perp DE,\\ BB_{1} \\perp EF,\\ CC_{1} \\perp FG,\\ DD_{1} \\perp GA,\\ EE_{1} \\perp AB$\nun $FF_{1} \\perp BC$. Pier\u0101d\u012bt, ka $GG_{1} \\perp CD$."
+        },
+        {
+            "type": "problem",
+            "value": "LV.AMO.2004.7.5. K\u0101d\u0101 komisij\u0101 str\u0101d\u0101 $7$ diplom\u0101ti. Katri divi sav\u0101 starp\u0101 sarun\u0101jas ang\u013cu, \nv\u0101cu vai fran\u010du valod\u0101 (tikai vien\u0101). Katrs diplom\u0101ts ar $2$ kol\u0113\u0123iem sarun\u0101jas\nangliski, ar $2$ - v\u0101ciski, ar $2$ - franciski. Pier\u0101diet: var atrast $3$ \ndiplom\u0101tus, kas sav\u0101 starp\u0101 sazinoties lieto visas $3$ valodas."
+        },
+        {
+            "type": "problem",
+            "value": "LV.AMO.2004.8.1. Dots, ka kvadr\u0101tvien\u0101dojuma $x^{2}+px+q=0$ saknes ir $x_{1}$ un $x_{2}$, bet \nkvadr\u0101tvien\u0101dojuma $x^{2}+ax+b=0$ saknes ir $x_{1}^{2}$ un $x_{2}^{2}$. Izsac\u012bt\n$a$ un $b$ ar $p$ un $q$ pal\u012bdz\u012bbu."
+        },
+        {
+            "type": "problem",
+            "value": "LV.AMO.2004.8.2. Dots, ka $\\triangle ABC$ past\u0101v sakar\u012bbas $AB=AC$ un \n$\\sphericalangle ABC=60^{\\circ}$; $w$ ir ri\u0146\u0137a l\u012bnijas loks, kura centrs ir \n$A$, bet galapunkti $B$ un $C$ (skat. 4.z\u012bm.). Uz loka $w$ izv\u0113l\u0113ts punkts $D$,\nkas at\u0161\u0137iras gan no $B$, gan no $C$. Dots, ka $X,\\ Y,\\ Z,\\ T$ ir attiec\u012bgi \nnogrie\u017e\u0146u $AB,\\ BD,\\ DC,\\ CA$ viduspunkti. Pier\u0101d\u012bt, ka $XZ \\perp YT$.\n\n![](LV.AMO.2004.8.2.png)"
+        },
+        {
+            "type": "problem",
+            "value": "LV.AMO.2004.8.3. Dots, ka $A$ un $B$ - natur\u0101li divciparu skait\u013ci. Skaitli $X$ ieg\u016bst, \npierakstot skaitlim $A$ gal\u0101 skaitli $B$; skaitli $Y$ ieg\u016bst, pierakstot \nskaitlim $B$ gal\u0101 skaitli $A$. Dots, ka $X-Y$ dal\u0101s ar $91$. Pier\u0101d\u012bt, ka \n$A=B$."
+        },
+        {
+            "type": "problem",
+            "value": "LV.AMO.2004.8.4. Kvadr\u0101ta malas garums ir $1~\\mathrm{m}$. Taj\u0101 novilktas l\u012bnijas, kas to sadala \nvair\u0101k\u0101s da\u013c\u0101s; katra da\u013ca vien\u0101da ar k\u0101du no fig\u016br\u0101m, kas redzamas 5.z\u012bm. \n(r\u016bti\u0146as malas garums ir $1~\\mathrm{cm}$). Apr\u0113\u0137in\u0101t novilkto l\u012bniju kop\u0113jo \ngarumu.\n\n![](LV.AMO.2004.8.4.png)"
+        },
+        {
+            "type": "problem",
+            "value": "LV.AMO.2004.8.5. Virkn\u0113 augo\u0161\u0101 k\u0101rt\u012bb\u0101 izrakst\u012bti natur\u0101lie skait\u013ci no $1$ l\u012bdz $2004$ \nieskaitot, katrs vienu reizi. Izsv\u012btrojam no t\u0101s skait\u013cus, kas atrodas \n$1.,\\ 4.,\\ 7.,\\ 10.,\\ \\ldots$ viet\u0101s. No paliku\u0161\u0101s virknes atkal izsv\u012btrojam \nskait\u013cus, kas taj\u0101 atrodas $1.,\\ 4.,\\ 7.,\\ \\ldots$ viet\u0101s. Ar ieg\u016bto virkni \nr\u012bkojamies t\u0101pat, utt., kam\u0113r paliek neizsv\u012btrots viens skaitlis. Kur\u0161 tas ir?"
+        },
+        {
+            "type": "problem",
+            "value": "LV.AMO.2004.9.1. Dots, ka vien\u0101dojumam \n$2x^{2}+\\left(p_{1}+p_{2}\\right) x+\\left(q_{1}+q_{2}\\right)=0$ eksist\u0113 \natrisin\u0101jums. Pier\u0101d\u012bt, ka vismaz vienam no vien\u0101dojumiem \n$x^{2}+p_{1}x+q_{1}=0$ un $x^{2}+p_{2}x+q_{2}=0$ ar\u012b eksist\u0113 atrisin\u0101jums."
+        },
+        {
+            "type": "problem",
+            "value": "LV.AMO.2004.9.2. Dots, ka $a$ un $b$ - natur\u0101li skait\u013ci un $a+b$ ir nep\u0101ra skaitlis. Zin\u0101ms, ka\nkatr\u0101 skait\u013cu ass punkt\u0101 ar veselu koordin\u0101ti dz\u012bvo pa r\u016b\u0137\u012bitim: da\u017eos \npunktos - votivapas, p\u0101r\u0113jos - \u0161illi\u0161allas. Pier\u0101d\u012bt, ka eksist\u0113 t\u0101di divi \nvienas cilts r\u016b\u0137\u012b\u0161i, att\u0101lums starp kuriem ir vai nu $a$, vai $b$."
+        },
+        {
+            "type": "problem",
+            "value": "LV.AMO.2004.9.3. Dots, ka $ABCD$ - kvadr\u0101ts, bet $w$ - ri\u0146\u0137a l\u012bnija, kas iet caur $A$ un $B$; \npunkti $C$ un $D$ atrodas $w$ iek\u0161pus\u0113. Stari $BD$ un $BC$ krusto $w$ attiec\u012bgi\npunktos $E$ un $F$. Apz\u012bm\u0113jam $CF$ viduspunktu ar $M$. Pier\u0101d\u012bt, ka \n$EM \\perp BC$."
+        },
+        {
+            "type": "problem",
+            "value": "LV.AMO.2004.9.4. Dots, ka $n$ - natur\u0101ls skaitlis. Katrs no $2n+1$ r\u016b\u0137\u012b\u0161iem Lieldien\u0101s vienu \nreizi ierad\u0101s pie Sniegbalt\u012btes un k\u0101du laiku tur uztur\u0113j\u0101s. Ja divi r\u016b\u0137\u012b\u0161i \nvienlaikus bija pie Sniegbalt\u012btes, tad vi\u0146i tur satik\u0101s. Zin\u0101ms, ka katrs \nr\u016b\u0137\u012btis pie Sniegbalt\u012btes satika vismaz $n$ citus r\u016b\u0137\u012b\u0161us.\n\nPier\u0101d\u012bt: ir t\u0101ds r\u016b\u0137\u012btis, kas pie Sniegbalt\u012btes satika visus $2n$ citus \nr\u016b\u0137\u012b\u0161us."
+        },
+        {
+            "type": "problem",
+            "value": "LV.AMO.2004.9.5. Kvadr\u0101ts sast\u0101v no $n \\times n$ r\u016bti\u0146\u0101m. Katr\u0101 r\u016bti\u0146\u0101 j\u0101ieraksta viens no \nskait\u013ciem $-1;\\ 0;\\ 1$ t\u0101, lai $n$ rind\u0101s un $n$ kolonn\u0101s ierakst\u012bto skait\u013cu \nsummas visas b\u016btu da\u017e\u0101das.\n\nVai to var izdar\u012bt, ja **(A)** $n=4$; **(B)** $n=5$?"
+        },
+        {
+            "type": "problem",
+            "value": "LV.NOL.2004.7.1. K\u0101du maz\u0101ko daudzumu no skait\u013ciem $1;\\ 2;\\ 3;\\ \\ldots;\\ 14;\\ 15$ var izsv\u012btrot,\nlai katru divu atliku\u0161o summa b\u016btu salikts skaitlis?"
+        },
+        {
+            "type": "problem",
+            "value": "LV.NOL.2004.7.2. \u0160aj\u0101 uzdevum\u0101 run\u0101jam par funkcij\u0101m, kas defin\u0113tas visiem $x$. Pie\u0146emsim, ka \n$y=f(x)$ un $y=g(x)$ abas ir line\u0101ras funkcijas.\n\n**(A)** vai var gad\u012bties, ka $y=f(x)+g(x)$ nav line\u0101ra funkcija?\n\n**(B)** vai var gad\u012bties, ka $y=f(x) \\cdot g(x)$ ir line\u0101ra funkcija?"
+        },
+        {
+            "type": "problem",
+            "value": "LV.NOL.2004.7.3. Nogrie\u017e\u0146u $AB,\\ BC,\\ CD,\\ DA,\\ BD$ garumi ir \n$2 \\mathrm{~cm},\\ 3 \\mathrm{~cm},\\ 4 \\mathrm{~cm},\\ 7 \\mathrm{~cm},\\ 10 \\mathrm{~cm}$\n(varb\u016bt cit\u0101 sec\u012bb\u0101). Nek\u0101di $3$ no punktiem $A,\\ B,\\ C,\\ D$ neatrodas uz \nvienas taisnes.\n\nCik gar\u0161 ir nogrieznis $BD$?"
+        },
+        {
+            "type": "problem",
+            "value": "LV.NOL.2004.7.4. Kvadr\u0101ts sast\u0101v no $8 \\times 8$ r\u016bti\u0146\u0101m. Katr\u0101 r\u016bti\u0146\u0101 ierakst\u012bts natur\u0101ls \nskaitlis no $1$ l\u012bdz $64$ (visi skait\u013ci ir da\u017e\u0101di). Vai var gad\u012bties, ka katr\u0101 \nrind\u0101 un katr\u0101 kolonn\u0101 atrad\u012bsies tr\u012bs t\u0101di da\u017e\u0101di skait\u013ci, no kuriem viens \nvien\u0101ds ar abu p\u0101r\u0113jo reizin\u0101jumu?"
+        },
+        {
+            "type": "problem",
+            "value": "LV.NOL.2004.7.5. Kvadr\u0101ts sast\u0101v no $15 \\times 15$ vien\u0101d\u0101m kvadr\u0101tisk\u0101m r\u016bti\u0146\u0101m. No t\u0101 \nj\u0101izgrie\u017e taisnst\u016brus ar izm\u0113riem $1 \\times 9$ r\u016bti\u0146as. K\u0101du liel\u0101ko daudzumu \n\u0161\u0101du taisnst\u016bru var izgriezt?"
+        },
+        {
+            "type": "problem",
+            "value": "LV.NOL.2004.8.1. K\u0101du maz\u0101ko daudzumu no skait\u013ciem $1;\\ 2;\\ 3;\\ \\ldots;\\ 14;\\ 15$ var izsv\u012btrot,\nlai atliku\u0161os var\u0113tu sadal\u012bt div\u0101s grup\u0101s ar \u012bpa\u0161\u012bbu: vienas grupas visu \nskait\u013cu reizin\u0101jums vien\u0101ds ar otras grupas visu skait\u013cu reizin\u0101jumu?"
+        },
+        {
+            "type": "problem",
+            "value": "LV.NOL.2004.8.2. Ir zin\u0101ms, ka skait\u013ca $2^{200}$ decim\u0101laj\u0101 pierakst\u0101 ir $61$ cipars. Cik \ndaudziem no skait\u013ciem $2^{1};\\ 2^{2};\\ 2^{3};\\ \\ldots;\\ 2^{199};\\ 2^{200}$ \ndecim\u0101lais pieraksts s\u0101kas ar ciparu $1$?"
+        },
+        {
+            "type": "problem",
+            "value": "LV.NOL.2004.8.3. Nek\u0101das tr\u012bs piecst\u016bra virsotnes neatrodas uz vienas taisnes. K\u0101d\u0101 liel\u0101kaj\u0101 un\nk\u0101d\u0101 maz\u0101kaj\u0101 skait\u0101 punktu var krustoties piecst\u016bra diagon\u0101les? (Atceramies, \nka piecst\u016bris var ar\u012b neb\u016bt izliekts.)"
+        },
+        {
+            "type": "problem",
+            "value": "LV.NOL.2004.8.4. Dots, ka $a<b<c<d<e$ - natur\u0101li skait\u013ci. Pie stacijas automa\u0161\u012bn\u0101 iekrauj\n$a+b+c+d+e$ sai\u0146us. No tiem $a$ sai\u0146i j\u0101aizved uz $a~\\mathrm{km}$ att\u0101lo ciemu \n$A$, $b$ sai\u0146i - uz $b~\\mathrm{km}$ att\u0101lo ciemu $B,\\ \\ldots,\\ e$ sai\u0146i - uz \n$e~\\mathrm{km}$ att\u0101lo ciemu $E$. Pieejami tikai t\u0101di ce\u013ci, kas savieno staciju\nar ciemiem, pie tam uz katru ciemu no stacijas ved cits ce\u013c\u0161 (t\u0101tad p\u0113c katra \nciema apmekl\u0113\u0161anas j\u0101atgrie\u017eas pie stacijas, pirms var braukt uz n\u0101ko\u0161o ciemu).\nKatram ciemam paredz\u0113tos sai\u0146us dr\u012bkst izkraut no ma\u0161\u012bnas tikai \u0161aj\u0101 ciem\u0101. \nViena sai\u0146a p\u0101rvad\u0101\u0161ana $1~\\mathrm{km}$ att\u0101lum\u0101 izmaks\u0101 $1$ latu; brauk\u0161ana \nbez sai\u0146iem nemaks\u0101 neko. K\u0101d\u0101 sec\u012bb\u0101 j\u0101apmekl\u0113 ciemi, lai kop\u0113j\u0101s p\u0101rvad\u0101jumu \nizmaksas b\u016btu vismaz\u0101k\u0101s iesp\u0113jam\u0101s? (Ja maz\u0101k\u0101s izmaksas sasniedzamas vair\u0101k \nnek\u0101 vien\u0101 veid\u0101, tad j\u0101uzr\u0101da tos visus.)"
+        },
+        {
+            "type": "problem",
+            "value": "LV.NOL.2004.8.5. J\u0101nis sadala $a$ metrus garu nogriezni $3$ maz\u0101kos nogrie\u017e\u0146os; p\u0113c tam P\u0113teris \nsadala $b$ metrus garu nogriezni $3$ maz\u0101kos nogrie\u017e\u0146os. P\u0113teris grib, lai no \nieg\u016btajiem $6$ nogrie\u017e\u0146iem var\u0113tu vienlaic\u012bgi salikt divu trijst\u016bru kont\u016bras, \nskat. 2.z\u012bm.; J\u0101nis cen\u0161as to nepie\u013caut. Kur\u0161 no z\u0113niem var sasniegt savu \nm\u0113r\u0137i? (Atbilde **varb\u016bt** ir atkar\u012bga no $a$ un $b$ v\u0113rt\u012bb\u0101m.)\n\n![](LV.NOL.2004.8.5.png)"
+        },
+        {
+            "type": "problem",
+            "value": "LV.NOL.2004.9.1. Dots, ka $a$ un $b$ - kaut k\u0101di re\u0101li skait\u013ci. Pier\u0101d\u012bt, ka\n\n$$a^{2}+a b+b^{2} \\geq 9(a+b-3)$$"
+        },
+        {
+            "type": "problem",
+            "value": "LV.NOL.2004.9.2. Dots, ka $x$ - natur\u0101ls skaitlis. K\u0101ds liel\u0101kais daudzums no skait\u013ciem\n\n$$x;\\ x+2;\\ x+4;\\ x+6;\\ x+8$$\n\nvar vienlaic\u012bgi b\u016bt pirmskait\u013ci?"
+        },
+        {
+            "type": "problem",
+            "value": "LV.NOL.2004.9.3. Ri\u0146\u0137a l\u012bnijas $W_{1}$ diametram $AB$ pieskaras otra ri\u0146\u0137a l\u012bnija $W_{2}$, kuras\ncentrs atrodas uz $W_{1}$. Pier\u0101d\u012bt: pieskares, kas no $A$ un $B$ vilktas ri\u0146\u0137a\nl\u012bnijai $W_{2}$ un kas nesakr\u012bt ar $AB$, ir paral\u0113las sav\u0101 starp\u0101."
+        },
+        {
+            "type": "problem",
+            "value": "LV.NOL.2004.9.4. Uz t\u0101feles uzrakst\u012bti $2004$ skait\u013ci; viens no tiem ir $1$. Ar vienu g\u0101jienu \nat\u013cauts nodz\u0113st vienu skaitli un t\u0101 viet\u0101 uzrakst\u012bt skaitli $a+b-c$, kur \n$a,\\ b$ un $c$ - kaut k\u0101di tr\u012bs no nenodz\u0113stajiem skait\u013ciem. Vai, atk\u0101rtojot \n\u0161\u0101dus g\u0101jienus vair\u0101kas reizes, var pan\u0101kt, lai uz t\u0101feles vienlaic\u012bgi b\u016btu \nuzrakst\u012bti $2004$ skait\u013ci, kas visi vien\u0101di ar $1$?"
+        },
+        {
+            "type": "problem",
+            "value": "LV.NOL.2004.9.5. K\u0101d\u0101 kolekt\u012bv\u0101 katram cilv\u0113kam ir tie\u0161i $3$ draugi (ja $A$ ir $B$ draugs, tad \nar\u012b $B$ ir $A$ draugs). Nav t\u0101du triju cilv\u0113ku, kas visi sav\u0101 starp\u0101 \ndraudz\u0113tos. K\u0101ds ir maz\u0101kais iesp\u0113jamais cilv\u0113ku skaits \u0161aj\u0101 kolekt\u012bv\u0101?"
+        },
+        {
+            "type": "problem",
+            "value": "LV.VOL.2004.9.1. Dots, ka $a,\\ b,\\ c$ - pozit\u012bvi skait\u013ci un $a^{2}+b^{2}=2c^{2}$.\n\nPier\u0101d\u012bt, ka $\\frac{1}{a+c}+\\frac{1}{b+c}=\\frac{2}{a+b}$"
+        },
+        {
+            "type": "problem",
+            "value": "LV.VOL.2004.9.2. Dots, ka $ABCD$ - paralelograms un $AM=CN$ (skat. 1.z\u012bm). Pier\u0101d\u012bt, ka $D$ \natrodas uz $\\sphericalangle ASC$ bisektrises.\n\n![](LV.VOL.2004.9.2.png)"
+        },
+        {
+            "type": "problem",
+            "value": "LV.VOL.2004.9.3. J\u0101n\u012btis grib uzrakst\u012bt $n$ da\u017e\u0101dus natur\u0101lus skait\u013cus t\u0101, lai nek\u0101du se\u0161u \nuzrakst\u012bto skait\u013cu summa nedal\u012btos ar $6$.\n\nVai tas ir iesp\u0113jams, ja **(A)** $n=10$, **(B)** $n=11$?"
+        },
+        {
+            "type": "problem",
+            "value": "LV.VOL.2004.9.4. Kvadr\u0101ts sast\u0101v no $4 \\times 4$ vien\u0101d\u0101m kvadr\u0101tisk\u0101m r\u016bti\u0146\u0101m Andris p\u0113c k\u0101rtas\nnovieto pa vienam tomim k\u0101d\u0101 v\u0113l neaiz\u0146emt\u0101 r\u016bti\u0146\u0101 saska\u0146\u0101 ar \u0161\u0101diem \nnoteikumiem: pirmo torni vi\u0146\u0161 dr\u012bkst novietot patva\u013c\u012bg\u0101 r\u016bti\u0146\u0101 p\u0113c savas \nizv\u0113les, bet katru n\u0101ko\u0161o torni j\u0101novieto t\u0101d\u0101 r\u016bti\u0146\u0101, kur to uzlik\u0161anas br\u012bd\u012b \napdraud nep\u0101ra skaits jau novietoto (divi tor\u0146i apdraud viens otru, ja tie abi \natrodas vien\u0101 horizont\u0101l\u0113 vai vien\u0101 vertik\u0101l\u0113 un starp tiem nav citu tor\u0146u).\n\nK\u0101du liel\u0101ko tor\u0146u daudzumu Andrim var izdoties novietot?"
+        },
+        {
+            "type": "problem",
+            "value": "LV.VOL.2004.9.5. Pa apli uzrakst\u012bti $5$ skait\u013ci. To summa ir $1$, un neviens skaitlis p\u0113c modu\u013ca\n(absol\u016bt\u0101s v\u0113rt\u012bbas) nep\u0101rsniedz $1$.\n\nPier\u0101d\u012bt, ka var atrast tr\u012bs t\u0101dus skait\u013cus $x,\\ y$ un $z$, ka $x+y \\geq 0$, \n$y+z \\geq 0$ un $x+y+z \\geq 0$, pie tam skait\u013ci $x;\\ y;\\ z$ tie\u0161i \u0161\u0101d\u0101 sec\u012bb\u0101 \nviens aiz otra uzrakst\u012bti pa apli."
+        }
+    ]
+}

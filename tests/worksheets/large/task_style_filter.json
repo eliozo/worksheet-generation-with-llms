@@ -1,0 +1,11 @@
+{
+    "task": {
+        "query": "...",
+        "worksheet0": "grade_7_and_8.json",
+        "worksheet1": "grade_7_and_8.1.json"
+    },
+    "implementation": {},
+    "result": {
+        "template": "templates/regular.rst.jinja"
+    }
+}

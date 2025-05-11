@@ -1,0 +1,28 @@
+{
+    "task": {
+        "query": "**Vajadz\u012bgais saturs:** Darba lapa 90 min\u016b\u0161u nodarb\u012bbai pirms novada olimpi\u0101des. **Apm\u0101c\u0101mie:** 8.klases skol\u0113ni, nav daudz patst\u0101v\u012bgi gatavoju\u0161ies, bet izg\u0101ju\u0161i R\u012bgas \u0123imn\u0101ziju iest\u0101jeks\u0101menus p\u0113c 6.klases. Vi\u0146iem pat\u012bk neform\u0101la valoda, anim\u0101cijas seri\u0101ls Arcane. **M\u0101c\u012bbu t\u0113mas:**  Dirihl\u0113 princips ar piem\u0113riem par kombinatoriku, kombinatorisko \u0123eometriju vai skait\u013cu teoriju. Olimpi\u0101\u017eu stila uzdevumiem j\u0101b\u016bt ar da\u017e\u0101du tipu jaut\u0101jumiem (pier\u0101d\u012bjumi, piem\u0113ri, optimiz\u0101cijas uzdevumi), lai skol\u0113ni vingrin\u0101tos iev\u0113rot pareizu, uzdevuma pras\u012bb\u0101m atbilsto\u0161u atrisin\u0101juma strukt\u016bru. **Atbildes form\u0101ts:** L\u016bdzu izveidot pavisam 10 uzdevumu komplektu aprakst\u012btajai situ\u0101cijai: Vispirms 2 ievaduzdevumus, tad \u012bsu teorijas p\u0101rskatu (komplektam nepiecie\u0161am\u0101s prasmes - par Dirihl\u0113 principu un da\u017e\u0101d\u0101m atrisin\u0101jumu strukt\u016br\u0101m). Visbeidzot 8 uzdevumus ar pieaugo\u0161u gr\u016bt\u012bbas pak\u0101pi. Visu 10 uzdevumu atrisin\u0101jumus (konspekt\u012bvus, kas nav dom\u0101ti k\u0101 paraugs atrisin\u0101jumu noform\u0113\u0161anai olimpi\u0101d\u0113) ievietot darba lapas beig\u0101s.",
+        "title": "Dirihl\u0113 princips darb\u012bb\u0101",
+        "problemcount": 10,
+        "domain": [
+            "Comb"
+        ],
+        "subdomain": [],
+        "questionType": [
+            "ProveDisprove"
+        ],
+        "topic": [],
+        "method": []
+    },
+    "implementation": {
+        "title": {
+            "seed": 42
+        },
+        "problemCount": {
+            "seed": 42
+        },
+        "domain": {
+            "seed": 42
+        }
+    },
+    "result": {}
+}

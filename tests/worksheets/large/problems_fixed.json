@@ -1,0 +1,82 @@
+{
+    "snippets": [
+        {
+            "type": "problem",
+            "value": "LV.NOL.2004.9.4. Uz tāfeles uzrakstīti 2004 skaitļi; viens no tiem ir 1. Ar vienu gājienu atļauts nodzēst vienu skaitli un tā vietā uzrakstīt skaitli a+b-c, kur a, b un c - kaut kādi trīs no nenodzēstajiem skaitļiem. Vai, atkārtojot šādus gājienus vairākas reizes, var panākt, lai (1) uz tāfeles vienlaicīgi būtu (1) uzrakstīti skaitļi 2004 skaitļi, kas visi vienādi ar 1?",
+            "value_fixed": "LV.NOL.2004.9.4. Uz tāfeles uzrakstīti 2004 skaitļi; viens no tiem ir 1. Ar vienu gājienu atļauts nodzēst vienu skaitli un tā vietā uzrakstīt skaitli a+b-c, kur a, b un c - kaut kādi trīs no nenodzēstajiem skaitļiem. Vai, atkārtojot vairākus gājienus, var panākt, ka uz tāfeles vienlaicīgi uzrakstīti 2004 skaitļi, kas visi vienādi ar 1?",
+            "rule": "P049C"
+        },
+        {
+            "type": "problem",
+            "value": "LV.NOL.2004.7.1. Kādu mazāko (1) daudzumu no skaitļiem 1; 2; 3; ...; 14; 15 var izsvītrot, lai katru divu atlikušo summa būtu salikts skaitlis?",
+            "value_fixed": "LV.NOL.2004.7.1. Atrodiet mazāko daudzumu no skaitļiem 1; 2; 3; ...; 14; 15, ko var izsvītrot, lai katru divu atlikušo summa būtu salikts skaitlis.",
+            "rule": "P006A"
+        },
+        {
+            "type": "problem",
+            "value": "LV.AMO.2004.7.3. Kādam mazākajam (1) naturālajamam n visas daļas 5/(n+7), 6/(n+8), 7/(n+9), ..., 35/(n+37), 36/(n+38) ir nesaīsināmas?",
+            "value_fixed": "LV.AMO.2004.7.3. Atrodiet mazāko naturālo n, kuram visas daļas 5/(n+7), 6/(n+8), 7/(n+9), ..., 35/(n+37), 36/(n+38) ir nesaīsināmas.",
+            "rule": "P006A"
+        },
+        {
+            "type": "problem",
+            "value": "LV.NOL.2004.8.1. Kādu mazāko (1) daudzumu no skaitļiem 1; 2; 3; ...; 14; 15 var izsvītrot, lai atlikušos varētu sadalīt divās grupās ar īpašību: vienas grupas visu skaitļu reizinājums vienāds ar otras grupas visu skaitļu reizinājumu?",
+            "value_fixed": "LV.NOL.2004.8.1. Atrodiet mazāko daudzumu no skaitļiem 1; 2; 3; ...; 14; 15, ko var izsvītrot, lai atlikušos varētu sadalīt divās grupās ar īpašību: vienas grupas visu skaitļu reizinājums vienāds ar otras grupas visu skaitļu reizinājumu.",
+            "rule": "P006A"
+        },
+        {
+            "type": "problem",
+            "value": "LV.NOL.2004.8.5. Jānis sadala a metrus garu nogriezni 3 mazākos nogriežņos; pēc tam Pēteris sadala b metrus garu nogriezni 3 mazākos nogriežņos. Pēteris grib, lai (1) no iegūtajiem 6 nogriežņiem varētu vienlaicīgi salikt divu trijstūru kontūras, skat. 2.zīm.; Jānis cenšas to nepieļaut. Kurš no zēniem var sasniegt savu mērķi? (Atbilde varbūt ir atkarīga no a un b vērtībām.)",
+            "value_fixed": "LV.NOL.2004.8.5. Jānis sadala a metrus garu nogriezni 3 mazākos nogriežņos; pēc tam Pēteris sadala b metrus garu nogriezni 3 mazākos nogriežņos. Pēteris grib panākt, ka no iegūtajiem 6 nogriežņiem var vienlaicīgi salikt divu trijstūru kontūras, skat. 2.zīm.; Jānis cenšas to nepieļaut. Kurš no zēniem var sasniegt savu mērķi? (Atbilde varbūt ir atkarīga no a un b vērtībām.)",
+            "rule": "P006M"
+        }
+    ]
+}
+
+
+{
+    "snippets": [
+        {
+            "type": "problem",
+            "value": "LV.AMO.2005.7.3. Pankūka no katras puses jācep 6 minūtes (varbūt ar pārtraukumiem). Uz pannas vienlaicīgi var atrasties augstākais 4 pankūkas. Kāds (1) īsākais laiks nepieciešams, lai no abām pusēm apceptu 5 pankūkas?\n\nPankūku nomaiņai laiks nav jāparedz.",
+            "value_fixed": "LV.AMO.2005.7.3. Pankūka no katras puses jācep 6 minūtes (varbūt ar pārtraukumiem). Uz pannas vienlaicīgi var atrasties augstākais 4 pankūkas. Kāds ir īsākais laiks, kas nepieciešams, lai no abām pusēm apceptu 5 pankūkas?\n\nPankūku nomaiņai laiks nav jāparedz.",
+            "rule": "P006G"
+        },
+        {
+            "type": "problem",
+            "value": "LV.AMO.2005.7.4. Triju veselu pozitīvu skaitļu summa ir 407. Ar kādu lielāko daudzumu nuļļu var beigties šo skaitļu reizinājums?",
+            "value_fixed": "LV.AMO.2005.7.4. Triju veselu pozitīvu skaitļu summa ir 407. Kāds ir lielākais daudzums nuļļu, ar ko var beigties šo skaitļu reizinājums?",
+            "rule": "P006G"
+        },
+        {
+            "type": "problem",
+            "value": "LV.AMO.2005.7.5. Rindā izrakstīti 10 dažādi skaitļi, kas visi lielāki par 0 un mazāki par 1. To skaitļu summa, kas atrodas 2., 4., 6., 8., 10. vietās, par 1 lielāka nekā to skaitļu summa, kas atrodas 1., 3., 5., 7., 9. vietās.\n\nPierādiet: rindā var atrast tādu (1) skaitli, kas mazāks par abiem saviem kaimiņiem.",
+            "value_fixed": "LV.AMO.2005.7.5. Rindā izrakstīti 10 dažādi skaitļi, kas visi lielāki par 0 un mazāki par 1. To skaitļu summa, kas atrodas 2., 4., 6., 8., 10. vietās, par 1 lielāka nekā to skaitļu summa, kas atrodas 1., 3., 5., 7., 9. vietās.\n\nPierādiet: rindā noteikti būs tāds skaitlis, kas mazāks par abiem saviem kaimiņiem.",
+            "rule": "P049D"
+        },
+        {
+            "type": "problem",
+            "value": "LV.AMO.2005.8.2. Par Fibonači skaitļiem sauc skaitļus 1; 2; 3; 5; 8; 13; 21; …. (katru nākamo skaitli šajā virknē iegūst, saskaitot divus iepriekšējos).\n\nVai var pastāvēt (1) vienādība a+b=c+d, ja a, b, c, d ir dažādi Fibonači skaitļi?",
+            "value_fixed": "LV.AMO.2005.8.2. Par Fibonači skaitļiem sauc skaitļus 1; 2; 3; 5; 8; 13; 21; …. (katru nākamo skaitli šajā virknē iegūst, saskaitot divus iepriekšējos).\n\nVai iespējams atrast tādus dažādus Fibonači skaitļus a, b, c, d, ka a+b=c+d?",
+            "rule": "P049A"
+        },
+        {
+            "type": "problem",
+            "value": "LV.AMO.2005.8.5. Kvadrāts sastāv no 8×8 vienādām kvadrātiskām rūtiņām. Katra rūtiņa nokrāsota vienā no n krāsām. Ir zināms: katrai rūtiņai var atrast (1) vismaz divas kaimiņu rūtiņas, kas nokrāsotas tādā pašā krāsā kā viņa. (Rūtiņas sauc par kaimiņu rūtiņām, ja tām ir kopīga mala.) Kāda ir lielākā iespējamā n vērtība?",
+            "value_fixed": "LV.AMO.2005.8.5. Kvadrāts sastāv no 8×8 vienādām kvadrātiskām rūtiņām. Katra rūtiņa nokrāsota vienā no n krāsām. Ir zināms: katrai rūtiņai noteikti ir vismaz divas kaimiņu rūtiņas, kas nokrāsotas tādā pašā krāsā kā viņa. (Rūtiņas sauc par kaimiņu rūtiņām, ja tām ir kopīga mala.) Kāda ir lielākā iespējamā n vērtība?",
+            "rule": "P049D"
+        },
+        {
+            "type": "problem",
+            "value": "LV.NOL.2005.8.2. Kvadrāts sastāv no 4 x 4 vienādām kvadrātiskām rūtiņām. Rūtiņās ierakstīti naturāli skaitļi no 1 līdz 16 (dažādās rūtiņās – dažādi skaitļi). Rūtiņu sauc par izcilu, ja tajā ierakstītais skaitlis mazāks par augstākais vienā kaimiņu rūtiņā ierakstītu skaitli (divas rūtiņas sauc par kaimiņu rūtiņām, ja tām ir kopīga mala vai kopīgs stūris). Kāds lielākais daudzums rūtiņu var būt izcilas?",
+            "value_fixed": "LV.NOL.2005.8.2. Kvadrāts sastāv no 4 x 4 vienādām kvadrātiskām rūtiņām. Rūtiņās ierakstīti naturāli skaitļi no 1 līdz 16 (dažādās rūtiņās – dažādi skaitļi). Rūtiņu sauc par izcilu, ja tajā ierakstītais skaitlis mazāks par augstākais vienā kaimiņu rūtiņā ierakstītu skaitli (divas rūtiņas sauc par kaimiņu rūtiņām, ja tām ir kopīga mala vai kopīgs stūris). Kāds ir lielākais daudzums rūtiņu, kas var būt izcilas?",
+            "rule": "P006G"
+        },
+        {
+            "type": "problem",
+            "value": "LV.NOL.2005.9.4. Vai eksistē (1) tādi 6 skaitļi, ka, aprēķinot visas iespējamās to summas pa diviem, iegūst visus naturālos skaitļus no 1 līdz 15 ieskaitot?",
+            "value_fixed": "LV.NOL.2005.9.4. Vai iespējams atrast tādus 6 skaitļus, ka, aprēķinot visas iespējamās to summas pa diviem, iegūst visus naturālos skaitļus no 1 līdz 15 ieskaitot?",
+            "rule": "P049A"
+        }
+    ]
+}

@@ -1,0 +1,356 @@
+{
+    "snippets": [
+        {
+            "type": "title",
+            "value": "Dirihl\u0113 princips"
+        },
+        {
+            "type": "subtitle",
+            "value": "Teorija un piem\u0113ri, gatavojoties Atkl\u0101tajai matem\u0101tikas olimpi\u0101dei 2024./2025. m.g."
+        },
+        {
+            "type": "text",
+            "value": "Apskat\u012bsim pavisam vienk\u0101r\u0161u uzdevumu."
+        },
+        {
+            "type": "example",
+            "value": "P\u0113terim ir* :math:`3` *tru\u0161i un* :math:`2` *b\u016bri. Visi tru\u0161i atrodas b\u016bros. Vai noteikti k\u0101d\u0101 no \u0161iem b\u016briem ir vismaz divi tru\u0161i?"
+        },
+        {
+            "type": "theorem",
+            "value": "Ja vair\u0101k nek\u0101 :math:`n` objekti j\u0101sadala :math:`n` grup\u0101s, tad noteikti b\u016bs t\u0101da grupa, kur\u0101 atrad\u012bsies vismaz :math:`2` objekti."
+        },
+        {
+            "type": "proof",
+            "value": "Pie\u0146emsim pret\u0113jo, ka nevien\u0101 grup\u0101 nav vair\u0101k k\u0101 viens objekts. T\u0101 k\u0101 grupu pavisam ir :math:`n`, tad kop\u0101 nav izvietoti vair\u0101k k\u0101 :math:`n` objekti, bet grup\u0101s ir j\u0101sadala vair\u0101k nek\u0101 :math:`n` objekti. T\u0101tad pie\u0146\u0113mums ir aplams un noteikti ir grupa, kur\u0101 vair\u0101k nek\u0101 viens, tas ir, vismaz :math:`2` objekti, kas ar\u012b bija j\u0101pier\u0101da."
+        },
+        {
+            "type": "text",
+            "value": "Bie\u017ei vien Dirihl\u0113 principu formul\u0113 \u0161\u0101d\u0101 veid\u0101:"
+        },
+        {
+            "type": "theorem",
+            "value": "Ja vair\u0101k nek\u0101 :math:`n` tru\u0161i j\u0101izvieto :math:`n` b\u016bros, tad vismaz vien\u0101 b\u016br\u012b non\u0101ks vair\u0101k nek\u0101 viens (t\u0101tad vismaz :math:`2`) tru\u0161i."
+        },
+        {
+            "type": "text",
+            "value": "Lietojot Dirihl\u0113 principu uzdevumu risin\u0101\u0161an\u0101, galvenais ir izdom\u0101t, kas katr\u0101 uzdevum\u0101 b\u016bs 'b\u016bri' un kas -- 'tru\u0161i'. Uzdevumu risin\u0101jum\u0101 var gan atsaukties uz Dirihl\u0113 principu, gan ar\u012b atrisin\u0101jumu veidot, piem\u0113ram, l\u012bdz\u012bgi k\u0101 pier\u0101dot 1. teor\u0113mu. Abi \u0161\u0101di risin\u0101jumi ir pareizi (skat., piem., n\u0101kamo uzdevumu)"
+        },
+        {
+            "type": "section_title",
+            "value": "Uzdevumu piem\u0113ri"
+        },
+        {
+            "type": "problem",
+            "value": "1. Pulci\u0146\u0101 ir :math:`13` skol\u0113ni. Pier\u0101d\u012bt, ka no tiem var atrast t\u0101dus divus, kas dzimu\u0161i vien\u0101 un taj\u0101 pa\u0161\u0101 m\u0113nes\u012b!"
+        },
+        {
+            "type": "solution",
+            "value": "Ja katr\u0101 m\u0113nes\u012b b\u016btu dzimis ne vair\u0101k k\u0101 viens skol\u0113ns, tad visos m\u0113ne\u0161os kop\u0101 b\u016btu dzimu\u0161i ne vair\u0101k k\u0101 :math:`12` skol\u0113nu, bet pulci\u0146\u0101 ir :math:`13` skol\u0113ni. T\u0101tad noteikti ir t\u0101ds m\u0113nesis, kur\u0101 dzimu\u0161i vismaz divi no \u0161\u012b pulci\u0146a skol\u0113niem."
+        },
+        {
+            "type": "solution",
+            "value": "\u0160aj\u0101 uzdevum\u0101 :math:`13` skol\u0113ni ir j\u0101sadala :math:`12` grup\u0101s (m\u0113ne\u0161os). P\u0113c Dirihl\u0113 principa noteikti b\u016bs m\u0113nesis, kur\u0101 ir dzimu\u0161i vismaz divi skol\u0113ni, kas ar\u012b bija j\u0101pier\u0101da."
+        },
+        {
+            "type": "problem",
+            "value": "2. Doti natur\u0101li skait\u013ci no :math:`1` l\u012bdz :math:`8`. Pier\u0101d\u012bt, ka, izv\u0113loties jebkurus piecus no tiem, var\u0113s atrast t\u0101dus divus, kuru summa ir :math:`9`."
+        },
+        {
+            "type": "solution",
+            "value": "Jebkuri no pieciem izv\u0113l\u0113tajiem skait\u013ciem ietilpst vien\u0101 no \u0161\u0101d\u0101m grup\u0101m (grupas veidotas no skait\u013ciem, kuru summa ir :math:`9`): \u201e:math:`1` un :math:`8`\u201d, \u201e:math:`2` un :math:`7`\u201d, \u201e:math:`3` un :math:`6`\u201d, \u201e:math:`4` un :math:`5`\u201d. Ar katru grupu b\u016btu pa ne vair\u0101k k\u0101 viens skaitlis, tad viss p\u0101r\u0113jais kop\u0101 b\u016btu ne vair\u0101k k\u0101 \u010detri skait\u013ci, bet ir j\u0101izv\u0113las pieci skait\u013ci, t\u0101tad noteikti ir t\u0101ds p\u0101ris, kuru ir divi skait\u013ci, un \u0161o skait\u013cu summa ir :math:`9`."
+        },
+        {
+            "type": "solution",
+            "value": "Jebkuri no pieciem izv\u0113l\u0113tajiem skait\u013ciem ietilst vien\u0101 no \u0161\u0101diem \u010detriem 'b\u016briem': \u201e1 un 8\u201d; \u201e2 un 7\u201d, \u201e3 un 6\u201d, \u201e4 un 5\u201d. T\u0101p\u0113c p\u0113c Dirihl\u0113 principa vismaz vien\u0101 b\u016br\u012b non\u0101ks vismaz 2 \u201etru\u0161i\u201d jeb 2 skait\u013ci, kuru summa ir devi\u0146i."
+        },
+        {
+            "type": "problem",
+            "value": "3. Izliekt\u0101 100-st\u016bru virsotnes kaut k\u0101d\u0101 sec\u012bb\u0101 sanumur\u0113tas ar natur\u0101lajiem skait\u013ciem no :math:`1` l\u012bdz :math:`100`, katra virsotne ar citu skaitli. Katrai malai apr\u0113\u0137ina t\u0101s galu numuru starp\u012bbu (no liel\u0101k\u0101 skait\u013ca at\u0146emot maz\u0101ko). Pier\u0101d\u012bt, ka vismaz div\u0101m mal\u0101m \u0161\u012bs starp\u012bbas ir vien\u0101das!"
+        },
+        {
+            "type": "solution",
+            "value": "Ir iesp\u0113jamas tikai :math:`99` da\u017e\u0101das starp\u012bbas: :math:`1; 2; \\ldots; 99`; tie ir \u201eb\u016bri\u201d. Ir 100 malas, kam apr\u0113\u0137in\u0101tas starp\u012bbas; tie ir \u201etru\u0161i\u201d. P\u0113c Dirihl\u0113 principa vismaz vien\u0101 b\u016br\u012b b\u016bs vismaz :math:`2` tru\u0161i jeb vismaz div\u0101m mal\u0101m \u0161\u012bs starp\u012bbas ir vien\u0101das."
+        },
+        {
+            "type": "problem",
+            "value": "4. Sniegbalt\u012bte uzd\u0101vin\u0101ja katram no 7 r\u016b\u0137\u012b\u0161iem pa 5 konfekt\u0113m: 'V\u0101ver\u012bti', 'Margrieti\u0146u' un 'L\u0101c\u012bti', pie tam katrs r\u016b\u0137\u012btis sa\u0146\u0113ma vismaz vienu katra veida konfekti. Pier\u0101d\u012bt, ka ir divi t\u0101di r\u016b\u0137\u012b\u0161i, kam vi\u0146a uzd\u0101vin\u0101ja vien\u0101dus konfek\u0161u komplektus!"
+        },
+        {
+            "type": "solution",
+            "value": "Iev\u0113rosim, ka skaitli 5 var izteikt k\u0101 tr\u012bs natur\u0101lu skait\u013cu summu tikai divos veidos: :math:`3 + 1 + 1` un :math:`2 + 2 + 1` (ja nav b\u016btiska saskait\u0101mo sec\u012bba). Ta\u010du, \u0146emot v\u0113r\u0101 ar\u012b to, kura no konfet\u0113m pirmaj\u0101 gad\u012bjum\u0101 ir d\u0101vin\u0101ta 3 eksempl\u0101ros un kura no konfektem otraj\u0101 gad\u012bjum\u0101 -- vien\u0101 eksempl\u0101r\u0101, ieg\u016bstam 6 da\u017e\u0101das iesp\u0113jas:\n\n.. figure:: ../tests/worksheets/pigeonhole_2025_page2A.png\n   :width: 246px\n\nT\u0101 k\u0101 ir 7 r\u016b\u0137\u012b\u0161i un 6 da\u017e\u0101das iesp\u0113jas, k\u0101 uzd\u0101vin\u0101t konfektes, tad p\u0113c Dirihl\u0113 principa noteikti ir t\u0101di divi r\u016b\u0137\u012b\u0161i, kam Sniegbalt\u012bte uzd\u0101vin\u0101ja vien\u0101das konfek\u0161u komplektus."
+        },
+        {
+            "type": "problem",
+            "value": "5. Taisne nokr\u0101sota :math:`10` da\u017e\u0101d\u0101s kr\u0101s\u0101s. Pier\u0101d\u012bt, ka uz t\u0101s var atrast divus punktus, kas nokr\u0101soti vien\u0101 kr\u0101s\u0101 un starp kuriem att\u0101lums centimetros ir vesels skaitlis!"
+        },
+        {
+            "type": "solution",
+            "value": "Izv\u0113lamies uz taisnes :math:`11` punktus t\u0101, lai att\u0101lums starp katriem diviem no tiem b\u016btu vesels skaitlis. T\u0101 k\u0101 ir izv\u0113l\u0113ti :math:`11` punkti un ir :math:`10` da\u017e\u0101das kr\u0101sas, tad p\u0113c Dirihl\u0113 principa vismaz divi no \u0161iem punktiem ir vien\u0101 kr\u0101s\u0101."
+        },
+        {
+            "type": "problem",
+            "value": "6. Pier\u0101d\u012bt, ka starp jebkuriem se\u0161iem natur\u0101liem skait\u013ciem, kas nedal\u0101s ar :math:`10`, var atrast divus t\u0101dus, kuru summa vai starp\u012bba dal\u0101s ar :math:`10`."
+        },
+        {
+            "type": "solution",
+            "value": "Apskat\u0101m divus iesp\u0113jamos gad\u012bjumus.  \n**(1)** Ja starp apskat\u0101majiem skait\u013ciem ir divi t\u0101di, kam p\u0113d\u0113jie cipari vien\u0101di, tad to starp\u012bba dal\u0101s ar :math:`10`.  \n**(2)** Ja nu t\u0101du divu skait\u013cu nav, tad p\u0113d\u0113jie cipari ir vien\u0101di, tad sadal\u0101m skait\u013cus 5 grup\u0101s atbilsto\u0161i to p\u0113d\u0113jiem cipariem: \"1 un 9\"; \"2 un 8\"; \"3 un 7\"; \"4 un 6\"; \"5\". T\u0101 k\u0101 ir :math:`6` skait\u013ci un piecas grupas, tad divi skait\u013ci noteikti ieies vien\u0101 grup\u0101, to summa dal\u0101s ar :math:`10`."
+        },
+        {
+            "type": "problem",
+            "value": "7. Pier\u0101d\u012bt, ka starp septi\u0146iem natur\u0101liem skait\u013ciem var izv\u0113l\u0113ties t\u0101dus divus, kuru starp\u012bba dal\u0101s ar :math:`7`."
+        },
+        {
+            "type": "solution",
+            "value": "Natur\u0101lis skaitlis, dalot ar :math:`7`, var dot k\u0101du no sekojo\u0161iem atlikumiem: :math:`0; 1; 2; 3; 4; 5; 6`. Dotos asto\u0146us skait\u013cus uzskat\u0101m par \u201etru\u0161iem\u201d, savuk\u0101rt vien\u0101 'b\u016bri' ievietosim tos skait\u013cus, kad vien\u0101d\u0101s atlikumu dal\u012bjumi ar :math:`7`, t\u0101dai ir :math:`7` 'b\u016bru' principi: p\u0113c Dirihl\u0113 principa 'b\u016bri' non\u0101ks vismaz divi 'tru\u0161i' jeb vismaz divi skait\u013ci dod vien\u0101dus atlikumus, dalot ar :math:`7`. \u0160o skait\u013cu starp\u012bba dal\u0101s ar :math:`7` (skat. n\u0101kamo teor\u0113mu)."
+        },
+        {
+            "type": "theorem",
+            "value": "Teor\u0113ma par starp\u012bbas dal\u012b\u0161anos. Dots, ka :math:`a, b` un :math:`n` -- veseli skait\u013ci, turkl\u0101t :math:`n > 0`. Starp\u012bba :math:`(a - b)` dal\u0101s ar :math:`n` tad un tikai tad, ja :math:`a un b` dod vien\u0101dus atlikumus, dalot ar :math:`n`."
+        },
+        {
+            "type": "text",
+            "value": "Apskat\u012bsim v\u0113l vienu uzdevumu par P\u0113teri un vi\u0146a tru\u0161iem."
+        },
+        {
+            "type": "example",
+            "value": "P\u0113terim ir* :math:`5` *tru\u0161i un* :math:`2` *b\u016bri. Visi tru\u0161i atrodas b\u016bros. Vai noteikti k\u0101d\u0101 no \u0161iem b\u016briem ir vismaz* :math:`3` *tru\u0161i?"
+        },
+        {
+            "type": "text",
+            "value": "Risin\u0101sim \u0161o uzdevumu l\u012bdz\u012bgi, k\u0101 iepriek\u0161\u0113jo uzdevumu par tru\u0161iem. Ja \u0161\u0101da b\u016bra neb\u016btu, tad P\u0113terim katr\u0101 b\u016br\u012b b\u016btu ne vair\u0101k k\u0101 :math:`2` tru\u0161i. T\u0101tad abos b\u016bros kop\u0101 b\u016btu ne vair\u0101k k\u0101 4 tru\u0161i, bet P\u0113terim ir 5 tru\u0161i. L\u012bdz ar to noteikti ir t\u0101ds b\u016bris, kur\u0101 atrodas vismaz :math:`3` tru\u0161i."
+        },
+        {
+            "type": "example",
+            "value": "Un, ja P\u0113terim b\u016btu* :math:`10` *tru\u0161i un* :math:`3` *b\u016bri? Vai m\u0113s var\u0113tu apgalvot, ka noteikti ir t\u0101ds b\u016bris, kur\u0101 ir vismaz* :math:`4` *tru\u0161i?"
+        },
+        {
+            "type": "text",
+            "value": "Atbilde atkal ir apstiprino\u0161a. Ja katr\u0101 b\u016br\u012b b\u016btu ne vair\u0101k k\u0101 :math:`3` tru\u0161i, tad visos b\u016bros kop\u0101 b\u016btu izvietoti ne vair\u0101k k\u0101 :math:`9` tru\u0161i, bet P\u0113terim ir :math:`10` tru\u0161i. T\u0101tad noteikti ir t\u0101ds b\u016bris, kur\u0101 atrodas vismaz 4 tru\u0161i."
+        },
+        {
+            "type": "annotation",
+            "value": "\u0160ajos piem\u0113ros var\u0113ja lietot t\u0101l\u0101k doto Dirihl\u0113 principa visp\u0101rin\u0101jumu."
+        },
+        {
+            "type": "theorem",
+            "value": "**(Dirihl\u0113 princips)**: Ja vair\u0101k nek\u0101 :math:`m \\cdot n` objekt\u00ec j\u0101sadala :math:`n` grup\u0101s, tad noteikti b\u016bs grupa, kur\u0101 atrad\u012bsies vismaz :math:`(m + 1)` objekts."
+        },
+        {
+            "type": "proof",
+            "value": "Pie\u0146emsim pret\u0113jo, ka nevien\u0101 grup\u0101 nav vair\u0101k k\u0101 :math:`m` objekti. T\u0101 k\u0101 grupu pavisam ir :math:`n`, tad kop\u0101 nav izvietoti vair\u0101k k\u0101 :math:`m \\cdot n` objekti, bet grup\u0101s ir j\u0101sadala vair\u0101k nek\u0101 :math:`m \\cdot n` objekti. T\u0101tad pie\u0146\u0113mums ir aplams un noteikti ir grupa, kur\u0101 ir vair\u0101k nek\u0101 :math:`m`, tas ir, vismaz :math:`(m + 1)` objekts."
+        },
+        {
+            "type": "section_title",
+            "value": "Uzdevumu piem\u0113ri"
+        },
+        {
+            "type": "problem",
+            "value": "8. M\u0101kslinieku darbn\u012bc\u0101 izgatavotas 36 skulpt\u016bras, kuru masa ir :math:`490~\\text{kg}`, :math:`495~\\text{kg}`, :math:`500~\\text{kg}`, :math:`\\ldots`, :math:`665~\\text{kg}`. Vai visas \u0161\u012bs skulpt\u016bras var aizvest ar :math:`7` automa\u0161\u012bn\u0101m, ja katrai no t\u0101m kravasn\u012b\u0161a ir :math:`3` tonnas, ar katru automa\u0161\u012bnu dr\u012bkst veikt tikai vienu reisu un automa\u0161\u012bnas nedr\u012bkst p\u0101rslogot?"
+        },
+        {
+            "type": "solution",
+            "value": "Pamatotsim, ka pras\u012btais nav iesp\u0113jams. Ja katr\u0101 no septi\u0146\u0101m automa\u0161\u012bn\u0101m iekrautu ne vair\u0101k k\u0101 :math:`5` skulpt\u016bras, tad kop\u0101 pa vis\u0101m ma\u0161\u012bn\u0101m b\u016btu izvietotas ne vair\u0101k k\u0101 :math:`35` skulpt\u016bras, bet j\u0101izveto ir :math:`36` skulpt\u016bras. T\u0101tad noteikti ir t\u0101da ma\u0161ina, kur\u0101 b\u016btu j\u0101iekrauj vismaz se\u0161as skulpt\u016bras. Ta\u010du pat se\u0161u viegl\u0101ko skulpt\u016bru kop\u0113j\u0101 masa ir :math:`490 + 495 + 500 + 505 + 510 + 515 = 3015` kilogrami, t\u0101tad ir liel\u0101ka par masu, k\u0101du pie\u013caujams iekraut vien\u0101 automa\u0161\u012bn\u0101. Tas noz\u012bm\u0113, ka uzdevuma pras\u012bbas nav izpild\u0101mas."
+        },
+        {
+            "type": "solution",
+            "value": "Pamatotsim, ka pras\u012btais nav iesp\u0113jams. \u0160aj\u0101 uzdevum\u0101 \u201etru\u0161i\u201d ir skulpt\u016bras, \u201eb\u016bri\u201d -- automa\u0161\u012bnas. Iev\u0113rosim, ka :math:`36 = 7 \\cdot 5 + 1` skulpt\u016bras j\u0101sadala pa 7 automa\u0161\u012bn\u0101m. T\u0101d\u0101 p\u0113c Dirihle principa vismaz vien\u0101 automa\u0161\u012bn\u0101 j\u0101iekrauj vismaz 6 skulpt\u016bras. Ta\u010du pat se\u0161u viegl\u0101ko skulpt\u016bru kop\u0113j\u0101 masa ir :math:`490 + 495 + 500 + 505 + 510 + 515 = 3015` kilogrami, t\u0101tad ir liel\u0101ka par masu, k\u0101du pie\u013caujams iekraut vien\u0101 automa\u0161\u012bn\u0101. Tas noz\u012bm\u0113, ka uzdevuma pras\u012bbas nav izpild\u0101mas."
+        },
+        {
+            "type": "problem",
+            "value": "9. Profesora Ciparina olimpi\u0101d\u0113 bija :math:`3` uzdevumi. Taj\u0101 piedal\u012bj\u0101s :math:`100` skol\u0113ni. Pier\u0101d\u012bt, ka atrad\u012bsies vismaz :math:`13` skol\u0113ni, kas izr\u0113\u0137in\u0101ja vienu un to pa\u0161u uzdevumu (vai ar\u012b neizr\u0113\u0137in\u0101ja neievienu uzdevumu)! Katrs skol\u0113ns katru uzdevumu vai nu izr\u0113\u0137in\u0101ja, vai neizr\u0113\u0137in\u0101ja, da\u013c\u0113ji risin\u0101jumi netika iesniegti."
+        },
+        {
+            "type": "solution",
+            "value": "No tr\u012bs uzdevumiem var tikt izveidoti 8 da\u017e\u0101di atrisin\u0101to uzdevumu \u201ekomplekti\u201d (t.s.k., neviens atrisin\u0101ts uzdevums), tabul\u0101 ar \"+\" atz\u012bm\u0113ti tie uzdevumi, kuru skol\u0113ns izr\u0113\u0137in\u0101ja.\n\n.. figure:: ../tests/worksheets/pigeonhole_2025_page3A.png\n   :width: 246px\n\nJa katru \u201ekomplektu\u201d b\u016btu atrisin\u0101ju\u0161i ne vair\u0101k k\u0101 :math:`12` skol\u0113ni, tad skol\u0113nu kop\u0113jais skaits b\u016btu ne vair\u0101k k\u0101 :math:`12 \\cdot 8 = 96 < 100`. T\u0101tad ir vismaz :math:`13` skol\u0113ni, kas atrisin\u0101ju\u0161i vienus un tos pa\u0161us uzdevumus."
+        },
+        {
+            "type": "problem",
+            "value": "10. R\u016bti\u0146u virsotn\u0113s atz\u012bm\u0113ti 16 balti punkti (skat. 1. att.). Vai tie\u0161i septi\u0146us punktus var nokr\u0101sot melnus t\u0101, lai nek\u0101di tr\u012bs vien\u0101 kr\u0101s\u0101 nokr\u0101soti punkti neatrastos uz vienas taisnes?\n\n![](pigeonhole_2025_page3B.png)"
+        },
+        {
+            "type": "solution",
+            "value": "N\u0113, to nevar izdar\u012bt. Ja meln\u0101 kr\u0101s\u0101 nokr\u0101soti tie\u0161i septi\u0146i punkti, tad paliek devi\u0146i balti punkti. T\u0101 k\u0101 visi punkti izvietoti \u010detr\u0101s rind\u0101s, tad p\u0113c Dirihl\u0113 principa k\u0101d\u0101 no \u0161\u012bm rind\u0101m b\u016bs vismaz tr\u012bs balti punkti, bet tas ir pretrun\u0101 ar uzdevuma nosac\u012bjumiem."
+        },
+        {
+            "type": "problem",
+            "value": "11. Maisi\u0146\u0101 bija :math:`10` sarkanas, :math:`10` dzeltenas un :math:`10` za\u013cas lentes. Tautas deju kolekt\u012bva asto\u0146as meitenes katra izv\u0113l\u0113j\u0101s vienu lenti no \u0161\u012b maisi\u0146a.\n**(A)** Vai var apgalvot, ka tie\u0161i \u010detras meitenes izv\u0113l\u0113j\u0101s vien\u0101das kr\u0101sas lentes?\n**(B)** Vai noteikti ir vismaz tr\u012bs meitenes, kas izv\u0113l\u0113j\u0101s vien\u0101das kr\u0101sas lentes?\n**(C)** K\u0101ds maz\u0101kais skaits len\u0161u b\u016btu j\u0101iz\u0146em no maisi\u0146a, lai var\u0113tu apgalvot, ka vismaz \u010detras no t\u0101m ir vien\u0101 kr\u0101s\u0101?"
+        },
+        {
+            "type": "solution",
+            "value": "**(A)** N\u0113, piem\u0113ram, var\u0113tu gad\u012bties, ka 1 meitene izv\u0113l\u0113j\u0101s sarkanu lenti, 1 meitene -- dzeltenu lenti un :math:`6` meitenes -- za\u013cu lenti.  \n**(B)** J\u0101, noteikti. Ja katras kr\u0101sas lenti b\u016btu izv\u0113l\u0113ju\u0161\u0101s ne vair\u0101k k\u0101 :math:`2` meitenes, tad kop\u0101 b\u016btu ne vair\u0101k k\u0101 :math:`2 \\cdot 3 = 6` meitenes, bet t\u0101 ir pretruna ar doto, ka lentes izv\u0113l\u0113j\u0101s :math:`8` meitenes. T\u0101tad noteikti ir vismaz :math:`3` meitenes, kas izv\u0113l\u0113j\u0101s vienas kr\u0101sas lentes. (Izmantots Dirihle princips.)  \n**(C)** Pamatotsim, ka maz\u0101kais skaits len\u0161u, kas j\u0101iz\u0146em no maisi\u0146a, ir :math:`10`, un ka maz\u0101k iz\u0146emt nevar. Ar devi\u0146\u0101m (vai maz\u0101k) lent\u0113m nepietiktu, jo b\u016btu iesp\u0113jams, ka no katras kr\u0101sas ir pa :math:`3` lent\u0101m (vai maz\u0101k). T\u0101tad, ja no maisi\u0146a iz\u0146emt :math:`10` lentes, tad p\u0113c Dirihle principa noteikti vismaz \u010detras no t\u0101m b\u016btu vien\u0101 kr\u0101s\u0101."
+        },
+        {
+            "type": "annotation",
+            "value": "T\u0101l\u0101k dotais materi\u0101ls paredz\u0113ts galvenok\u0101rt 9.-12. kla\u0161u skol\u0113niem."
+        },
+        {
+            "type": "problem",
+            "value": "12. Skolas \u0113dn\u012bcas pusdienu pied\u0101v\u0101jum\u0101 ir divas da\u017e\u0101das zupas, divi da\u017e\u0101di pamat\u0113dieni un divi da\u017e\u0101di deserti. Pusdien\u0101s aizg\u0101ja :math:`200` skol\u0113ni, no katra \u0113dienu veida (zupa, pamat\u0113diens, deserts) katrs skol\u0113ns izv\u0113l\u0113j\u0101s ne vair\u0101k k\u0101 vienu \u0113dienu, pie tam nebija t\u0101da skol\u0113na, kur\u0161 ne\u0113da visp\u0101r neko. K\u0101ds ir liel\u0101kais skaits skol\u0113nu, kas noteikti pas\u016bt\u012bja vienu un to pa\u0161u?"
+        },
+        {
+            "type": "solution",
+            "value": "Pamatot, ka liel\u0101kais skol\u0113nu skaits, kas noteikti pas\u016bt\u012bja vienu un to pa\u0161u, ir :math:`8`. Iev\u0113rojam, ka katra veida \u0113dienu var izv\u0113l\u0113ties par vai nu neiek\u013caut komplekt\u0101, vai izv\u0113l\u0113ties vienu \u0113dienu. T\u0101tad katram \u0113diena veidam ir :math:`3` da\u017e\u0101das iesp\u0113jas. T\u0101 k\u0101 katrs skol\u0113ns izv\u0113l\u0113j\u0101s vismaz vienu no pied\u0101v\u0101tajiem \u0113dieniem (nevar gad\u012bties, ka no katra \u0113diena veida neizv\u0113las nevienu), ir iesp\u0113jamas :math:`3 \\cdot 3 \\cdot 3 - 1 = 26` da\u017e\u0101das pusdienu komplektu iesp\u0113jas."
+        },
+        {
+            "type": "solution",
+            "value": "Ja katru no \u0161\u012bm komplektiem b\u016btu izv\u0113l\u0113ju\u0161ies ne vair\u0101k k\u0101 :math:`7` skol\u0113ni, tad pusdien\u0101s b\u016btu aizg\u0101ju\u0161i ne vair\u0101k k\u0101 :math:`7 \\cdot 26 = 182` skol\u0113ni, kas ir pretrun\u0101 ar uzdevuma nosac\u012bjumiem. T\u0101tad noteikti ir :math:`8` skol\u0113ni, kas pas\u016bt\u012bja vienu un to pa\u0161u. Nevar apgalvot, ka vair\u0101k k\u0101 :math:`8` skol\u0113ni pas\u016bt\u012bja vienu un to pa\u0161u, jo ir iesp\u0113jams, ka pirmos :math:`18` no :math:`26` da\u017e\u0101dajiem pusdienu komplektiem izv\u0113l\u0113j\u0101s pa :math:`8` skol\u0113niem un atliku\u0161os :math:`8` pusdienu komplektus -- pa :math:`7` skol\u0113niem (tas ir, :math:`18 \\cdot 8 + 8 \\cdot 7 = 200`)."
+        },
+        {
+            "type": "text",
+            "value": "*Piez\u012bme.* Treknrakst\u0101 izcelta teksta viet\u0101 var b\u016bt, piem\u0113ram, ar\u012b \u0161\u0101ds spriedums: t\u0101 k\u0101 skol\u0113nu skaits ir :math:`200 = 7 \\cdot 26 + 18`, tad p\u0113c Dirihl\u0113 principa noteikti ir 8 skol\u0113ni, kas pas\u016bt\u012bja vienu un to pa\u0161u."
+        },
+        {
+            "type": "problem",
+            "value": "13. Pier\u0101d\u012bt, ka starp jebkuriem :math:`78` tr\u012bsciparu skait\u013ciem var atrast \u010detrus t\u0101dus skait\u013cus, kuru ciparu summas ir vien\u0101das!"
+        },
+        {
+            "type": "solution",
+            "value": "Pavisam iesp\u0113jamas :math:`27` da\u017e\u0101d\u0101s ciparu summas v\u0113rt\u012bbas:\n\n.. figure:: ../tests/worksheets/pigeonhole_2025_page4A.png\n   :width: 246px\n\nIev\u0113rojam, ka  \n**(1)** ciparu summa 1 un 27 katra ir tikai vienam skaitlim (100 un 999),\n**(2)** ciparu summa 2 un 26 katra ir tikai tr\u012bs skait\u013ciem (:math:`101; 110; 200` un :math:`899; 989; 998`). T\u0101d\u0113\u013c \u0161aj\u0101s grup\u0101s var\u0113tu b\u016bt ne vair\u0101k k\u0101 to, kurus :math:`78` tr\u012bsciparu skait\u013cus iez\u012bm\u0113s. Pie\u0146emsim, ka \u0161\u012bs \u010detras grupas ir maksim\u0101li piepild\u012btas -- taj\u0101s kop\u0101 ievietoti :math:`8` skait\u013ci. T\u0101d atliku\u0161aj\u0101s :math:`23` grup\u0101s j\u0101ievieto :math:`78 - 8 = 70` skait\u013ci."
+        },
+        {
+            "type": "text",
+            "value": "Ja katr\u0101 no \u0161\u012bm 23 grup\u0101m b\u016btu ievietoti ne vair\u0101k k\u0101 3 skait\u013ci, tad kop\u0101 b\u016btu izvietoti ne vair\u0101k k\u0101 :math:`3 \\cdot 23 = 69` skait\u013ci -- pretruna tam, ka :math:`78` skait\u013ci j\u0101izvieto :math:`70` skait\u013ci. L\u012bdz ar to noteikti ir t\u0101da grupa, kur\u0101 ir vismaz \u010detri skait\u013ci -- tie ar\u012b ir mekl\u0113tie \u010detri skait\u013ci, kuru ciparu summas ir vien\u0101das."
+        },
+        {
+            "type": "text",
+            "value": "Piez\u012bme. Treknrakst\u0101 izcelta teksta viet\u0101 var b\u016bt, piem\u0113ram, ar\u012b \u0161\u0101ds spriedums: t\u0101 k\u0101 :math:`70 = 3 \\cdot 23 + 1`, tad p\u0113c Dirihl\u0113 principa noteikti ir t\u0101da grupa, kur\u0101 ir vismaz \u010detri skait\u013ci -- tie ar\u012b ir mekl\u0113tie \u010detri skait\u013ci, kuru ciparu summas ir vien\u0101das."
+        },
+        {
+            "type": "problem",
+            "value": "14. Sporta z\u0101l\u0113 tren\u0113jas 32 cilv\u0113ki, kuri visi ir vismaz 21 gadu veci. Pier\u0101d\u012bt, ka no \u0161iem cilv\u0113kiem var atrast divus t\u0101dus, kuriem ir vair\u0101k nek\u0101 30 gadi vai 4 t\u0101dus, kuru gadu skaits ir vien\u0101ds!"
+        },
+        {
+            "type": "solution",
+            "value": "Pie\u0146emam pret\u0113jo tam, kas j\u0101pier\u0101da, tas ir, nav divu cilv\u0113ku, kuriem ir vair\u0101k nek\u0101 30 gadi un nav \u010detru cilv\u0113ku, kuriem ir vien\u0101ds gadu skaits. Sadal\u0101m cilv\u0113kus grup\u0101s p\u0113c to gadu skaita:\n\n.. math::\n\n    \\{21\\}; \\{22\\}; \\{23\\};\\ldots;\\{29\\}; \\{30\\}; \\{\\text{vair\u0101k nek\u0101 30}\\}.\n\nTad pirmaj\u0101s 10 grup\u0101s katr\u0101 ir ne vair\u0101k k\u0101 3 cilv\u0113ki un p\u0113d\u0113j\u0101 -- ne vair\u0101k k\u0101 viens cilv\u0113ks. T\u0101tad sporta z\u0101l\u0113 ir vismaz :math:`3 \\cdot 10 + 1 = 31` cilv\u0113ks. T\u0101d\u0113\u013c pie\u0146\u0113mums ir aplams un esam pier\u0101d\u012bju\u0161i, ka var atrast divus t\u0101dus cilv\u0113kus, kuriem ir vair\u0101k nek\u0101 30 gadi vai 4 t\u0101dus, kuru gadu skaits ir vien\u0101ds."
+        },
+        {
+            "type": "solution",
+            "value": "Sadal\u0101m cilv\u0113kus grup\u0101s p\u0113c to gadu skaita:\n\n.. math::\n\n    \\{21\\}; \\{22\\}; \\{23\\};\\;\\ldots\\;\\{29\\}; \\{30\\}; \\{\\text{vair\u0101k nek\u0101 30}\\}.\n\nApskat\u0101m divus iesp\u0113jamos gad\u012bjumus. 1) Ja p\u0113d\u0113j\u0101 grup\u0101 ir vismaz divi cilv\u0113ki, tad pras\u012btais izpild\u0101s. 2) Ja p\u0113d\u0113j\u0101 grup\u0101 ir maz\u0101k nek\u0101 divi cilv\u0113ki, tad pa atliku\u0161aj\u0101m 10 grup\u0101m j\u0101sadala vismaz 31 cilv\u0113ks. T\u0101 k\u0101 ir 10 grupas un vismaz :math:`31 = 3 \\cdot 10 + 1` cilv\u0113ks, tad p\u0113c Dirihle principa k\u0101d\u0101 no \u0161\u012bm grup\u0101m ir vismaz 4 cilv\u0113ki, t\u0101tad tiem gadu skaits ir vien\u0101ds."
+        },
+        {
+            "type": "section_title",
+            "value": "Uzdevumi treni\u0146am"
+        },
+        {
+            "type": "problem",
+            "value": "1. K\u0101ds maz\u0101kais skaits cilv\u0113ku ir nepiecie\u0161ams, lai garant\u0113tu to, ka a) 2 cilv\u0113kiem, b) 3 cilv\u0113kiem dzim\u0161anas diena sakr\u012bt?"
+        },
+        {
+            "type": "problem",
+            "value": "2. Doti 12 da\u017e\u0101di divciparu skait\u013ci. Pamatot, ka var izv\u0113l\u0113ties divus no tiem, lai to starp\u012bba b\u016btu divciparu skaitlis, kura abi cipari ir vien\u0101di!"
+        },
+        {
+            "type": "problem",
+            "value": "3. Vair\u0101k\u0101s kaudz\u012bt\u0113s kop\u0101 ir 58 s\u0113rkoci\u0146i; nevien\u0101 kaudz\u012bt\u0113 nav maz\u0101k k\u0101 1 s\u0113rkoci\u0146\u0161 un nav vair\u0101k k\u0101 12 s\u0113rkoci\u0146i. Pier\u0101d\u012bt, ka ir divas kaudz\u012btes, kur\u0101s ir vien\u0101ds s\u0113rkoci\u0146u skaits, vai ir divas kaudz\u012btes, kur\u0101s kop\u0101 ir tie\u0161i 13 s\u0113rkoci\u0146i!"
+        },
+        {
+            "type": "problem",
+            "value": "4. Katr\u0101 no 16 mazajiem trijst\u016briem (skat. 3. att.) ir ierakst\u012bts viens skaitlis, pavisam ierakst\u012bti septi\u0146i trijnieki un devi\u0146i piecinieki. Pier\u0101d\u012bt, ka var izv\u0113l\u0113ties t\u0101du trijst\u016bri, k\u0101 par\u0101d\u012bts 4. att., kur\u0101 ierakst\u012bto skait\u013cu summa ir vismaz 18."
+        },
+        {
+            "type": "annotation",
+            "value": "T\u0101l\u0101k dotie uzdevumi paredz\u0113ti galvenok\u0101rt 9.-12. kla\u0161u skol\u0113niem."
+        },
+        {
+            "type": "problem",
+            "value": "5. No pirmajiem 100 natur\u0101lajiem skait\u013ciem izv\u0113l\u0113ts 51 skaitlis. Pier\u0101d\u012bt, ka no tiem var izv\u0113l\u0113ties divus, no kuriem viens dal\u0101s ar otru!"
+        },
+        {
+            "type": "problem",
+            "value": "6. Pier\u0101d\u012bt, ka no septi\u0146iem patva\u013c\u012bgiem natur\u0101liem skait\u013ciem var izv\u0113l\u0113ties divus t\u0101dus skait\u013cus, kuru kvadr\u0101tu starp\u012bba dal\u0101s ar 11."
+        },
+        {
+            "type": "problem",
+            "value": "7. P\u0113ter\u012btim bija 100 apl\u012b\u0161i, uz kuriem uzrakst\u012bti natur\u0101lie skait\u013ci no 1 l\u012bdz 100 (uz katra apl\u012b\u0161a cits skaitlis). Skolot\u0101ja lika izv\u0113l\u0113ties 4 apl\u012b\u0161us un izvietot tos t\u0101, lai b\u016btu patiesa vien\u0101d\u012bba :math:`O + O = O + O`. Apl\u012b\u0161i bija izb\u0113rti uz gr\u012bdas, un l\u012bdz \u0161\u012b uzdevuma sa\u0146em\u0161anai P\u0113teris bija paguvis sav\u0101kt tikai 21 apl\u012bti. Vai ar tiem vi\u0146am noteikti pietika, lai izpild\u012btu skolot\u0101jas uzdevumu?"
+        },
+        {
+            "type": "problem",
+            "value": "8. Pier\u0101d\u012bt, ka starp jebkuriem 35 divciparu skait\u013ciem var atrast tr\u012bs t\u0101dus skait\u013cus, kuru ciparu summas ir vien\u0101das!"
+        },
+        {
+            "type": "problem",
+            "value": "9. Dots natur\u0101ls skaitlis :math:`n`, kas nedal\u0101s ar 2 un 5. Pamatot, ka past\u0101v t\u0101ds skait\u013ca :math:`n` daudzskaitlis, kas sast\u0101v tikai no vieniniekiem!"
+        },
+        {
+            "type": "title",
+            "value": "Uzdevumu atrisin\u0101jumi"
+        },
+        {
+            "type": "problem",
+            "value": "1. Cik cilv\u0113ki ir nepiecie\u0161ami, lai garant\u0113tu to, ka **(A)** 2 cilv\u0113kiem, **(B)** 3 cilv\u0113kiem dzim\u0161anas diena sakr\u012bt?"
+        },
+        {
+            "type": "solution",
+            "value": "**(A)** Maz\u0101kais skaits cilv\u0113ku ir 367. Pamatosim, ka ar maz\u0101k cilv\u0113kiem nepietiek. Ja b\u016btu ne vair\u0101k k\u0101 366 cilv\u0113ki, tad var\u0113tu gad\u012bties, ka katram dzim\u0161anas diena ir cit\u0101 dien\u0101 (ieskaitot 29. febru\u0101ri), t\u0101p\u0113c ir nepiecie\u0161ami vismaz 367 cilv\u0113ki, lai, izmantojot Dirihl\u0113 principu, garant\u0113tu to, ka vismaz 2 cilv\u0113kiem dzim\u0161anas diena sakr\u012bt.\n**(B)** L\u012bdz\u012bgi, izmantojot Dirihl\u0113 principu, varam spriest, ka b\u016btu nepiecie\u0161ami vismaz :math:`2 \\cdot 366 + 1 = 733` cilv\u0113ki, lai garant\u0113tu to, ka vismaz 3 cilv\u0113kiem dzim\u0161anas diena sakr\u012bt."
+        },
+        {
+            "type": "problem",
+            "value": "2. Katr\u0101 no 16 mazajiem trijst\u016briem (skat. \n5. att. un 6. att.) ir ierakst\u012bts viens skaitlis, pavisam ierakst\u012bti septi\u0146i trijnieki un devi\u0146i piecinieki. Pier\u0101d\u012bt, ka var izv\u0113l\u0113ties t\u0101du trijst\u016bri, k\u0101 par\u0101d\u012bts 6. att., kur\u0101 ierakst\u012bto skait\u013cu summa ir vismaz 18."
+        },
+        {
+            "type": "solution",
+            "value": "Sadal\u012bsim s\u0101kotn\u0113jo trijst\u016bri \u010detros trijst\u016bros ar malas garumu 2 (skat 7. att.). T\u0101 k\u0101 ir \u010detri \u0161\u0101di trijst\u016bri (kas nep\u0101rkl\u0101jas), un tajos ierakst\u012bti 9 piecinieki, t\u0101p\u0113c Dirihl\u0113 principa k\u0101d\u0101 no \u0161iem trijst\u016briem b\u016bs vismaz tr\u012bs piecinieki, t\u0101p\u0113c taj\u0101 ierakst\u012bto skait\u013cu summa ir vismaz :math:`5 + 5 + 5 + 3 = 18`, k\u0101 bija j\u0101pier\u0101da."
+        },
+        {
+            "type": "problem",
+            "value": "3. Vair\u0101k\u0101s kaudz\u012bt\u0113s kop\u0101 ir 58 s\u0113rkoci\u0146i; nevien\u0101 kaudz\u012bt\u0113 nav maz\u0101k k\u0101 1 s\u0113rkoci\u0146\u0161 un nav vair\u0101k k\u0101 12 s\u0113rkoci\u0146i. Pier\u0101d\u012bt, ka ir divas kaudz\u012btes, kur\u0101s ir vien\u0101ds s\u0113rkoci\u0146u skaits, vai ir divas kaudz\u012btes, kur\u0101s kop\u0101 ir tie\u0161i 13 s\u0113rkoci\u0146i!"
+        },
+        {
+            "type": "solution",
+            "value": "Pie\u0146emsim pret\u0113jo tam, kas j\u0101pier\u0101da, tas ir, nav divu kaudz\u012b\u0161u, kur\u0101s ir vien\u0101ds s\u0113rkoci\u0146u skaits un nav divu kaudz\u012b\u0161u, kur\u0101s kop\u0101 ir tie\u0161i 13 s\u0113rkoci\u0146i. Tad no natur\u0101lu skait\u013cu p\u0101ra :math:`(1; 12), (2; 11), (3; 10), (4; 9), (5; 8), (6; 7)` ne vair\u0101k k\u0101 viens skaitlis k\u0101d\u0101 kaudz\u012bt\u0113. T\u0101p\u0113c s\u0113rkoci\u0146u nav vair\u0101k k\u0101 :math:`7 + 8 + 9 + 10 + 11 + 12 = 57` (no katra skait\u013cu p\u0101ra izv\u0113l\u0113j\u0101s liel\u0101ko skaitli) -- pretruna. T\u0101tad pie\u0146\u0113mums ir aplams un, ja ir divas kaudz\u012btes, kur\u0101s ir vien\u0101ds s\u0113rkoci\u0146u skaits, vai ir divas kaudz\u012btes, kur\u0101s kop\u0101 ir tie\u0161i 13 s\u0113rkoci\u0146i."
+        },
+        {
+            "type": "problem",
+            "value": "4. Doti 12 da\u017e\u0101di divciparu skait\u013ci. Pamatojot, ka var izv\u0113l\u0113ties divus no tiem, lai to starp\u012bb\u0101 b\u016btu divciparu skaitlis, kura abi cipari ir vien\u0101di!"
+        },
+        {
+            "type": "solution",
+            "value": "Apskat\u012bsim vispirms tos divciparu skait\u013cus, kuriem abi cipari ir vien\u0101di. Tie ir:\n\n.. math::\n\n    11; 22; 33; 44; 55; 66; 77; 88; 99.\n\nIev\u0113rojam, ka tie ir visi divciparu skait\u013ci, kas dal\u0101s ar 11. Atliek pamatot, ka no dotajiem 12 divciparu skait\u013ciem var atrast 2 t\u0101dus, kuru starp\u012bba dal\u0101s ar 11. T\u0101 k\u0101 ir doti 12 skait\u013ci, bet skaitlim, dalot ar 11, ir iesp\u0113jami tikai 11 da\u017e\u0101di atlikumi, tad p\u0113c Dirihl\u0113 principa noteikti b\u016bs divi t\u0101di skait\u013ci, kuru dos vien\u0101du atlikumu, dalot ar 11. T\u0101tad vienm\u0113r var\u0113s atrast divus skait\u013cus no dotajiem 12 skait\u013ciem, lai to starp\u012bba dal\u012btos ar 11. Turkl\u0101t \u0161\u012b starp\u012bba noteikti b\u016bs divciparu skaitlis, jo p\u0113c dot\u0101 visi skait\u013ci ir da\u017e\u0101di un t\u0101p\u0113c nav iesp\u0113jams ieg\u016bt vien\u012bgo skaitli, kas dal\u0101s ar 11, kas ir maz\u0101ks par divciparu skaitli, tas ir, skaitli 0."
+        },
+        {
+            "type": "problem",
+            "value": "5. No pirmajiem 100 natur\u0101lajiem skait\u013ciem izv\u0113l\u0113t 51 skaitlis. Pier\u0101d\u012bt, ka no tiem var izv\u0113l\u0113ties divus, no kuriem viens dal\u0101s ar otru!"
+        },
+        {
+            "type": "solution",
+            "value": "Visus natur\u0101los skait\u013cus no 1 l\u012bdz 100 sadal\u012bsim 50 grup\u0101s: katru nep\u0101ra skaitli ievietosim cit\u0101 grup\u0101 (pavisam ir 50 nep\u0101ra skait\u013ci). Iev\u0113rojam, katru p\u0101ra skaitli p var izteikt k\u0101 nep\u0101ra skait\u013ca n un divnieka pak\u0101pes reizin\u0101jumu, tas ir, :math:`p = n \\cdot 2^k`, kur k ir k\u0101ds natur\u0101ls skaitlis. P\u0101ra skaitli p ievietosim vien\u0101 grup\u0101 ar tam atbilsto\u0161o nep\u0101ra skaitli n. Pirm\u0101s grupas ir\n\n.. math::\n\n    \\{1; 2; 4; 8; 16; 32; 64\\},\\;\\; \\{3; 6; 12; 24; 48; 96\\},\\;\\; \\{5; 10; 20; 40; 80\\}\\;\\;\\text{utt.}\n\nIzv\u0113loties jebkurus divus skait\u013cus no vienas grupas, liel\u0101kais skaitlis dal\u0101s ar maz\u0101ko (dal\u012bjums ir divnieka pak\u0101pe)."
+        },
+        {
+            "type": "problem",
+            "value": "6. Pier\u0101d\u012bt, ka no septi\u0146iem patva\u013c\u012bgiem natur\u0101liem skait\u013ciem var izv\u0113l\u0113ties divus t\u0101dus skait\u013cus, kuru kvadr\u0101tu starp\u012bba dal\u0101s ar :math:`11`."
+        },
+        {
+            "type": "solution",
+            "value": "Apr\u0113\u0137in\u0101m, k\u0101dus atlikumus p\u0113c modu\u013ca 11 dod natur\u0101lu skait\u013cu kvadr\u0101ti:\n\n.. figure:: ../tests/worksheets/pigeonhole_2025_page7A.png\n   :width: 246px\n\nT\u0101tad natur\u0101la skait\u013ca kvadr\u0101ts, dalot ar :math:`11`, var dot tikai se\u0161us da\u017e\u0101dus atlikumus: :math:`0`, :math:`1`, :math:`3`, :math:`4`, :math:`5` vai :math:`9`. T\u0101 k\u0101 doti septi\u0146i skait\u013ci, tad no Dirihl\u0113 principa izriet, ka divu skait\u013cu kvadr\u0101ti, dalot ar :math:`11`, dod vien\u0101dus atlikumus. Izv\u0113loties \u0161os skait\u013cus, ieg\u016bstam vajadz\u012bgo -- to kvadr\u0101tu starp\u012bba dal\u0101s ar :math:`11`."
+        },
+        {
+            "type": "problem",
+            "value": "7. P\u0113ter\u012btim bija :math:`100` apl\u012b\u0161i, uz kuriem uzrakst\u012bti natur\u0101lie skait\u013ci no 1 l\u012bdz 100 (uz katra apl\u012b\u0161a cits skaitlis). Skolot\u0101ja lika izv\u0113l\u0113ties 4 apl\u012b\u0161us un izvietot tos t\u0101, lai b\u016btu patiesa vien\u0101d\u012bba :math:`O + O = O + O`. Apl\u012b\u0161i bija izbr\u016bz\u012bti uz gr\u012bdas, un l\u012bdz \u0161\u012b uzdevuma sa\u0146em\u0161anai P\u0113teris bija paguvis sav\u0101kt tikai :math:`21` apl\u012bti. Vai ar tiem vienm\u0113r noteikti pietika, lai izpild\u012btu skolot\u0101jas uzdevumu?"
+        },
+        {
+            "type": "solution",
+            "value": "No P\u0113ter\u012b\u0161a salas\u012btajiem apl\u012b\u0161iem var izveidot :math:`\\binom{21}{2} = 210` da\u017e\u0101du skait\u013cu p\u0101rus (p\u0101rus, kas at\u0161\u0137iras tikai ar apl\u012b\u0161u sec\u012bbu, uzskat\u0101m par vien\u0101diem). \u0160os p\u0101rus t\u0101l\u0101kaj\u0101 spriedum\u0101 uzskat\u012bsim par \"tru\u0161iem\". Apskat\u0101m, k\u0101das var b\u016bt vien\u0101 p\u0101r\u012b ietilpsto\u0161o skait\u013cu summas. Maz\u0101k\u0101 summas v\u0113rt\u012bba ir :math:`1 + 1 = 2`; liel\u0101k\u0101 summas v\u0113rt\u012bba ir :math:`99 + 100 = 199`. T\u0101tad pavisam iesp\u0113jamas 197 da\u017e\u0101das summas v\u0113rt\u012bbas: :math:`3; 4; 5; \\ldots; 197; 198; 199`. \u0160\u012bs da\u017e\u0101d\u0101s v\u0113rt\u012bbas uzskat\u0101m par \"b\u016br\u012bem\". T\u0101 k\u0101 \"tru\u0161u\" ir vair\u0101k nek\u0101 \"b\u016bru\", tad p\u0113c Dirihl\u0113 principa k\u0101d\u0101 \"b\u016br\u012b\" ir vismaz divi \"tru\u0161i\". Tas noz\u012bm\u0113, ka P\u0113ter\u012btim ir divi apl\u012b\u0161u p\u0101ri, kuros ietilpsto\u0161o skait\u013cu summas ir vien\u0101das; pie\u0146emsim, ka :math:`A + B = C + D` (p\u0101ri ir A, B un C, D). Pamatosim, ka neviens skaitlis neietilpst abos p\u0101ros. Ja, pie\u0146emot, :math:`A = C`, tad no :math:`A + B = C + D` sekotu ar\u012b :math:`B = D` un p\u0101ri :math:`A, B` un :math:`C, D` neb\u016btu da\u017e\u0101di. T\u0101pat ar\u012b, ja atrastu apl\u012b\u0161us :math:`A, B, C, D` ir da\u017e\u0101di, t\u0101p\u0113c P\u0113ter\u012btim no tiem var izvietot vien\u0101d\u012bbu :math:`A + B = C + D`."
+        },
+        {
+            "type": "problem",
+            "value": "8. Pier\u0101d\u012bt, ka starp jebkuriem 85 dv\u012bzju skait\u013ciem var atrast tr\u012bs t\u0101dus skait\u013cus, kuru ciparu summas ir vien\u0101das!"
+        },
+        {
+            "type": "solution",
+            "value": "Izveidosim tabulu -- gar t\u0101s horizont\u0101lo rindu ierakst\u012bsim visas iesp\u0113jam\u0101s skait\u013ca pirm\u0101 cipara v\u0113rt\u012bbas un gar vertik\u0101lo rindu -- p\u0113d\u0113j\u0101 cipara v\u0113rt\u012bbas. Tabulas r\u016bti\u0146\u0101s ierakst\u012bsim kolonnas un rindi\u0146as numuru summu (sk. att.). Esam izveidoju\u0161i atbilst\u012bbu starp skait\u013ciem un to ciparu summ\u0101m.\n\n.. figure:: ../tests/worksheets/pigeonhole_2025_page7B.png\n   :width: 246px\n\nTabul\u0101 atrodami visi divciparu skait\u013ci no 10 l\u012bdz 99. Pavisam iesp\u0113jamas 18 da\u017e\u0101das ciparu summas v\u0113rt\u012bbas (varam izveidot 18 da\u017e\u0101das grupas). Iev\u0113rojam, ka\n1) ciparu summa 1 un 18 katra ir tikai vienam skaitlim (10 un 99),\n2) ciparu summa 2 un 17 katra ir tikai diviem skait\u013ciem (11; 20 un 89; 98). T\u0101tad \u0161aj\u0101s grup\u0101s var\u0101k skait\u013cu nevar b\u016bt neatkar\u012bgi no t\u0101, k\u0101dus 35 skait\u013cus izv\u0113lamies."
+        },
+        {
+            "type": "text",
+            "value": "Pie\u0146emsim, ka \u0161\u012bs 4 grupas ir maksim\u0101li piepild\u012btas -- taj\u0101s kop\u0101 ievietoti 6 skait\u013ci. Tad atliku\u0161aj\u0101s 14 grup\u0101s j\u0101ievieto 29 skait\u013ci. Bet p\u0113c Dirihl\u0113 principa noteikti ir t\u0101da grupa, kur\u0101 ir vismaz tr\u012bs skait\u013ci -- tie ar\u012b ir mekl\u0113tie tr\u012bs skait\u013ci, kuru ciparu summas ir vien\u0101das."
+        },
+        {
+            "type": "problem",
+            "value": "9. Dots natur\u0101ls skaitlis :math:`n`, kas nedal\u0101s ar :math:`2` un :math:`5`. Pamatojiet, ka past\u0101v t\u0101ds skait\u013ca :math:`n` daudzk\u0101rtnis, kas sast\u0101v tikai no vieniniekiem."
+        },
+        {
+            "type": "solution",
+            "value": "Apskat\u012bsim :math:`n` skait\u013cus :math:`1`; :math:`11`; :math:`111`; :math:`1111`; :math:`\\ldots` ; :math:`11 \\cdots 1`. \u0160iem skait\u013ciem ir :math:`n` iesp\u0113jamie atlikumi, dalot ar :math:`n`, tas ir, :math:`0, 1, 2, \\ldots, n - 1`. Ja k\u0101dam no skait\u013ciem atlikums ir :math:`0`, tad tas ir mekl\u0113tais daudzk\u0101rtnis. Pret\u0113j\u0101 gad\u012bjum\u0101 ir iesp\u0113jami :math:`n-1` atlikumi un p\u0113c Dirihl\u0113 principa b\u016bs divi t\u0101di skait\u013ci, kuru starp\u012bba dal\u012bsies ar :math:`n`. \u0160\u012b starp\u012bba b\u016bs izskat\u0101 :math:`111 \\cdots 100 \\cdots 0`. T\u0101 k\u0101 :math:`n` nedal\u0101s ar :math:`2` un :math:`5`, tad :math:`n` nevar satur\u0113t nevienu 10-nieka pak\u0101pi, t\u0101p\u0113c no skait\u013ca :math:`111 \\cdots 100 \\cdots 0` varam nodz\u0113st nulles un tas v\u0113l joproj\u0101m dal\u012bsies ar :math:`n`. Rezult\u0101t\u0101 ieg\u016bstam skaitli, kas sast\u0101v tikai no vieniniekiem un kas dal\u0101s ar :math:`n`, t. i., ir skait\u013ca n daudzk\u0101rtnis."
+        }
+    ]
+}

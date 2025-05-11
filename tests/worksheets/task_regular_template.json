@@ -1,0 +1,9 @@
+{
+    "task": {
+        "query": "..."
+    },
+    "implementation": {},
+    "result": {
+        "template": "templates/regular.rst.jinja"
+    }
+}

@@ -1,0 +1,47 @@
+{% for snippet in main.snippets %}
+{% if snippet.type == "title" %}
+{{ snippet.value }}
+=====================================================================
+
+{% elif snippet.type == "subtitle" %}
+.. class:: center
+
+**{{ snippet.value }}**
+
+{% elif snippet.type == "text" %} 
+{{ snippet.value }}
+
+
+{% elif snippet.type == "example" %}
+*{{ snippet.value }}*
+
+{% elif snippet.type == "section_title" %}
+{{ snippet.value }}
+-------------------------------------------------------------------------
+
+{% elif snippet.type == "theorem" %}
+**Teorēma:** {{ snippet.value }}
+
+{% elif snippet.type == "proof" %}
+*Pierādījums:* {{ snippet.value }}
+
+{% elif snippet.type == "problem" %}
+{{ snippet.value }}
+(sk. {{ snippet.problemid }})
+
+{% elif snippet.type == "solution" %}
+*Atrisinājums:* {{ snippet.value }}
+
+
+{% elif snippet.type == "annotation" %}
+*{{ snippet.value }}*
+
+{% elif snippet.type == "fix" %}
+**Labojums:** {{ snippet.value }}
+
+{% else %}
+XXXXX {{ snippet.type }}: {{ snippet.value }}
+
+{% endif %}
+{% endfor %}
+

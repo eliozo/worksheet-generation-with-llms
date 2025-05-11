@@ -1,0 +1,19 @@
+{
+    "task": {
+        "query": "**Vajadzīgais saturs:** Darba lapa 90 minūšu nodarbībai pirms novada olimpiādes. **Apmācāmie:** 8.klases skolēni, nav daudz patstāvīgi gatavojušies, bet izgājuši Rīgas ģimnāziju iestājeksāmenus pēc 6.klases. Viņiem patīk neformāla valoda, animācijas seriāls Arcane. **Mācību tēmas:**  Dirihlē princips ar piemēriem par kombinatoriku, kombinatorisko ģeometriju vai skaitļu teoriju. Olimpiāžu stila uzdevumiem jābūt ar dažādu tipu jautājumiem (pierādījumi, piemēri, optimizācijas uzdevumi), lai skolēni vingrinātos ievērot pareizu, uzdevuma prasībām atbilstošu atrisinājuma struktūru. **Atbildes formāts:** Lūdzu izveidot pavisam 10 uzdevumu komplektu aprakstītajai situācijai: Vispirms 2 ievaduzdevumus, tad īsu teorijas pārskatu (komplektam nepieciešamās prasmes - par Dirihlē principu un dažādām atrisinājumu struktūrām). Visbeidzot 8 uzdevumus ar pieaugošu grūtības pakāpi. Visu 10 uzdevumu atrisinājumus (konspektīvus, kas nav domāti kā paraugs atrisinājumu noformēšanai olimpiādē) ievietot darba lapas beigās.",
+        "title": "Dirihlē princips un kombinatorika",
+        "grade": 8,
+        "age": 14,
+        "problemcount": 10,
+        "worksheet": "../tests/create-task/worksheet.json",
+        "template": "templates/regular.rst.jinja",
+        "domain": "Comb",
+        "learners": {
+            "prerequisite_knowledge": "Students have passed competitive gymnasium entrance exams after 6th grade but have not independently prepared much for olympiads. They are familiar with basic mathematics but have not studied the Pigeonhole principle in depth.",
+            "likes": "They enjoy informal language and the animated series Arcane.",
+            "dislikes": "Overly formal presentation and lack of varied or engaging problem types may not appeal to them."
+        },
+        "format_notes": "Worksheet for a 90-minute lesson prior to a regional Olympiad for 8th-grade students (who have passed gymnasium entrance exams in Riga after 6th grade but have not done much independent preparation). Structure: 2 introductory problems, a brief theory overview outlining required skills (Dirichlet's principle, various solution structures), followed by 8 main problems with increasing difficulty. Problems should cover combinatorics, combinatorial geometry, and number theory, include a mix of proof, example, and optimization question types, and encourage students to practice correctly structured answers. Informal tone encouraged, with optional Arcane animation references. Concise (not fully worked-out) solutions for all 10 problems appear at the worksheet's end; these are summaries, not model Olympiad answers."
+    },
+    "result": {}
+}

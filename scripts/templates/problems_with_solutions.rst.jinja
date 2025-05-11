@@ -1,0 +1,23 @@
+{{ title }}
+=========================================================================================
+
+{% for problem in problems %}
+
+**{{ problem.problemID }}**
+
+{{ problem.problemText_lv }}
+
+{% endfor %}
+
+
+Atrisinājumi
+--------------
+
+{% for problem in problems %}
+
+**{{ problem.problemID }}**
+
+{{ problem.problemSolutionShort_lv }}
+
+{% endfor %}
+

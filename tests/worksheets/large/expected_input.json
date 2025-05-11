@@ -1,0 +1,48 @@
+{ "snippets": [
+  { 
+    "type": "example", 
+    "value": "Pēterim ir $3$ truši un $2$ būri. Visi truši atrodas būros. Vai noteikti kādā no šiem būriem ir (1) vismaz divi truši?", 
+    "value_fixed": "Pēterim ir $3$ truši un $2$ būri. Visi truši atrodas būros. Vai noteikti kādā no šiem būriem jābūt vismaz diviem trušiem?",
+    "rule": "P006L"
+  }, 
+            
+  {
+    "type": "problem",
+    "value": "Vai noteikti ir (1) tāds mēnesis, kurā savu dzimšanas dienu atzīmē vismaz četri šīs klases skolēni?",
+    "value_fixed": "Vai noteikti jābūt tādam mēnesim, kurā savu dzimšanas dienu atzīmē vismaz četri šīs klases skolēni?",
+    "rule": "P006L"
+  },
+  {
+    "type": "example",
+    "value": "Vai noteikti kādā no šiem būriem ir (1) vismaz $3$ truši?",
+    "value_fixed": "Vai noteikti kādā no šiem būriem jābūt vismaz $3$ trušiem?",
+    "rule": "P006L"
+  },
+  {
+    "type": "example",
+    "value": "Vai mēs varētu apgalvot, ka noteikti ir (1) tāds būris, kurā ir vismaz $4$ truši?",
+    "value_fixed": "Vai mēs varētu apgalvot, ka noteikti jābūt tādam būrim, kurā ir vismaz $4$ truši?",
+    "rule": "P006L"
+  },
+  {
+    "type": "problem",
+    "value": "Vai noteikti ir (1) vismaz trīs meitenes, kas izvēlējās vienādas krāsas lentes?",
+    "value_fixed": "Vai noteikti jābūt vismaz trīs meitenēm, kas izvēlējās vienādas krāsas lentes?",
+    "rule": "P006L"
+  },
+  {
+    "type": "problem",
+    "value": "Kāds mazākais skaits lenšu būtu jāizņem no maisiņa, lai varētu apgalvot, ka vismaz četras no tām ir vienā krāsā?",
+    "value_fixed": "Kāds ir mazākais skaits lenšu, kas būtu jāizņem no maisiņa, lai varētu apgalvot, ka vismaz četras no tām ir vienā krāsā?",
+    "rule": "P006G"
+  }, 
+  {
+    "type": "problem",
+    "value": "1. Kāds mazākais skaits cilvēku ir nepieciešams, lai garantētu to, ka a) 2 cilvēkiem, b) 3 cilvēkiem dzimšanas diena sakrīt?",
+    "value_fixed": "1. Kāds ir mazākais cilvēku skaits, kas nepieciešams, lai garantētu to, ka a) 2 cilvēkiem, b) 3 cilvēkiem dzimšanas diena sakrīt?",
+    "rule": "P006G"
+  }
+
+]}
+
+

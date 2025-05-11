@@ -1,0 +1,7 @@
+{
+  "grade": 8,
+  "age": 14,
+  "estimated_problem_count": 10,
+  "topic_summary": "Dirichlet's principle (Pigeonhole principle) with examples from combinatorics, combinatorial geometry, and number theory. Problems should be in the style of math olympiads and include various question types (proofs, examples, optimization). Students may not have studied all content independently but are familiar with competitive entrance exams.",
+  "format_notes": "Worksheet consists of: 2 introductory problems, a brief theory overview (skills needed—Dirichlet's principle and types of solution structures), 8 main problems with increasing difficulty, and solutions (in summary form, not intended as answer keys) at the end. Problems should use an informal tone and, optionally, references to Arcane animation series."
+}
