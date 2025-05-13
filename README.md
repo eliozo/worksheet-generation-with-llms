@@ -1,6 +1,6 @@
 # worksheet-generation-with-llms
-Master's degree project "Creating Worksheets with Large Language Models"
-Author: Elizabete Ozoliņa, University of Latvia, 2025
+Master's degree project "Creating Worksheets with Large Language Models"  
+Author: Elizabete Ozoliņa, University of Latvia, 2025  
 
 Commandline tool to create math olympiad worksheets!
 
@@ -15,7 +15,7 @@ FUSEKI_USER=...
 FUSEKI_PASSWORD=...
 ```
 
-Also you need to install Python and install necessary libraries:
+Also you need to install Python and install necessary libraries:  
 **Suggestion:** Use virtual environment instead of default Python to have less issues ;) 
 ```
 pip install jenkins
