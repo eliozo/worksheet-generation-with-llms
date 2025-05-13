@@ -1,13 +1,1 @@
-{
-    "task": {
-        "query": "**Vajadzīgais saturs:** Darba lapa 90 minūšu nodarbībai par nelielu veselu skaitļu aritmētiku, dalāmību ar 2 un 5, un iteratīvi definētām virknēm. **Apmācāmie:** 8.klases skolēni, viņiem patīk neformāla valoda un pasakas Vinnija Pūka varoņi. **Atbildes formāts:** Lūdzu izveidot pavisam 10 uzdevumu komplektu aprakstītajai situācijai: Vispirms 2 ievaduzdevumus, tad īsu teorijas pārskatu un pēc tam 8 pamatuzdevumus. Visbeidzot visu 10 uzdevumu atrisinājumus (konspektīvus, kas nav domāti kā paraugs atrisinājumu noformēšanai olimpiādē) ievietot darba lapas beigās.",
-        "title": "Veselu skaitļu izteiksmes",
-        "grade": 8,
-        "age": 14,
-        "problemcount": 10,
-        "worksheet": "../tests/create-task/worksheet.json",
-        "template": "templates/regular.rst.jinja",
-        "domain": "Alg"
-    },
-    "result": {}
-}
+{}

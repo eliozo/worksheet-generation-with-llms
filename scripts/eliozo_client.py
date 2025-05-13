@@ -234,17 +234,13 @@ class EliozoClient:
         (retvalue, data) = weaviateUtils.ingest_classifier_data(property, turtle)
         return (retvalue, data)
 
-    async def get_classifiers(self, query):
-        weaviateUtils = WeaviateUtils(self.weaviate_url, 
-                            self.weaviate_api_key, 
-                            self.openai_api_key)
-
-        print(f'get_classifiers: Getting classifier data from Weaviate')
-        #(retvalue, data) = weaviateUtils.ingest_classifier_data(property, turtle)
-        query = "Dirihlē princips"
-        results = weaviateUtils.near_search("Classifier", query, 10)
-        print(results)
-        return (0, {})
+    def get_classifiers(self):
+        print(f'get_classifiers: Getting classifier data from OpenAI function agent')
+        agentUtils = OpenaiFunctionAgent(self.openai_api_key, self.fuseki_url, self.fuseki_user, self.fuseki_password, self.weaviate_url, self.weaviate_api_key)
+        with open(self.reference, 'r', encoding='utf-8') as f:
+            task_data = json.load(f)
+        (retvalue, new_task_data) = agentUtils.ask_to_find_topics(task_data)
+        return (retvalue, new_task_data)
 
     def create_task(self, query):
         retcode = 0
@@ -599,7 +595,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
     ingest_classifiers_parser.add_argument('--reference', type=str, default=None, help=arg_h['ingest-classifiers']['--reference'])
 
     get_classifiers_parser = subparsers.add_parser('get-classifiers', help=cmd_h['get-classifiers'])
-    get_classifiers_parser.add_argument('query', type=str, help=arg_h['get-classifiers']['query'])
+    #get_classifiers_parser.add_argument('query', type=str, help=arg_h['get-classifiers']['query'])
     get_classifiers_parser.add_argument('--reference', type=str, default=None, help=arg_h['get-classifiers']['--reference'])
 
     create_task_parser = subparsers.add_parser('create-task', help=cmd_h['create-task'])
@@ -696,8 +692,8 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         (retvalue, data) = eliozo_client.ingest_classifiers(args.cluster, args.property, args.turtle)
 
     elif args.command == 'get-classifiers':
-        #(retvalue, data) = eliozo_client.get_classifiers(args.query)
-        (retvalue, data) = asyncio.run(eliozo_client.get_classifiers(args.query))
+        (retvalue, data) = eliozo_client.get_classifiers()
+        #(retvalue, data) = asyncio.run(eliozo_client.get_classifiers(args.query))
 
     elif args.command == 'create-task':
         retvalue = 0

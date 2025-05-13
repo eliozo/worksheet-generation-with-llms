@@ -15,6 +15,23 @@ class OpenaiFunctionAgent:
     weaviate_api_key = "NA"
     gpt_model = "gpt-4.1"
 
+    function_specs2 = [
+        {
+            "type": "function",
+            "function": {
+                "name": "list_subtopics",
+                "description": "Find subtopics (labels, names and descriptions) of the given topic.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "parent_label": { "type": "string", "description": "A label for the topic or a math domain ('Alg', 'Comb', 'Geom', 'NT')" }
+                    },
+                    "required": ["parent_label"]
+                }
+            }
+        },
+    ]
+
     function_specs = [
         {
             "type": "function",
@@ -48,6 +65,18 @@ class OpenaiFunctionAgent:
             }
         }
     ]
+    SYSTEM_PROMPT_FIND_SUBTOPICS = """
+    You are analyzing a worksheet request by a math teacher. Please analyze the given query and try to find 
+    all topic labels corresponding to the query.
+    Arrange labels starting from the best match. Try to find 2-5 topic labels. 
+    All topics represent different mathematical skills. They are arranged in a tree-like structure.
+    There are altogether 4 topic tree roots - one per each domain. 
+    Domains are 'Alg'(Algebra), 'Comb'(Combinatorics), 'Geom'(Geometry) and 'NT'(Number Theory).
+    Use the tool 'list_subtopics' to get topic labels. It takes one argument - either a topic root ('Alg', 'Comb', 'Geom', 'NT')
+    or some topic label. This function lists all immediate children of the given node from the topic tree.
+    JSON example:
+    ```{ "subtopics": [ "topic_label1", "topic_label2", "topic_label3"]}```
+    """
 
     SYSTEM_PROMPT = """
     You are a worksheet generator for math teachers. Analyze the worksheet request, 
@@ -155,9 +184,40 @@ class OpenaiFunctionAgent:
     # Daudzām darba lapām vajag atrisinājumus, un varētu SPARQL pamainīt, tā, lai līdz ar katru uzdevumu atrastu arī viņa atrisinājumu
     # Paraugi, kā to izdarīt ir qualification-project init py failā.
     # Atgriežamo uzdevumu sarakstā var pievienot jaunu atribūtu solution
+    def list_subtopics(self, parent_label):
+        fuseki_utils = FusekiUtils(self.fuseki_url, self.fuseki_user, self.fuseki_password)
+        mydict = {'Alg':'Algebra', 'Comb':'Combinatorics', 'Geom': 'Geometry', 'NT':'NumTheory'}
+        if parent_label in ['Alg', 'Comb', 'Geom', 'NT']:
+            parent_label = mydict[parent_label]
+        myquery = """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX eliozo: <http://www.dudajevagatve.lv/eliozo#>
+SELECT ?topicID ?label ?num ?name ?description WHERE {{
+?parentTopic skos:prefLabel '{parent_label}' .
+?topicID skos:broader ?parentTopic ;
+    skos:prefLabel ?label ;
+    eliozo:topicName ?name ;
+    eliozo:topicDescription ?description ;
+    eliozo:topicNumber ?num .
+}} ORDER BY ?num"""
+        print(f'CALLED list_subtopics ({parent_label}')
+        res = []
+        myquery = myquery.format(parent_label = parent_label)
+        print(f"Myquery = {myquery}")
+        results = fuseki_utils.execute_query("abc", myquery)
+        for item in results['results']['bindings']:
+            res.append({
+                "label": item['label']['value'],
+                "name": item['name']['value'],
+                "description": item['description']['value'],
+            })
+        return res
+
     # TODO 2:
     # Šobrīd vaicājums ignorē grade (grade ne lielāku par to, kas ir uzdots, piemēram 8kl var rēķināt arī 7,6kl utt.)
     #  un count (fuseki vaicājumā tas būtu, piemēram, limit 10)
+
     def query_fuseki(self, label, grade=None, count=None, complexity=None):
         print(f'CALLED query_fuseki({label}, {grade}, {count}, {complexity})')
         res = []
@@ -189,7 +249,47 @@ WHERE {{
         return res
 
     # ---- OpenAI tool/function definition ----
+    def ask_to_find_topics(self, task_data): # List with topics
+        openai.api_key = self.openai_api_key
 
+        merged_task = task_data.copy() # A cloned copy to save back into task.json
+
+        messages = [
+            {"role": "system", "content": self.SYSTEM_PROMPT_FIND_SUBTOPICS},
+            {"role": "user", "content": f"Find topic list for this user request: {json.dumps(merged_task['task'], ensure_ascii=False)}"}
+        ]
+        functions_map = {"list_subtopics": self.list_subtopics}
+
+        topics_used = []
+        max_iterations = 10
+
+        for _ in range(max_iterations):
+            completion = openai.chat.completions.create(
+                model=self.gpt_model,
+                messages=messages,
+                tools=self.function_specs2,
+                tool_choice="auto"
+            )
+            msg = completion.choices[0].message
+
+            if msg.tool_calls:
+                # For each tool_call, do the call and gather response
+                tool_responses = []
+                for tool_call in msg.tool_calls:
+                    fn_name = tool_call.function.name
+                    fn_args = json.loads(tool_call.function.arguments)
+                    ret = functions_map[fn_name](**fn_args)
+                    tool_responses.append({
+                        "role": "tool",
+                        "tool_call_id": tool_call.id,  # must match!
+                        "name": fn_name,
+                        "content": json.dumps(ret)
+                    })
+                messages.append({"role": "assistant", "content": None, "tool_calls": msg.tool_calls})
+                messages.extend(tool_responses)
+        return (0, {})
+
+        
 
     def main(self, task_data, worksheet):
         openai.api_key = self.openai_api_key

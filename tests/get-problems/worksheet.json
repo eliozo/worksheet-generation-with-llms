@@ -10,17 +10,17 @@
     },
     {
       "type": "annotation",
-      "value": "Divi viegli uzdevumi, lai iesaistītu skolēnus nelielu veselu skaitļu aritmētikā un iedrošinātu domāt līdzīgi Vinnija Pūka draudzībai."
+      "value": "Divi nelieli, tematu iesildoši piemēri ar Vinnija Pūka draugiem."
     },
     {
       "type": "problem",
       "problemid": "NEW",
-      "value": "Vinnijs Pūks ēda burkānu gabaliņus pa $2$ vai $5$ vienā reizē. Kādu mazāko pozitīvu burkānu gabaliņu skaitu viņš nevarēja apēst ar šiem noteikumiem?"
+      "value": "Vinnija Pūks saskaitīja, ka viņam krūzītē ir $8$ pilītes medus, bet Sivēnam $11$. Cik pilīti viņiem būtu kopā, ja Pūks draudzīgi samainītu savas pilītes pret Sivēna? Vai kopējais daudzums mainītos?"
     },
     {
       "type": "problem",
       "problemid": "NEW",
-      "value": "Cūciņa Pūks izdomāja virkni: katrs nākamais loceklis ir iepriekšējais plus $2$. Ja pirmais skaitlis ir $3$, uzraksti nākamos $4$ šīs virknes locekļus."
+      "value": "Ēzelītis Iā ieguva trīs ciparu skaitli, kuram visi cipari ir vienādi, piemēram, $222$ vai $555$. Vai šāds skaitlis vienmēr dalās ar $3$? Ar $5$? Pamato īsi!"
     },
     {
       "type": "section_title",
@@ -28,15 +28,15 @@
     },
     {
       "type": "theorem",
-      "value": "Divi skaitļi ir savstarpēji dalāmi ar $2$, ja abi ir pāra, vai abi ir nepāra."
+      "value": "Dalāmības ar $2$ noteikums: skaitlis dalās ar $2$, ja tā pēdējais cipars ir $0$, $2$, $4$, $6$ vai $8$."
     },
     {
       "type": "theorem",
-      "value": "Skaitlis dalās ar $5$, ja tā pēdējais cipars ir $0$ vai $5$."
+      "value": "Dalāmības ar $5$ noteikums: skaitlis dalās ar $5$, ja tā pēdējais cipars ir $0$ vai $5$."
     },
     {
       "type": "theorem",
-      "value": "Iteratīvi definēta virkne ir tāda virkne, kur katru nākamo locekli iegūst, izpildot kādu darbību ar iepriekšējo(-iem) locekli(-iem)."
+      "value": "Iteratīvi definētas virknes piemērs: ja katrs nākamais elements ir iepriekšējais elements + 2, tad sekvence $a_1, a_2, a_3,\\ldots$ tiek definēta ar $a_{n+1}=a_n+2$."
     },
     {
       "type": "section_title",
@@ -44,7 +44,7 @@
     },
     {
       "type": "annotation",
-      "value": "Uzdevumi aptver gan dalāmību, gan virknes, gan dažādas aritmētiskas izteiksmes. Daži ar pasaku tēlu piesitienu."
+      "value": "Astoņi uzdevumi par dalāmību un virknēm ar draudzīgu pasaku piesitienu."
     },
     {
       "type": "problem",
@@ -58,77 +58,77 @@
     },
     {
       "type": "problem",
-      "problemid": "LV.AMO.2008.7.2",
-      "value": "Dots, ka $x$ un $y$ - tādi naturāli skaitļi, ka $x \\cdot y=10^{12}$. Vai var būt, ka ne $x$, ne $y$ nesatur savā pierakstā nevienu ciparu $0$?"
+      "problemid": "LV.AMO.2016.8.3",
+      "value": "Zināms, ka skaitlis dalās ar $2016$ un ka visi tā cipari ir dažādi. Kāds ir lielākais ciparu skaits, kas var būt šajā skaitlī?"
+    },
+    {
+      "type": "problem",
+      "problemid": "NEW",
+      "value": "Rū rotaļājas ar virkni: sāk ar skaitli $7$ un katru nākamo locekli veido iepriekšējo palielinot par $5$ (tātad $7, 12, 17, ...$). Pieraksti pirmos piecus virknes locekļus! Kurš no šiem locekļiem pirmais dalās ar $2$?"
     },
     {
       "type": "problem",
       "problemid": "LV.NOL.2008.8.1",
-      "value": "Sešciparu naturālu skaitli sauc par laimīgu, ja kādu $3$ ciparu summa vienāda ar pārējo $3$ ciparu summu. Divi viens otram sekojoši skaitļi ir laimīgi. Pierādi, ka viens no tiem dalās ar $10$."
+      "value": "Sešciparu naturālu skaitli sauc par laimīgu, ja kaut kādu $3$ ciparu summa vienāda ar pārējo $3$ ciparu summu. Divi viens otram sekojoši skaitļi ir laimīgi. Pierādīt, ka viens no tiem dalās ar $10$."
     },
     {
       "type": "problem",
       "problemid": "NEW",
-      "value": "Ezītis miglā izdomāja virkni: $a_1 = 7$ un katru nākamo locekli iegūst, pieskaitot $3$ iepriekšējam. Kādi būs $a_4$ un $a_5$?"
+      "value": "Tīģerītis atrod virkni, kur katrs nākamais loceklis ir iepriekšējais reizināts ar $2$, sākot ar $5$. Kāds ir trešais un ceturtais šīs virknes loceklis? Ar kādu skaitli dalās visi šīs virknes locekļi, sākot no otrā?"
     },
     {
       "type": "problem",
       "problemid": "NEW",
-      "value": "Tīģeris uzraksta virkni ar $a_1 = 2$, bet katru nākamo locekli iegūst, pareizinot iepriekšējo ar $2$. Kāds ir $a_5$?"
+      "value": "Pūks atrod skaitli, kas beidzas ar ciparu $2$ un dalās ar $5$. Vai tāds skaitlis pastāv? Pamato savu atbildi!"
     },
     {
       "type": "problem",
       "problemid": "NEW",
-      "value": "Kas paliek pāri, ja Piglets sadala $n = 121$ ar $5$? Kāds būs atlikums?"
-    },
-    {
-      "type": "problem",
-      "problemid": "NEW",
-      "value": "Vai skaitlis $2024$ dalās ar $2$? Un ar $5$?"
+      "value": "Sivēns raksta virkni, sākot ar $12$, kur katrs nākamais ir iepriekšējais mīnus $4$. Kurš virknes loceklis būs pirmais negatīvais skaitlis? Kāda būs šī locekļa vērtība?"
     },
     {
       "type": "section_title",
-      "value": "Atrisinājumi"
+      "value": "Konspektīvas atbildes"
     },
     {
       "type": "solution",
-      "value": "1. Ar $2$ un $5$ nevar uztaisīt $1$, $3$, vai $4$ gabaliņus, bet jebkuru lielāku skaitu var. Tātad mazākais neizsakāmais gabaliņu skaits ir $1$."
+      "value": "1. Kopējais pilīšu skaits nemainīsies, jo summējot $8+11=19$ gan pirms, gan pēc maiņas. Maiņa neietekmē kopējo daudzumu."
     },
     {
       "type": "solution",
-      "value": "2. Nākamie $4$ locekļi: $5$, $7$, $9$, $11$."
+      "value": "2. Jebkurš trīsciparu skaitlis ar vienādiem cipariem ir $111 \\cdot k$, kur $k$ ir $1,...,9$. $111$ dalās ar $3$, tāpēc visi šie skaitļi dalās ar $3$. Bet, lai dalītos ar $5$, tam jābeidzas ar $0$ vai $5$, kas iespējams tikai $000$ (tas nav trīsciparu naturāls skaitlis) vai $555$. Tikai $555$ dalās ar $5$."
     },
     {
       "type": "solution",
-      "value": "3. Skaitlim jādalās ar $15$ (tātad ar $3$ un $5$), cipari tikai $0$ un $2$. Mazākais tāds skaitlis: $2220$."
+      "value": "3. Mazākais šāds skaitlis ir $200220220215220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220215$. Šim skaitlim gala cipars $5$ nodrošina dalāmību ar $5$, un ciparu summa dalās ar $3$, kas nodrošina dalāmību ar $15$. "
     },
     {
       "type": "solution",
-      "value": "4. Lai reizinājuma beigās būtu pēc iespējas vairāk nuļļu, summai $407$ jāizdalās pēc iespējas bez atlikuma ar $5$ un $2$. Lielākais nuļļu skaits ir $2$."
+      "value": "4. Lai reizinājums beigtos ar pēc iespējas vairāk nuļļu, katram $0$ vajag pa pārim $2 \\cdot 5$. $407$ var sadalīt tā: $405+1+1$, $400+5+2$ utt, bet maksimāli viena no summām (piemēram $400$) dos divus $2$ un divus $5$, tātad maksimāli divi $0$ (jo $400=2^4\\cdot5^2$). Plašāka analīze: $405=5\\cdot81$, $405$ dod vienu $5$. Nevar panākt vairāk nekā divas nulles galā."
     },
     {
       "type": "solution",
-      "value": "5. Abi skaitļi bez nullēm nevar reizināties līdz $10^{12}$, jo $10^{12}$ satur tikai $1$ un $0$, bet daloties tā, lai neparādītos cipars $0$, nav iespējams."
+      "value": "5. 2016 dalās ar $9$, tātad pēc iespējas vairāk dažādu ciparu. Lielākais iespējamais: $9$ cipari, jo $10$ ciparu skaitlī katram būtu jābūt unikālam no $0$ līdz $9$, bet $2016$ dalās ar $9$ tikai tad, ja ciparu summa dalās ar $9$. Maksimums: $9$ cipari."
     },
     {
       "type": "solution",
-      "value": "6. Ja divi sekojoši laimīgi skaitļi, tad to starpība ir $1$, summu starpība starp abām pusēm arī $1$. Līdz ar to viens no skaitļiem ir beidzies ar $0$ - tātad dalās ar $10$."
+      "value": "6. $7$, $12$, $17$, $22$, $27$. Dalās ar $2$: $12$, $22$, $27$ utt. Pirmais dalās ar $2$ – $12$."
     },
     {
       "type": "solution",
-      "value": "7. $a_4 = 16$, $a_5 = 19$."
+      "value": "7. Nosaucam divus sekojošus laimīgus skaitļus: Abi sekojoši, viens no tiem ir pāra skaitlis, otrs nepāra. Abu starpība ir $1$, kas ir '10$ k' jeb tieši viens no tiem dalās ar $10$."
     },
     {
       "type": "solution",
-      "value": "8. $a_1=2$, $a_2=4$, $a_3=8$, $a_4=16$, $a_5=32$."
+      "value": "8. Sākot ar $5$: otrs ir $10$, trešais $20$, ceturtais $40$, utt. Sākot no otrā: katru reizi rezultāts dalās ar $10$."
     },
     {
       "type": "solution",
-      "value": "9. $121$ dalot ar $5$, atlikums ir $1$."
+      "value": "9. Skaitlis, kas beidzas ar $2$ nekad nedalās ar $5$, jo tikai skaitlis, kas beidzas ar $0$ vai $5$ var dalīties ar $5$."
     },
     {
       "type": "solution",
-      "value": "10. $2024$ dalās ar $2$ (jo pēdējais cipars ir pāra), bet nedalās ar $5$, jo pēdējais cipars nav $0$ vai $5$."
+      "value": "10. $12, 8, 4, 0, -4$. Tātad pirmais negatīvais ir piektais loceklis; tas ir $-4$."
     }
   ]
 }
