@@ -1,6 +1,6 @@
 
 
-Veselu skaitļu izteiksmes
+Grafu teorijas pamati
 =====================================================================
 
 
@@ -12,18 +12,18 @@ Ievaduzdevumi
 
 
 
-*Divi nelieli, tematu iesildoši piemēri ar Vinnija Pūka draugiem.*
+*Divi viegli uzdevumi, lai iesildītos un atcerētos grafu teorijas pamatidejas. Lūgums problēmas risināt ar nelielu sarunu stilu ― ja vēlies, izmanto fantāziju no Arcane pasaules!*
 
 
 
 
-Vinnija Pūks saskaitīja, ka viņam krūzītē ir :math:`8` pilītes medus, bet Sivēnam :math:`11`. Cik pilīti viņiem būtu kopā, ja Pūks draudzīgi samainītu savas pilītes pret Sivēna? Vai kopējais daudzums mainītos?
+Piltover pilsētā ir 6 tilti, kas savieno 4 dažādas salas. Vai vienmēr būs vismaz viena sala, pie kuras pienāk vismaz 3 tilti?
 (sk. NEW)
 
 
 
 
-Ēzelītis Iā ieguva trīs ciparu skaitli, kuram visi cipari ir vienādi, piemēram, :math:`222` vai :math:`555`. Vai šāds skaitlis vienmēr dalās ar :math:`3`? Ar :math:`5`? Pamato īsi!
+Viktors vēlas pavadīt Jinku ekskursijā pa pilsētas automatizēto tramvaja tīklu. Ja katrā pieturā uz tāfeles uzrakstīts, cik tramvaja līniju no šīs pieturas iet tālāk, vai kopā visu pieturu norādītie skaitļi vienmēr būs pāra skaitlis?
 (sk. NEW)
 
 
@@ -35,141 +35,131 @@ Teorijas pārskats
 
 
 
-**Teorēma:** Dalāmības ar :math:`2` noteikums: skaitlis dalās ar :math:`2`, ja tā pēdējais cipars ir :math:`0`, :math:`2`, :math:`4`, :math:`6` vai :math:`8`.
+**Teorēma:** Grafā var pētīt virsotnes (:math:`v`), šķautnes (:math:`e`), un dažādas īpašības, piemēram, virsotņu pakāpes (cik šķautņu pieiet pie katras). Grafu var zīmēt arī plaknē (par planāru sauc tad, ja to var izdarīt bez šķautņu krustošanās). Svarīgi ir meklēt ceļus, ciklus, pa kuriem iespējams pārvietoties, un īpašu grafu veidu – kokus (grafi bez cikliem un savienotiem mezgliem). Dažreiz noder arī "roku paspiešanas lemmas" – kopējais visu virsotņu pakāpju skaitlis vienmēr dalās ar divi.
 
 
 
 
-**Teorēma:** Dalāmības ar :math:`5` noteikums: skaitlis dalās ar :math:`5`, ja tā pēdējais cipars ir :math:`0` vai :math:`5`.
-
-
-
-
-**Teorēma:** Iteratīvi definētas virknes piemērs: ja katrs nākamais elements ir iepriekšējais elements + 2, tad sekvence :math:`a_1, a_2, a_3,\ldots` tiek definēta ar :math:`a_{n+1}=a_n+2`.
-
-
-
-
-Pamatuzdevumi
+Uzdevumi ar pieaugošu grūtību
 -------------------------------------------------------------------------
 
 
 
 
-*Astoņi uzdevumi par dalāmību un virknēm ar draudzīgu pasaku piesitienu.*
+*Galvenās darba daļas uzdevumi: īsti piemēri, pierādījumi, optimizācijas uzdevumi. Progresīvi sarežģītāki, daži var būt saistīti ar Arcane pasaules pilsētvides problēmām!*
 
 
 
 
-Kāds ir mazākais naturālais skaitlis, kura pierakstā izmantoti tikai cipari :math:`0` un :math:`2` un kurš dalās ar :math:`15`?
-(sk. LV.AMO.2022B.5.1)
+Vai pa apli var uzrakstīt skaitļus<br /> (A) :math:`0, 1, ..., 9`; <br /> (B) :math:`0, 1, ..., 13`; <br /> tā, lai katri divi blakus esoši skaitļi atšķirtos par :math:`3`, :math:`4` vai :math:`5`?
+(sk. LV.AMO.2022B.8.4)
 
 
 
 
-Triju veselu pozitīvu skaitļu summa ir :math:`407`. Ar kādu lielāko daudzumu nuļļu var beigties šo skaitļu reizinājums?
-(sk. LV.AMO.2005.7.4)
-
-
-
-
-Zināms, ka skaitlis dalās ar :math:`2016` un ka visi tā cipari ir dažādi. Kāds ir lielākais ciparu skaits, kas var būt šajā skaitlī?
-(sk. LV.AMO.2016.8.3)
-
-
-
-
-Rū rotaļājas ar virkni: sāk ar skaitli :math:`7` un katru nākamo locekli veido iepriekšējo palielinot par :math:`5` (tātad :math:`7, 12, 17, ...`). Pieraksti pirmos piecus virknes locekļus! Kurš no šiem locekļiem pirmais dalās ar :math:`2`?
+Arcane rajonā Jayce zīmē grafu ar 8 virsotnēm, katrai no kurām ir nepāra pakāpe. Vai tas ir iespējams? Pamato!
 (sk. NEW)
 
 
 
 
-Sešciparu naturālu skaitli sauc par laimīgu, ja kaut kādu :math:`3` ciparu summa vienāda ar pārējo :math:`3` ciparu summu. Divi viens otram sekojoši skaitļi ir laimīgi. Pierādīt, ka viens no tiem dalās ar :math:`10`.
-(sk. LV.NOL.2008.8.1)
+Sešdesmit pensionāri katru dienu sociālajā tīklā sarakstās savā starpā. Katrs kungs sarakstās ar tieši :math:`17` dāmām, bet katra kundze sarakstās ar tieši :math:`13` kungiem. Cik šeit ir kungu un cik – kundžu?
+(sk. LV.AMO.2011.6.2)
 
 
 
 
-Tīģerītis atrod virkni, kur katrs nākamais loceklis ir iepriekšējais reizināts ar :math:`2`, sākot ar :math:`5`. Kāds ir trešais un ceturtais šīs virknes loceklis? Ar kādu skaitli dalās visi šīs virknes locekļi, sākot no otrā?
+Vi ir izplānojis ķēdes pastu Jaunajā Piltoverā. Vi vēlas katrai mājai izsūtīt vēstules tā, lai, sākot no jebkuras mājas, vēstuli varētu aiznest uz visām mājām (t.i., grafā nav izolētu salu). Kādu minimālo šķautņu (savienojumu) skaitu viņai vajadzēs, ja ir :math:`n` mājas?
 (sk. NEW)
 
 
 
 
-Pūks atrod skaitli, kas beidzas ar ciparu :math:`2` un dalās ar :math:`5`. Vai tāds skaitlis pastāv? Pamato savu atbildi!
+Grafā ar :math:`7` virsotnēm un :math:`12` šķautnēm, vai var būt iespējams grafu uzkrāsot ar :math:`2` krāsām, lai nevienai šķautnei nebūtu vienādas krāsas galapunktu?
 (sk. NEW)
 
 
 
 
-Sivēns raksta virkni, sākot ar :math:`12`, kur katrs nākamais ir iepriekšējais mīnus :math:`4`. Kurš virknes loceklis būs pirmais negatīvais skaitlis? Kāda būs šī locekļa vērtība?
+Jinx mēģina uzzīmēt planāru grafu (bez šķautņu krustošanās) ar 7 virsotnēm, kur katrai virsotnei pieiet vismaz 4 šķautnes. Vai tas iespējams?
 (sk. NEW)
 
 
 
 
-Konspektīvas atbildes
+Kāds ir visīsākais cikls, kas var būt kādā no grafiem, kas sastāv no 10 virsotnēm un 22 šķautnēm? Kā to varētu atrast?
+(sk. NEW)
+
+
+
+
+Echo grib, lai visi viņa draugi apmainās ar kartēm tā, lai katrs varētu nonākt pie jebkura cita drauga – un nav nekādu lieku loku (cikli). Kāda veida grafu viņš uzzīmēs šādam nolūkam? Nosauc šī objekta nosaukumu un galvenās īpašības.
+(sk. NEW)
+
+
+
+
+Īsie risinājumu konspekti
 -------------------------------------------------------------------------
 
 
 
 
-*Atrisinājums:* 1. Kopējais pilīšu skaits nemainīsies, jo summējot :math:`8+11=19` gan pirms, gan pēc maiņas. Maiņa neietekmē kopējo daudzumu.
+*Atrisinājums:* 1. Katram tiltam ir divi gali, tātad kopā ir :math:`2 \cdot 6 = 12` galu uz 4 salām. Vidēji :math:`12/4=3` tilti uz salu, tāpēc vismaz vienai salai būs vismaz 3 tilti (pēc Dirihlē principa).
 
 
 
 
 
-*Atrisinājums:* 2. Jebkurš trīsciparu skaitlis ar vienādiem cipariem ir :math:`111 \cdot k`, kur :math:`k` ir :math:`1,...,9`. :math:`111` dalās ar :math:`3`, tāpēc visi šie skaitļi dalās ar :math:`3`. Bet, lai dalītos ar :math:`5`, tam jābeidzas ar :math:`0` vai :math:`5`, kas iespējams tikai :math:`000` (tas nav trīsciparu naturāls skaitlis) vai :math:`555`. Tikai :math:`555` dalās ar :math:`5`.
+*Atrisinājums:* 2. Katrā pieturā norādītais skaitlis ir tās pakāpe (kādas šķautnes). Kopā visu virsotņu pakāpju summa ir :math:`2 \cdot` šķautņu skaits, tātad pāra skaitlis ('roku paspiešanas lemma').
 
 
 
 
 
-*Atrisinājums:* 3. Mazākais šāds skaitlis ir :math:`200220220215220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220220215`. Šim skaitlim gala cipars :math:`5` nodrošina dalāmību ar :math:`5`, un ciparu summa dalās ar :math:`3`, kas nodrošina dalāmību ar :math:`15`. 
+*Atrisinājums:* 3. Sk. vispirms dažādus gadījumus. (A) ar 0--9 tas ir iespējams, ja grafu uzskata par ciklisku un pārbauda atšķirības. (B) ar 0--13 nē, jo nav iespējams abpusēji savienot katru tā, lai nosacījums par atšķirību pārsniegtu nepieciešamo šķautņu kopu.
 
 
 
 
 
-*Atrisinājums:* 4. Lai reizinājums beigtos ar pēc iespējas vairāk nuļļu, katram :math:`0` vajag pa pārim :math:`2 \cdot 5`. :math:`407` var sadalīt tā: :math:`405+1+1`, :math:`400+5+2` utt, bet maksimāli viena no summām (piemēram :math:`400`) dos divus :math:`2` un divus :math:`5`, tātad maksimāli divi :math:`0` (jo :math:`400=2^4\cdot5^2`). Plašāka analīze: :math:`405=5\cdot81`, :math:`405` dod vienu :math:`5`. Nevar panākt vairāk nekā divas nulles galā.
+*Atrisinājums:* 4. Rokas paspiešanas lemma: grafā nepāra pakāpes virsotņu skaitam jābūt pāra skaitlim. 8 ir pāra skaitlis, bet var, piem., katru savienot ar 3 citiem – ne visas konfigurācijas iespējamas, bet, ja mēģina izveidot precīzi, rodas pretruna ar virsotņu pakāpju summu – nav iespējams.
 
 
 
 
 
-*Atrisinājums:* 5. 2016 dalās ar :math:`9`, tātad pēc iespējas vairāk dažādu ciparu. Lielākais iespējamais: :math:`9` cipari, jo :math:`10` ciparu skaitlī katram būtu jābūt unikālam no :math:`0` līdz :math:`9`, bet :math:`2016` dalās ar :math:`9` tikai tad, ja ciparu summa dalās ar :math:`9`. Maksimums: :math:`9` cipari.
+*Atrisinājums:* 5. Lai varētu noteikt kungu un kundžu skaitu, apzīmējam :math:`x` – kungu, :math:`y` – kundžu. :math:`17x = 13y` un :math:`x + y = 60`. Atrod :math:`x = 39`, :math:`y = 21`.
 
 
 
 
 
-*Atrisinājums:* 6. :math:`7`, :math:`12`, :math:`17`, :math:`22`, :math:`27`. Dalās ar :math:`2`: :math:`12`, :math:`22`, :math:`27` utt. Pirmais dalās ar :math:`2` – :math:`12`.
+*Atrisinājums:* 6. Minimālais šķautņu skaits savienotam grafam ar :math:`n` virsotnēm ir :math:`n-1` (minimums savienotam kokam).
 
 
 
 
 
-*Atrisinājums:* 7. Nosaucam divus sekojošus laimīgus skaitļus: Abi sekojoši, viens no tiem ir pāra skaitlis, otrs nepāra. Abu starpība ir :math:`1`, kas ir '10:math:` k' jeb tieši viens no tiem dalās ar `10$.
+*Atrisinājums:* 7. 2-krāsojamība (bipartītie grafi) nozīmē, ka nav nepāra ciklu. 7 virsotnes un 12 šķautnes nozīmē, ka varētu būt cikli ar 3 šķautnēm, tātad nav iespējama 2-krāsojamība.
 
 
 
 
 
-*Atrisinājums:* 8. Sākot ar :math:`5`: otrs ir :math:`10`, trešais :math:`20`, ceturtais :math:`40`, utt. Sākot no otrā: katru reizi rezultāts dalās ar :math:`10`.
+*Atrisinājums:* 8. Planārs grafam ar :math:`n` virsotnēm un šķautņu skaitu :math:`e \leq 3n-6`. Ja :math:`n=7`, :math:`d \geq 4`, :math:`4 \cdot 7 / 2 = 14` šķautnes, bet :math:`3\cdot 7-6 = 15`, krustošanās vēl nav liegta, bet :math:`d \geq 4` padara par grūtu bez krustošanās, tātad nav iespējams.
 
 
 
 
 
-*Atrisinājums:* 9. Skaitlis, kas beidzas ar :math:`2` nekad nedalās ar :math:`5`, jo tikai skaitlis, kas beidzas ar :math:`0` vai :math:`5` var dalīties ar :math:`5`.
+*Atrisinājums:* 9. Ja grafā ir :math:`n` virsotnes un :math:`e` šķautnes, tad īsākais cikls var tikt meklēts, izmantojot ciklu teoriju. 22 šķautnes ar 10 virsotnēm norāda, ka cikla garums nevar būt mazāks par 3 (trijstūris).
 
 
 
 
 
-*Atrisinājums:* 10. :math:`12, 8, 4, 0, -4`. Tātad pirmais negatīvais ir piektais loceklis; tas ir :math:`-4`.
+*Atrisinājums:* 10. Echo uzzīmēs koku – tas ir savienots grafiks bez cikliem. Koka īpašības: katras divas virsotnes savieno tieši viens ceļš; ja ir :math:`n` virsotņu, tad ir :math:`n-1` šķautne.
 
 
 

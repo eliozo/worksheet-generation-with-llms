@@ -1,1 +1,27 @@
-{}
+{
+    "task": {
+        "query": "**Vajadz─½gais saturs:** Darba lapa 90 min┼½┼íu nodarb─½bai pirms novada olimpi─üdes. **Apm─üc─ümie:** 8.klases skol─ôni. Vi┼åiem pat─½k neform─üla valoda, anim─ücijas seri─üls Arcane. **M─üc─½bu t─ômas:**  Grafu teorija, virsot┼åu pak─üpes, grafu apstaig─ü┼íana, plan─üri grafi bez ┼í─╖aut┼åu krusto┼ían─üs, ce─╝i un cikli grafos, koki. Olimpi─ü┼╛u stila uzdevumiem j─üb┼½t ar da┼╛─üdu tipu jaut─üjumiem (pier─üd─½jumi, piem─ôri, optimiz─ücijas uzdevumi). **Atbildes form─üts:** L┼½dzu izveidot pavisam 10 uzdevumu komplektu aprakst─½tajai situ─ücijai: Vispirms 2 ievaduzdevumus, tad ─½su teorijas p─ürskatu. Visbeidzot 8 uzdevumus ar pieaugo┼íu gr┼½t─½bas pak─üpi. Visu 10 uzdevumu atrisin─üjumus (konspekt─½vus, kas nav dom─üti k─ü paraugs atrisin─üjumu noform─ô┼íanai olimpi─üd─ô) ievietot darba lapas beig─üs.",
+        "title": "Grafu teorijas pamati",
+        "grade": 8,
+        "age": 14,
+        "problemcount": 10,
+        "worksheet": "../tests/get-problems/worksheet.json",
+        "template": "templates/regular.rst.jinja",
+        "domain": "Comb",
+        "learners": {
+            "prerequisite_knowledge": "8th grade students likely have prior exposure to basic graph theory topics such as vertices, edges, and simple paths, but may require targeted review to handle advanced olympiad problems involving planar graphs, cycles, trees, and proofs. Familiarity with informal mathematical language is expected.",
+            "likes": "Students enjoy informal language and the animated series Arcane.",
+            "dislikes": "Overly formal presentation and rigid solution templates may not engage them; solutions should avoid being prototypical olympiad answers."
+        },
+        "format_notes": "Worksheet for 8th grade students, 90-minute lesson prep before a regional olympiad. Structure: 2 introductory problems, a brief theory overview covering skills in graph theory (vertex degrees, traversals, planar graphs, paths, cycles, trees), then 8 main problems of increasing difficulty—olympiad style and of varied types (proofs, examples, optimization). Problem language should be informal and may reference the Arcane animation series. Solutions to all 10 problems should be provided at the end, as concise outlines not meant as fully formed answer keys."
+    },
+    "result": {},
+    "found_topics": [
+        "GraphProblems",
+        "GraphVertexDegree",
+        "GraphTraversal",
+        "PlanarGraphs",
+        "PathsAndCyclesInGraphs",
+        "Trees"
+    ]
+}

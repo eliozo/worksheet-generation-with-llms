@@ -236,7 +236,9 @@ class EliozoClient:
 
     def get_classifiers(self):
         print(f'get_classifiers: Getting classifier data from OpenAI function agent')
-        agentUtils = OpenaiFunctionAgent(self.openai_api_key, self.fuseki_url, self.fuseki_user, self.fuseki_password, self.weaviate_url, self.weaviate_api_key)
+        with open(self.reference, 'r', encoding='utf-8') as f:
+            task_data = json.load(f)
+        agentUtils = OpenaiFunctionAgent(self.openai_api_key, self.fuseki_url, self.fuseki_user, self.fuseki_password, self.weaviate_url, self.weaviate_api_key, task_data)
         with open(self.reference, 'r', encoding='utf-8') as f:
             task_data = json.load(f)
         (retvalue, new_task_data) = agentUtils.ask_to_find_topics(task_data)
@@ -302,10 +304,10 @@ class EliozoClient:
         return (retvalue, task_data)
         
     def get_problems(self, worksheet):
-        agentUtils = OpenaiFunctionAgent(self.openai_api_key, self.fuseki_url, self.fuseki_user, self.fuseki_password, self.weaviate_url, self.weaviate_api_key)
         with open(self.reference, 'r', encoding='utf-8') as f:
             task_data = json.load(f)
-        (retvalue, new_task_data) = agentUtils.main(task_data, worksheet)
+        agentUtils = OpenaiFunctionAgent(self.openai_api_key, self.fuseki_url, self.fuseki_user, self.fuseki_password, self.weaviate_url, self.weaviate_api_key, task_data)
+        (retvalue, new_task_data) = agentUtils.get_problems_for_query(task_data, worksheet)
         return (retvalue, new_task_data)
 
 
