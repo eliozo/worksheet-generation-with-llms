@@ -107,11 +107,8 @@ class OpenaiFunctionAgent:
 	  {
 		"type": "problem",
         "problemid" : "LV.AMO.2004.8.2"
-		"value": "Mākslinieku grupa Arcane pasaulē vēlas sadalīt 25 portretus piecās izstādēs tā, ka katrā izstādē ir vismaz viens portrets. Vai tas vienmēr ir iespējams? Ja jā/nē, paskaidro, kāpēc."
-	  },
-	  {
-		"type": "solution",
-		"value": "Nav obligāti iespējams, ja portretus nedrīkst likt vienā izstādē: ja visi portreti tiek ielikti vienā izstādē, pārējās būs tukšas."
+		"problemtext": "Mākslinieku grupa Arcane pasaulē vēlas sadalīt 25 portretus piecās izstādēs tā, ka katrā izstādē ir vismaz viens portrets. Vai tas vienmēr ir iespējams? Ja jā/nē, paskaidro, kāpēc."
+        "problemsolution": "Nav obligāti iespējams, ja portretus nedrīkst likt vienā izstādē: ja visi portreti tiek ielikti vienā izstādē, pārējās būs tukšas."
 	  },
 	 // Any more problems that belong to section "Ievaduzdevumi"
 	  {
@@ -220,7 +217,7 @@ SELECT ?topicID ?label ?num ?name ?description WHERE {{
     # TODO 2:
     # Šobrīd vaicājums ignorē grade (grade ne lielāku par to, kas ir uzdots, piemēram 8kl var rēķināt arī 7,6kl utt.)
     #  un count (fuseki vaicājumā tas būtu, piemēram, limit 10)
-    # Pielabot šo funkciju, kas atrastu atrisinājumu
+    # Pielabot šo funkciju, kas atrastu atrisinājumu, jāpiekabina pie datiem, kurus atgriežam
     def query_fuseki(self, label, grade=None, count=None, complexity=None):
         print(f'CALLED query_fuseki({label}, {grade}, {count}, {complexity})')
         res = []
@@ -229,15 +226,22 @@ SELECT ?topicID ?label ?num ?name ?description WHERE {{
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX eliozo: <http://www.dudajevagatve.lv/eliozo#>
-SELECT DISTINCT ?problem ?problemid ?text ?grade
+
+SELECT DISTINCT ?problem ?problemid ?text ?grade 
+       (GROUP_CONCAT(DISTINCT ?solution; separator="<br/><br/>") AS ?solutions)
+       (GROUP_CONCAT(DISTINCT ?solutiontext; separator="<br/><br/>") AS ?solutiontexts)
 WHERE {{
     ?parent skos:prefLabel '{label}' .
     ?parent skos:narrower* ?subtopic .
     ?problem eliozo:topic ?subtopic ;
+             eliozo:problemGrade ?grade ;
              eliozo:problemID ?problemid ;
              eliozo:problemTextHtml ?text ;
-             eliozo:problemGrade ?grade .
-}} ORDER BY ?grade"""
+             eliozo:problemSolution ?solution .
+    ?solution eliozo:solutionTextHtml ?solutiontext .
+}}
+GROUP BY ?problem ?problemid ?text ?grade
+ORDER BY ?grade"""
         myquery = myquery.format(label = label)
         print(f"Myquery = {myquery}")
         results = fuseki_utils.execute_query("abc", myquery)
@@ -246,7 +250,7 @@ WHERE {{
                 "problemid": item['problemid']['value'],
                 "topic": label,
                 "text": item['text']['value'],
-                # solution
+                "solution" : item['solutiontexts']['value'],
                 "grade": int(item['grade']['value'])
             })
         return res

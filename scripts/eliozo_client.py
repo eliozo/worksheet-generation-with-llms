@@ -239,8 +239,6 @@ class EliozoClient:
         with open(self.reference, 'r', encoding='utf-8') as f:
             task_data = json.load(f)
         agentUtils = OpenaiFunctionAgent(self.openai_api_key, self.fuseki_url, self.fuseki_user, self.fuseki_password, self.weaviate_url, self.weaviate_api_key, task_data)
-        with open(self.reference, 'r', encoding='utf-8') as f:
-            task_data = json.load(f)
         (retvalue, new_task_data) = agentUtils.ask_to_find_topics(task_data)
         return (retvalue, new_task_data)
 
@@ -253,7 +251,7 @@ class EliozoClient:
         task_data = {
             "task": { 
                 "query": query,
-                "title": analysis1['title'], 
+                #"title": analysis1['title'], 
                 "grade": analysis1['grade'],
                 "age": analysis1['age'],
                 "problemcount": analysis1['estimated_problem_count'], 
@@ -306,6 +304,8 @@ class EliozoClient:
     def get_problems(self, worksheet):
         with open(self.reference, 'r', encoding='utf-8') as f:
             task_data = json.load(f)
+        print("BBBBBBBBBBBB")
+        print(json.dumps(task_data))
         agentUtils = OpenaiFunctionAgent(self.openai_api_key, self.fuseki_url, self.fuseki_user, self.fuseki_password, self.weaviate_url, self.weaviate_api_key, task_data)
         (retvalue, new_task_data) = agentUtils.get_problems_for_query(task_data, worksheet)
         return (retvalue, new_task_data)

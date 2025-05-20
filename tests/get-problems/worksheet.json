@@ -2,7 +2,7 @@
   "snippets": [
     {
       "type": "title",
-      "value": "Grafu teorijas pamati"
+      "value": "Arcane grafu teorijas treniņš: 8. klases olimpiāžu darba lapa"
     },
     {
       "type": "section_title",
@@ -10,17 +10,19 @@
     },
     {
       "type": "annotation",
-      "value": "Divi viegli uzdevumi, lai iesildītos un atcerētos grafu teorijas pamatidejas. Lūgums problēmas risināt ar nelielu sarunu stilu ― ja vēlies, izmanto fantāziju no Arcane pasaules!"
+      "value": "Divi viegli uzdevumi, lai sildītos ar draudzīgiem grafu jautājumiem Arcane pasaules stilā."
     },
     {
       "type": "problem",
       "problemid": "NEW",
-      "value": "Piltover pilsētā ir 6 tilti, kas savieno 4 dažādas salas. Vai vienmēr būs vismaz viena sala, pie kuras pienāk vismaz 3 tilti?"
+      "problemtext": "Arcane pilsētā ir 5 vietas (Piltover rajoni), starp katriem diviem var būt ceļš vai arī nav. Kādu maksimālo ceļu skaitu var izveidot, neizveidojot nevienu trīsstūri (ciklu ar 3 vietām)?",
+      "problemsolution": "Maksimālais ceļu (šķautņu) skaits starp 5 virsotnēm bez trijstūriem ir 6 (veidojot t.s. Turāna grafu divdaļīgu 3+2)."
     },
     {
       "type": "problem",
       "problemid": "NEW",
-      "value": "Viktors vēlas pavadīt Jinku ekskursijā pa pilsētas automatizēto tramvaja tīklu. Ja katrā pieturā uz tāfeles uzrakstīts, cik tramvaja līniju no šīs pieturas iet tālāk, vai kopā visu pieturu norādītie skaitļi vienmēr būs pāra skaitlis?"
+      "problemtext": "Mākslinieki no Arcane veido ķēdi, kur katrs pazīst tieši divus citus māksliniekus. Kāda figūra rodas, ja mēs attēlojam māksliniekus kā punktus un pazīšanos kā malas?",
+      "problemsolution": "Veidosies vienkāršs cikls (aplis); katram punktam ir pakāpe 2."
     },
     {
       "type": "section_title",
@@ -28,99 +30,79 @@
     },
     {
       "type": "theorem",
-      "value": "Grafā var pētīt virsotnes ($v$), šķautnes ($e$), un dažādas īpašības, piemēram, virsotņu pakāpes (cik šķautņu pieiet pie katras). Grafu var zīmēt arī plaknē (par planāru sauc tad, ja to var izdarīt bez šķautņu krustošanās). Svarīgi ir meklēt ceļus, ciklus, pa kuriem iespējams pārvietoties, un īpašu grafu veidu – kokus (grafi bez cikliem un savienotiem mezgliem). Dažreiz noder arī \"roku paspiešanas lemmas\" – kopējais visu virsotņu pakāpju skaitlis vienmēr dalās ar divi."
+      "value": "Grafu teorijas pamati: Grafu virsotnes (punkti), šķautnes (savienojumi), virsotņu pakāpes (cik šķautņu piesaistīts), grafu apstaigāšana (ceļš, cikls), koki (savienots grafiks bez cikliem), planāri grafi (var uzzīmēt bez šķautņu krustošanās)."
     },
     {
       "type": "section_title",
-      "value": "Uzdevumi ar pieaugošu grūtību"
+      "value": "Olimpiāžu stila uzdevumi"
     },
     {
       "type": "annotation",
-      "value": "Galvenās darba daļas uzdevumi: īsti piemēri, pierādījumi, optimizācijas uzdevumi. Progresīvi sarežģītāki, daži var būt saistīti ar Arcane pasaules pilsētvides problēmām!"
+      "value": "Uzdevumi sakārtoti grūtības pieauguma kārtībā; izmantojiet Arcane komandas garu kombinēt ar matemātikas prasmēm!"
     },
     {
       "type": "problem",
       "problemid": "LV.AMO.2022B.8.4",
-      "value": "Vai pa apli var uzrakstīt skaitļus<br /> (A) $0, 1, ..., 9$; <br /> (B) $0, 1, ..., 13$; <br /> tā, lai katri divi blakus esoši skaitļi atšķirtos par $3$, $4$ vai $5$?"
-    },
-    {
-      "type": "problem",
-      "problemid": "NEW",
-      "value": "Arcane rajonā Jayce zīmē grafu ar 8 virsotnēm, katrai no kurām ir nepāra pakāpe. Vai tas ir iespējams? Pamato!"
+      "problemtext": "Vai pa apli var uzrakstīt skaitļus (A) $0;~1;~2;~3;~4;~5;~6;~7;~8;~9$; (B) $0;~1;~2;~3;~4;~5;~6;~7;~8;~9;~10;~11;~12;~13$; tā, lai katri divi blakus esoši skaitļi atšķirtos par $3$, $4$ vai $5$?",
+      "problemsolution": "(A) Nav iespējams; (B) Iespējams, piemēram, skat. uzdevuma ilustrāciju."
     },
     {
       "type": "problem",
       "problemid": "LV.AMO.2011.6.2",
-      "value": "Sešdesmit pensionāri katru dienu sociālajā tīklā sarakstās savā starpā. Katrs kungs sarakstās ar tieši $17$ dāmām, bet katra kundze sarakstās ar tieši $13$ kungiem. Cik šeit ir kungu un cik – kundžu?"
+      "problemtext": "Sešdesmit pensionāri katru dienu \"sociālajā tīklā\" sarakstās savā starpā. Katrs kungs sarakstās ar tieši $17$ dāmām, bet katra kundze sarakstās ar tieši $13$ kungiem. Cik starp šiem pensionāriem ir kungu un cik - kundžu?",
+      "problemsolution": "26 kungi, 34 kundzes (izmanto virsotņu pakāpju summēšanas principu divdaļīgā grafā)."
+    },
+    {
+      "type": "problem",
+      "problemid": "LV.NOL.2013.7.1",
+      "problemtext": "Naturālie skaitļi no $1$ līdz $18$ sadalīti pa pāriem tā, ka katrā pārī esošo skaitļu summa ir skaitļa kvadrāts. Ar ko pārī apvienots skaitlis $1$?",
+      "problemsolution": "$1$ ir pārī ar $15$."
+    },
+    {
+      "type": "problem",
+      "problemid": "LV.AMO.2007.7.1",
+      "problemtext": "Kādu lielāko daudzumu dažādu ciparu var izrakstīt pa apli tā, lai katri divi blakus cipari (jebkurā virzienā lasot) veidotu pirmskaitļa pierakstu?",
+      "problemsolution": "Atbilde: 3 ciparus (piem., $1, 3, 7$)."
     },
     {
       "type": "problem",
       "problemid": "NEW",
-      "value": "Vi ir izplānojis ķēdes pastu Jaunajā Piltoverā. Vi vēlas katrai mājai izsūtīt vēstules tā, lai, sākot no jebkuras mājas, vēstuli varētu aiznest uz visām mājām (t.i., grafā nav izolētu salu). Kādu minimālo šķautņu (savienojumu) skaitu viņai vajadzēs, ja ir $n$ mājas?"
+      "problemtext": "Arcane pilsētas ielās koki (grafi bez cikliem) tiek stādīti tā, lai tie savienotu visus mazākos ciematus. Ja ir 8 ciemati un katrs tiek savienots tā, lai rajonā nav apļu (ciklu), cik dažādas malas (ceļus) iespējams izmantot?",
+      "problemsolution": "Kokā ar $n$ virsotnēm ir tieši $n-1$ šķautnes; tātad 7 ceļi."
     },
     {
       "type": "problem",
       "problemid": "NEW",
-      "value": "Grafā ar $7$ virsotnēm un $12$ šķautnēm, vai var būt iespējams grafu uzkrāsot ar $2$ krāsām, lai nevienai šķautnei nebūtu vienādas krāsas galapunktu?"
+      "problemtext": "Dotajā grafā ir 9 virsotnes, katram punktam ir pāra pakāpe. Pierādi, ka iespējams sadalīt visas malas vairākos neatkarīgos ciklos.",
+      "problemsolution": "Grafā, kur visām virsotnēm ir pāra pakāpes, visas malas var sadalīt ciklos (Eilera teorēma)."
     },
     {
       "type": "problem",
       "problemid": "NEW",
-      "value": "Jinx mēģina uzzīmēt planāru grafu (bez šķautņu krustošanās) ar 7 virsotnēm, kur katrai virsotnei pieiet vismaz 4 šķautnes. Vai tas iespējams?"
-    },
-    {
-      "type": "problem",
-      "problemid": "NEW",
-      "value": "Kāds ir visīsākais cikls, kas var būt kādā no grafiem, kas sastāv no 10 virsotnēm un 22 šķautnēm? Kā to varētu atrast?"
-    },
-    {
-      "type": "problem",
-      "problemid": "NEW",
-      "value": "Echo grib, lai visi viņa draugi apmainās ar kartēm tā, lai katrs varētu nonākt pie jebkura cita drauga – un nav nekādu lieku loku (cikli). Kāda veida grafu viņš uzzīmēs šādam nolūkam? Nosauc šī objekta nosaukumu un galvenās īpašības."
+      "problemtext": "Arcane populārākais tiltots parks ir planārs (to var uzzīmēt bez šķautņu krustošanās). Kāda ir maksimālā šķautņu skaita formula planāram grafam ar $n$ virsotnēm, ja katrs reģions ir vismaz trīsstūris?",
+      "problemsolution": "Maksimālais šķautņu skaits ir $3n-6$ (Eilera formula planāriem grafiem)."
     },
     {
       "type": "section_title",
-      "value": "Īsie risinājumu konspekti"
+      "value": "Atrisinājumu kopsavilkums"
     },
     {
-      "type": "solution",
-      "value": "1. Katram tiltam ir divi gali, tātad kopā ir $2 \\cdot 6 = 12$ galu uz 4 salām. Vidēji $12/4=3$ tilti uz salu, tāpēc vismaz vienai salai būs vismaz 3 tilti (pēc Dirihlē principa)."
+      "type": "annotation",
+      "value": "Katra uzdevuma īss risinājuma konspekts. Noformēts pārskatam, ne kā olimpiādes paraugs."
     },
     {
-      "type": "solution",
-      "value": "2. Katrā pieturā norādītais skaitlis ir tās pakāpe (kādas šķautnes). Kopā visu virsotņu pakāpju summa ir $2 \\cdot$ šķautņu skaits, tātad pāra skaitlis ('roku paspiešanas lemma')."
-    },
-    {
-      "type": "solution",
-      "value": "3. Sk. vispirms dažādus gadījumus. (A) ar 0--9 tas ir iespējams, ja grafu uzskata par ciklisku un pārbauda atšķirības. (B) ar 0--13 nē, jo nav iespējams abpusēji savienot katru tā, lai nosacījums par atšķirību pārsniegtu nepieciešamo šķautņu kopu."
-    },
-    {
-      "type": "solution",
-      "value": "4. Rokas paspiešanas lemma: grafā nepāra pakāpes virsotņu skaitam jābūt pāra skaitlim. 8 ir pāra skaitlis, bet var, piem., katru savienot ar 3 citiem – ne visas konfigurācijas iespējamas, bet, ja mēģina izveidot precīzi, rodas pretruna ar virsotņu pakāpju summu – nav iespējams."
-    },
-    {
-      "type": "solution",
-      "value": "5. Lai varētu noteikt kungu un kundžu skaitu, apzīmējam $x$ – kungu, $y$ – kundžu. $17x = 13y$ un $x + y = 60$. Atrod $x = 39$, $y = 21$."
-    },
-    {
-      "type": "solution",
-      "value": "6. Minimālais šķautņu skaits savienotam grafam ar $n$ virsotnēm ir $n-1$ (minimums savienotam kokam)."
-    },
-    {
-      "type": "solution",
-      "value": "7. 2-krāsojamība (bipartītie grafi) nozīmē, ka nav nepāra ciklu. 7 virsotnes un 12 šķautnes nozīmē, ka varētu būt cikli ar 3 šķautnēm, tātad nav iespējama 2-krāsojamība."
-    },
-    {
-      "type": "solution",
-      "value": "8. Planārs grafam ar $n$ virsotnēm un šķautņu skaitu $e \\leq 3n-6$. Ja $n=7$, $d \\geq 4$, $4 \\cdot 7 / 2 = 14$ šķautnes, bet $3\\cdot 7-6 = 15$, krustošanās vēl nav liegta, bet $d \\geq 4$ padara par grūtu bez krustošanās, tātad nav iespējams."
-    },
-    {
-      "type": "solution",
-      "value": "9. Ja grafā ir $n$ virsotnes un $e$ šķautnes, tad īsākais cikls var tikt meklēts, izmantojot ciklu teoriju. 22 šķautnes ar 10 virsotnēm norāda, ka cikla garums nevar būt mazāks par 3 (trijstūris)."
-    },
-    {
-      "type": "solution",
-      "value": "10. Echo uzzīmēs koku – tas ir savienots grafiks bez cikliem. Koka īpašības: katras divas virsotnes savieno tieši viens ceļš; ja ir $n$ virsotņu, tad ir $n-1$ šķautne."
+      "type": "solution_summary",
+      "value": [
+        "1. Maksimālais ceļu skaits bez trijstūriem: 6 (Turāna grafā plānojums starp 5 virsotnēm).",
+        "2. Ja katram ir pakāpe 2, rodas aplis (katrs pazīst divus – cikls).",
+        "3. (A) Nav iespējams sarindot 0–9 ar $3,4,5$ atšķirību; (B) 0–13 – iespējams.",
+        "4. 26 kungi un 34 kundzes (virsotņu pakāpes attiecībā izmantojot formulu $17a=13b$ un $a+b=60$).",
+        "5. $1$ pārī ar $15$ kvadrātu pāros.",
+        "6. 3 cipari apļa pierakstam (piemēram, $1,3,7$).",
+        "7. Kokā ar 8 virsotnēm – 7 šķautnes.",
+        "8. Ja visas virsotnes ir ar pāra pakāpi, visas šķautnes var sadalīt ciklos.",
+        "9. Maksimālā šķautņu formula planāram grafam: $3n-6$. "
+      ]
     }
   ]
 }

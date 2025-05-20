@@ -1,0 +1,2 @@
+python ../../scripts/eliozo_client.py convert-worksheet worksheet.json worksheet.rst --reference task.json
+python ../../scripts/eliozo_client.py convert-worksheet worksheet.rst worksheet.docx --reference task.json

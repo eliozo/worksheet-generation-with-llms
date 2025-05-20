@@ -1,21 +1,24 @@
 {
     "task": {
         "query": "**VajadzÄ«gais saturs:** Darba lapa 90 minÅ«Å¡u nodarbÄ«bai pirms novada olimpiÄdes. **ApmÄcÄmie:** 8.klases skolÄ“ni. ViÅ†iem patÄ«k neformÄla valoda, animÄcijas seriÄls Arcane. **MÄcÄ«bu tÄ“mas:**  Grafu teorija, virsotÅ†u pakÄpes, grafu apstaigÄÅ¡ana, planÄri grafi bez Å¡Ä·autÅ†u krustoÅ¡anÄs, ceÄ¼i un cikli grafos, koki. OlimpiÄÅ¾u stila uzdevumiem jÄbÅ«t ar daÅ¾Ädu tipu jautÄjumiem (pierÄdÄ«jumi, piemÄ“ri, optimizÄcijas uzdevumi). **Atbildes formÄts:** LÅ«dzu izveidot pavisam 10 uzdevumu komplektu aprakstÄ«tajai situÄcijai: Vispirms 2 ievaduzdevumus, tad Ä«su teorijas pÄrskatu. Visbeidzot 8 uzdevumus ar pieaugoÅ¡u grÅ«tÄ«bas pakÄpi. Visu 10 uzdevumu atrisinÄjumus (konspektÄ«vus, kas nav domÄti kÄ paraugs atrisinÄjumu noformÄ“Å¡anai olimpiÄdÄ“) ievietot darba lapas beigÄs.",
+        "title": "Grafu teorijas pamati",
         "grade": 8,
         "age": 14,
         "problemcount": 10,
         "worksheet": "../tests/get-problems/worksheet.json",
-        "template": "templates/regular.rst.jinja",
+        "template": "C:\\Users\\eozolina\\Documents\\workspace-private\\worksheet-generation-with-llms\\scripts\\templates\\regular.rst.jinja",
         "domain": "Comb",
         "learners": {
             "prerequisite_knowledge": "8th grade students have experience with graph theory basics, including vertex degrees, traversing graphs, planar graphs, paths, cycles, and trees. They may not have formal olympiad experience but are preparing for one and should be comfortable with proofs, examples, and optimization-style questions.",
             "likes": "They enjoy informal language and the animated series Arcane.",
             "dislikes": "Overly formal presentation may not engage them."
         },
-        "format_notes": "Worksheet is for an upcoming regional olympiad prep class (90 min), targeting 8th grade students who prefer an informal tone and like the Arcane animation series. The worksheet should include 10 problems in total: 2 introductory problems, a concise theory overview summarizing required concepts (graph theory, vertex degrees, graph traversal, planar graphs, paths, cycles, trees), followed by 8 main problems with increasing difficulty. Problems should be of various types, including proofs, examples, and optimization tasks, in an olympiad style. Include summary-form solutions (not full sample answers) for all problems at the end of the worksheet."
+        "format_notes": "Worksheet is for an upcoming regional olympiad prep class (90 min), targeting 8th grade students who prefer an informal tone and like the Arcane animation series. The worksheet should include 10 problems in total: 2 introductory problems, a concise theory overview (covering: graph theory basics, vertex degrees, graph traversals, planar graphs without edge crossings, paths, cycles, trees), followed by 8 problems of increasing difficulty. Problems should vary in style—proofs, examples, optimization tasks—in an olympiad format. Include summary-form solutions (not full sample answers) for all problems at the end of the worksheet."
     },
     "result": {},
     "found_topics": [
-        "GraphProblems"
+        "GraphProblems",
+        "CombinatorialStructures",
+        "CombinatorialAlgorithms"
     ]
 }

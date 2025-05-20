@@ -1,0 +1,166 @@
+{
+  "snippets": [
+    {
+      "type": "title",
+      "value": "Grafu teorijas pamati – Arcane olimpiādēm!"
+    },
+    {
+      "type": "section_title",
+      "value": "Ievaduzdevumi"
+    },
+    {
+      "type": "annotation",
+      "value": "Divi iesildoši uzdevumi draudzīgā stilā — lai iesildītu domāšanu, pirms mēs metamies grafu piedzīvojumos kopā ar Arcane tēliem!"
+    },
+    {
+      "type": "problem",
+      "problemid": "NEW",
+      "problemtext": "Arcane pilsētā visiem iedzīvotājiem patīk draudzēties. Ja katram iedzīvotājam ir vismaz viens draugs (un draudzība vienmēr ir abpusēja), vai pilsētiņā var būt tāds iedzīvotājs, kuram ir nepāra skaits draugu?",
+      "problemsolution": "Jā, var! Ja kopējais draudzību skaits pilsētā ir pāra skaitlis, tad var būt iedzīvotājs ar nepāra draugu skaitu. Grafu teorijā virsotņu pakāpju summa vienmēr ir pāra skaitlis, jo katra draudzība tiek skaitīta divreiz."
+    },
+    {
+      "type": "problem",
+      "problemid": "NEW",
+      "problemtext": "Ak, ne! Zauns starp Piltover un Zhaun sabojājies. Pieci Arcane tēli stāv rindā tā, ka divi pēc kārtas stāvoši tēli vienmēr sastrīdas, ja viņi nav draugi. Kā var pārbaudīt, vai var izkārtot viņus tā, lai nebūtu neviena sastrīdējušā pāra rindā pēc kārtas? Kā šo var attēlot grafā?",
+      "problemsolution": "Uzdevumu risina zīmējot grafu, kur virsotnes ir tēli un šķautnes — draudzība. Izvietot rindā iespējams, ja grafā var atrast Hamiltona ceļu, kur katra blakus virsotne ir draudzīga."
+    },
+    {
+      "type": "section_title",
+      "value": "Grafu teorijas teorijas pārskats"
+    },
+    {
+      "type": "annotation",
+      "value": "Īss atgādinājums par svarīgākajām tēmām: grafi, virsotņu pakāpes, ceļi & cikli, planāri grafi, koku īpašības."
+    },
+    {
+      "type": "theorem",
+      "value": "Grafu pamati: Grafu veido virsotnes (punkti) un šķautnes (līnijas starp punktiem)."
+    },
+    {
+      "type": "theorem",
+      "value": "Virsotnes pakāpe: Virsotnes pakāpe ir tieši tik, cik šķautnes no tās iziet."
+    },
+    {
+      "type": "theorem",
+      "value": "Ceļi un cikli: Ceļš ir pa šķautnēm staigāts maršruts bez šķautņu atkārtošanās, cikls — noslēgts ceļš."
+    },
+    {
+      "type": "theorem",
+      "value": "Planārs grafiks: Tas ir grafiks, kur var uzzīmēt nekrustojot šķautnes."
+    },
+    {
+      "type": "theorem",
+      "value": "Koki: Koks ir savienots, ciklu nesaturošs grafiks. Koka šķautņu skaits ir virsotņu skaits minus viens."
+    },
+    {
+      "type": "section_title",
+      "value": "Uzdevumi ar pieaugošu grūtības pakāpi"
+    },
+    {
+      "type": "problem",
+      "problemid": "LV.AMO.2007.7.1",
+      "problemtext": "Kādu lielāko daudzumu dažādu ciparu var izrakstīt pa apli tā, lai katri divi blakus uzrakstīti cipari, lasot tos jebkurā virzienā, veidotu pirmskaitļa pierakstu?",
+      "problemsolution": "Maksimālais skaits ir $3$ (piemēram, $1,3,7$). Ja mēģina vairāk, vienam no cipariem nav piemērotu kaimiņu — nav iespējams."
+    },
+    {
+      "type": "problem",
+      "problemid": "LV.AMO.2011.6.2",
+      "problemtext": "Sešdesmit pensionāri ik dienu sarakstās sociālajā tīklā. Katrs kungs sarakstās ar tieši $17$ dāmām, bet katra dāma sarakstās ar tieši $13$ kungiem. Cik starp šiem pensionāriem ir kungu un cik — dāmu?",
+      "problemsolution": "Apgalvojums sniedz vienādojumus: $a + b = 60$, $17a = 13b$. Atrisinot, $a = 26$ (kungi), $b = 34$ (dāmas)."
+    },
+    {
+      "type": "problem",
+      "problemid": "LV.NOL.2004.7.1",
+      "problemtext": "Kādu mazāko daudzumu no skaitļiem $1; 2; 3; \\ldots; 14; 15$ var izsvītrot, lai katru divu atlikušo summa būtu salikts skaitlis?",
+      "problemsolution": "Jāizsvītro 7 skaitļi, piemēram, visi pāra skaitļi."
+    },
+    {
+      "type": "problem",
+      "problemid": "NEW",
+      "problemtext": "Viktora grafā ir $10$ virsotnes un $13$ šķautnes. Viņš apgalvo, ka šis grafiks satur vismaz divus ciklus. Vai Viktoram ir taisnība?",
+      "problemsolution": "Jā! Katrā kokā ar $n$ virsotnēm ir tikai $n-1$ šķautne. Jan grafam ir vairāk šķautņu — tam ir cikli. $13 > 9$ — vismaz divi cikli."
+    },
+    {
+      "type": "problem",
+      "problemid": "LV.AMO.2022B.8.4",
+      "problemtext": "Vai pa apli var uzrakstīt skaitļus $0, 1, ..., 9$ tā, lai katri divi blakus esošie skaitļi atšķirtos par $3$, $4$ vai $5$?",
+      "problemsolution": "Nē, tas nav iespējams — starp atsevišķiem skaitļiem nav iespējams nodrošināt prasītos starpības."
+    },
+    {
+      "type": "problem",
+      "problemid": "NEW",
+      "problemtext": "Jinx zīmē grafu, kurā ir $n$ virsotnes. Viņa vēlas, lai katrai virsotnei būtu tieši 3 draugiem atbilstošas šķautnes. Kādas vērtības $n$ tas ir iespējams, ja grafā nav pāru šķautņu (t.i., starp divām virsotnēm — visvairāk viena šķautne)?",
+      "problemsolution": "Tas ir iespējams tikai tad, ja $n$ ir pāra skaitlis un $n \\geq 4$, jo grafā ar visām virsotnēm ar nepāru pakāpi kopējais šķautņu skaits būtu dalāms ar $3n/2$, kas ir iespējams tikai pāra $n$."
+    },
+    {
+      "type": "problem",
+      "problemid": "NEW",
+      "problemtext": "Arcane reiss: Planārs grafiks ir uzzīmēts uz papīra (bez šķautņu krustošanās). Vai taisnība, ka tajā nekad nevar būt šķautne, kas šķērso vairāk nekā divas citas šķautnes?",
+      "problemsolution": "Nē! Planāros grafos šķautnes nedrīkst krustoties vispār. Ja ir krustošanās — tas vairs nav planārs grafiks."
+    },
+    {
+      "type": "problem",
+      "problemid": "NEW",
+      "problemtext": "Kurā Arcane pilsētas kokā (tas ir, kokā ar $n$ virsotnēm) var atrast tieši divas lapas (t.i., virsotnes ar pakāpi 1)? Kāda ir šāda koka struktūra?",
+      "problemsolution": "Tikai ceļa grafā jeb ķēdē ir tieši divas lapas — abu galu virsotnes. Citiem kokiem noteikti būs vairāk lapu."
+    },
+    {
+      "type": "section_title",
+      "value": "Konspektīvas atbildes un risinājumu anotācijas"
+    },
+    {
+      "type": "annotation",
+      "value": "Tālāk atradīsi īsus risinājumu komentārus visiem uzdevumiem."
+    },
+    {
+      "type": "solution",
+      "problemid": "NEW",
+      "value": "Jā, pilsētā var būt iedzīvotājs ar nepāra draugu skaitu, jo draudzību summas kopā veido pāra skaitli, bet individuāli — var būt arī nepāra pakāpes."
+    },
+    {
+      "type": "solution",
+      "problemid": "NEW",
+      "value": "Ja grafā var izvilkt Hamiltona ceļu starp draudzīgajiem, tad var izkārtot tā, lai rindā nebūtu sastrīdējušo pāru."
+    },
+    {
+      "type": "solution",
+      "problemid": "LV.AMO.2007.7.1",
+      "value": "Trīs dažādi cipari – piemērs: $1,3,7$."
+    },
+    {
+      "type": "solution",
+      "problemid": "LV.AMO.2011.6.2",
+      "value": "$26$ kungi; $34$ dāmas."
+    },
+    {
+      "type": "solution",
+      "problemid": "LV.NOL.2004.7.1",
+      "value": "Atbilde: $7$ skaitļi, izsvītrojot, piemēram, visus pāra skaitļus."
+    },
+    {
+      "type": "solution",
+      "problemid": "NEW",
+      "value": "Grafā ar $10$ virsotnēm un $13$ šķautnēm ir vairāk nekā $10-1=9$ šķautne, tāpēc ir vismaz 2 cikli."
+    },
+    {
+      "type": "solution",
+      "problemid": "LV.AMO.2022B.8.4",
+      "value": "Nav iespējams. Dažiem skaitļiem nevar piešķirt nepieciešamo starpību ar kādu citu."
+    },
+    {
+      "type": "solution",
+      "problemid": "NEW",
+      "value": "$n$ ir pāra skaitlis; viņai noteikti vajag pāra daudzumu virsotņu, lai katram būtu 3 kaimiņi (grafā ar visiem nepāra pakāpes virsotnēm nepieciešams pāra virsotņu skaits)."
+    },
+    {
+      "type": "solution",
+      "problemid": "NEW",
+      "value": "Planārā grafā šķautnes nedrīkst vispār krustoties. Ja viena šķautne krustojas ar kādu citu — vairs nav planārs."
+    },
+    {
+      "type": "solution",
+      "problemid": "NEW",
+      "value": "Tikai ceļu grafā ar $n$ virsotnēm (ķēde) ir tieši 2 lapas, abi gali."
+    }
+  ]
+}

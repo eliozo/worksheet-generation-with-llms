@@ -1,0 +1,25 @@
+Darba lapa 90 minūšu nodarbībai pēc algebras ievadtemata apguves. Apmācāmie: 7. klases skolēni. Viņiem patīk detektīvstāsti un loģiskās spēles. Mācību tēmas: mainīgie, vienādojumi, izteiksmes. Iekļauj 2 ievaduzdevumus, īsu teorijas pārskatu un 8 uzdevumus ar pieaugošu grūtības pakāpi. Pievieno īsus atrisinājumus beigās skolotājam.
+
+Izveido darba lapu 45 minūšu nodarbībai par planimetriju. Apmācāmie: 9. klases skolēni. Viņus interesē arhitektūra un vizuālie zīmējumi. Tēmas: trijstūri, laukumi, leņķu īpašības. Iekļauj teorijas konspektu, 2 vienkāršus uzdevumus un 5 izaicinošākus. Atbildes darba lapas beigās.
+
+Darba lapa 90 minūtēm par funkcijām koordinātu plaknē. Apmācāmie: 9. klase. Skolēniem patīk tehnoloģijas un datorgrafika. Tēmas: lineāras funkcijas, grafiki, vērtību tabulas. Iekļauj 2 vienkāršus piemērus, teorijas atgādni un 6 uzdevumus dažādās grūtībās. Atrisinājumi beigās.
+
+Darba lapa 90 minūšu nodarbībai pirms matemātikas olimpiādes. Apmācāmie: 8. klases skolēni. Viņiem patīk loģiski izaicinājumi un viktorīnas. Mācību tēmas: skaitļu teorija, dalāmība, atlikumi. Iekļauj 2 ievaduzdevumus, teorijas pārskatu un 8 olimpiāžu tipa uzdevumus ar pieaugošu grūtību. Atbildes pievieno darba lapas beigās skolotājam.
+    
+Izveido darba lapu 90 minūšu nodarbībai pirms matemātikas olimpiādes 7. klasei. Skolēniem patīk stratēģiskas spēles. Tēmas: kombinatorika, skaitīšanas metodes, ceļu skaits režģī. Struktūra: 2 ievaduzdevumi, īss teorijas kopsavilkums un 8 uzdevumi ar pieaugošu sarežģītību. Pievieno īsus konspektīvus risinājumus beigās.
+    
+Darba lapa 60 minūšu nodarbībai pirms olimpiādes. Apmācāmie: 9. klases skolēni. Tēmas: funkcijas un to īpašības, vienādības un nevienādības, maksimumu un minimumu atrašana. Iekļauj 2 vienkāršus piemērus, teorijas sadaļu un 8 uzdevumus. Atrisinājumus ievieto beigās skolotājam.
+    
+Sagatavo olimpiādes sagatavošanas darba lapu 6. klasei par ģeometrijas tēmām. Tēmas: stūru un laukumu aprēķins, figūru īpašības, zīmējumu analīze. Iekļauj ievaduzdevumus un 8 uzdevumus ar augošu grūtību. Beigās – risinājumu konspekts.
+    
+Darba lapa 8. klases skolēniem par matemātiskās indukcijas pamatiem. Nodarbība 90 minūtes. Skolēni ir pieraduši pie teorētiska darba un patīk risināt izaicinājumus. Tēmas: induktīvs pierādījums, summu formulas. Struktūra: 2 ievaduzdevumi, teorija, 8 uzdevumi. Pievieno risinājumus beigās."
+    
+Darba lapa 7. klasei par simetriju un figūru īpašībām pirms olimpiādes. Skolēniem patīk vizuālie uzdevumi un zīmējumu loģika. Iekļauj 2 vienkāršus piemērus, īsu teoriju un 8 sarežģītākus uzdevumus. Atbildes beigās.
+    
+Izveido 90 minūšu darba lapu 9. klasei par nelineārām vienādojumu sistēmām. Uzdevumi balstīti olimpiāžu stilā: atrisināt, pierādīt, analizēt. Iekļauj 2 uzsildošus uzdevumus, teoriju un 8 galvenos piemērus. Pievieno skolotāja konspektus ar atbildēm.
+    
+Darba lapa 6. klases skolēniem par loģikas uzdevumiem un domāšanas stratēģijām, piemērota pirms matemātikas olimpiādes. Tēmas: patiesuma tabulas, spriedumi, loģiskas spēles. Iekļauj 10 uzdevumus ar īsiem paskaidrojumiem beigās.
+    
+Sagatavo darba lapu 8. klases skolēniem par skaitļu dalāmību un atlikumiem. Nodarbība 60 minūtes, mērķis – trenēties pirms olimpiādes. Iekļauj uzdevumus ar teorētisku pamatojumu un skaitliskiem piemēriem. Atrisinājumi beigās.
+    
+Darba lapa 7. klasei par optimizācijas problēmām un minimizācijas stratēģijām. Skolēniem patīk reālistiski piemēri un izaicinoši uzdevumi. Tēmas: visīsākais ceļš, minimālas summas, sistemātiskas pārbaudes. Iekļauj 2 ievaduzdevumus, teoriju un 8 grūtākus uzdevumus ar atbildēm beigās.

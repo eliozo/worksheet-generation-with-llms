@@ -26,11 +26,9 @@
 *Pierādījums:* {{ snippet.value }}
 
 {% elif snippet.type == "problem" %}
-{{ snippet.value }}
+{{ snippet.problemtext }}
 (sk. {{ snippet.problemid }})
 
-{% elif snippet.type == "solution" %}
-*Atrisinājums:* {{ snippet.value }}
 
 
 {% elif snippet.type == "annotation" %}
@@ -40,8 +38,18 @@
 **Labojums:** {{ snippet.value }}
 
 {% else %}
-XXXXX {{ snippet.type }}: {{ snippet.value }}
+{{ snippet.type }}: {{ snippet.value }}
 
 {% endif %}
 {% endfor %}
 
+Atrisinājumi
+-----------------------------------------------
+{% for snippet in main.snippets %}
+
+{% if snippet.type == "problem" %}
+**{{ snippet.problemid }}**
+{{ snippet.problemsolution }}
+{% endif %}
+
+{% endfor %}
