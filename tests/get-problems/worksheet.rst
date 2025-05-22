@@ -1,168 +1,88 @@
 
 
-Arcane Grafu Teorija: Iesildošā darba lapa 8.klasei
+Dirihlē princips ar Vinniju Pūku un draugiem (7.–8. klase)
 =====================================================================
 
 
 
 
-Ievaduzdevumi
+*Darbalapa vienai 45 minūšu matemātikas stundai. Visi uzdevumi ir tematizēti ar Vinnija Pūka tēliem un aicina trenēt domāšanu ar Dirihlē (pigeonhole) principu.*
+
+
+
+
+Iesildīšanās uzdevums
 -------------------------------------------------------------------------
 
 
 
 
-*Sākumā – divi viegli uzdevumi, kas palīdz atcerēties galvenos jēdzienus grafu pasaulē. Jūties kā Vi, kas sāk trenēt prātu pirms īstas misijas Piltover!*
+Vinnijs Pūks grib apciemot savus septiņus draugus: Sivēnu, Ezi, Trusīti, Ēzelīti, Pūci, Kangas mammu un Mazulīti. Ja Pūks ciemosies pie katra drauga vienu dienu nedēļā, vai noteikti būs kādi divi draugi, kurus Pūks apciemos vienā un tajā pašā nedēļas dienā, ja nedēļa ir tikai sešas dienas gara?
+  <p>(sk. <a href="https://www.dudajevagatve.lv/eliozo/problem?problemid=NEW">NEW</a>)</p>
 
 
 
 
-Arcane pilsētā Hexportā starp sešām galvenajām apkaimēm ved ceļi, bet ne visi ceļi ir savienoti. Ja katru apkaimi var sasniegt no jebkuras citas (staigājot pa ceļiem), vai šis grafis ir noteikti saistīts? Nosauc piemēru vai pierādi!
-(sk. NEW)
-
-
-
-
-
-
-Vai pa apli var uzrakstīt skaitļus :math:`0;\;1;\;2;\;3;\;4;\;5;\;6;\;7;\;8;\;9` tā, lai katri divi blakus esoši atšķirtos par :math:`3`, :math:`4` vai :math:`5`?
-(sk. LV.AMO.2022B.8.4)
-
-
-
-
-
-
-Teorijas pārskats
+Galvenie uzdevumi
 -------------------------------------------------------------------------
 
 
 
 
-XXXXX theory: 1) Virsotnes pakāpe: cik šķautnes (ceļi, tilti) iziet no virsotnes (punkta vai vietas)\n2) Grafa apstaigāšana (traversēšana): grafu var iziet pa noteiktu maršrutu (ceļu vai ciklu)\n3) Planārs grafs: var uzzīmēt uz plaknes, tā lai šķautnes nekrustotos\n4) Ceļi un cikli: ceļš – virknē nav atkārtotu šķautņu, bet ciklā sākuma un beigu virsotne sakrīt\n5) Koki: grafs, kas ir saistīts un kurā nav ciklu. Parasti noder shēmošanā, piemēram, Hextech iekārtu ķēdēs!
+Cik ir tādu četrciparu skaitļu, kuru pierakstā ir vismaz viens pāra cipars?
+  <p>(sk. <a href="https://www.dudajevagatve.lv/eliozo/problem?problemid=LV.NOL.2013.8.3">LV.NOL.2013.8.3</a>)</p>
 
 
 
 
-Grūtākie uzdevumi (Arcane olimpiādes stilā!)
+Uz papīra uzrakstīti dabiskie skaitļi no :math:`1` līdz :math:`2004` secīgi. No tiem izsvītro katru trešo skaitli (piemēram, :math:`1.`, :math:`4.`, :math:`7.`, :math:`10.` utt.), tad no atlikušajiem atkal izsvītro katru trešo skaitli, un tā turpina, līdz paliek tikai viens skaitlis. Kurš skaitlis paliks?
+  <p>(sk. <a href="https://www.dudajevagatve.lv/eliozo/problem?problemid=LV.AMO.2004.8.5">LV.AMO.2004.8.5</a>)</p>
+
+
+
+
+Amanda uz papīra uzraksta skaitļus no :math:`1` līdz :math:`2022`. Viņa: (1) apvelk ar sarkanu visus, kas dalās ar :math:`3`; (2) ar zilu – kas dalās ar :math:`5`; (3) ar zaļu – kas dalās ar :math:`7`. Cik ir tādu skaitļu, kas ir apvilkti vismaz ar divām dažādām krāsām?
+  <p>(sk. <a href="https://www.dudajevagatve.lv/eliozo/problem?problemid=LV.AMO.2022B.6.1">LV.AMO.2022B.6.1</a>)</p>
+
+
+
+
+Kādu pašu mazāko summu var iegūt, saskaitot visus ciparus skaitlim, kurš bez atlikuma dalās ar :math:`23`?
+  <p>(sk. <a href="https://www.dudajevagatve.lv/eliozo/problem?problemid=LT.LJKMO.2000.7_8.3">LT.LJKMO.2000.7_8.3</a>)</p>
+
+
+
+
+Ezi un Sivēns grib sadalīt divpadsmit medus podus starp četriem draugiem. Vai vienmēr būs vismaz viens draugs, kurš saņems vismaz četrus podus, ja katrs pods tiek atdots tikai vienam draugam?
+  <p>(sk. <a href="https://www.dudajevagatve.lv/eliozo/problem?problemid=NEW">NEW</a>)</p>
+
+
+
+
+Teorijas sadaļa
 -------------------------------------------------------------------------
 
 
 
 
-*8 uzdevumi ar arvien lielāku sarežģītību. Te būs gan piemēri, gan pierādījumi, gan optimizācijas!*
+definition: Dirihlē princips (pigeonhole principle): Ja :math:`n` objektus ievieto :math:`m` kastēs ar :math:`n > m`, tad vismaz vienā kastē būs vismaz divi objekti.
 
 
 
 
-60 pensionāri katru dienu Arcane sociālajā tīklā apmainās ziņām. Katrs kungs sarakstās ar tieši :math:`17` dāmām, katra dāma ar tieši :math:`13` kungiem. Cik ir kungu un cik dāmu?
-(sk. LV.AMO.2011.6.2)
+**Teorēma:** Formulējums: Ja :math:`n` objektu jāsadala :math:`m` kastēs, tad kādā kastē būs vismaz :math:`\left\lceil \frac{n}{m} \right\rceil` objektu.
 
 
 
 
-
-
-Piltoverā ir dots koks ar :math:`15` virsotnēm. Cik šķautņu koks var maksimāli saturēt? Kā šo vispār noteikt jebkuram koka virsotņu skaitam?
-(sk. NEW)
-
-
-
-
-
-
-Kādu lielāko daudzumu dažādu ciparu var izrakstīt pa apli tā, lai katri divi blakus uzrakstīti cipari, lasot jebkurā virzienā, veidotu pirmskaitļa pierakstu?
-(sk. LV.AMO.2007.7.1)
-
-
-
-
-
-
-Dotam sešstūra tīklam (katra virsotne savienota ar 3 'kaimiņiem'), kāda var būt mazākā iespējamā un lielākā iespējamā virsotnes pakāpe? Un cik šķautnes kopā ir šādā tīklā ar :math:`12` virsotnēm?
-(sk. NEW)
-
-
-
-
-
-
-Hextech izgudrotāji vēlas zīmēt planāru grafu ar :math:`8` virsotnēm un :math:`15` šķautnēm. Vai tas ir iespējams? Pamato, izmantojot planāru grafu formulu :math:`v-e+f=2`.
-(sk. NEW)
-
-
-
-
-
-
-Izveido nedivdaļīgu ciklisku grafu uz :math:`5` virsotnēm un parādi, kāpēc tas nav divdaļīgs.
-(sk. NEW)
-
-
-
-
-
-
-Arcane džungļos Summoner's Rift var pārvietoties tikai pa vienvirziena tiltiem no ciema uz ciemu (nav nevienas kopīgas atpakaļceļa saites). Vai šo grafu var saukt par koku? Pastāsti, kādiem nosacījumiem koks atbilst.
-(sk. NEW)
-
-
-
-
-
-
-Atrisinājumi (konspektīvi)
+Padomi risināšanai
 -------------------------------------------------------------------------
 
 
 
 
-XXXXX solutions_header: Katram uzdevumam – galvenā doma (vērtējams pēc idejas, nevis noformējuma):
-
-
-
-
-XXXXX solution: Grafis ir saistīts, ja starp katrām divām virsotnēm eksistē ceļš. Ja ir sasniedzamība, grafā nav atdalītu 'nostūru'.
-
-
-
-
-XXXXX solution: Nav iespējams, jo dažām virsotnēm (skaitļiem) vispār nav starpā pieļaujamu kaimiņu, nesanāk apļveida 'kaimiņu' sadale.
-
-
-
-
-XXXXX solution: Izmantojam virsotņu pakāpju vienādojumu – rezultātā sanāk 26 kungi un 34 dāmas.
-
-
-
-
-XXXXX solution: Kokam ar :math:`n` virsotnēm ir :math:`n-1` šķautnes, neatkarīgi no formas. Tātad ar :math:`15` virsotnēm – :math:`14` šķautnes.
-
-
-
-
-XXXXX solution: Maksimums – :math:`3` cipari. Vairākiem noteikti parādās sadursme ar pirmskaitļa prasībām.
-
-
-
-
-XXXXX solution: Katrs no :math:`12` virsotnēm ar 3 šķautnēm, kopā :math:`18` šķautnes. Visas virsotnes ar pakāpi 3 – regulars grafs. Pakāpes vienādas.
-
-
-
-
-XXXXX solution: Planāram grafam :math:`e \leq 3v-6`, šeit :math:`15 < 3\cdot8 - 6 = 18`, līdz ar to – var eksistēt planārs grafs.
-
-
-
-
-XXXXX solution: :math:`C_5` cikls nav divdaļīgs, jo tajā ir cikls ar nepāra garumu – divdaļīgam grafam ciklu garumiem jābūt pāra.
-
-
-
-
-XXXXX solution: Vienvirziena malām nav piemērojama koka definīcija, jo parasts koks ir nesaistīts ar orientāciju – tajā nav orientētu šķautņu.
+*Katram uzdevumam atceries:
+1) Uzzīmē un sadali pēc iespējas vienkāršāk; 2) Pārliecinies, vai kāds rezultāts noteikti kļūst pārāk bieži; 3) Atceries stāsta varoņus – iztēlojies kas notiek Pūka mežā!*
 
 
 
@@ -185,14 +105,7 @@ Atrisinājumi
 
 
 **NEW**
-Jā, ja katru apkaimi var sasniegt no jebkuras citas, tad grafis ir saistīts pēc definīcijas. Ja piemērs – apkaimes A, B, C, D, E, F un starp tām ceļi, kas veido apli, tad visas sasniedzamas.
-
-
-
-
-
-**LV.AMO.2022B.8.4**
-Nav iespējams. Dažas no skaitļiem (:math:`0,1,2,8,9`) nevar likt blakus nevienam no pārējiem noteiktā veidā, tāpēc rakstīt ap apli šādi nav iespējams.
+Jā, pēc Dirihlē principa. Ja septiņi ciemojumi jāsadala sešās dienās, tad vismaz viena diena būs ar diviem ciemojumiem.
 
 
 
@@ -202,86 +115,36 @@ Nav iespējams. Dažas no skaitļiem (:math:`0,1,2,8,9`) nevar likt blakus nevie
 
 
 
+**LV.NOL.2013.8.3**
+No visiem četrciparu skaitļiem (:math:`9000`) atņemam tos, kuros nav neviena pāra cipara (t.i., visi četri cipari nepāra: :math:`5^4 = 625`). Atbilde: :math:`9000-625=8375`.
 
 
 
 
 
+**LV.AMO.2004.8.5**
+Paliks skaitlis :math:`1598`. Sk. risinājumu pēc īpašas svītrošanas shēmas.
 
 
 
 
 
-
-
-**LV.AMO.2011.6.2**
-Vienādojums: :math:`a+b=60`, :math:`17a=13b`. Ris. :math:`a=26` (kungi), :math:`b=34` (dāmas).
-
-
-
-
-
-**NEW**
-Kokam ar :math:`n` virsotnēm ir :math:`n-1` šķautne. Tātad ar :math:`15` virsotnēm – :math:`14` šķautnes.
+**LV.AMO.2022B.6.1**
+Atradīsim, cik skaitļu dalās ar :math:`3` un :math:`5` (:math:`15`), ar :math:`3` un :math:`7` (:math:`21`), ar :math:`5` un :math:`7` (:math:`35`), koriģējam par kopīgo :math:`105`. Kopā :math:`134+96+57-2\cdot19=249`.
 
 
 
 
 
-**LV.AMO.2007.7.1**
-Maksimālais – :math:`3` cipari: :math:`1`, :math:`3`, :math:`7` jebkurā secībā, jo lielākiem vai citiem iespējami atkārtojas nepirmpāra ciparu pāri.
+**LT.LJKMO.2000.7_8.3**
+Vismazākā iespējamā ciparu summa ir :math:`2`, piemēram, skaitlim :math:`100000000001 = 10^{11} + 1`.
 
 
 
 
 
 **NEW**
-Ja katram ir :math:`3` kaimiņi, katras šķautnes gals pieskaitīts divreiz: šķautņu skaits :math:`E=\frac{12\cdot3}{2}=18`. Mazākā un lielākā pakāpe visiem ir :math:`3`, jo regulars grafs.
-
-
-
-
-
-**NEW**
-Planārajam grafam ar :math:`v` virsotnēm un :math:`e` šķautnēm nepieciešams :math:`e\leq3v-6`. Šeit :math:`3\cdot8-6=18`, :math:`15<18`, tāpēc – jā, iespējams.
-
-
-
-
-
-**NEW**
-Cikls ar :math:`5` virsotnēm (:math:`C_5`) nav divdaļīgs, jo tajā ir nepāra garuma cikls. Divdaļīgā grafā nedrīkst būt nepāra garuma cikli.
-
-
-
-
-
-**NEW**
-Nē, jo kokā šķautnes nav orientētas, koks ir saistīts un bez cikliem. Ja vienvirziena (orientēts) – tad tas ir vairs nav koks pēc parastās definīcijas.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Jā, jo pēc Dirihlē principa, ja :math:`12` podi jāizdala 4 draugiem, tad kādam būs vismaz :math:`\left\lceil \frac{12}{4} \right\rceil = 3` podi, bet, ja kaut vienam būs mazāk, citiem nāksies saņemt vairāk.
 
 
 

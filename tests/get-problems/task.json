@@ -1,21 +1,21 @@
 {
     "task": {
-        "query": "**VajadzÄ«gais saturs:** Darba lapa 90 minÅ«Å¡u nodarbÄ«bai pirms novada olimpiÄdes. **ApmÄcÄmie:** 8.klases skolÄ“ni. ViÅ†iem patÄ«k neformÄla valoda, animÄcijas seriÄls Arcane. **MÄcÄ«bu tÄ“mas:**  Grafu teorija, virsotÅ†u pakÄpes, grafu apstaigÄÅ¡ana, planÄri grafi bez Å¡Ä·autÅ†u krustoÅ¡anÄs, ceÄ¼i un cikli grafos, koki. OlimpiÄÅ¾u stila uzdevumiem jÄbÅ«t ar daÅ¾Ädu tipu jautÄjumiem (pierÄdÄ«jumi, piemÄ“ri, optimizÄcijas uzdevumi). **Atbildes formÄts:** LÅ«dzu izveidot pavisam 10 uzdevumu komplektu aprakstÄ«tajai situÄcijai: Vispirms 2 ievaduzdevumus, tad Ä«su teorijas pÄrskatu. Visbeidzot 8 uzdevumus ar pieaugoÅ¡u grÅ«tÄ«bas pakÄpi. Visu 10 uzdevumu atrisinÄjumus (konspektÄ«vus, kas nav domÄti kÄ paraugs atrisinÄjumu noformÄ“Å¡anai olimpiÄdÄ“) ievietot darba lapas beigÄs.",
-        "grade": 8,
-        "age": 14,
-        "problemcount": 10,
+        "query": "**Ä¢enerÄ“ darba lapu 7.â€“8. klases skolÄ“niem par DirihlÄ“ principu, izmantojot Vinnija PÅ«ka tÄ“lu un viÅ†a draugus kÄ kontekstu. Darba lapa paredzÄ“ta vienai 45 minÅ«Å¡u matemÄtikas stundai. TÄ satur 1 iesildÄ«Å¡anÄs uzdevumu, 5 galvenos uzdevumus (1 Ä£enerÄ“ LLM, 4 nÄk no Jena Fuseki, bet adaptÄ“ti), definÄ«cijas un DirihlÄ“ principa formulÄ“jumu. Darba lapas apjomam jÄiekÄ¼aujas 2 A4 lapÄs. Darba lapas beigÄs pievieno 1â€“2 ieteikumus skolÄ“niem par katru uzdevumu. Uzdevumiem jÄbÅ«t atraktÄ«viem un sasaistÄ«tiem ar stÄstu par Vinniju PÅ«ku.",
+        "grade": 7,
+        "age": 13,
+        "problemcount": 6,
         "worksheet": "../tests/get-problems/worksheet.json",
         "template": "templates/regular.rst.jinja",
         "domain": "Comb",
         "learners": {
-            "prerequisite_knowledge": "8th grade students have experience with graph theory basics, including vertex degrees, traversing graphs, planar graphs, paths, cycles, and trees. They may not have formal olympiad experience but are preparing for one and should be comfortable with proofs, examples, and optimization-style questions.",
-            "likes": "They enjoy informal language and the animated series Arcane.",
-            "dislikes": "Overly formal presentation may not engage them."
+            "prerequisite_knowledge": "Students are in grades 7-8 and likely have some experience with basic combinatorics and logical reasoning, but may not have previously studied the Pigeonhole Principle by name.",
+            "likes": "They enjoy engaging story-driven contexts, specifically those involving Winnie-the-Pooh and his friends, and appreciate attractive, narrative-based problems.",
+            "dislikes": "Overly abstract or formal mathematical language and problems that are disconnected from familiar stories or characters."
         },
-        "format_notes": "Worksheet is for an upcoming regional olympiad prep class (90 min), targeting 8th grade students who prefer an informal tone and like the Arcane animation series. The worksheet should include 10 problems in total: 2 introductory problems, a concise theory overview summarizing required concepts (graph theory, vertex degrees, graph traversal, planar graphs, paths, cycles, trees), followed by 8 main problems with increasing difficulty. Problems should be of various types, including proofs, examples, and optimization tasks, in an olympiad style. Include summary-form solutions (not full sample answers) for all problems at the end of the worksheet."
+        "format_notes": "Worksheet is designed for 7th–8th grade students, contextually themed with Winnie the Pooh and friends. Intended for a single 45-minute math lesson, fitting within 2 A4 pages. Worksheet structure: 1 warm-up problem, 5 main problems (1 generated, 4 adapted from Jena Fuseki), all creatively related to the story of Winnie the Pooh. Includes definitions and a clear statement of Dirichlet's principle. Each problem is accompanied at the end by 1–2 student tips or recommendations. Problems should be engaging and have a narrative connection to Winnie the Pooh's world."
     },
     "result": {},
     "found_topics": [
-        "GraphProblems"
+        "CountingObjects"
     ]
 }

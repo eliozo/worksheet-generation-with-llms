@@ -28,12 +28,17 @@ pip install jinja2
 ```
 
 ## Directory structure
-This repo has 2 directories:
-1) **scripts**, where all scripts are located
-2) **tests**, where all tests are located
+This repo has 3 directories:
+1) **generated-worksheets**, where generated worksheets are located
+2) **scripts**, where all scripts are located
+3) **tests**, where all tests are located
 
 ## Main commands 
 To start using this commandline tool, you need to find demo_mvp.bat file
+This file contains all the necessary commands to generate worksheet:
+```
+
+```
 
 ## Resources
 OpenAI function agent documentation: https://platform.openai.com/docs/guides/function-calling?api-mode=chat

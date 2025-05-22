@@ -492,7 +492,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         },
 
         'create-task': {
-            'query': 'User request expressed in human language',
+            '--query': 'User request expressed in human language',
             '--reference': HELP_REFERENCE
         }, 
 
@@ -601,7 +601,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
     get_classifiers_parser.add_argument('--reference', type=str, default=None, help=arg_h['get-classifiers']['--reference'])
 
     create_task_parser = subparsers.add_parser('create-task', help=cmd_h['create-task'])
-    create_task_parser.add_argument('query', type=str, help=arg_h['create-task']['query'])
+    create_task_parser.add_argument('--query', type=str, help=arg_h['create-task']['--query'])
     create_task_parser.add_argument('--reference', type=str, default=None, help=arg_h['create-task']['--reference'])
 
     adapt_topics_parser = subparsers.add_parser('set-topic', help=cmd_h['set-topic'])
@@ -699,7 +699,10 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
 
     elif args.command == 'create-task':
         retvalue = 0
-        (retvalue, data) = eliozo_client.create_task(args.query)
+        query_file = args.query
+        with open(query_file, "r", encoding='utf-8') as file:
+            content = file.read()
+        (retvalue, data) = eliozo_client.create_task(content)
 
     elif args.command == 'set-topic': 
         (retvalue, data) = eliozo_client.set_topic(args.topic, args.level)

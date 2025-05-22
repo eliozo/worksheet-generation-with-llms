@@ -1,0 +1,8 @@
+# Vaicājums par Dirihlē principu
+Ģenerē darba lapu 7.–8. klases skolēniem par Dirihlē principu, izmantojot Vinnija Pūka tēlu un viņa draugus kā kontekstu. Darba lapa paredzēta vienai 45 minūšu matemātikas stundai. Tā satur 1 iesildīšanās uzdevumu, 5 galvenos uzdevumus (1 ģenerē LLM, 4 nāk no Jena Fuseki, bet adaptēti), definīcijas un Dirihlē principa formulējumu. Darba lapas apjomam jāiekļaujas 2 A4 lapās. Darba lapas beigās pievieno 1–2 ieteikumus skolēniem par katru uzdevumu. Uzdevumiem jābūt atraktīviem un sasaistītiem ar stāstu par Vinniju Pūku.
+
+# Vaicājums par invariantu metodi
+Sagatavo darba lapu 8.–9. klases skolēniem par invariantu metodi, izmantojot stāsta elementus no Vinnija Pūka pasaules. Darba lapā jābūt 1 iesildīšanās uzdevumam (ģenerē LLM), 5 galvenajiem uzdevumiem (1 no LLM, pārējie 4 adaptēti no Jena Fuseki), kā arī īsam skaidrojumam par invariantiem un piemēram. Uzdevumi jāizvieto tā, lai darba lapa nepārsniegtu 2 A4 lapas. Beigās – skolēnu ieteikumi (1–2 uzdevumu atrisināšanas padomi). Iekļauj, piemēram, kā Vinnijs Pūks mēģina sadalīt medu draugiem, bet lietas mainās pēc noteikta likuma.
+
+# Vaicājums par grafiem
+Veido darba lapu 9. klases skolēniem par grafiem, izmantojot tēlus no Vinnija Pūka pasaules. Darba lapā iekļauj īsu ievadu par grafiem (mezgli, malas, ceļi utt.), 1 iesildīšanās uzdevumu (no LLM), 5 pamatuzdevumus (1 no LLM, 4 no Jena Fuseki, adaptēti). Darba lapas apjomam jāiekļaujas 2 A4 lapās. Katram uzdevumam pievieno 1–2 ieteikumus skolēniem darba lapas beigās. Uzdevumu konteksts var būt, piemēram, Vinnijs Pūks meklē īsāko ceļu līdz medum vai organizē pastaigu draugiem pa meža takām, kas veido grafu.

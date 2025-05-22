@@ -27,15 +27,14 @@
 
 {% elif snippet.type == "problem" %}
 {{ snippet.problemtext }}
-(sk. {{ snippet.problemid }})
-
-
+(sk. `{{ snippet.problemid }} <https://www.dudajevagatve.lv/eliozo/problem?problemid={{ snippet.problemid }}>`_)
 
 {% elif snippet.type == "annotation" %}
 *{{ snippet.value }}*
 
 {% elif snippet.type == "fix" %}
 **Labojums:** {{ snippet.value }}
+{$ elif snippet.type == "solution" %}
 
 {% else %}
 {{ snippet.type }}: {{ snippet.value }}
