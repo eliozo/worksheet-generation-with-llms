@@ -2,99 +2,95 @@
   "snippets": [
     {
       "type": "title",
-      "value": "Dirihlē princips ar Vinniju Pūku un draugiem (7.–8. klase)"
-    },
-    {
-      "type": "annotation",
-      "value": "Darbalapa vienai 45 minūšu matemātikas stundai. Visi uzdevumi ir tematizēti ar Vinnija Pūka tēliem un aicina trenēt domāšanu ar Dirihlē (pigeonhole) principu."
+      "value": "Darba lapa: Dirihlē princips kopā ar Vinniju Pūku (7.–8. klase)"
     },
     {
       "type": "section_title",
-      "value": "Iesildīšanās uzdevums"
+      "value": "Ievads un iesildīšanās"
+    },
+    {
+      "type": "annotation",
+      "value": "Šīs darba lapas laikā iemācīsies izmantot Dirihlē principu (pazīstamu arī kā baložu būra principu) caur atraktīviem uzdevumiem par Vinniju Pūku un viņa draugiem."
+    },
+    {
+      "type": "definition",
+      "value": "Dirihlē princips: Ja $n$ objektus sadala $k$ kastēs un $n > k$, tad kādā kastē būs vismaz divi objekti."
+    },
+    {
+      "type": "theorem",
+      "value": "Dirihlē princips (baložu būra princips): Ja $n$ objekti tiek izvietoti $k$ vietās un $n > k$, tad vismaz vienā vietā būs 2 vai vairāk objektu."
     },
     {
       "type": "problem",
       "problemid": "NEW",
-      "problemtext": "Vinnijs Pūks grib apciemot savus septiņus draugus: Sivēnu, Ezi, Trusīti, Ēzelīti, Pūci, Kangas mammu un Mazulīti. Ja Pūks ciemosies pie katra drauga vienu dienu nedēļā, vai noteikti būs kādi divi draugi, kurus Pūks apciemos vienā un tajā pašā nedēļas dienā, ja nedēļa ir tikai sešas dienas gara?",
-      "problemsolution": "Jā, pēc Dirihlē principa. Ja septiņi ciemojumi jāsadala sešās dienās, tad vismaz viena diena būs ar diviem ciemojumiem.",
-      "tips": [
-        "Uzzīmē tabulu ar ciemošanās dienām un draugiem.",
-        "Padomā par to, kā sadalīt 7 objektus 6 kastēs."
+      "problemtext": "Vinnijs Pūks un viņa pieci draugi (Tīģeris, Sivēns, Eze, Kenga un Rū) atrada 17 dažāda veida medus burkas un grib tās paslēpt savās mājiņās kā pārsteigumu. Ja katrs draugs var paņemt jebkuru skaitu burciņu, kāds ir minimālais medus burku skaits, lai vismaz vienam draugam noteikti būtu vairāk nekā 3 burciņas? Pamato savu atbildi, piemēram, izmantojot Dirihlē principu.",
+      "problemsolution": "Burku skaits: $5 \\times 3 + 1 = 16$ burciņas var sadalīt tā, lai katram ir visvairāk 3. Ja ir 17 burciņas, kādam būs vismaz 4 burciņas (pēc Dirihlē principa).",
+      "student_tips": [
+        "Uzskaiti iespējamos veidus, kā sadalīt burciņas draugu starpā!",
+        "Atceries – Dirihlē princips palīdz noteikt, ka, ja objektu ir vairāk par kastēm reiz iespējamo maksimumu katrā kastē, tad kādam noteikti būs vairāk."
       ]
     },
     {
       "type": "section_title",
-      "value": "Galvenie uzdevumi"
+      "value": "Dirihlē principa piemēri ar Vinniju Pūku"
     },
     {
       "type": "problem",
       "problemid": "LV.NOL.2013.8.3",
-      "problemtext": "Cik ir tādu četrciparu skaitļu, kuru pierakstā ir vismaz viens pāra cipars?",
-      "problemsolution": "No visiem četrciparu skaitļiem ($9000$) atņemam tos, kuros nav neviena pāra cipara (t.i., visi četri cipari nepāra: $5^4 = 625$). Atbilde: $9000-625=8375$.",
-      "tips": [
-        "Iedomājies, kuri cipari ir pāra, kuri nav.",
-        "Padomā, ko dod, ja uzd. prasa 'vismaz vienu', nevis 'tieši vienu'."
-      ]
-    },
-    {
-      "type": "problem",
-      "problemid": "LV.AMO.2004.8.5",
-      "problemtext": "Uz papīra uzrakstīti dabiskie skaitļi no $1$ līdz $2004$ secīgi. No tiem izsvītro katru trešo skaitli (piemēram, $1.$, $4.$, $7.$, $10.$ utt.), tad no atlikušajiem atkal izsvītro katru trešo skaitli, un tā turpina, līdz paliek tikai viens skaitlis. Kurš skaitlis paliks?",
-      "problemsolution": "Paliks skaitlis $1598$. Sk. risinājumu pēc īpašas svītrošanas shēmas.",
-      "tips": [
-        "Pamēģini ar mazākiem skaitļiem un izveido tabulu.",
-        "Meklē atkārtojošas likumsakarības svītrošanā."
+      "problemtext": "Vinnijs Pūks un viņa draugi rīko tējas ballīti ar 4 ciparu kodiem, kas jāievada, lai atvērtu medus skapīti. Cik ir tādu četrciparu skaitļu, kuros vismaz viens cipars ir pāra skaitlis?",
+      "problemsolution": "Visi četrciparu skaitļi: $9000$ (no $1000$ līdz $9999$). Skaitļi, kuros visi cipari ir nepāra: $5^4=625$ (cipari $1,3,5,7,9$). Tātad vismaz vienu pāra ciparu satur $9000-625=8375$ skaitļi.",
+      "student_tips": [
+        "Sāc ar visu iespējamo četrciparu skaitļu skaitu!",
+        "Vienkāršāk saskaitīt pretējo – skaitļus bez pāra cipariem, tad atrast pārējos."
       ]
     },
     {
       "type": "problem",
       "problemid": "LV.AMO.2022B.6.1",
-      "problemtext": "Amanda uz papīra uzraksta skaitļus no $1$ līdz $2022$. Viņa: (1) apvelk ar sarkanu visus, kas dalās ar $3$; (2) ar zilu – kas dalās ar $5$; (3) ar zaļu – kas dalās ar $7$. Cik ir tādu skaitļu, kas ir apvilkti vismaz ar divām dažādām krāsām?",
-      "problemsolution": "Atradīsim, cik skaitļu dalās ar $3$ un $5$ ($15$), ar $3$ un $7$ ($21$), ar $5$ un $7$ ($35$), koriģējam par kopīgo $105$. Kopā $134+96+57-2\\cdot19=249$.",
-      "tips": [
-        "Izvērtē, kādi skaitļi dalās gan ar $3$, gan $5$ utt.",
-        "Izmanto kopīgo skaitītāju principu (iekļaušanas–izslēgšanas)."
+      "problemtext": "Uz lapiņas Vinnijs Pūks uzrakstīja visus naturālos skaitļus no $1$ līdz $2022$. Viņš ar sarkanu apvilka tos, kas dalās ar $3$, ar zilu – kas dalās ar $5$, ar zaļu – kas dalās ar $7$. Cik skaitļi ir apvilkti vismaz divās dažādās krāsās?",
+      "problemsolution": "Skaitļi, kas dalās ar $3$ un $5$ – $134$ (dalās ar $15$), ar $3$ un $7$ – $96$ (dalās ar $21$), ar $5$ un $7$ – $57$ (dalās ar $35$). Skaitļi, kas dalās ar $3$, $5$ un $7$ – $19$ (dalās ar $105$). Atbilde: $134 + 96 + 57 - 2 \\cdot 19 = 249$.",
+      "student_tips": [
+        "Uzraksti visus gadījumus, kad viens skaitlis tiek apvilkts vairākās krāsās.",
+        "Pārbaudi, vai kādu skaitli nejauši neesi pieskaitījis vairākas reizes!"
+      ]
+    },
+    {
+      "type": "problem",
+      "problemid": "LV.AMO.2004.8.5",
+      "problemtext": "Vinnijs Pūks sakārtoja naturālos skaitļus no $1$ līdz $2004$ augošā secībā. No šīs rindas viņš izsvītroja katru 1., 4., 7., 10., ... vietā stāvošo skaitli. No atlikušajiem atkal izsvītroja tos, kas atrodas 1., 4., 7., ... vietā, un atkārtoja šo procesu, līdz palika tikai viens skaitlis. Kurš tas ir?",
+      "problemsolution": "Pēc vairākām izsvītrošanas reizēm paliks $1598$.",
+      "student_tips": [
+        "Izmēģini ar īsāku virkni un mazākiem skaitļiem – paskaties, kā mainās atlikušais skaitlis!",
+        "Iztēlojies, ka skaitļi 'palecas uz priekšu' ar katru reizi."
+      ]
+    },
+    {
+      "type": "problem",
+      "problemid": "LV.NOL.2014.8.3",
+      "problemtext": "Vinnijs Pūks veido piecciparu skaitļus, izmantojot ciparus no $0$ līdz $9$. Cik ir tādu piecciparu skaitļu, kuru pierakstā ir vismaz viens nepāra cipars?",
+      "problemsolution": "Kopējais piecciparu skaitļu skaits: $90000$. Skaitļi ar tikai pāra cipariem: $4 \\cdot 5^4 = 2500$ (pirmais cipars var būt $2,4,6,8$). Atbilde: $90000 - 2500 = 87500$ piecciparu skaitļu satur vismaz vienu nepāra ciparu.",
+      "student_tips": [
+        "Atceries, ka skaitlis nedrīkst sākties ar $0$!",
+        "Skaiti vispirms, cik ir bez nepāra cipariem – pārējos atradīsi ar pretējo situāciju."
       ]
     },
     {
       "type": "problem",
       "problemid": "LT.LJKMO.2000.7_8.3",
-      "problemtext": "Kādu pašu mazāko summu var iegūt, saskaitot visus ciparus skaitlim, kurš bez atlikuma dalās ar $23$?",
-      "problemsolution": "Vismazākā iespējamā ciparu summa ir $2$, piemēram, skaitlim $100000000001 = 10^{11} + 1$.",
-      "tips": [
-        "Aplūko skaitļus, kuru visi cipari ir $1$ un $0$.",
-        "Padomā, kādu īpašību pieprasa dalīšana ar $23$."
-      ]
-    },
-    {
-      "type": "problem",
-      "problemid": "NEW",
-      "problemtext": "Ezi un Sivēns grib sadalīt divpadsmit medus podus starp četriem draugiem. Vai vienmēr būs vismaz viens draugs, kurš saņems vismaz četrus podus, ja katrs pods tiek atdots tikai vienam draugam?",
-      "problemsolution": "Jā, jo pēc Dirihlē principa, ja $12$ podi jāizdala 4 draugiem, tad kādam būs vismaz $\\left\\lceil \\frac{12}{4} \\right\\rceil = 3$ podi, bet, ja kaut vienam būs mazāk, citiem nāksies saņemt vairāk.",
-      "tips": [
-        "Iedala $12$ podus pa $4$ draugiem: vai var kāds saņemt mazāk par $4$?",
-        "Atceries, kā rēķināt 'vidējo' jeb vidējo slodzi kastes principā."
+      "problemtext": "Sivēns un Ezis spēlē spēli ar cipariem: kādu vismazāko summu var iegūt, saskaitot visus ciparus skaitlim, kas dalās ar $23$?",
+      "problemsolution": "Mazākā ciparu summa ir $2$ (piemēram, skaitlis $100000000001 = 10^{11} + 1$ dalās ar $23$, tā ciparu summa ir $2$).",
+      "student_tips": [
+        "Pamēģini radīt skaitļus ar iespējami mazāk cipariem!",
+        "Atceries, ka ciparu summai ir īpaša loma dažādu skaitļu dalīšanā."
       ]
     },
     {
       "type": "section_title",
-      "value": "Teorijas sadaļa"
-    },
-    {
-      "type": "definition",
-      "value": "Dirihlē princips (pigeonhole principle): Ja $n$ objektus ievieto $m$ kastēs ar $n > m$, tad vismaz vienā kastē būs vismaz divi objekti."
-    },
-    {
-      "type": "theorem",
-      "value": "Formulējums: Ja $n$ objektu jāsadala $m$ kastēs, tad kādā kastē būs vismaz $\\left\\lceil \\frac{n}{m} \\right\\rceil$ objektu."
-    },
-    {
-      "type": "section_title",
-      "value": "Padomi risināšanai"
+      "value": "Noderīgi padomi Dirihlē principa uzdevumu risināšanai"
     },
     {
       "type": "annotation",
-      "value": "Katram uzdevumam atceries:\n1) Uzzīmē un sadali pēc iespējas vienkāršāk; 2) Pārliecinies, vai kāds rezultāts noteikti kļūst pārāk bieži; 3) Atceries stāsta varoņus – iztēlojies kas notiek Pūka mežā!"
+      "value": "Padomi skolēniem:\n1. Uzmanīgi izvērtē, kas loma ir 'kastēm' un 'objektiem' – tie var būt draugi, burciņas, cipari vai cita veida lietas!\n2. Vienmēr uzdod sev jautājumu: \"Kas notiek, ja sadalu visus objektus pēc iespējas vienmērīgāk? Vai joprojām kādam būs 'vairāk'?\"\n3. Eksperimentē ar mazākiem skaitļiem, lai redzētu likumsakarības pirms apsver lielus vai vispārīgus variantus.\n4. Nebaidies uzskicēt, zīmēt vai skaitīt uz pirkstiem – dažreiz tas palīdz labāk izprast situāciju!\n"
     }
   ]
 }

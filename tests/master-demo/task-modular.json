@@ -8,9 +8,9 @@
         "template": "templates/regular.rst.jinja",
         "domain": "NT",
         "learners": {
-            "prerequisite_knowledge": "Skolēni ir 7.-8. klasē, droši vien jau ir apguvuši pamata aritmētakas operācijas, paritāti (pāra/nepāra skaitļus), kā arī jēdzienus par dalāmību un atlikumiem, bet modulārā aritmētika kā atsevišķs temats vēl nav padziļināti apskatīta.",
-            "likes": "Patīk neformāla valoda, iecienītas ir pasakas par Vinniju Pūku vai Sniegbaltīti un 7 rūķīšiem.",
-            "dislikes": "Nav izteiktu antipātiju, bet pārāk formāla valoda un sarežģītas definīcijas var nebūt saistošas."
+            "prerequisite_knowledge": "Students are in grades 7-8 and likely have experience with basic arithmetic, divisibility, and some foundational algebra, but may not have formal exposure to modular arithmetic concepts.",
+            "likes": "They enjoy informal language and references to fairy tales such as Winnie the Pooh and Snow White and the Seven Dwarfs.",
+            "dislikes": "Formal or overly technical presentation; engaging, accessible material is preferred."
         },
         "format_notes": "Worksheet is designed for a 45-minute lesson on modular arithmetic for 7th-8th grade students who enjoy informal language and fairy-tale themes (notably Winnie the Pooh or Snow White and the 7 Dwarfs). Structure: 1 introductory problem (very basic modular arithmetic/remainders), followed by 3-4 definitions or theorems (core theory used later), then 5 Olympiad-style problems themed around modular arithmetic (divisibility, remainders, parity, last digits, and periodicity), preferably with references to fairy tales. At the end, instead of solutions, provide 1-2 sentence hints for each problem to guide solvers. Problems and language should have an informal, playful tone."
     },
@@ -19,7 +19,6 @@
         "IntegerCongruence",
         "Divisibility",
         "NumeralSystems",
-        "ExamplesInNumberTheory",
-        "NumTheoryTransformations"
+        "ExamplesInNumberTheory"
     ]
 }
