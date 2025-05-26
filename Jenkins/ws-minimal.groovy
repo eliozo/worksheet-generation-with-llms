@@ -11,6 +11,11 @@ pipeline {
             choices: ['aaa', 'bbb', 'ccc'], 
             description: 'Branch or tag of ContestKA repository to use in the backend'
         )
+        text(
+            name: 'USER_QUERY',
+            defaultValue: '',
+            description: 'Strukturēts vaicājums: Par ko, kam un kā veidojama darba lapa.'
+        )
     }
     
     stages {
