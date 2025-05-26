@@ -2,28 +2,47 @@ pipeline {
     agent any
     
     environment {
-        NEXUS_REPO = 'https://wc-nexus.riga.whitecryption.com/repository/contest-research'
+        CONFIG_DIR = '/home/eliozo/workspace/hidden_files'
     }
    
     parameters {
-        choice(
-            name: 'BRANCH_OR_TAG', 
-            choices: ['aaa', 'bbb', 'ccc'], 
-            description: 'Branch or tag of ContestKA repository to use in the backend'
-        )
         text(
             name: 'USER_QUERY',
             defaultValue: '',
             description: 'Strukturēts vaicājums: Par ko, kam un kā veidojama darba lapa.'
         )
     }
-    
+
     stages {
         stage('Checkout') {
             steps {
                 cleanWs()
                 script {
-                    echo "HELLO"
+                    env.PYTHON_PATH = env.ELIOZO_PYTHON_ENV
+                    if (!env.PYTHON_PATH) {
+                        error("Environment variable ELIOZO_PYTHON_ENV is not set.")
+                    }
+                    echo("env.NODE_NAME=${env.NODE_NAME}")
+                    echo("env.PYTHON_PATH=${env.PYTHON_PATH}")
+
+                    logInfo("(1-a) Start: Copy workspace")
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: "*/main"]],
+                        userRemoteConfigs: [[
+                            url: 'https://github.com/kapsitis/worksheet-generation.git'
+                        ]]
+                    ])
+                    echo("Workspace copied")
+                }
+            }
+        }
+    
+
+        stage('Main') {
+            steps {
+                script {
+                    echo("HELLO Main!")
                 }
             }
         }
