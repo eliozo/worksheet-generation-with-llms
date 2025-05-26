@@ -49,7 +49,7 @@ pipeline {
                     rm -fr staging
                     mkdir staging
                     """ 
-                    writeFile(file: "scripts/query.txt", text: params.USER_QUERY, encoding: "UTF-8")
+                    writeFile(file: "staging/query.txt", text: params.USER_QUERY, encoding: "UTF-8")
                     sh """
                     cd staging
                     export PYTHONPATH=".."
