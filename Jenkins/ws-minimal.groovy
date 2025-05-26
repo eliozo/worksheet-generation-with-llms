@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        CONFIG_DIR = '/home/eliozo/workspace/hidden_files'
+        CONFIG_DIR = '/var/lib/jenkins/hidden_files'
     }
    
     parameters {
