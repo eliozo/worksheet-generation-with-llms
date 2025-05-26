@@ -44,23 +44,60 @@ pipeline {
             steps {
                 script {
                     echo("Start: Creating a worksheet")
+                    
+                    sh """
+                    rm -fr staging
+                    mkdir staging
+                    """ 
                     writeFile(file: "scripts/query.txt", text: params.USER_QUERY, encoding: "UTF-8")
                     sh """
-                    cd scripts
+                    cd staging
                     export PYTHONPATH=".."
                     cp ${CONFIG_DIR}/.env .
-                    ${env.PYTHON_PATH} eliozo_client.py create-task --query query.txt --reference ../tests/master-demo/task-modular.json
-                    
-                    ${env.PYTHON_PATH} eliozo_client.py get-classifiers --reference ../tests/master-demo/task-modular.json
-
-                    ${env.PYTHON_PATH} eliozo_client.py get-problems --worksheet ../tests/master-demo/worksheet-modular.json  --reference ../tests/master-demo/task-modular.json
-
-                    ${env.PYTHON_PATH} eliozo_client.py convert-worksheet ../tests/master-demo/worksheet-modular.json ../tests/master-demo/worksheet-modular.rst --reference ../tests/master-demo/task-modular.json
-                    
-                    ${env.PYTHON_PATH} eliozo_client.py convert-worksheet ../tests/master-demo/worksheet-modular.rst ../tests/master-demo/worksheet-modular.docx --reference ../tests/master-demo/task-modular.json
+                    ${env.PYTHON_PATH} ../scripts/eliozo_client.py create-task --query query.txt --reference task.json   
+                    ${env.PYTHON_PATH} ../scripts/eliozo_client.py get-classifiers --reference task.json
+                    ${env.PYTHON_PATH} ../scripts/eliozo_client.py get-problems --worksheet worksheet.json  --reference task.json
+                    ${env.PYTHON_PATH} ../scripts/eliozo_client.py convert-worksheet worksheet.json worksheet.rst --reference task.json            
+                    ${env.PYTHON_PATH} ../scripts/eliozo_client.py convert-worksheet worksheet.rst worksheet.docx --reference task.json
+                    cd ..
                     """
+                    if (!fileExists("staging/worksheet.docx")) {
+                        error("Worksheet staging/worksheet.docx not created")
+                    }
                     echo("End: Creating a worksheet")
                 }
+            }
+        }
+    }
+
+
+    post {
+        always {
+            script {
+                echo("Start: Publish artifacts")
+                files = ["staging/task.json", "staging/worksheet.json", "staging/worksheet.docx"]
+
+                for (file in files) {
+                    if (fileExists(file)) {
+                        archiveArtifacts(artifacts: file, allowEmptyArchive: false)
+                    } 
+                    else {
+                        echo("File ${file} not found and not published.")
+                    }
+                }
+                logInfo("End: Publish artifacts")
+            }
+        }
+
+        success {
+            script {
+                logInfo("Success: Pipeline succeeded; staging/worksheet.docx uploaded.")
+            }
+        }
+
+        failure {
+            script {
+                logInfo("Failure: Pipeline failed; no worksheeet was produced.")
             }
         }
     }
