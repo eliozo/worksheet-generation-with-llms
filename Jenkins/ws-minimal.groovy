@@ -25,7 +25,7 @@ pipeline {
                     echo("env.NODE_NAME=${env.NODE_NAME}")
                     echo("env.PYTHON_PATH=${env.PYTHON_PATH}")
 
-                    logInfo("(1-a) Start: Copy workspace")
+                    echo("Start: Copying workspace")
                     checkout([
                         $class: 'GitSCM',
                         branches: [[name: "*/main"]],
@@ -33,7 +33,7 @@ pipeline {
                             url: 'https://github.com/kapsitis/worksheet-generation.git'
                         ]]
                     ])
-                    echo("Workspace copied")
+                    echo("End: Copying workspace")
                 }
             }
         }
