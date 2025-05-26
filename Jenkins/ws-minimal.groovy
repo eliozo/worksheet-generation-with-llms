@@ -19,11 +19,12 @@ pipeline {
                 cleanWs()
                 script {
                     env.PYTHON_PATH = env.ELIOZO_PYTHON_ENV
+                    echo("env.NODE_NAME=${env.NODE_NAME}")
+                    echo("env.PYTHON_PATH=${env.PYTHON_PATH}")
+                    echo("python is ${env.ELIOZO_PYTHON_ENV}")
                     if (!env.PYTHON_PATH || "${env.PYTHON_PATH}" == "null") {
                         error("Environment variable ELIOZO_PYTHON_ENV is not set.")
                     }
-                    echo("env.NODE_NAME=${env.NODE_NAME}")
-                    echo("env.PYTHON_PATH=${env.PYTHON_PATH}")
 
                     echo("Start: Copying workspace")
                     checkout([

@@ -5,6 +5,7 @@ Author: Elizabete Ozoliņa, University of Latvia, 2025
 Commandline tool to create math olympiad worksheets!
 
 ## Prerequisites
+
 You need to create an .env file with this information
 ```
 WEAVIATE_URL=...
@@ -16,7 +17,18 @@ FUSEKI_PASSWORD=...
 ```
 
 Also you need to install Python and install necessary libraries:  
-**Suggestion:** Use virtual environment instead of default Python to have less issues ;) 
+**Suggestion:** Use virtual environment instead of default Python to have less issues ;)  
+```
+# log in as jenkins in Linux (or your user account to create worksheets manually)
+cd ~
+mkdir venvs
+cd venvs/
+python3 --version
+python3 -m venv eliozo_env
+cd ..
+source ~/venvs/eliozo_env/bin/activate
+```
+
 ```
 pip install jenkins
 pip install python-dotenv
