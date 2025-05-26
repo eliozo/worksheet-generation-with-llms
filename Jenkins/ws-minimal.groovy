@@ -85,19 +85,19 @@ pipeline {
                         echo("File ${file} not found and not published.")
                     }
                 }
-                logInfo("End: Publish artifacts")
+                echo("End: Publish artifacts")
             }
         }
 
         success {
             script {
-                logInfo("Success: Pipeline succeeded; staging/worksheet.docx uploaded.")
+                echo("Success: Pipeline succeeded; staging/worksheet.docx uploaded.")
             }
         }
 
         failure {
             script {
-                logInfo("Failure: Pipeline failed; no worksheeet was produced.")
+                echo("Failure: Pipeline failed; no worksheeet was produced.")
             }
         }
     }
