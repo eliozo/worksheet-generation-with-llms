@@ -48,7 +48,7 @@ pipeline {
                     sh """
                     cd scripts
                     export PYTHONPATH=".."
-                    python eliozo_client.py create-task --query ../tests/master-demo/query-modular.txt --reference ../tests/master-demo/task-modular.json
+                    python eliozo_client.py create-task --query query.txt --reference ../tests/master-demo/task-modular.json
 
                     # python eliozo_client.py get-classifiers --reference ../tests/master-demo/task-modular.json
 
