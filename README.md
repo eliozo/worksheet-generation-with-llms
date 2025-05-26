@@ -37,6 +37,8 @@ pip install requests
 pip install weaviate-client
 pip install pypandoc
 pip install jinja2
+pip install openai
+pip install pandas
 ```
 
 ## Directory structure

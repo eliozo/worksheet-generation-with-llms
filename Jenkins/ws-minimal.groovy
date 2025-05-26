@@ -44,12 +44,13 @@ pipeline {
             steps {
                 script {
                     echo("Start: Creating a worksheet")
-                    writeFile(file: "query.txt", text: params.USER_QUERY, encoding: "UTF-8")
+                    writeFile(file: "scripts/query.txt", text: params.USER_QUERY, encoding: "UTF-8")
                     sh """
                     cd scripts
                     export PYTHONPATH=".."
+                    cp ${CONFIG_DIR}/.env .
                     ${env.PYTHON_PATH} eliozo_client.py create-task --query query.txt --reference ../tests/master-demo/task-modular.json
-
+                    
                     # python eliozo_client.py get-classifiers --reference ../tests/master-demo/task-modular.json
 
                     # python eliozo_client.py get-problems --worksheet ../tests/master-demo/worksheet-modular.json  --reference ../tests/master-demo/task-modular.json
