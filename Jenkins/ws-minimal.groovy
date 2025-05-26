@@ -53,7 +53,7 @@ pipeline {
                     sh """
                     cd staging
                     export PYTHONPATH=".."
-                    cp ${CONFIG_DIR}/.env .
+                    cp ${CONFIG_DIR}/.env ../scripts
                     ${env.PYTHON_PATH} ../scripts/eliozo_client.py create-task --query query.txt --reference task.json   
                     ${env.PYTHON_PATH} ../scripts/eliozo_client.py get-classifiers --reference task.json
                     ${env.PYTHON_PATH} ../scripts/eliozo_client.py get-problems --worksheet worksheet.json  --reference task.json
