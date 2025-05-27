@@ -47,7 +47,7 @@ class FusekiUtils:
             response = requests.post(url, headers=headers, data=file, auth=HTTPBasicAuth(self.fuseki_user, self.fuseki_password))
 
         if response.status_code in [200, 201]:
-            print(f"Data successfully uploaded to dataset '{dataset_name}'.")
+            print(f"Data '{turtle_path}' successfully uploaded to dataset '{dataset_name}'.")
         else:
             print(f"Failed to upload data to dataset '{dataset_name}'. Status code: {response.status_code}")
             print(response.text)
