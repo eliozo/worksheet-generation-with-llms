@@ -391,8 +391,8 @@ class EliozoClient:
     
     def convert_worksheet(self, input, output, template_file=None):
         # print(f'Command not supported')
-        with open(self.reference, 'r', encoding='utf-8') as f:
-            task_data = json.load(f)
+        # with open(self.reference, 'r', encoding='utf-8') as f:
+        #     task_data = json.load(f)
         wordUtils = WordUtils(task_data)
 
         # if input.endswith('.json') and output.endswith('.docx'):
