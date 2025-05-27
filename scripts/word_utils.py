@@ -4,7 +4,9 @@ import re
 from jinja2 import Environment, FileSystemLoader
 import os
 
-def replace_latex(snip_text, infile_json):                    
+def replace_latex(snip_text, infile_json): 
+    if not isinstance(snip_text, str): 
+        return snip_text              
     latex_pattern0 = r'\s+\$\$(.*?)\$\$\s+'
     snip_text = re.sub(latex_pattern0, r'\n\n.. math::\n\n    \1\n\n', snip_text)
 
