@@ -404,7 +404,7 @@ class EliozoClient:
             wordUtils.rst_to_doc(input, output)
         else: 
             print('Input and output are not compatible for convert-worksheet')
-        return (0, task_data)   
+        return (0, {})   
     
     
 
