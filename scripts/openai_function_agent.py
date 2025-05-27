@@ -87,7 +87,11 @@ class OpenaiFunctionAgent:
     specified in the worksheet request. 
     Arrange them in a logical, teaching-friendly order and output as JSON. 
     Please write all mathematical expressions as LaTeX between $-signs for inline formulas
-    or between $$-signs if they are wide formulas. Use proper JSON escaping - for example: $a \\cdot b$.
+    or between $$-signs if they are wide formulas. 
+    
+    Use proper JSON escaping - for example: $a \\cdot b$ or $1+2+\\ldots+7$. 
+    Never use single backslashes as this would make JSON invalid.
+
     JSON example (may be unrelated to the requested content):
     ```
     {
