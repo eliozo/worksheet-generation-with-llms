@@ -54,11 +54,12 @@ pipeline {
                     cd staging
                     export PYTHONPATH=".."
                     cp ${CONFIG_DIR}/.env ../scripts
+                    cp ../scripts/templates/regular.rst.jinja regular.rst.jinja
                     ${env.PYTHON_PATH} ../scripts/eliozo_client.py create-task --query query.txt --reference task.json   
                     ${env.PYTHON_PATH} ../scripts/eliozo_client.py get-classifiers --reference task.json
                     ${env.PYTHON_PATH} ../scripts/eliozo_client.py get-problems --worksheet worksheet.json  --reference task.json
-                    ${env.PYTHON_PATH} ../scripts/eliozo_client.py convert-worksheet worksheet.json worksheet.rst --reference task.json            
-                    ${env.PYTHON_PATH} ../scripts/eliozo_client.py convert-worksheet worksheet.rst worksheet.docx --reference task.json
+                    ${env.PYTHON_PATH} ../scripts/eliozo_client.py convert-worksheet worksheet.json worksheet.rst --template regular.rst.jinja         
+                    ${env.PYTHON_PATH} ../scripts/eliozo_client.py convert-worksheet worksheet.rst worksheet.docx
                     cd ..
                     """
                     if (!fileExists("staging/worksheet.docx")) {

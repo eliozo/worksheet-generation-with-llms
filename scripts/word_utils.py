@@ -62,11 +62,11 @@ class WordUtils:
     #         f.write(output)
 
 
-    def transform_md_to_rst(self, infile_json, outfile_rst): 
+    def transform_md_to_rst(self, infile_json, outfile_rst, template_file): 
         with open(infile_json, 'r', encoding='utf-8') as f:
             data = json.load(f)
         env = Environment(loader=FileSystemLoader('.'))
-        template_file = self.preferred_template()
+        # template_file = self.preferred_template()
         template = env.get_template(template_file)
 
         # snippet_data = data['snippets']
