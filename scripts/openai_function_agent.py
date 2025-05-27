@@ -34,19 +34,20 @@ class OpenaiFunctionAgent:
         },
     ]
 
+    # TODO: "parameters not really needed"
     function_specs = [
         {
             "type": "function",
             "function": {
                 "name": "find_topics",
-                "description": "Find problem topics that best match a user-provided query."
-                # "parameters": {
-                #     "type": "object",
-                #     "properties": {
-                #         "user_query": { "type": "string", "description": "User prompt about desired math problems." }
-                #     },
-                #     "required": ["user_query"]
-                # }
+                "description": "Find problem topics that best match a user-provided query.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "query": { "type": "string", "description": "User prompt about desired math problems." }
+                    },
+                    "required": ["user_query"]
+                }
             }
         },
         {
@@ -87,7 +88,11 @@ class OpenaiFunctionAgent:
     specified in the worksheet request. 
     Arrange them in a logical, teaching-friendly order and output as JSON. 
     Please write all mathematical expressions as LaTeX between $-signs for inline formulas
-    or between $$-signs if they are wide formulas. Use proper JSON escaping - for example: $a \\cdot b$.
+    or between $$-signs if they are wide formulas. 
+    
+    Use proper JSON escaping - for example: $a \\cdot b$ or $1+2+\\ldots+7$. 
+    Never use single backslashes as this would make JSON invalid.
+
     JSON example (may be unrelated to the requested content):
     ```
     {
@@ -155,8 +160,8 @@ class OpenaiFunctionAgent:
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump(obj, f, indent=2, ensure_ascii=False)
 
-    def find_topics(self):
-        # topics = json.loads(self.topic_list)
+    def find_topics(self, query):
+        # TODO: "query" not actually used - should have meaningful argument(s) here
         return self.topic_list
 
     def find_topics_weaviate(self, user_query):

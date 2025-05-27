@@ -1,0 +1,2 @@
+Vajadzīga darba lapa 45 minūšu nodarbībai, lai ilustrētu uzdevumus skaitļu teorijā par (1) lielākās/mazākās vērtības atrašanu ar pamatojumu, (2) citus pierādījumu uzdevumus. Apmācāmie ir 7.-9.klases skolēni. Darba lapā vajag 2 ievaduzdevumus par modulāro aritmētiku vai atlikumiem kā arī dažas definīcijas vai teorēmas. Visbeidzot 6 uzdevumus no olimpiādēm: (1) trīs par lielāko/mazāko vērtību; (2) trīs - citus pierādījumus. 
+Darba lapas beigās vēl sadaļa "Ieteikumi/Hints" - katram uzdevumam derīgas norādes risinātājiem 1-2 teikumos. Un arī sadaļa "Atrisinājumi".

@@ -4,6 +4,7 @@ export RDF_PREF="../../qualification-project/migration-script/resources"
 
 # python eliozo_client.py drop-vectors eliozo-model --reference problemdata.json
 # python eliozo_client.py create-schema-vectors eliozo-model --reference problemdata.json
+# python eliozo_client.py ingest-vectors eliozo-model ${RDF_PREF}/LV-AMO-2003-content.ttl --reference problemdata.json
 # python eliozo_client.py ingest-vectors eliozo-model ${RDF_PREF}/LV-AMO-2004-content.ttl --reference problemdata.json
 # python eliozo_client.py ingest-vectors eliozo-model ${RDF_PREF}/LV-AMO-2005-content.ttl --reference problemdata.json
 # python eliozo_client.py ingest-vectors eliozo-model ${RDF_PREF}/LV-AMO-2006-content.ttl --reference problemdata.json
@@ -23,6 +24,7 @@ export RDF_PREF="../../qualification-project/migration-script/resources"
 # python eliozo_client.py ingest-vectors eliozo-model ${RDF_PREF}/LV-AMO-2022A-content.ttl --reference problemdata.json
 # python eliozo_client.py ingest-vectors eliozo-model ${RDF_PREF}/LV-AMO-2022B-content.ttl --reference problemdata.json
 # python eliozo_client.py ingest-vectors eliozo-model ${RDF_PREF}/LV-AMO-2023-content.ttl --reference problemdata.json
+# python eliozo_client.py ingest-vectors eliozo-model ${RDF_PREF}/LV-AMO-2024-content.ttl --reference problemdata.json
 
 
 
@@ -70,28 +72,12 @@ export RDF_PREF="../../qualification-project/migration-script/resources"
 # python eliozo_client.py ingest-vectors eliozo-model ${RDF_PREF}/LV-NOL-2022-content.ttl --reference problemdata.json
 # python eliozo_client.py ingest-vectors eliozo-model ${RDF_PREF}/LV-NOL-2023-content.ttl --reference problemdata.json
 # python eliozo_client.py ingest-vectors eliozo-model ${RDF_PREF}/LV-NOL-2024-content.ttl --reference problemdata.json
+# python eliozo_client.py ingest-vectors eliozo-model ${RDF_PREF}/LV-NOL-2025-content.ttl --reference problemdata.json
 
 
 python eliozo_client.py drop-rdf abc --reference problemdata.json
 python eliozo_client.py create-rdf-dataset abc --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-NOL-2004-content.ttl --reference problemdata.json
 
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/BBK2012-P1-content.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/BBK2012-P3-content.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/EE-LO-content.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/EE-LVS-content.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/EE-LVT-content.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/EE-PK-content.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/EE-PKTEST-content.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/EE-TST-content.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LT-LDK-content.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LT-LJKMO-content.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LT-LJMO-content.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LT-LKMMO-content.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LT-LMMO-content.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LT-SAV-content.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LT-TST-content.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LT-VUMIF-content.ttl --reference problemdata.json
 python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-AMO-2003-content.ttl --reference problemdata.json
 python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-AMO-2004-content.ttl --reference problemdata.json
 python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-AMO-2005-content.ttl --reference problemdata.json
@@ -113,7 +99,7 @@ python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-AMO-2022A-content.ttl --re
 python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-AMO-2022B-content.ttl --reference problemdata.json
 python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-AMO-2023-content.ttl --reference problemdata.json
 python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-AMO-2024-content.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-AMO-content.ttl --reference problemdata.json
+
 python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-NOL-2004-content.ttl --reference problemdata.json
 python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-NOL-2005-content.ttl --reference problemdata.json
 python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-NOL-2006-content.ttl --reference problemdata.json
@@ -135,9 +121,10 @@ python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-NOL-2021-content.ttl --ref
 python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-NOL-2022-content.ttl --reference problemdata.json
 python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-NOL-2023-content.ttl --reference problemdata.json
 python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-NOL-2024-content.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-NOL-content.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-SOL-2020-content.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-TST-content.ttl --reference problemdata.json
+python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-NOL-2025-content.ttl --reference problemdata.json
+
+python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-SOL-2020-content.ttl --reference problemdata.json
+
 python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-VOL-2004-content.ttl --reference problemdata.json
 python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-VOL-2005-content.ttl --reference problemdata.json
 python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-VOL-2006-content.ttl --reference problemdata.json
@@ -158,9 +145,9 @@ python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-VOL-2020-content.ttl --ref
 python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-VOL-2021-content.ttl --reference problemdata.json
 python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-VOL-2022-content.ttl --reference problemdata.json
 python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-VOL-2023-content.ttl --reference problemdata.json
-python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-VOL-2024-content.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-VOL-content.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/WW-IMOSHL-2022-content.ttl --reference problemdata.json
+python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-VOL-2024-content.ttl --reference problemdata.
+python eliozo_client.py ingest-rdf abc ${RDF_PREF}/LV-VOL-2025-content.ttl --reference problemdata.
+
 python eliozo_client.py ingest-rdf abc ${RDF_PREF}/concepts.ttl --reference problemdata.json
 python eliozo_client.py ingest-rdf abc ${RDF_PREF}/data_olympiads.ttl --reference problemdata.json
 python eliozo_client.py ingest-rdf abc ${RDF_PREF}/skos_method.ttl --reference problemdata.json

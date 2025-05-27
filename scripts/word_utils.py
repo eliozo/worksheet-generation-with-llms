@@ -4,7 +4,9 @@ import re
 from jinja2 import Environment, FileSystemLoader
 import os
 
-def replace_latex(snip_text, infile_json):                    
+def replace_latex(snip_text, infile_json): 
+    if not isinstance(snip_text, str): 
+        return snip_text              
     latex_pattern0 = r'\s+\$\$(.*?)\$\$\s+'
     snip_text = re.sub(latex_pattern0, r'\n\n.. math::\n\n    \1\n\n', snip_text)
 
@@ -30,7 +32,7 @@ def replace_latex(snip_text, infile_json):
 class WordUtils:
     data = {}
 
-    def __init__(self, data):
+    def __init__(self, data = {}):
         self.data = data
 
     def rst_to_doc(self, infile_rst, outfile_docx): 
@@ -39,9 +41,9 @@ class WordUtils:
         pypandoc.convert_text(reST_content, format='rst', to='docx', outputfile=outfile_docx)
         print(f"Conversion complete: {outfile_docx}")
 
-    def preferred_template(self): 
-        template = self.data["task"]["template"] if self.data["task"]["template"] else "templates/default.rst.jinja"
-        return template
+    # def preferred_template(self): 
+    #     template = self.data["task"]["template"] if self.data["task"]["template"] else "templates/default.rst.jinja"
+    #     return template
 
     # def build_rst(self, infile_json, outfile_rst):
     #     with open(infile_json, 'r', encoding='utf-8') as f:
@@ -62,11 +64,11 @@ class WordUtils:
     #         f.write(output)
 
 
-    def transform_md_to_rst(self, infile_json, outfile_rst): 
+    def transform_md_to_rst(self, infile_json, outfile_rst, template_file): 
         with open(infile_json, 'r', encoding='utf-8') as f:
             data = json.load(f)
         env = Environment(loader=FileSystemLoader('.'))
-        template_file = self.preferred_template()
+        # template_file = self.preferred_template()
         template = env.get_template(template_file)
 
         # snippet_data = data['snippets']

@@ -53,6 +53,16 @@ def copy_with_incremented_name(file_path):
     shutil.copy2(file_path, new_file_path)
     return new_filename
 
+def get_json_field(fname, field_list):
+    if fname is None:
+        return None
+    else:
+        with open(fname, 'r', encoding="utf-8") as file:
+            json_fragment = json.load(file)
+        for ff in field_list:
+            json_fragment = json_fragment[ff]
+        return json_fragment
+
 
 class EliozoClient:
     reference = "NA.json"
@@ -382,22 +392,22 @@ class EliozoClient:
         return (retvalue, task_data)
   
     
-    def convert_worksheet(self, input, output):
+    def convert_worksheet(self, input, output, template_file=None):
         # print(f'Command not supported')
-        with open(self.reference, 'r', encoding='utf-8') as f:
-            task_data = json.load(f)
-        wordUtils = WordUtils(task_data)
+        # with open(self.reference, 'r', encoding='utf-8') as f:
+        #     task_data = json.load(f)
+        wordUtils = WordUtils()
 
-        if input.endswith('.json') and output.endswith('.docx'):
-            wordUtils.build_rst(input, f'{input}.rst')
-            wordUtils.rst_to_doc(f'{input}.rst', output)
-        elif input.endswith('.json') and output.endswith('.rst'):
-            wordUtils.transform_md_to_rst(input, output)
+        # if input.endswith('.json') and output.endswith('.docx'):
+        #     wordUtils.build_rst(input, f'{input}.rst')
+        #     wordUtils.rst_to_doc(f'{input}.rst', output)
+        if input.endswith('.json') and output.endswith('.rst'):
+            wordUtils.transform_md_to_rst(input, output, template_file)
         elif input.endswith('.rst') and output.endswith('.docx'):
             wordUtils.rst_to_doc(input, output)
         else: 
             print('Input and output are not compatible for convert-worksheet')
-        return (0, task_data)   
+        return (0, {})   
     
     
 
@@ -547,6 +557,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         'convert-worksheet': {
             'input': 'Input as JSON file', 
             'output': 'Output (e.g. MS Word or PDF file - use extension *.docx, or *.pdf)',
+            '--template': 'Jinja2 template (only used for *.json to *.rst conversion) - overrides one in reference', 
             '--reference': HELP_REFERENCE
         }
     }
@@ -646,8 +657,10 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
     convert_worksheet_parser = subparsers.add_parser('convert-worksheet', help=cmd_h['convert-worksheet'])
     convert_worksheet_parser.add_argument('input', type=str, help=arg_h['convert-worksheet']['input'])
     convert_worksheet_parser.add_argument('output', type=str, help=arg_h['convert-worksheet']['output'])
+    convert_worksheet_parser.add_argument('--template', type=str, default=None, help=arg_h['convert-worksheet']['--template'])
     convert_worksheet_parser.add_argument('--reference', type=str, default=None, help=arg_h['convert-worksheet']['--reference'])
-    
+
+
     args = parser.parse_args()
 
     # User called eliozo_client.py with no command-line arguments at all
@@ -736,7 +749,11 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         (retvalue, data) = eliozo_client.adapt_worksheet(args.property, args.value, location)
 
     elif args.command == 'convert-worksheet':
-        (retvalue, data) = eliozo_client.convert_worksheet(args.input, args.output)
+        if args.template is None:
+            template = get_json_field(args.reference, ["task", "template"])
+        else: 
+            template = args.template
+        (retvalue, data) = eliozo_client.convert_worksheet(args.input, args.output, template)
 
     else:
         parser.print_help()
