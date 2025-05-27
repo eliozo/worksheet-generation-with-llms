@@ -54,11 +54,14 @@ def copy_with_incremented_name(file_path):
     return new_filename
 
 def get_json_field(fname, field_list):
-    with open(fname, 'r', encoding="utf-8") as file:
-        json_fragment = json.load(file)
-    for ff in field_list:
-        json_fragment = json_fragment[ff]
-    return json_fragment
+    if fname is None:
+        return None
+    else:
+        with open(fname, 'r', encoding="utf-8") as file:
+            json_fragment = json.load(file)
+        for ff in field_list:
+            json_fragment = json_fragment[ff]
+        return json_fragment
 
 
 class EliozoClient:
