@@ -17,6 +17,8 @@ pipeline {
         stage('Checkout') {
             steps {
                 cleanWs()
+                sh "echo WORKING DIR"
+                sh "pwd"
                 script {
                     env.PYTHON_PATH = env.ELIOZO_PYTHON_ENV
                     echo("env.NODE_NAME=${env.NODE_NAME}")
