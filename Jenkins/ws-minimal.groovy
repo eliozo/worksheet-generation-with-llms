@@ -58,10 +58,15 @@ pipeline {
                     export PYTHONPATH=".."
                     cp ${CONFIG_DIR}/.env ../scripts
                     cp ../scripts/templates/regular.rst.jinja regular.rst.jinja
-                    ${env.PYTHON_PATH} ../scripts/eliozo_client.py create-task --query query.txt --reference task.json   
+                    echo "CREATE-TASK KOMANDA, KURA IZVEIDO TASK.JSON, PIEVIENO DARBA LAPAI VIRSRAKSTU, KLASI U.T.T NO LIETOTĀJA VAICĀJUMA"
+                    ${env.PYTHON_PATH} ../scripts/eliozo_client.py create-task --query query.txt --reference task.json
+                    echo "GET-CLASSIFIERS KOMANDA, KURA PAPILDINA TASK.JSON AR TĒMU KLASIFIKATORIEM"   
                     ${env.PYTHON_PATH} ../scripts/eliozo_client.py get-classifiers --reference task.json
+                    echo "GET-PROBLEMS KOMANDA, KURA IEGŪST DATUS NO SPARQL"
                     ${env.PYTHON_PATH} ../scripts/eliozo_client.py get-problems --worksheet worksheet.json  --reference task.json
-                    ${env.PYTHON_PATH} ../scripts/eliozo_client.py convert-worksheet worksheet.json worksheet.rst --template regular.rst.jinja         
+                    echo "CONVERT-WORKSHEET KOMANDA, KURA PĀRVEIDO DARBA LAPU NO JSON UZ RST"
+                    ${env.PYTHON_PATH} ../scripts/eliozo_client.py convert-worksheet worksheet.json worksheet.rst --template regular.rst.jinja  
+                    echo "CONVERT-WORKSHEET KOMANDA, KURA PĀRVEIDO DARBA LAPU NO RST UZ DOCX"
                     ${env.PYTHON_PATH} ../scripts/eliozo_client.py convert-worksheet worksheet.rst worksheet.docx
                     cd ..
                     """
