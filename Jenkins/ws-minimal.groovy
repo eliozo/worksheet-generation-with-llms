@@ -76,7 +76,7 @@ pipeline {
         always {
             script {
                 echo("Start: Publish artifacts")
-                files = ["staging/task.json", "staging/worksheet.json", "staging/worksheet.docx"]
+                def files = ["staging/task.json", "staging/worksheet.json", "staging/worksheet.docx"]
 
                 for (file in files) {
                     if (fileExists(file)) {

@@ -393,7 +393,7 @@ class EliozoClient:
         # print(f'Command not supported')
         # with open(self.reference, 'r', encoding='utf-8') as f:
         #     task_data = json.load(f)
-        wordUtils = WordUtils(task_data)
+        wordUtils = WordUtils()
 
         # if input.endswith('.json') and output.endswith('.docx'):
         #     wordUtils.build_rst(input, f'{input}.rst')
