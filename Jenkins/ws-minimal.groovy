@@ -8,7 +8,7 @@ pipeline {
     parameters {
         text(
             name: 'USER_QUERY',
-            defaultValue: '',
+            defaultValue: 'Sagatavo darba lapu 8.–9. klases skolēniem par invariantu metodi, izmantojot stāsta elementus no Vinnija Pūka pasaules. Darba lapā jābūt 1 iesildīšanās uzdevumam (ģenerē LLM), 5 galvenajiem uzdevumiem (1 no LLM, pārējie 4 adaptēti no Jena Fuseki), kā arī īsam skaidrojumam par invariantiem un piemēram. Uzdevumi jāizvieto tā, lai darba lapa nepārsniegtu 2 A4 lapas. Beigās – skolēnu ieteikumi (1–2 uzdevumu atrisināšanas padomi). Iekļauj, piemēram, kā Vinnijs Pūks mēģina sadalīt medu draugiem, bet lietas mainās pēc noteikta likuma.',
             description: 'Strukturēts vaicājums: Par ko, kam un kā veidojama darba lapa.'
         )
     }
