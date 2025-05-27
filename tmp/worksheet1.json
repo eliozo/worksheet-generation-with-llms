@@ -1,0 +1,76 @@
+{
+    "snippets": [
+        {
+            "type": "title",
+            "value": "Invariantu metode Vinnija P\u016bka pasaul\u0113 (8.\u20139. klase)"
+        },
+        {
+            "type": "section_title",
+            "value": "Kas ir invariantu metode?"
+        },
+        {
+            "type": "annotation",
+            "value": "Invariants matem\u0101tik\u0101 ir v\u0113rt\u012bba vai \u012bpa\u0161\u012bba, kas kaut k\u0101d\u0101 proces\u0101 nemain\u0101s \u2014 lai ar\u012b p\u0101r\u0113jie nosac\u012bjumi main\u0101s, invariants paliek nemain\u012bgs. Probl\u0113mas ar invariantiem bie\u017ei atrisina, mekl\u0113jot \u0161\u0101das v\u0113rt\u012bbas, lai noteiktu, vai k\u0101da situ\u0101cija ir iesp\u0113jama vai cik so\u013ci vajadz\u012bgi rezult\u0101ta sasnieg\u0161anai."
+        },
+        {
+            "type": "example",
+            "value": "Vinnijs P\u016bks savas dzim\u0161anas dienas svin\u012bb\u0101s v\u0113las sadal\u012bt :math:`30` burci\u0146as medus sev un draugiem (R\u016b, I\u0101, Tigrs, Siv\u0113ns). Katru reizi, kad P\u016bks dala medu, vi\u0146\u0161 iedod 1 burci\u0146u katram draugam, bet sev pa\u0146em :math:`2` burci\u0146as. Vai p\u0113c vair\u0101k\u0101m dal\u012b\u0161anas reiz\u0113m var gad\u012bties, ka burci\u0146as izbeidzas tie\u0161i t\u0101, lai p\u0113c p\u0113d\u0113j\u0101s reizes P\u016bkam b\u016btu tikpat daudz medus, cik katram draugam?"
+        },
+        {
+            "type": "theory",
+            "value": "Padoms: saskaiti, cik burci\u0146as medus kop\u0101 sadal\u0101s katr\u0101 dal\u012b\u0161anas reiz\u0113 un k\u0101 main\u0101s P\u016bka un draugu skaits. M\u0113\u0123ini atrast invariantu \u2014 piem\u0113ram, at\u0161\u0137ir\u012bbu starp P\u016bka un draugu burci\u0146u skaitu."
+        },
+        {
+            "type": "section_title",
+            "value": "Iesild\u012b\u0161an\u0101s uzdevums"
+        },
+        {
+            "type": "problem",
+            "problemid": "NEW",
+            "problemtext": "Vinnijs P\u016bks un Siv\u0113ns sp\u0113l\u0113 sp\u0113li ar 12 akme\u0146iem. Katrs p\u0113c k\u0101rtas pa\u0146em 1 vai 2 akme\u0146us. P\u016bks vienm\u0113r s\u0101k. Kur\u0161 no vi\u0146iem var vienm\u0113r uzvar\u0113t (pa\u0146emt p\u0113d\u0113jo akmeni), ja abi vienm\u0113r sp\u0113l\u0113 vislab\u0101k? Pamato atbildi ar invariantu.",
+            "problemsolution": "Uzvar\u0113t var tas, kur\u0161 p\u0113c savas g\u0101jiena sec\u012bbas nodro\u0161ina, ka p\u0113c katra sava g\u0101jiena uz galda vienm\u0113r paliek p\u0101ra skaits akme\u0146u. Ja P\u016bks vienm\u0113r pa\u0146em t\u0101, lai p\u0113c vi\u0146a g\u0101jiena paliek p\u0101ra skaits akme\u0146u, vi\u0146\u0161 uzvar\u0113s. Invariants \u2014 akme\u0146u skaita atlikums, dalot ar 3."
+        },
+        {
+            "type": "section_title",
+            "value": "Galvenie uzdevumi"
+        },
+        {
+            "type": "problem",
+            "problemid": "NEW",
+            "problemtext": "\u0100ps\u012btis lasa 64 ozolz\u012bles pa grup\u0101m: katr\u0101 sol\u012b vi\u0146\u0161 var pa\u0146emt vai nu 1, 3 vai 5 z\u012bles. Vai oblig\u0101ti k\u0101d\u0101 br\u012bd\u012b z\u012bles beigsies tie\u0161i p\u0113c k\u0101da vi\u0146a so\u013ca, ja vi\u0146\u0161 turpina l\u012bdz vairs nevar pa\u0146emt at\u013cauto daudzumu?",
+            "problemsolution": "Invariants \u2013 atlikums, dalot ar 2. Katru reizi iz\u0146emot 1, 3 vai 5 z\u012bles, atlikums main\u0101s, bet, ja s\u0101k ar p\u0101ra skaitu, p\u0113c p\u0101r\u012b\u0161u g\u0101jieniem var beigties tie\u0161i p\u0113c so\u013ca. \u0160aj\u0101 gad\u012bjum\u0101 64 ir p\u0101ra skaitlis, vi\u0146am vienm\u0113r izdosies."
+        },
+        {
+            "type": "problem",
+            "problemid": "LV.AMO.2003.9.5",
+            "problemtext": "Uz galda atrodas :math:`k` konfektes. Andris un Juris pam\u012b\u0161us izdara g\u0101jienus: Andris - pirmo, tre\u0161o, piekto u.t.t., Juris - otro, ceturto, sesto u.t.t. Ar :math:`n`-to g\u0101jienu (:math:`n=1, 2, 3, \\ldots`) j\u0101ap\u0113d vismaz viena, bet ne vair\u0101k par :math:`n` konfekt\u0113m. Kas ap\u0113d p\u0113d\u0113jo konfekti, uzvar. Kur\u0161 uzvar, pareizi sp\u0113l\u0113jot, ja (A) :math:`k=8`; (B) :math:`k=64`?",
+            "problemsolution": "<strong>(A)</strong> uzvar Juris. Vi\u0146\u0161 ar otro g\u0101jienu \u0113d :math:`2` konfektes. Kop\u0101 tagad ap\u0113stas :math:`3` konfektes. Andris var \u0113st :math:`1, 2` vai :math:`3` konfektes. Andris \u0113d attiec\u012bgi :math:`4, 3` vai :math:`2` konfektes un uzvar. <br/>\n<strong>(B)</strong> uzvar Andris. Vi\u0146\u0161 sp\u0113l\u0113 t\u0101, lai p\u0113c vi\u0146a g\u0101jieniem b\u016btu ap\u0113sti :math:`1^2, 2^2, 3^2, 4^2, \\ldots` konfektes. \u0160\u0101ds skaits veido invariantu (kvadr\u0101tu sec\u012bba), l\u012bdz ar to vi\u0146\u0161 var nodro\u0161in\u0101t uzvaru."
+        },
+        {
+            "type": "problem",
+            "problemid": "LV.AMO.2011.8.5",
+            "problemtext": "J\u0101nis un Anna sp\u0113l\u0113 \u0161\u0101du sp\u0113li. Uz t\u0101feles ir uzrakst\u012bts natur\u0101ls skaitlis. Sp\u0113l\u0113t\u0101ji p\u0113c k\u0101rtas veic g\u0101jienu: no uzrakst\u012bt\u0101 skait\u013ca at\u0146em k\u0101du \u0161\u012b skait\u013ca ciparu (iz\u0146emot :math:`0`), nodz\u0113\u0161 uz t\u0101feles eso\u0161o skaitli un t\u0101s viet\u0101 uzraksta ieg\u016bto starp\u012bbu. Uzvar tas, kur\u0161 p\u0113c sava g\u0101jiena ieg\u016bst :math:`0`. S\u0101kum\u0101 ir uzrakst\u012bts skaitlis :math:`2011`, pirmo g\u0101jienu izdara Anna. Kur\u0161 no sp\u0113l\u0113t\u0101jiem, pareizi sp\u0113l\u0113jot, uzvar\u0113s? Apraksti, k\u0101 uzvar\u0113t\u0101jam j\u0101r\u012bkojas!",
+            "problemsolution": "Uzvar pirmais sp\u0113l\u0113t\u0101js, katr\u0101 g\u0101jien\u0101 at\u0146emot no skait\u013ca t\u0101 p\u0113d\u0113jo ciparu, t\u0101d\u0113j\u0101di p\u0113c sava g\u0101jiena ieg\u016bstot skaitli, kura p\u0113d\u0113jais cipars ir :math:`0`. Otrais sp\u0113l\u0113t\u0101js nevar at\u0146emt :math:`0`, t\u0101tad paliek tikai skait\u013ci, kur p\u0113d\u0113jais cipars nav :math:`0`. L\u012bdz ar to pirmais sp\u0113l\u0113t\u0101js vienm\u0113r var\u0113s veikt g\u0101jienu un beigu beig\u0101s uzvar\u0113t."
+        },
+        {
+            "type": "problem",
+            "problemid": "LV.AMO.2019.11.2",
+            "problemtext": "Divi sp\u0113l\u0113t\u0101ji pam\u012b\u0161us raksta uz t\u0101feles skait\u013ca :math:`216` dabiskos dal\u012bt\u0101jus. Katr\u0101 g\u0101jien\u0101 j\u0101iev\u0113ro \u0161\u0101di noteikumi:\n- nedr\u012bkst atk\u0101rtoti rakst\u012bt jau uzrakst\u012btu dal\u012bt\u0101ju;\n- nedr\u012bkst rakst\u012bt dal\u012bt\u0101ju, kur\u0161 ir tie\u0161i :math:`2` vai :math:`3` reizes liel\u0101ks vai maz\u0101ks nek\u0101 k\u0101ds jau uzrakst\u012btais dal\u012bt\u0101js.\nZaud\u0113 tas sp\u0113l\u0113t\u0101js, kur\u0161 nevar izdar\u012bt g\u0101jienu. Kur\u0161 sp\u0113l\u0113t\u0101js - pirmais vai otrais - vienm\u0113r var uzvar\u0113t?",
+            "problemsolution": "Vienm\u0113r var uzvar\u0113t otrais sp\u0113l\u0113t\u0101js. Dal\u012bt\u0101jus var sap\u0101rot t\u0101, ka katra p\u0101ra dal\u012bt\u0101ju reizin\u0101jums ir :math:`216`. Pirmais sp\u0113l\u0113t\u0101js izv\u0113las jebkuru dal\u012bt\u0101ju, otrais \u2013 attiec\u012bgo p\u0101ra dal\u012bt\u0101ju. T\u0101 k\u0101 p\u0101ra skait\u013cu attiec\u012bba nav :math:`2` vai :math:`3`, \u0161\u012b strat\u0113\u0123ija saglab\u0101 invariantu \u2013 nevienu dal\u012bt\u0101ju nevar izv\u0113l\u0113ties atk\u0101rtoti, l\u012bdz ar to otrais sp\u0113l\u0113t\u0101js vienm\u0113r var atbild\u0113t, un beig\u0101s uzvar."
+        },
+        {
+            "type": "problem",
+            "problemid": "LV.AMO.2003.7.3",
+            "problemtext": "Divi sp\u0113l\u0113t\u0101ji pam\u012b\u0161us raksta uz t\u0101feles pa vienam natur\u0101lam skaitlim no :math:`1` l\u012bdz :math:`9` ieskaitot. Nedr\u012bkst rakst\u012bt skait\u013cus, ar kuriem dal\u0101s kaut viens jau uzrakst\u012bts skaitlis. Kur\u0161 nevar izdar\u012bt g\u0101jienu, zaud\u0113. Par\u0101diet, k\u0101 tas, kas izdara pirmo g\u0101jienu, var uzvar\u0113t.",
+            "problemsolution": "Pirmais sp\u0113l\u0113t\u0101js ar :math:`1.` g\u0101jienu uzraksta :math:`2`. Uz otr\u0101 sp\u0113l\u0113t\u0101ja katru 1. g\u0101jienu vi\u0146\u0161 atbild p\u0113c \u0161\u0101das sh\u0113mas: :math:`5 \\rightarrow 7`, :math:`7 \\rightarrow 5`, :math:`3 \\rightarrow 8`, :math:`8 \\rightarrow 3`, :math:`9 \\rightarrow 4`, :math:`6 \\rightarrow 4`, :math:`4 \\rightarrow 6`. \u0160is ir invarianta piem\u0113rs \u2013 atbilsto\u0161i piesp\u0113l\u0113, kad otrs izv\u0113las, un saglab\u0101 iesp\u0113ju uzvar\u0113t."
+        },
+        {
+            "type": "section_title",
+            "value": "Izmanto invariantu! (Atrisin\u0101\u0161anas padomi)"
+        },
+        {
+            "type": "annotation",
+            "value": "1. M\u0113\u0123ini noteikt, kura lieta uzdevum\u0101 nemain\u0101s, neskatoties uz darb\u012bb\u0101m! 2. Saskaiti at\u0161\u0137ir\u012bbas (p\u0101ru, ciparu, atlikumu u.c.). 3. Vienm\u0113r m\u0113\u0123ini veidot tabulu vai pierakstu par visiem st\u0101vok\u013ciem, \u012bpa\u0161i, ja sp\u0113l\u0113 esi kop\u0101 ar P\u016bku vai draugiem!"
+        }
+    ]
+}
