@@ -16,7 +16,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                cleanWs()
+                //cleanWs()
+                deleteDir()
                 sh "echo WORKING DIR"
                 sh "pwd"
                 script {
