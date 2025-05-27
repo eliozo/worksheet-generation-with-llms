@@ -76,8 +76,7 @@ pipeline {
         always {
             script {
                 echo("Start: Publish artifacts")
-                def files = ["staging/task.json", "staging/worksheet.json", "staging/worksheet.docx"]
-
+                def files = ["staging/task.json", "staging/worksheet.json", "staging/worksheet1.json", "staging/worksheet.docx", "staging/regular.rst.jinja"]
                 for (file in files) {
                     if (fileExists(file)) {
                         archiveArtifacts(artifacts: file, allowEmptyArchive: false)
@@ -85,6 +84,13 @@ pipeline {
                     else {
                         echo("File ${file} not found and not published.")
                     }
+                }
+                if (fileExists("staging/worksheet.rst")) {
+                    sh "cp staging/worksheet.rst staging/worksheet.rst.txt"
+                    archiveArtifacts(artifacts: "staging/worksheet.rst.txt", allowEmptyArchive: false)
+                } 
+                else {
+                    echo("File ${file} not found and not published.")
                 }
                 echo("End: Publish artifacts")
             }

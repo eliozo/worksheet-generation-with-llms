@@ -92,8 +92,10 @@ class WordUtils:
         # Just for debugging
         # with open(f'{infile_json}.txt', 'w', encoding='utf-8') as file:
         #     json.dump(data, file, indent=4)
-        print("CCCCCCCCCCCCCCCCCCCCCCCC")
         print(data)
+        j = json.dumps(data, indent=4)
+        with open('worksheet1.json', 'w') as f:
+            f.write(j)
         output = template.render(main=data)
-        with open(outfile_rst, 'w', encoding='utf-8') as f:
-            f.write(output)
+        with open(outfile_rst, 'w', encoding='utf-8') as f1:
+            f1.write(output)
