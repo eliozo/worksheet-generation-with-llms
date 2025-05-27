@@ -34,19 +34,20 @@ class OpenaiFunctionAgent:
         },
     ]
 
+    # TODO: "parameters not really needed"
     function_specs = [
         {
             "type": "function",
             "function": {
                 "name": "find_topics",
-                "description": "Find problem topics that best match a user-provided query."
-                # "parameters": {
-                #     "type": "object",
-                #     "properties": {
-                #         "user_query": { "type": "string", "description": "User prompt about desired math problems." }
-                #     },
-                #     "required": ["user_query"]
-                # }
+                "description": "Find problem topics that best match a user-provided query.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "query": { "type": "string", "description": "User prompt about desired math problems." }
+                    },
+                    "required": ["user_query"]
+                }
             }
         },
         {
@@ -159,8 +160,8 @@ class OpenaiFunctionAgent:
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump(obj, f, indent=2, ensure_ascii=False)
 
-    def find_topics(self):
-        # topics = json.loads(self.topic_list)
+    def find_topics(self, query):
+        # TODO: "query" not actually used - should have meaningful argument(s) here
         return self.topic_list
 
     def find_topics_weaviate(self, user_query):
