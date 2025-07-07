@@ -1,0 +1,54 @@
+{% for snippet in main.snippets %}
+{% if snippet.type == "title" %}
+{{ snippet.value }}
+=====================================================================
+
+{% elif snippet.type == "subtitle" %}
+.. class:: center
+
+**{{ snippet.value }}**
+
+{% elif snippet.type == "text" %} 
+{{ snippet.value }}
+
+
+{% elif snippet.type == "example" %}
+*{{ snippet.value }}*
+
+{% elif snippet.type == "section_title" %}
+{{ snippet.value }}
+-------------------------------------------------------------------------
+
+{% elif snippet.type == "theorem" %}
+**Teorēma:** {{ snippet.value }}
+
+{% elif snippet.type == "proof" %}
+*Pierādījums:* {{ snippet.value }}
+
+{% elif snippet.type == "problem" %}
+{{ snippet.problemtext }}
+(sk. `{{ snippet.problemid }} <https://www.dudajevagatve.lv/eliozo/problem?problemid={{ snippet.problemid }}>`_)
+
+{% elif snippet.type == "annotation" %}
+*{{ snippet.value }}*
+
+{% elif snippet.type == "fix" %}
+**Labojums:** {{ snippet.value }}
+{$ elif snippet.type == "solution" %}
+
+{% else %}
+{{ snippet.type }}: {{ snippet.value }}
+
+{% endif %}
+{% endfor %}
+
+Atrisinājumi
+-----------------------------------------------
+{% for snippet in main.snippets %}
+
+{% if snippet.type == "problem" %}
+**{{ snippet.problemid }}**
+{{ snippet.problemsolution }}
+{% endif %}
+
+{% endfor %}
