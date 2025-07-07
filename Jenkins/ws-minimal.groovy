@@ -16,10 +16,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                //cleanWs()
-                deleteDir()
-                sh "echo WORKING DIR"
-                sh "pwd"
+                cleanWs()
                 script {
                     env.PYTHON_PATH = env.ELIOZO_PYTHON_ENV
                     echo("env.NODE_NAME=${env.NODE_NAME}")
@@ -58,6 +55,7 @@ pipeline {
                     export PYTHONPATH=".."
                     cp ${CONFIG_DIR}/.env ../scripts
                     cp ../scripts/templates/regular.rst.jinja regular.rst.jinja
+
                     echo "CREATE-TASK KOMANDA, KURA IZVEIDO TASK.JSON, PIEVIENO DARBA LAPAI VIRSRAKSTU, KLASI U.T.T NO LIETOTĀJA VAICĀJUMA"
                     ${env.PYTHON_PATH} ../scripts/eliozo_client.py create-task --query query.txt --reference task.json
                     echo "GET-CLASSIFIERS KOMANDA, KURA PAPILDINA TASK.JSON AR TĒMU KLASIFIKATORIEM"   
