@@ -164,7 +164,7 @@ cython_debug/
 **/.DS_Store
 # scripts/*.json
 !scripts/tests_word/*.json
-temp/
+/scripts/setup/temp/
 scripts/output
 scripts/problemdata.json
 scripts/worksheet.json
