@@ -1,4 +1,3 @@
-# import jenkins
 import os
 import requests
 from requests.auth import HTTPBasicAuth
@@ -11,6 +10,11 @@ import shutil
 import time
 import re
 import asyncio
+import urllib3
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.abspath(os.path.join(script_dir, '..'))
+sys.path.insert(0, parent_dir)
 
 from scripts.fuseki_utils import FusekiUtils
 from scripts.weaviate_utils import WeaviateUtils
@@ -24,7 +28,9 @@ from scripts.adapt_utils import AdaptExtension, AdaptUtils
 from scripts.markdown.convert_to_ttl_main import markdown_repository_to_turtle
 from scripts.markdown.mdchunk_reader import markdown_md_to_turtle
 
-import urllib3
+from scripts.rdfgen.csv_to_skos import CsvToSkos
+from scripts.rdfgen.tabular_rdf import TabularRdf
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
@@ -198,6 +204,18 @@ class EliozoClient:
     def md_repository_to_turtle(self, url, directory): 
         markdown_repository_to_turtle(url, directory)
 
+    def metadata_to_turtle(self, url, property, output):
+        print(f"called metadata_to_turtle({url, property, output})")
+        if property in ['topic', 'method', 'domain']: 
+            exporter = CsvToSkos(url, property)
+            exporter.export_to_turtle(output)
+        elif property in ['question']: 
+            exporter = CsvToSkos(url, property)
+            exporter.export_to_turtle(output)
+        elif property in ['olympiad']: 
+            exporter = TabularRdf(url)
+            exporter.export_to_turtle(output)        
+        return (0, {'status':'Success'})
     
     def drop_rdf(self, dataset):
         print(f"FUSEKI_URL is {self.fuseki_url}")
@@ -426,6 +444,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         'add-metadata': 'Add a machine-generated metadata property to a markdown file',
         'md-to-turtle': 'Convert a markdown file to RDF Turtle',
         'md-repository-to-turtle': 'Convert all problems to RDF Turtle',
+        'metadata-to-turtle': 'Download ELIOZO classifiers from Google docs to Turtle',
         'drop-rdf': 'Drop all RDF data from a SPARQL database (Fuseki etc.)',
         'create-rdf-dataset': 'Create RDF dataset (Fuseki etc.)',
         'ingest-rdf': 'Import RDF data to a SPARQL database (Fuseki etc.)',
@@ -446,7 +465,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         'adapt-worksheet': 'Evaluate prototype; create structured feedback',
         'convert-worksheet': 'Convert worksheet to MS Word or PDF'
     }
-
+            
     HELP_REFERENCE = 'JSON file accumulating cmd status (defaults to task.json)'
 
     arg_h = {
@@ -469,6 +488,13 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
             'url': 'Link or path to a spreadsheet', 
             'directory': 'Working directory for MD and Turtle files', 
             '--reference': HELP_REFERENCE
+        },
+
+        'metadata-to-turtle': {
+            'url': 'Link to a Google Docs file',
+            'property': 'topic, method, domain, question, concept, olympiad, source, video',
+            'turtle': 'Path to save RDF (Turtle format)',
+            '--reference': HELP_REFERENCE 
         },
 
         'drop-rdf': {
@@ -592,7 +618,13 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
     md_repository_to_turtle_parser = subparsers.add_parser('md-repository-to-turtle', help=cmd_h['md-repository-to-turtle'])
     md_repository_to_turtle_parser.add_argument('url', type=str, help=arg_h['md-repository-to-turtle']['url'])
     md_repository_to_turtle_parser.add_argument('directory', type=str, help=arg_h['md-repository-to-turtle']['directory'])
-    md_repository_to_turtle_parser.add_argument('--reference', type=str, default=None, help=arg_h['md-repository-to-turtle']['--reference'])                                                
+    md_repository_to_turtle_parser.add_argument('--reference', type=str, default=None, help=arg_h['md-repository-to-turtle']['--reference'])
+
+    metadata_to_turtle_parser = subparsers.add_parser('metadata-to-turtle', help=cmd_h['metadata-to-turtle'])
+    metadata_to_turtle_parser.add_argument('url', type=str, help=arg_h['metadata-to-turtle']['url'])
+    metadata_to_turtle_parser.add_argument('property', type=str, help=arg_h['metadata-to-turtle']['property'])
+    metadata_to_turtle_parser.add_argument('output', type=str, help=arg_h['metadata-to-turtle']['turtle'])
+    metadata_to_turtle_parser.add_argument('--reference', type=str, default=None, help=arg_h['metadata-to-turtle']['--reference'])
 
     drop_rdf_parser = subparsers.add_parser('drop-rdf', help=cmd_h['drop-rdf'])
     drop_rdf_parser.add_argument('dataset', type=str, help=arg_h['drop-rdf']['dataset'])
@@ -706,6 +738,9 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
 
     elif args.command == 'md-repository-to-turtle':
         (retvalue, data) = eliozo_client.md_repository_to_turtle(args.url, args.directory)
+
+    elif args.command == 'metadata-to-turtle':
+        (retvalue, data) = eliozo_client.metadata_to_turtle(args.url, args.property, args.output)
 
     elif args.command == 'drop-rdf':
         (retvalue, data) = eliozo_client.drop_rdf(args.dataset)

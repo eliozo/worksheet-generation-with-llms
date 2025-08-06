@@ -83,10 +83,4 @@ python eliozo_client.py ingest-rdf abc temp/LV-VOL-2024-content.ttl --reference 
 python eliozo_client.py ingest-rdf abc temp/LV-VOL-2025-content.ttl --reference problemdata.
 
 
-python eliozo_client.py ingest-rdf abc ${RDF_PREF}/concepts.ttl --reference problemdata.json
-python eliozo_client.py ingest-rdf abc ${RDF_PREF}/data_olympiads.ttl --reference problemdata.json
-python eliozo_client.py ingest-rdf abc ${RDF_PREF}/skos_method.ttl --reference problemdata.json
-python eliozo_client.py ingest-rdf abc ${RDF_PREF}/skos_subdomain.ttl --reference problemdata.json
-python eliozo_client.py ingest-rdf abc ${RDF_PREF}/skos_topic.ttl --reference problemdata.json
-python eliozo_client.py ingest-rdf abc ${RDF_PREF}/topics.ttl --reference problemdata.json
-python eliozo_client.py ingest-rdf abc ${RDF_PREF}/youtube.ttl --reference problemdata.json
+

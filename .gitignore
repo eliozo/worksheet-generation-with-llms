@@ -166,6 +166,7 @@ cython_debug/
 !scripts/tests_word/*.json
 /scripts/setup/temp/
 scripts/output
+scripts/**/problemdata.json
 scripts/problemdata.json
 scripts/worksheet.json
 tests/adapt-worksheet/*.json
