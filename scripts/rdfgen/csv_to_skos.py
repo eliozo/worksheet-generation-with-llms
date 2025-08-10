@@ -21,19 +21,19 @@ def getGoogleSpreadsheet(URL, FILE): # Funkcija, kas iegūst Google Spreadsheet 
         file.write(response.content)
 
 def readCSVfile(csv_file_name, g, class_name):
-    if class_name == 'topic':
+    if class_name == 'topics':
         num_count = 5
         label_nums = [4,3,2,1,0]
         num_zeroes = '0.0.0.0.0'
-    if class_name == 'domain':
+    if class_name == 'domains':
         num_count = 3
         label_nums = [2,1,0]
         num_zeroes = '0.0.0'
-    if class_name == 'method':
+    if class_name == 'methods':
         num_count = 2
         label_nums = [1,0]
         num_zeroes = '0.0'
-    if class_name == 'question': 
+    if class_name == 'questions': 
         num_count = 1
         label_nums = [0]
         num_zeroes = '0'
@@ -100,28 +100,28 @@ def readCSVfile(csv_file_name, g, class_name):
 def addToRdfGraph(g, class_name, numeric_id, topicID, topicDescription, prefLabel, topicName, parentTopicID):
     
     propNames = {
-        'topic': {
+        'topics': {
             'number': 'topicNumber', 
             'id': 'topicID', 
             'description': 'topicDescription',
             'name': 'topicName',
             'class': 'Topic'
         }, 
-        'method': {
+        'methods': {
             'number': 'methodNumber', 
             'id': 'methodID', 
             'description': 'methodDescription',
             'name': 'methodName',
             'class': 'Method'
         }, 
-        'domain': {
+        'domains': {
             'number': 'domainNumber', 
             'id': 'domainID', 
             'description': 'domainDescription',
             'name': 'domainName',
             'class': 'Domain'
         },
-        'question': {
+        'questions': {
             'number': 'questionNumber', 
             'id': 'questionID', 
             'description': 'questionDescription', 

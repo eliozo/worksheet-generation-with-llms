@@ -16,10 +16,15 @@ SKOS = 'http://www.w3.org/2004/02/skos/core#'
 ELIOZO_NS = 'http://www.dudajevagatve.lv/eliozo#'
 
 
-def getSpreadsheetAsCsv(url_spreadsheet, csv_file_name):
-    response = requests.get(url_spreadsheet)
-    open(csv_file_name, 'wb').write(response.content)
+# def getSpreadsheetAsCsv(url_spreadsheet, csv_file_name):
+#     response = requests.get(url_spreadsheet)
+#     open(csv_file_name, 'wb').write(response.content)
 
+
+def getGoogleSpreadsheet(url_spreadsheet, csv_file_name):
+    response = requests.get(url_spreadsheet)
+    with open(csv_file_name, "wb") as file: 
+        file.write(response.content)
 
 def add_new_resource(g, ID, EliozoType):
     problem_node = rdflib.URIRef(ELIOZO_NS + ID)
@@ -41,9 +46,6 @@ def produceCSVtoRDF(in_file, out_file):
 
     g = rdflib.Graph()
     g.bind("eliozo", ELIOZO_NS)
-
-    f = open(in_file)
-
     properties = dict()
     properties['olympiads'] = {
         'olympiadCountry': ('olympiadCountry', ''),
@@ -86,7 +88,7 @@ def produceCSVtoRDF(in_file, out_file):
 #     getSpreadsheetAsCsv(url, suffix)
 #     produceCSVtoRDF(in_file=f'resources/spreadsheet_{suffix}.csv', out_file= f'resources/data_{suffix}.ttl')
 
-class TabularRdf: 
+class CsvToTable: 
     url = "NA"
 
     def __init__(self, url):
@@ -96,5 +98,5 @@ class TabularRdf:
         idx = output.rfind(".")
         file_no_extension = output[0:idx] if idx > 0 else output
         csv_file_name = f"{file_no_extension}.csv"
-        getSpreadsheetAsCsv(self.url, csv_file_name)
+        getGoogleSpreadsheet(self.url, csv_file_name)
         produceCSVtoRDF(csv_file_name, output)

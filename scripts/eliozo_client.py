@@ -29,7 +29,9 @@ from scripts.markdown.convert_to_ttl_main import markdown_repository_to_turtle
 from scripts.markdown.mdchunk_reader import markdown_md_to_turtle
 
 from scripts.rdfgen.csv_to_skos import CsvToSkos
-from scripts.rdfgen.tabular_rdf import TabularRdf
+from scripts.rdfgen.csv_to_table import CsvToTable
+from scripts.rdfgen.csv_to_concepts import CsvToConcepts
+from scripts.rdfgen.csv_to_nested_table import CsvToNestedTable
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -206,15 +208,18 @@ class EliozoClient:
 
     def metadata_to_turtle(self, url, property, output):
         print(f"called metadata_to_turtle({url, property, output})")
-        if property in ['topic', 'method', 'domain']: 
+        if property in ['topics', 'methods', 'domains', 'questions']: 
             exporter = CsvToSkos(url, property)
             exporter.export_to_turtle(output)
-        elif property in ['question']: 
-            exporter = CsvToSkos(url, property)
-            exporter.export_to_turtle(output)
-        elif property in ['olympiad']: 
-            exporter = TabularRdf(url)
+        elif property in ['olympiads', 'sources']:
+            exporter = CsvToTable(url)
             exporter.export_to_turtle(output)        
+        elif property in ['concepts']: 
+            exporter = CsvToConcepts(url)
+            exporter.export_to_turtle(output)
+        elif property in ['videos']: 
+            exporter = CsvToNestedTable(url)
+            exporter.export_to_turtle(output)
         return (0, {'status':'Success'})
     
     def drop_rdf(self, dataset):
@@ -492,7 +497,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
 
         'metadata-to-turtle': {
             'url': 'Link to a Google Docs file',
-            'property': 'topic, method, domain, question, concept, olympiad, source, video',
+            'property': 'topics, methods, domains, questions, concepts, olympiads, sources, videos',
             'turtle': 'Path to save RDF (Turtle format)',
             '--reference': HELP_REFERENCE 
         },
