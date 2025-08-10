@@ -12,6 +12,8 @@ import re
 import asyncio
 import urllib3
 
+
+
 script_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(script_dir, '..'))
 sys.path.insert(0, parent_dir)
@@ -100,9 +102,34 @@ class EliozoClient:
     def set_command(self, command): 
         self.command = command
 
-    def store(self, data): 
+    # Store reference file for preliminary (data preparation) commands
+    def store_prelim(self, command, data):
+        try:
+            with open(self.reference, 'r', encoding='utf-8') as f:
+                current = json.load(f)
+                if not isinstance(current, dict):
+                    current = {}
+        except (FileNotFoundError, json.JSONDecodeError):
+            current = {}
+        workflow = current.get("preliminary-workflow")
+        if not isinstance(workflow, list):
+            workflow = []
+
+        workflow.append({command: data})
+        current["preliminary-workflow"] = workflow
+
+        dir_path = os.path.dirname(self.reference)
+        if dir_path:
+            os.makedirs(dir_path, exist_ok=True)
+        with open(self.reference, 'w', encoding='utf-8') as f:
+            json.dump(current, f, indent=4, ensure_ascii=False)
+
+
+    # Store task.json with worksheet-related data
+    def store_task(self, data): 
         with open(self.reference, 'w', encoding='utf-8') as file:
             json.dump(data, file, indent=4, ensure_ascii=False)
+
 
 #     def add_metadata(self, md_file, prop, provider, output):
 #         print(f'Command = {self.command}(md_file = {md_file}, prop = {prop}, provider = {provider}, output= {output})')
@@ -205,7 +232,8 @@ class EliozoClient:
         return (0, {'key2':'value2'})
     
     def md_repository_to_turtle(self, url, directory): 
-        markdown_repository_to_turtle(url, directory)
+        outputs = markdown_repository_to_turtle(url, directory)
+        return (0, {'url': url, 'directory':directory, 'outputs': outputs})
 
     def metadata_to_turtle(self, url, property, output):
         print(f"called metadata_to_turtle({url, property, output})")
@@ -224,7 +252,7 @@ class EliozoClient:
         elif property in ['problemsru']:
             exporter = CsvToProblemsru(url)
             exporter.export_to_turtle(output)
-        return (0, {'status':'Success'})
+        return (0, {'property':property, 'output':output})
     
     def drop_rdf(self, dataset):
         print(f"FUSEKI_URL is {self.fuseki_url}")
@@ -241,7 +269,7 @@ class EliozoClient:
     def ingest_rdf(self, dataset, turtle):
         rdfUtilities = FusekiUtils(self.fuseki_url, self.fuseki_user, self.fuseki_password)
         rdfUtilities.ingest_data(dataset, turtle)
-        return (0, {'key4':'value4'})
+        return (0, turtle)
     
     def drop_vectors(self, cluster):
         print(f'Dropping all collections from Weaviate cluster {cluster}')
@@ -826,11 +854,18 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         print(f"Invalid Parameters: Command name '{args.command}' not supported.")
         sys.exit(3)
 
-    eliozo_client.store(data)
+    if args.command in ['add-metadata', 'md-to-turtle', 'md-repository-to-turtle', 
+                        'metadata-to-turtle', 'drop-rdf', 'create-rdf-dataset', 
+                        'ingest-rdf', 'drop-vectors', 'create-schema-vectors', 
+                        'ingest-vectors', 'ingest-classifiers']:
+        eliozo_client.store_prelim(args.command, data)
+    else: 
+        eliozo_client.store_task(data)
+
     sys.exit(retvalue)
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     load_dotenv()
     # Create your local .env file under $ProjectRoot/scripts with WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY
     weaviate_url = os.getenv('WEAVIATE_URL', 'NA')

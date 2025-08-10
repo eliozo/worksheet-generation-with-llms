@@ -41,15 +41,11 @@ python ../eliozo_client.py metadata-to-turtle \
     problemsru resources/list-problemsru.ttl --reference problemdata.json
 
 
-
-
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/skos_topic.ttl --reference problemdata.json
-
-
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/concepts.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/data_olympiads.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/skos_method.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/skos_subdomain.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/skos_topic.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/topics.ttl --reference problemdata.json
-# python eliozo_client.py ingest-rdf abc ${RDF_PREF}/youtube.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc resources/skos-topics.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc resources/skos-methods.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc resources/skos-domains.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc resources/skos-questions.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc resources/list-olympiads.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc resources/list-sources.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc resources/list-concepts.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc resources/list-videos.ttl --reference problemdata.json
