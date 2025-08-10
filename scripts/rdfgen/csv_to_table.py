@@ -16,11 +16,6 @@ SKOS = 'http://www.w3.org/2004/02/skos/core#'
 ELIOZO_NS = 'http://www.dudajevagatve.lv/eliozo#'
 
 
-# def getSpreadsheetAsCsv(url_spreadsheet, csv_file_name):
-#     response = requests.get(url_spreadsheet)
-#     open(csv_file_name, 'wb').write(response.content)
-
-
 def getGoogleSpreadsheet(url_spreadsheet, csv_file_name):
     response = requests.get(url_spreadsheet)
     with open(csv_file_name, "wb") as file: 
@@ -42,12 +37,15 @@ def add_literal_prop(g, problem_node, key, value, lang):
         g.add((problem_node, problem_property, rdflib.term.Literal(value, lang=lang)))
 
 
-def produceCSVtoRDF(in_file, out_file):
+def produceCSVtoRDF(in_file, out_file, class_name):
 
     g = rdflib.Graph()
     g.bind("eliozo", ELIOZO_NS)
+
     properties = dict()
     properties['olympiads'] = {
+        'cname': ('Olympiad', ''),
+        'cnameID': ('OlympiadID', ''),  
         'olympiadCountry': ('olympiadCountry', ''),
         'olympiadCode': ('olympiadCode', ''),
         'olympiadDescriptionEn': ('olympiadDescription', 'en'),
@@ -56,6 +54,18 @@ def produceCSVtoRDF(in_file, out_file):
         'olympiadNameEn': ('olympiadName', 'en'),
         'olympiadNameLt': ('olympiadName', 'lt'),
         'olympiadNameLv': ('olympiadName', 'lv')
+    }
+    properties['sources'] = {
+        'cname': ('Source', ''),
+        'cnameID': ('SourceID', ''),
+        'url': ('sourceUrl', ''),
+        'label': ('sourceLabel', ''),
+        'sourceNameEn': ('sourceName', 'en'),
+        'sourceNameLt': ('sourceName', 'lt'),
+        'sourceNameLv': ('sourceName', 'lv'),
+        'sourceDescriptionEn': ('sourceDescription', 'en'),
+        'sourceDescriptionLt': ('sourceDescription', 'lt'),
+        'sourceDescriptionLv': ('sourceDescription', 'lv')
     }
 
     line_count = 0
@@ -72,31 +82,27 @@ def produceCSVtoRDF(in_file, out_file):
         ID = IDs[1]
         if resource != current_resource:
             current_resource = resource
-            current_node = add_new_resource(g, ID, 'Olympiad')
-            add_literal_prop(g, current_node, 'olympiadID', ID, '')
+            current_node = add_new_resource(g, ID, properties[class_name]['cname'][0])
+            add_literal_prop(g, current_node, properties[class_name]['cnameID'][0], ID, '')
         key = row[1]
         val = row[2]
-        (prop, lang) = properties['olympiads'][key]
+        (prop, lang) = properties[class_name][key]
         add_literal_prop(g, current_node, prop, val, lang)
 
     g.serialize(destination=out_file)
 
 
-# if __name__ == '__main__':
-#     suffix = 'olympiads'
-#     url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQILjASie0Kv6APgwPzSQV-MRUPFksKFnKNLlLP1QU7HYzvMmrEJL9U6SxCt_-Cgb03cgQS7VyTYBpU/pub?gid=1432860697&single=true&output=csv'
-#     getSpreadsheetAsCsv(url, suffix)
-#     produceCSVtoRDF(in_file=f'resources/spreadsheet_{suffix}.csv', out_file= f'resources/data_{suffix}.ttl')
-
 class CsvToTable: 
     url = "NA"
+    class_name = 'NA'
 
-    def __init__(self, url):
+    def __init__(self, url, class_name):
         self.url = url
+        self.class_name = class_name
     
     def export_to_turtle(self, output):
         idx = output.rfind(".")
         file_no_extension = output[0:idx] if idx > 0 else output
         csv_file_name = f"{file_no_extension}.csv"
         getGoogleSpreadsheet(self.url, csv_file_name)
-        produceCSVtoRDF(csv_file_name, output)
+        produceCSVtoRDF(csv_file_name, output, self.class_name)

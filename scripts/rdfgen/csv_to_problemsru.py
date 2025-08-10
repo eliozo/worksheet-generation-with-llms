@@ -11,12 +11,15 @@ eliozo_ns = "http://www.dudajevagatve.lv/eliozo#"
 RDF_NS = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 SKOS = "http://www.w3.org/2004/02/skos/core#"
 
-def getGoogleSpreadsheet(URL_GOOGLE_SPREADSHEET, csv_file):
-    if (not URL_GOOGLE_SPREADSHEET):
-        # Use default URL
-        URL_GOOGLE_SPREADSHEET = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT1Cbs-66PXXr45JreveYV5pa3rojZO1MNWn9Fce_P3ggNtXBOjFKFYym41tM3bGQ1fhUnin0g5_ihs/pub?gid=0&single=true&output=csv'
-    response = requests.get(URL_GOOGLE_SPREADSHEET)
-    open(csv_file, "wb").write(response.content)
+def getGoogleSpreadsheet(url_spreadsheet, csv_file_name):
+    # if (not URL_GOOGLE_SPREADSHEET):
+    #     # Use default URL
+    #     URL_GOOGLE_SPREADSHEET = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT1Cbs-66PXXr45JreveYV5pa3rojZO1MNWn9Fce_P3ggNtXBOjFKFYym41tM3bGQ1fhUnin0g5_ihs/pub?gid=0&single=true&output=csv'
+    # response = requests.get(URL_GOOGLE_SPREADSHEET)
+    # open(csv_file, "wb").write(response.content)
+    response = requests.get(url_spreadsheet)
+    with open(csv_file_name, "wb") as file: 
+        file.write(response.content)
 
 def readCSVfile(in_file, topicDictionary, depthDictionary, allIDs, allAttributes):
     letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 
@@ -46,7 +49,7 @@ def readCSVfile(in_file, topicDictionary, depthDictionary, allIDs, allAttributes
                 if not parentTopicId in topicDictionary: 
                     print(f'ERROR: parent undefined on line {line_count}')
                 
-                print(f"len(topicDictionary)={len(topicDictionary)}")
+                # print(f"len(topicDictionary)={len(topicDictionary)}")
                 topicDictionary[parentTopicId].append(topicID)
                 if siblingNum != len(topicDictionary[parentTopicId]): 
                     expectedSiblingNum = len(topicDictionary[parentTopicId])
@@ -61,7 +64,7 @@ def readCSVfile(in_file, topicDictionary, depthDictionary, allIDs, allAttributes
                 allIDs[sortingLabel] = topicID
                 allAttributes[topicID] = {'parentID': parentTopicId, 'title': myTitle, 'descr': myDescription, 'url': myURL}
 
-    print(f'line_count = {line_count}')
+    # print(f'line_count = {line_count}')
 
 # topicDescription ir string mainīgais, kurā glabājas RDF objekta vērtība
 def addToRdfGraph(g, topicID, sorter, topicTitle, topicDescription, topicUrl, parentTopicID):
@@ -125,8 +128,8 @@ def produceCSVtoRDF(in_file, out_file): # Pārveido CSV failu par RDF failu
     g.serialize(destination=out_file)
 
 
-class CsvToTopics:
-    url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT1Cbs-66PXXr45JreveYV5pa3rojZO1MNWn9Fce_P3ggNtXBOjFKFYym41tM3bGQ1fhUnin0g5_ihs/pub?gid=0&single=true&output=csv'
+class CsvToProblemsru:
+    # url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT1Cbs-66PXXr45JreveYV5pa3rojZO1MNWn9Fce_P3ggNtXBOjFKFYym41tM3bGQ1fhUnin0g5_ihs/pub?gid=0&single=true&output=csv'
     
     def __init__(self, csv_url):
         self.url = csv_url
@@ -138,8 +141,3 @@ class CsvToTopics:
         csv_file = f"{file_no_extension}.csv"
         getGoogleSpreadsheet(self.url, csv_file)
         produceCSVtoRDF(csv_file, output)
-
-# if __name__ == '__main__':
-#     getGoogleSpreadsheet() # Izsauc funkciju, kas iegūst skos dokumentu CSV faila formātā
-#     produceCSVtoRDF(in_file="resources/spreadsheet_topics.csv", out_file="resources/topics.ttl")
-

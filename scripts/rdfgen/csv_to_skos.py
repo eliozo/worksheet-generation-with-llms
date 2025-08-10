@@ -13,11 +13,11 @@ eliozo_ns = "http://www.dudajevagatve.lv/eliozo#"
 RDF_NS = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 SKOS = "http://www.w3.org/2004/02/skos/core#"
 
-def getGoogleSpreadsheet(URL, FILE): # Funkcija, kas iegūst Google Spreadsheet dokumentu ar olimpiāžu uzdevumu datiem
+def getGoogleSpreadsheet(url_spreadsheet, csv_file_name): # Funkcija, kas iegūst Google Spreadsheet dokumentu ar olimpiāžu uzdevumu datiem
     # URL_GOOGLE_SPREADSHEET = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQvAsYeFYhuFLmLgtMiYFeQFeeO4e0DgteRXRg1zpQ2iMcWZr-mIgdyDYnh1IoKq4l5v9C-JAE1-Qcy/pub?output=csv'
     # URL_GOOGLE_SPREADSHEET = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQvAsYeFYhuFLmLgtMiYFeQFeeO4e0DgteRXRg1zpQ2iMcWZr-mIgdyDYnh1IoKq4l5v9C-JAE1-Qcy/pub?gid=462395741&single=true&output=csv'
-    response = requests.get(URL)
-    with open(FILE, "wb") as file: 
+    response = requests.get(url_spreadsheet)
+    with open(csv_file_name, "wb") as file: 
         file.write(response.content)
 
 def readCSVfile(csv_file_name, g, class_name):

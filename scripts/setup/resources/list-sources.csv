@@ -1,0 +1,89 @@
+SourceID,Property,Value
+eliozo:SRC_UA_UOI,url,https://data.uoi.ua/contest/umo
+eliozo:SRC_UA_UOI,label,UA_UOI
+eliozo:SRC_UA_UOI,sourceNameEn,Ukrainian Olympiads
+eliozo:SRC_UA_UOI,sourceNameLt,Ukrainos olimpiadas
+eliozo:SRC_UA_UOI,sourceNameLv,Ukrainas olimpiādes
+eliozo:SRC_UA_UOI,sourceDescriptionEn,All-Ukrainian Mathematical Olympiad (Stage 4)
+eliozo:SRC_UA_UOI,sourceDescriptionLt,Visos Ukrainos mokinių olimpiada (4 etapas)
+eliozo:SRC_UA_UOI,sourceDescriptionLv,Visukrainas olimpiāde (4.posms)
+eliozo:SRC_UA_MATHOLYMP,url,https://matholymp.com.ua/vseukrayinskii-cikl
+eliozo:SRC_UA_MATHOLYMP,label,UA_MathOlymp
+eliozo:SRC_UA_MATHOLYMP,sourceNameEn,Ukrainian Mathematical Olympiads
+eliozo:SRC_UA_MATHOLYMP,sourceNameLt,Ukrainos matematkos olimpiados
+eliozo:SRC_UA_MATHOLYMP,sourceNameLv,Ukrainas matemātikas olimpiādes
+eliozo:SRC_UA_MATHOLYMP,sourceDescriptionEn,Mathematical Olympiad News: All-Ukrainian contest
+eliozo:SRC_UA_MATHOLYMP,sourceDescriptionLt,Matematikos olimpiadų naujienos: Visos Ukrainos konkursas
+eliozo:SRC_UA_MATHOLYMP,sourceDescriptionLv,Matemātikas olimpiāžu jaunumi: Visukrainas cikls
+eliozo:SRC_PL_EDU_SEM,url,https://om.sem.edu.pl/problems/
+eliozo:SRC_PL_EDU_SEM,label,PL_SEM
+eliozo:SRC_PL_EDU_SEM,sourceNameEn,Polish Association for Mathematics Education: Olympiads
+eliozo:SRC_PL_EDU_SEM,sourceNameLt,Lenkijos matematikos ugdymo asociacija: olimpiados
+eliozo:SRC_PL_EDU_SEM,sourceNameLv,Polijas matemātiskās izglītības biedrība: olimpiādes
+eliozo:SRC_PL_EDU_SEM,sourceDescriptionEn,Archive of the Polish Mathematical Olympiad with problem statements and official solutions for stages 1 to 3
+eliozo:SRC_PL_EDU_SEM,sourceDescriptionLt,Lenkijos matematikos olimpiados archyvas: 1-3 etapų uždavinių tekstai ir oficialūs sprendimai
+eliozo:SRC_PL_EDU_SEM,sourceDescriptionLv,Polijas Matemātikas olimpiādes arhīvs: 1-3 posmu uzdevumu teksti un oficiālie risinājumi
+eliozo:SRC_LT_VU_MIF,url,https://mif.vu.lt/matematikos-olimpiados/
+eliozo:SRC_LT_VU_MIF,label,LT_VU_MIF
+eliozo:SRC_LT_VU_MIF,sourceNameEn,Lithuanian Mathematical Olympiads
+eliozo:SRC_LT_VU_MIF,sourceNameLt,Lietuvos matematikos olimpiados
+eliozo:SRC_LT_VU_MIF,sourceNameLv,Lietuvas matemātikas olimpiādes
+eliozo:SRC_LT_VU_MIF,sourceDescriptionEn,Lithuanian olympiad repository; problems in Lithuanian
+eliozo:SRC_LT_VU_MIF,sourceDescriptionLt,Lietuvos olimpiadų archyvas; užduočių tekstai lietuvių kalba
+eliozo:SRC_LT_VU_MIF,sourceDescriptionLv,Lietuvas olimpiāžu arhīvs; uzdevumu teksti lietuviski
+eliozo:SRC_EE_UT_OLYMPIAADID,url,https://www.math.olympiaadid.ut.ee/html/index.php
+eliozo:SRC_EE_UT_OLYMPIAADID,label,EE_Olympiaadid
+eliozo:SRC_EE_UT_OLYMPIAADID,sourceNameEn,Estonian mathematical olympiads
+eliozo:SRC_EE_UT_OLYMPIAADID,sourceNameLt,Estijos matematikos olimpiados
+eliozo:SRC_EE_UT_OLYMPIAADID,sourceNameLv,Igaunijas matemātikas olimpiāžu arhīvs
+eliozo:SRC_EE_UT_OLYMPIAADID,sourceDescriptionEn,"Problem texts in Estonian and Russian. Regional tour (piirkonnavoorud), national tour (lõppvoorud), open contests in fall and winter (lahtised võistlused), team selection tests (valikvõistlused)"
+eliozo:SRC_EE_UT_OLYMPIAADID,sourceDescriptionLt,"Užduočių tekstai estų ir rusų kalbomis. Regioninis turas (piirkonnavoorud), respublikinis turas (lõppvoorud), rudens ir žiemos atviros varžybos (lahtised võistlused), atrankinės varžybos (valikvõistlused)"
+eliozo:SRC_EE_UT_OLYMPIAADID,sourceDescriptionLv,"Uzdevumu teksti igauņu un krievu valodās. Reģionu kārta (piirkonnavoorud), valsts kārta (lõppvoorud), rudens un ziemas atklātie konkursi (lahtised võistlused), atlases sacensības (valikvõistlused)"
+eliozo:SRC_LV_LU_NMS,url,https://www.nms.lu.lv/arhivs-un-materali/uzdevumu-arhivs/olimpiazu-uzdevumu-arhivs/
+eliozo:SRC_LV_LU_NMS,label,LV_LU_NMS
+eliozo:SRC_LV_LU_NMS,sourceNameEn,Latvian mathematical olympiads
+eliozo:SRC_LV_LU_NMS,sourceNameLt,Latvijos matematikos olimpiados
+eliozo:SRC_LV_LU_NMS,sourceNameLv,Latvijas matemātikas olimpiādes (NMS arhīvs)
+eliozo:SRC_LV_LU_NMS,sourceDescriptionEn,"Preparatory, regional, national and open competitions"
+eliozo:SRC_LV_LU_NMS,sourceDescriptionLt,"Parengiamosios, regioninės, respublikinės ir atviros varžybos"
+eliozo:SRC_LV_LU_NMS,sourceDescriptionLv,"Sagatavošanās, novadu, valsts un atklātās olimpiādes"
+eliozo:SRC_AOPS_INTL,url,https://artofproblemsolving.com/community/c14_international_contests
+eliozo:SRC_AOPS_INTL,label,AoPS_International
+eliozo:SRC_AOPS_INTL,sourceNameEn,Art of Problem Solving: International Contests
+eliozo:SRC_AOPS_INTL,sourceNameLt,Art of Problem Solving: Tarptautines varžybos
+eliozo:SRC_AOPS_INTL,sourceNameLv,Art of Problem Solving: Starptautiski konkursi
+eliozo:SRC_AOPS_INTL,sourceDescriptionEn,"A forum on IMO, Baltic Way, EGMO problems and solutions"
+eliozo:SRC_AOPS_INTL,sourceDescriptionLt,"Forumas apie IMO, Baltijos kelio ir EGMO uždavinius ir sprendimus"
+eliozo:SRC_AOPS_INTL,sourceDescriptionLv,"Forums ar IMO, Baltijas ceļa, EGMO uzdevumiem un risinājumiem"
+eliozo:SRC_AOPS_NAT,url,https://artofproblemsolving.com/community/c16_national_and_regional_contests
+eliozo:SRC_AOPS_NAT,label,AoPS_National
+eliozo:SRC_AOPS_NAT,sourceNameEn,Art of Problem Solving: National Contests
+eliozo:SRC_AOPS_NAT,sourceNameLt,Art of Problem Solving: Nacionalinės varžybos
+eliozo:SRC_AOPS_NAT,sourceNameLv,Art of Problem Solving: Nacionālās sacensības
+eliozo:SRC_AOPS_NAT,sourceDescriptionEn,A forum on national mathematical contests
+eliozo:SRC_AOPS_NAT,sourceDescriptionLt,Forumas apie nacionalinius matematikos konkursus
+eliozo:SRC_AOPS_NAT,sourceDescriptionLv,Forums ar nacionālajām matemātikas sacensībām
+eliozo:SRC_EGMO,url,https://www.egmo.org/
+eliozo:SRC_EGMO,label,WW_EGMO
+eliozo:SRC_EGMO,sourceNameEn,European Girls' Mathematical Olympiad (EGMO)
+eliozo:SRC_EGMO,sourceNameLt,Europos mergaičių matematikos olimpiada (EGMO)
+eliozo:SRC_EGMO,sourceNameLv,Eiropas meiteņu matemātikas olimpiāde (EGMO)
+eliozo:SRC_EGMO,sourceDescriptionEn,"Official website of the European Girls’ Mathematical Olympiad (EGMO), an international mathematics competition for high‑school girls"
+eliozo:SRC_EGMO,sourceDescriptionLt,Europos merginų matematikos olimpiados (EGMO) oficiali svetainė – tarptautinės matematikos varžybos moksleivėms
+eliozo:SRC_EGMO,sourceDescriptionLv,Eiropas Meiteņu matemātikas olimpiādes (EGMO) oficiālā vietne — starptautiskas matemātikas sacensības vidusskolniecēm
+eliozo:SRC_BW_COMPETITION,url,https://www.math.olympiaadid.ut.ee/eng/html/?id=bw
+eliozo:SRC_BW_COMPETITION,label,WW_Baltic_Way
+eliozo:SRC_BW_COMPETITION,sourceNameEn,Regional Contest: Baltic Way
+eliozo:SRC_BW_COMPETITION,sourceNameLt,Regioninės varžybos: Baltijos kelias
+eliozo:SRC_BW_COMPETITION,sourceNameLv,Reģionālas sacensības: Baltic Way
+eliozo:SRC_BW_COMPETITION,sourceDescriptionEn,"The archive of problems and results for the team olympiad ""Baltic Way"""
+eliozo:SRC_BW_COMPETITION,sourceDescriptionLt,"Komandinės olimpiados ""Baltijos kelias"" uždavinių ir rezultatų archyvas"
+eliozo:SRC_BW_COMPETITION,sourceDescriptionLv,"Komandu olimpiādes ""Baltijas ceļš"" uzdevumu un rezutlātu arhīvs"
+eliozo:SRC_ORG_IMO_OFFICIAL,url,https://www.imo-official.org/problems.aspx
+eliozo:SRC_ORG_IMO_OFFICIAL,label,WW_IMO
+eliozo:SRC_ORG_IMO_OFFICIAL,sourceNameEn,International Mathematical Olympiad
+eliozo:SRC_ORG_IMO_OFFICIAL,sourceNameLt,Tarptautinė matematikos olimpiada
+eliozo:SRC_ORG_IMO_OFFICIAL,sourceNameLv,Starptautiskā matemātikas olimpiāde
+eliozo:SRC_ORG_IMO_OFFICIAL,sourceDescriptionEn,The problems and supplementary materials (shortlists) of IMO
+eliozo:SRC_ORG_IMO_OFFICIAL,sourceDescriptionLt,Tarptautinės matematikos olimpiados (IMO) uždaviniai ir papildomoji medžiaga (shortlists)
+eliozo:SRC_ORG_IMO_OFFICIAL,sourceDescriptionLv,Starptautiskās olimpiādes uzdevumi un žūrijas materiāli (shortlists)

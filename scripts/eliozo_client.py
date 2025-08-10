@@ -32,6 +32,7 @@ from scripts.rdfgen.csv_to_skos import CsvToSkos
 from scripts.rdfgen.csv_to_table import CsvToTable
 from scripts.rdfgen.csv_to_concepts import CsvToConcepts
 from scripts.rdfgen.csv_to_nested_table import CsvToNestedTable
+from scripts.rdfgen.csv_to_problemsru import CsvToProblemsru
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -212,13 +213,16 @@ class EliozoClient:
             exporter = CsvToSkos(url, property)
             exporter.export_to_turtle(output)
         elif property in ['olympiads', 'sources']:
-            exporter = CsvToTable(url)
+            exporter = CsvToTable(url, property)
             exporter.export_to_turtle(output)        
         elif property in ['concepts']: 
             exporter = CsvToConcepts(url)
             exporter.export_to_turtle(output)
         elif property in ['videos']: 
             exporter = CsvToNestedTable(url)
+            exporter.export_to_turtle(output)
+        elif property in ['problemsru']:
+            exporter = CsvToProblemsru(url)
             exporter.export_to_turtle(output)
         return (0, {'status':'Success'})
     
