@@ -154,9 +154,9 @@ def addToRdfGraph(g, class_name, numeric_id, topicID, topicDescription, prefLabe
     # Add levels L1, L2 (possibly also L3-L5) as integers
     sorters = [int(num) for num in numeric_id.split(".")]
     g.add((topicNode, topic_sorter_l1_property, rdflib.term.Literal(sorters[0], datatype=XSD.integer)))
-    if class_name in ['method', 'domain']:
+    if class_name in ['methods', 'domains', 'topics']:
         g.add((topicNode, topic_sorter_l2_property, rdflib.term.Literal(sorters[1], datatype=XSD.integer)))
-    if class_name == 'topic':
+    if class_name == 'topics':
         g.add((topicNode, topic_sorter_l3_property, rdflib.term.Literal(sorters[2], datatype=XSD.integer)))
         g.add((topicNode, topic_sorter_l4_property, rdflib.term.Literal(sorters[3], datatype=XSD.integer)))
         g.add((topicNode, topic_sorter_l5_property, rdflib.term.Literal(sorters[4], datatype=XSD.integer)))
