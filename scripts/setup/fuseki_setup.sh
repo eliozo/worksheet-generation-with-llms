@@ -6,9 +6,13 @@ export RDF_PREF="../../../qualification-project/migration-script/resources"
 rm -fr temp
 mkdir temp
 rm problemdata.json
+# python ../eliozo_client.py md-repository-to-turtle \
+#     "https://docs.google.com/spreadsheets/d/e/2PACX-1vT1Il_-qJURh8sZHRN1oJSwok4kRUjcA7VCOhDfg1PnTUC14k4skRRl3NrUDEbd1vELQq_ALwEU9Ltx/pub?output=csv" \
+#     temp --reference problemdata.json
+
 python ../eliozo_client.py md-repository-to-turtle \
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vT1Il_-qJURh8sZHRN1oJSwok4kRUjcA7VCOhDfg1PnTUC14k4skRRl3NrUDEbd1vELQq_ALwEU9Ltx/pub?output=csv" \
-    temp --reference problemdata.json
+
+
 
 python ../eliozo_client.py drop-rdf abc --reference problemdata.json
 python ../eliozo_client.py create-rdf-dataset abc --reference problemdata.json

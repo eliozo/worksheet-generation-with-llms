@@ -27,7 +27,7 @@ from scripts.openai_function_agent import OpenaiFunctionAgent
 from scripts.metadata_utils_new import MetadataUtils
 from scripts.metadata_utils_new import MetadataProperties
 from scripts.adapt_utils import AdaptExtension, AdaptUtils
-from scripts.markdown.convert_to_ttl_main import markdown_repository_to_turtle
+from scripts.markdown.convert_to_ttl_main import markdown_repository_to_turtle, crawl_markdown_problemdata
 from scripts.markdown.mdchunk_reader import markdown_md_to_turtle
 
 from scripts.rdfgen.csv_to_skos import CsvToSkos
@@ -231,9 +231,14 @@ class EliozoClient:
         markdown_md_to_turtle(markdown, turtle)
         return (0, {'key2':'value2'})
     
-    def md_repository_to_turtle(self, url, directory): 
-        outputs = markdown_repository_to_turtle(url, directory)
-        return (0, {'url': url, 'directory':directory, 'outputs': outputs})
+    def md_repository_csv_to_turtle(self, output, csv): 
+        ttls = markdown_repository_to_turtle(output, csv)
+        return (0, {'output':output, 'csv':'csv', 'ttls': ttls})
+
+    def md_repository_dir_to_turtle(self, output, problemdata):
+        csv = crawl_markdown_problemdata(problemdata)
+        ttls = markdown_repository_to_turtle(output, csv)
+        return (0, {'output':output, 'problemdata':'problemdata', 'ttls': ttls})
 
     def metadata_to_turtle(self, url, property, output):
         print(f"called metadata_to_turtle({url, property, output})")
@@ -522,8 +527,9 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         },
 
         'md-repository-to-turtle': {
-            'url': 'Link or path to a spreadsheet', 
-            'directory': 'Working directory for MD and Turtle files', 
+            'output': 'The output directory to place Turtle (and temporary MD) files', 
+            'csv': 'Link or path to a CSV spreadsheet with a list of olympiads',
+            '--problemdata': 'Parent directory with all content_xx.md files to scan (overrides csv)',
             '--reference': HELP_REFERENCE
         },
 
@@ -639,6 +645,10 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         }
     }
 
+
+
+    
+
     add_metadata_parser = subparsers.add_parser('add-metadata', help=cmd_h['add-metadata'])
     add_metadata_parser.add_argument('markdown', type=str, help=arg_h['add-metadata']['markdown'])
     add_metadata_parser.add_argument('property', type=str, help=arg_h['add-metadata']['property'])
@@ -653,8 +663,9 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
     md_to_turtle_parser.add_argument('--reference', type=str, default=None, help=arg_h['md-to-turtle']['--reference'])
 
     md_repository_to_turtle_parser = subparsers.add_parser('md-repository-to-turtle', help=cmd_h['md-repository-to-turtle'])
-    md_repository_to_turtle_parser.add_argument('url', type=str, help=arg_h['md-repository-to-turtle']['url'])
-    md_repository_to_turtle_parser.add_argument('directory', type=str, help=arg_h['md-repository-to-turtle']['directory'])
+    md_repository_to_turtle_parser.add_argument('output', type=str, help=arg_h['md-repository-to-turtle']['output'])
+    md_repository_to_turtle_parser.add_argument('csv', type=str, nargs="?", default=None, help=arg_h['md-repository-to-turtle']['csv'])
+    md_repository_to_turtle_parser.add_argument('--problemdata', type=str, default=None, help=arg_h['md-repository-to-turtle']['--problemdata'])
     md_repository_to_turtle_parser.add_argument('--reference', type=str, default=None, help=arg_h['md-repository-to-turtle']['--reference'])
 
     metadata_to_turtle_parser = subparsers.add_parser('metadata-to-turtle', help=cmd_h['metadata-to-turtle'])
@@ -774,7 +785,10 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         (retvalue, data) = eliozo_client.md_to_turtle(args.markdown, args.turtle)
 
     elif args.command == 'md-repository-to-turtle':
-        (retvalue, data) = eliozo_client.md_repository_to_turtle(args.url, args.directory)
+        if args.csv: 
+            (retvalue, data) = eliozo_client.md_repository_csv_to_turtle(args.output, args.csv)
+        else: 
+            (retvalue, data) = eliozo_client.md_repository_dir_to_turtle(args.output, args.problemdata)
 
     elif args.command == 'metadata-to-turtle':
         (retvalue, data) = eliozo_client.metadata_to_turtle(args.url, args.property, args.output)

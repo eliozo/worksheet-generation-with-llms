@@ -3,6 +3,7 @@ import mistletoe.ast_renderer
 import requests
 import csv
 import os
+import shutil
 from scripts.markdown.mdchunk_reader import markdown_md_to_turtle
 
 def getGoogleSpreadsheet(url_spreadsheet, directory):
@@ -38,16 +39,22 @@ def getMarkdownFile(URL, content_file_name, file_suffix, directory): # Funkcija,
     with open(os.path.join(directory, file_suffix+'-'+content_file_name + '.md'), "wb") as file: 
         file.write(response.content)
 
-def markdown_repository_to_turtle(URL_GOOGLE_SPREADSHEET, directory):
-    if URL_GOOGLE_SPREADSHEET == '': 
-        URL_GOOGLE_SPREADSHEET = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT1Il_-qJURh8sZHRN1oJSwok4kRUjcA7VCOhDfg1PnTUC14k4skRRl3NrUDEbd1vELQq_ALwEU9Ltx/pub?output=csv'
-    getGoogleSpreadsheet(URL_GOOGLE_SPREADSHEET, directory)
-    results = readCSVfile(directory)
+def markdown_repository_to_turtle(output, csv_spreadsheet):
+    if csv_spreadsheet.startswith("http"):
+        getGoogleSpreadsheet(csv_spreadsheet, output)
+    else: 
+        shutil.copy2(csv_spreadsheet, os.path.join(output, "spreadsheet.csv"))
+    results = readCSVfile(output)
     outputs = []
     for result in results:
-        getMarkdownFile(result[0].strip(), result[1].strip(), result[2].strip(), directory)
-        md_path = os.path.join(directory, result[2] + '-' + result[1].strip() + '.md')
-        ttl_path = os.path.join(directory, result[2] + '-' + result[1].strip() + '.ttl')
+        getMarkdownFile(result[0].strip(), result[1].strip(), result[2].strip(), output)
+        md_path = os.path.join(output, result[2] + '-' + result[1].strip() + '.md')
+        ttl_path = os.path.join(output, result[2] + '-' + result[1].strip() + '.ttl')
         markdown_md_to_turtle(md_path, ttl_path)
         outputs.append(ttl_path)
     return outputs
+
+
+def crawl_markdown_problemdata(problemdata):
+    # TODO
+    return "spreadsheet.csv"
