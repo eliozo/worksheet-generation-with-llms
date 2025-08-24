@@ -233,7 +233,7 @@ class EliozoClient:
     
     def md_repository_csv_to_turtle(self, output, csv): 
         ttls = markdown_repository_to_turtle(output, csv)
-        return (0, {'output':output, 'csv':'csv', 'ttls': ttls})
+        return (0, {'output':output, 'csv':csv, 'ttls': ttls})
 
     def md_repository_dir_to_turtle(self, output, problemdata):
         csv = crawl_markdown_problemdata(problemdata)
@@ -527,9 +527,9 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         },
 
         'md-repository-to-turtle': {
-            'output': 'The output directory to place Turtle (and temporary MD) files', 
-            'csv': 'Link or path to a CSV spreadsheet with a list of olympiads',
-            '--problemdata': 'Parent directory with all content_xx.md files to scan (overrides csv)',
+            'output': 'The output directory to place Turtle (and temporary MD) files',
+            'problemdata': 'Parent directory with all content_xx.md files to scan',
+            '--csv': 'Link or path to a CSV spreadsheet with a list of olympiads',
             '--reference': HELP_REFERENCE
         },
 
@@ -664,8 +664,8 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
 
     md_repository_to_turtle_parser = subparsers.add_parser('md-repository-to-turtle', help=cmd_h['md-repository-to-turtle'])
     md_repository_to_turtle_parser.add_argument('output', type=str, help=arg_h['md-repository-to-turtle']['output'])
-    md_repository_to_turtle_parser.add_argument('csv', type=str, nargs="?", default=None, help=arg_h['md-repository-to-turtle']['csv'])
-    md_repository_to_turtle_parser.add_argument('--problemdata', type=str, default=None, help=arg_h['md-repository-to-turtle']['--problemdata'])
+    md_repository_to_turtle_parser.add_argument('problemdata', type=str, nargs="?", default=None, help=arg_h['md-repository-to-turtle']['problemdata'])
+    md_repository_to_turtle_parser.add_argument('--csv', type=str, default=None, help=arg_h['md-repository-to-turtle']['--csv'])
     md_repository_to_turtle_parser.add_argument('--reference', type=str, default=None, help=arg_h['md-repository-to-turtle']['--reference'])
 
     metadata_to_turtle_parser = subparsers.add_parser('metadata-to-turtle', help=cmd_h['metadata-to-turtle'])
@@ -785,10 +785,46 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         (retvalue, data) = eliozo_client.md_to_turtle(args.markdown, args.turtle)
 
     elif args.command == 'md-repository-to-turtle':
-        if args.csv: 
-            (retvalue, data) = eliozo_client.md_repository_csv_to_turtle(args.output, args.csv)
-        else: 
+        if args.problemdata:
             (retvalue, data) = eliozo_client.md_repository_dir_to_turtle(args.output, args.problemdata)
+        else:
+            csv_value = args.csv
+            csv_path = args.csv
+
+            # If we receive URL, first download to output/spreadsheet.csv
+            if not os.path.isfile(csv_value): 
+                if csv_value.startswith("http"):
+                    os.makedirs(args.output, exist_ok=True)
+                    file_path = os.path.join(args.output, "spreadsheet.csv")
+                    try:
+                        r = requests.get(
+                            csv_value,
+                            stream=True,
+                            timeout=30,
+                            headers={"User-Agent": "csv-downloader/1.0", "Accept": "text/csv,text/plain,*/*;q=0.1"},
+                        )
+                        r.raise_for_status()
+
+                        ctype = r.headers.get("Content-Type", "").split(";", 1)[0].lower()
+                        if ctype == "text/html" or ("csv" not in ctype and not ctype.startswith("text/") and ctype not in ("application/octet-stream", "application/vnd.ms-excel")):
+                            print(f"Error: URL did not return a downloadable CSV/plaintext file (Content-Type: {ctype or 'unknown'}).")
+                        else:
+                            os.makedirs(os.path.dirname(file_path) or ".", exist_ok=True)
+                            with open(file_path, "wb") as f:
+                                for chunk in r.iter_content(8192):
+                                    if chunk:
+                                        f.write(chunk)
+
+                    except Exception as e:
+                        print(f"Error: could not download to {file_path}: {e}")
+                        sys.error(1)
+                    csv_path = file_path
+                else:
+                    print(f"Parameter --csv should point to a file or a valid URL")
+                    sys.error(1)
+            (retvalue, data) = eliozo_client.md_repository_csv_to_turtle(args.output, csv_path)
+
+
 
     elif args.command == 'metadata-to-turtle':
         (retvalue, data) = eliozo_client.metadata_to_turtle(args.url, args.property, args.output)

@@ -1,89 +1,89 @@
 #!/bin/bash
 
 export PYTHONPATH=../..
-export RDF_PREF="../../../qualification-project/migration-script/resources"
 
 rm -fr temp
 mkdir temp
 rm problemdata.json
-# python ../eliozo_client.py md-repository-to-turtle \
-#     "https://docs.google.com/spreadsheets/d/e/2PACX-1vT1Il_-qJURh8sZHRN1oJSwok4kRUjcA7VCOhDfg1PnTUC14k4skRRl3NrUDEbd1vELQq_ALwEU9Ltx/pub?output=csv" \
-#     temp --reference problemdata.json
 
-python ../eliozo_client.py md-repository-to-turtle \
-
+python ../eliozo_client.py md-repository-to-turtle temp --csv \
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vT1Il_-qJURh8sZHRN1oJSwok4kRUjcA7VCOhDfg1PnTUC14k4skRRl3NrUDEbd1vELQq_ALwEU9Ltx/pub?gid=0&single=true&output=csv" \
+    --reference problemdata.json
 
 
 python ../eliozo_client.py drop-rdf abc --reference problemdata.json
 python ../eliozo_client.py create-rdf-dataset abc --reference problemdata.json
 
-python ../eliozo_client.py ingest-rdf abc temp/LV-AMO-2003-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-AMO-2004-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-AMO-2005-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-AMO-2006-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-AMO-2007-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-AMO-2008-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-AMO-2009-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-AMO-2010-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-AMO-2011-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-AMO-2012-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-AMO-2013-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-AMO-2014-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-AMO-2015-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-AMO-2016-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-AMO-2017-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-AMO-2018-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-AMO-2019-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-AMO-2022A-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-AMO-2022B-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-AMO-2023-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-AMO-2024-content.ttl --reference problemdata.json
 
-python ../eliozo_client.py ingest-rdf abc temp/LV-NOL-2004-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-NOL-2005-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-NOL-2006-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-NOL-2007-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-NOL-2008-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-NOL-2009-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-NOL-2010-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-NOL-2011-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-NOL-2012-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-NOL-2013-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-NOL-2014-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-NOL-2015-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-NOL-2016-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-NOL-2017-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-NOL-2018-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-NOL-2019-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-NOL-2020-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-NOL-2021-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-NOL-2022-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-NOL-2023-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-NOL-2024-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-NOL-2025-content.ttl --reference problemdata.json
-
-python ../eliozo_client.py ingest-rdf abc temp/LV-SOL-2020-content.ttl --reference problemdata.json
-
-python ../eliozo_client.py ingest-rdf abc temp/LV-VOL-2004-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-VOL-2005-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-VOL-2006-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-VOL-2007-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-VOL-2008-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-VOL-2009-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-VOL-2010-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-VOL-2011-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-VOL-2012-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-VOL-2013-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-VOL-2014-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-VOL-2015-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-VOL-2016-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-VOL-2017-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-VOL-2018-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-VOL-2019-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-VOL-2020-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-VOL-2021-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-VOL-2022-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-VOL-2023-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-VOL-2024-content.ttl --reference problemdata.json
-python ../eliozo_client.py ingest-rdf abc temp/LV-VOL-2025-content.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/bbk2012-p1-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/bbk2012-p3-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-amo-2003-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-amo-2004-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-amo-2005-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-amo-2006-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-amo-2007-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-amo-2008-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-amo-2009-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-amo-2010-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-amo-2011-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-amo-2012-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-amo-2013-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-amo-2014-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-amo-2015-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-amo-2016-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-amo-2017-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-amo-2018-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-amo-2019-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-amo-2022a-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-amo-2022b-content_en.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-amo-2022b-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-amo-2023-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-amo-2024-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2004-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2005-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2006-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2007-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2008-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2009-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2010-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2011-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2012-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2013-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2014-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2015-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2016-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2017-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2018-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2019-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2020-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2021-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2022-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2023-content_en.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2023-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2024-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-nol-2025-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-sol-2020-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-vol-2004-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-vol-2005-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-vol-2006-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-vol-2007-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-vol-2008-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-vol-2009-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-vol-2010-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-vol-2011-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-vol-2012-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-vol-2013-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-vol-2014-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-vol-2015-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-vol-2016-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-vol-2017-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-vol-2018-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-vol-2019-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-vol-2020-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-vol-2021-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-vol-2022-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-vol-2023-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-vol-2024-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/lv-vol-2025-content_lv.ttl --reference problemdata.json
+python ../eliozo_client.py ingest-rdf abc temp/ww-imoshl-2022-content_en.ttl --reference problemdata.json
 
