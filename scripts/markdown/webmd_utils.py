@@ -55,11 +55,18 @@ def extract_latex(text):
 
     return text, placeholders
 
+# def replace_placeholders(text, placeholders):
+#     # Replace the placeholders with the original LaTeX content
+#     for placeholder, latex in placeholders.items():
+#         text = text.replace(placeholder, latex)
+#     return text
+
 def replace_placeholders(text, placeholders):
-    # Replace the placeholders with the original LaTeX content
     for placeholder, latex in placeholders.items():
-        text = text.replace(placeholder, latex)
+        escaped = latex.replace('<', '&lt;').replace('>', '&gt;').replace('&', '&amp;')
+        text = text.replace(placeholder, escaped)
     return text
+
 
 def proc_markdown(text):
     text_with_placeholders, latex_placeholders = extract_latex(text)
