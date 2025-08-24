@@ -63,7 +63,7 @@ def extract_latex(text):
 
 def replace_placeholders(text, placeholders):
     for placeholder, latex in placeholders.items():
-        escaped = latex.replace('<', '&lt;').replace('>', '&gt;').replace('&', '&amp;')
+        escaped = latex.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
         text = text.replace(placeholder, escaped)
     return text
 
