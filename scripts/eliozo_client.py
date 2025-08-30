@@ -27,8 +27,8 @@ from scripts.openai_function_agent import OpenaiFunctionAgent
 from scripts.metadata_utils_new import MetadataUtils
 from scripts.metadata_utils_new import MetadataProperties
 from scripts.adapt_utils import AdaptExtension, AdaptUtils
-from scripts.markdown.convert_to_ttl_main import markdown_repository_to_turtle, crawl_markdown_problemdata
-from scripts.markdown.mdchunk_reader import markdown_md_to_turtle
+from scripts.markdown_proc.convert_to_ttl_main import markdown_repository_to_turtle, crawl_markdown_problemdata
+from scripts.markdown_proc.mdchunk_reader import markdown_md_to_turtle
 
 from scripts.rdfgen.csv_to_skos import CsvToSkos
 from scripts.rdfgen.csv_to_table import CsvToTable
