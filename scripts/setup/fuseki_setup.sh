@@ -1,10 +1,13 @@
 #!/bin/bash
 
+export ELIOZO_PYTHON_PATH=/opt/myenv
+source $ELIOZO_PYTHON_PATH/bin/activate
+
 export PYTHONPATH=../..
 
 rm -fr temp
 mkdir temp
-rm problemdata.json
+rm -f problemdata.json
 
 python ../eliozo_client.py md-repository-to-turtle temp --csv \
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vT1Il_-qJURh8sZHRN1oJSwok4kRUjcA7VCOhDfg1PnTUC14k4skRRl3NrUDEbd1vELQq_ALwEU9Ltx/pub?gid=0&single=true&output=csv" \
