@@ -4,7 +4,7 @@ import requests
 import csv
 import os
 import shutil
-from scripts.markdown.mdchunk_reader import markdown_md_to_turtle
+from scripts.markdown_proc.mdchunk_reader import markdown_md_to_turtle
 import sys
 
 def getGoogleSpreadsheet(url_spreadsheet, directory):
