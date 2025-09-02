@@ -1,7 +1,9 @@
 #!/bin/bash
 
+if [[ "$(uname -s)" == "Linux" ]]; then
 export ELIOZO_PYTHON_PATH=/opt/myenv
-source $ELIOZO_PYTHON_PATH/bin/activate
+source "$ELIOZO_PYTHON_PATH/bin/activate"
+fi
 
 export PYTHONPATH=../..
 
