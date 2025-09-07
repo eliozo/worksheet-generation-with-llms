@@ -52,7 +52,10 @@ def readCSVfile(csv_file_name, g, class_name):
         line_count += 1
         if line_count == 1:
             continue
-        topic_numeric_id = [int(i) for i in row[0:num_count]]
+        try:
+            topic_numeric_id = [int(i) for i in row[0:num_count]]
+        except Exception as e:
+            print(f"Error processing line {line_count}: {e}")
         last_non_zero = 0
 
         for nnum in label_nums: 
