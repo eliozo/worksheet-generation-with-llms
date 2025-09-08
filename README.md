@@ -58,3 +58,8 @@ This file contains all the necessary commands to generate worksheet:
 OpenAI function agent documentation: https://platform.openai.com/docs/guides/function-calling?api-mode=chat
 
 
+
+## Issues
+
+One apparent issue -- every problem in its TTL file has only one value "questionType" 
+(not clear, if multiple "questionType" values are supported and reflected in the TTL files). 

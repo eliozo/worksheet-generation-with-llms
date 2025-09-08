@@ -225,10 +225,10 @@ class EliozoClient:
         print(f"\n✅ Output written to: {output}")
         return (0, {"status": "success", "output": output})
 
-    def md_to_turtle(self, markdown, turtle):
+    def md_to_turtle(self, markdown, turtle, langcode, is_master):
         # print(f'Command = {self.command}(markdown = {markdown}, turtle = {turtle})')
         # print(f'Command not supported')
-        markdown_md_to_turtle(markdown, turtle)
+        markdown_md_to_turtle(markdown, turtle, langcode, is_master)
         return (0, {'key2':'value2'})
     
     def md_repository_csv_to_turtle(self, output, csv): 
@@ -523,6 +523,8 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         'md-to-turtle': {
             'markdown': 'Markdown input file', 
             'turtle': 'Path to save RDF (Turtle format)',
+            'langcode': 'ISO language code (en,lt,lv etc.)',
+            '--master': 'Does this contain metadata',
             '--reference': HELP_REFERENCE
         },
 
@@ -660,6 +662,8 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
     md_to_turtle_parser = subparsers.add_parser('md-to-turtle', help=cmd_h['md-to-turtle'])
     md_to_turtle_parser.add_argument('markdown', type=str, help=arg_h['md-to-turtle']['markdown'])
     md_to_turtle_parser.add_argument('turtle', type=str, help=arg_h['md-to-turtle']['turtle'])
+    md_to_turtle_parser.add_argument('langcode', type=str, help=arg_h['md-to-turtle']['langcode'])
+    md_to_turtle_parser.add_argument('--master', dest='master_flag', action='store_true', help=arg_h['md-to-turtle']['--master'])
     md_to_turtle_parser.add_argument('--reference', type=str, default=None, help=arg_h['md-to-turtle']['--reference'])
 
     md_repository_to_turtle_parser = subparsers.add_parser('md-repository-to-turtle', help=cmd_h['md-repository-to-turtle'])
@@ -782,7 +786,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         (retvalue, data) = eliozo_client.add_metadata(args.markdown, args.property, provider, args.output)
 
     elif args.command == 'md-to-turtle':
-        (retvalue, data) = eliozo_client.md_to_turtle(args.markdown, args.turtle)
+        (retvalue, data) = eliozo_client.md_to_turtle(args.markdown, args.turtle, args.langcode, args.master_flag)
 
     elif args.command == 'md-repository-to-turtle':
         if args.problemdata:

@@ -346,9 +346,9 @@ def get_suggested_grade(title):
     if suffix2 in ['5', '6', '7', '8', '9', '10', '11', '12']:
         return [int(suffix2)]
     if title.startswith('BBK2012'):
-        return [9,10,11,12]
-    if title.startswith('WW'):
         return [10,11,12]
+    if title.startswith('WW'):
+        return [12]
     if title.startswith('EE.TST') or title.startswith('LT.TST') or title.startswith('LV.TST'):
         return [10,11,12]
     if title.startswith('LT.LKMMO'):
@@ -370,9 +370,9 @@ def markdown_md_to_turtle(md_file_path, ttl_file_path, lang_code, is_master):
     g.bind("skos", SKOS)
     g.bind("eliozo", ELIOZO)
 
-    olympiad_problem_id = re.compile(r"(EE|LV|LT|UA|PL)\.(\w+)\.(\d{4}[A-Z]*)\.([0-9_]+)\.([A-Z])?(\d+)") # LV.AO.2000.7.1
+    olympiad_problem_id = re.compile(r"^(EE|LV|LT|UA|PL|WW)\.(\w+)\.(\d{4}[A-Z]*)\.([0-9_]+\.)?([A-Z])?(\d+)$") # LV.AO.2000.7.1
     book_problem_id = re.compile(r"([A-Z0-9]+)\.(.*)\.(\d+)")  # BBK2012.P1.1 or BBK2012.P1.E2.1 or similar
-    inter_problem_id = re.compile(r"(WW)\.(\w+)\.(\d{4}[A-Z]*)\.([A-Z])?(\d+)") # WW.IMOSHL.2022.A1
+    # inter_problem_id = re.compile(r"(WW)\.(\w+)\.(\d{4}[A-Z]*)\.([A-Z])?(\d+)") # WW.IMOSHL.2022.A1
 
     for i, (title,section) in enumerate(sections):
         title = title.strip()
@@ -384,7 +384,7 @@ def markdown_md_to_turtle(md_file_path, ttl_file_path, lang_code, is_master):
         match_id = olympiad_problem_id.match(title)
 
         book_match_id = book_problem_id.match(title)
-        inter_match_id = inter_problem_id.match(title)
+        # inter_match_id = inter_problem_id.match(title)
 
         if is_master and match_id:
             country = match_id.group(1)
@@ -395,9 +395,11 @@ def markdown_md_to_turtle(md_file_path, ttl_file_path, lang_code, is_master):
             else:
                 year = int(timeID)
             rawGrade = match_id.group(4)
+            rawGrade = "" if rawGrade == None else rawGrade
+            rawGrade = rawGrade[:-1] if rawGrade.endswith('.') else rawGrade
             grade_underscore = rawGrade.find("_")
             if grade_underscore == -1:
-                grade = int(rawGrade)
+                grade = 12 if rawGrade == "" else int(rawGrade)
             else:
                 grade = int(rawGrade[0:grade_underscore])
             problem_number = match_id.group(5)
@@ -410,7 +412,7 @@ def markdown_md_to_turtle(md_file_path, ttl_file_path, lang_code, is_master):
             add_problem_integer_prop(g, problem_node, 'problemYear', year)
             add_problem_literal_prop(g, problem_node, 'problemTimeID', timeID)
             add_problem_integer_prop(g, problem_node, 'problemGrade', grade)
-            add_problem_integer_prop(g, problem_node, 'problem_number', problem_number)
+            add_problem_literal_prop(g, problem_node, 'problem_number', problem_number)
             add_problem_literal_prop(g, problem_node, 'problemID', title)
 
         elif is_master and book_match_id:
@@ -423,30 +425,30 @@ def markdown_md_to_turtle(md_file_path, ttl_file_path, lang_code, is_master):
             add_problem_integer_prop(g, problem_node, 'problem_number', problem_number)
             add_problem_literal_prop(g, problem_node, 'problemID', title)
 
-        elif is_master and inter_match_id:
-            country = match_id.group(1)
-            olympiad = inter_match_id.group(2)
-            timeID = inter_match_id.group(3)
-            if len(timeID) > 4:
-                year = int(timeID[0:4])
-            else:
-                year = int(timeID)
-            grade = 12
-            problem_type = inter_match_id.group(4)
-            problem_number = inter_match_id.group(5)
-            if problem_type:
-                suffix = suffix + "." + problem_type
+        # elif is_master and inter_match_id:
+        #     country = match_id.group(1)
+        #     olympiad = inter_match_id.group(2)
+        #     timeID = inter_match_id.group(3)
+        #     if len(timeID) > 4:
+        #         year = int(timeID[0:4])
+        #     else:
+        #         year = int(timeID)
+        #     grade = 12
+        #     problem_type = inter_match_id.group(4)
+        #     problem_number = inter_match_id.group(5)
+        #     if problem_type:
+        #         suffix = suffix + "." + problem_type
            
-            add_problem_literal_prop(g, problem_node, 'country', country)
-            add_problem_literal_prop(g, problem_node, 'olympiad', olympiad)
-            add_problem_literal_prop(g, problem_node, 'olympiadCode', olympiad)
-            add_problem_literal_prop(g, problem_node, 'event', olympiad + '.' + timeID)
-            add_problem_integer_prop(g, problem_node, 'problemYear', year)
-            add_problem_literal_prop(g, problem_node, 'problemTimeID', timeID)
-            add_problem_literal_prop(g, problem_node, 'suffix', suffix)
-            add_problem_integer_prop(g, problem_node, 'problem_number', problem_number)
-            add_problem_integer_prop(g, problem_node, 'problemGrade', grade)
-            add_problem_literal_prop(g, problem_node, 'problemID', title)
+        #     add_problem_literal_prop(g, problem_node, 'country', country)
+        #     add_problem_literal_prop(g, problem_node, 'olympiad', olympiad)
+        #     add_problem_literal_prop(g, problem_node, 'olympiadCode', olympiad)
+        #     add_problem_literal_prop(g, problem_node, 'event', olympiad + '.' + timeID)
+        #     add_problem_integer_prop(g, problem_node, 'problemYear', year)
+        #     add_problem_literal_prop(g, problem_node, 'problemTimeID', timeID)
+        #     add_problem_literal_prop(g, problem_node, 'suffix', suffix)
+        #     add_problem_integer_prop(g, problem_node, 'problem_number', problem_number)
+        #     add_problem_integer_prop(g, problem_node, 'problemGrade', grade)
+        #     add_problem_literal_prop(g, problem_node, 'problemID', title)
 
         elif not is_master:
             pass 

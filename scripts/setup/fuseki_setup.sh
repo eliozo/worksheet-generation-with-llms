@@ -15,9 +15,16 @@ python ../eliozo_client.py md-repository-to-turtle temp --csv \
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vT1Il_-qJURh8sZHRN1oJSwok4kRUjcA7VCOhDfg1PnTUC14k4skRRl3NrUDEbd1vELQq_ALwEU9Ltx/pub?gid=0&single=true&output=csv" \
     --reference problemdata.json
 
+# python ../eliozo_client.py md-to-turtle temp/ww-imoshl-2022-content_en.md temp/ww-imoshl-2022-content_en.ttl en --master \
+#     --reference problemdata.json
+
+# python ../eliozo_client.py md-to-turtle temp/lv-vol-2024-content_lv.md temp/lv-vol-2024-content_lv.ttl lv --master \
+#     --reference problemdata.json
+
 
 python ../eliozo_client.py drop-rdf abc --reference problemdata.json
 python ../eliozo_client.py create-rdf-dataset abc --reference problemdata.json
+
 
 
 python ../eliozo_client.py ingest-rdf abc temp/bbk2012-p1-content_lv.ttl --reference problemdata.json
