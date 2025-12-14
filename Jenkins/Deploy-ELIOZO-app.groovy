@@ -36,9 +36,10 @@ pipeline {
                     }
 
                     echo("Start: Copying workspace")
+                    def refSpec = params.BRANCH_OR_TAG
                     checkout([
                         $class: 'GitSCM',
-                        branches: [[name: "*/main"]],
+                        branches: [[name: refSpec]],
                         userRemoteConfigs: [[
                             url: 'https://github.com/eliozo/qualification-project.git'
                         ]]
