@@ -16,6 +16,7 @@ pipeline {
     }
 
     stages {
+
         stage('Hello') {
             steps {
                 script {
@@ -23,6 +24,7 @@ pipeline {
                 }
             }
         }
+
         stage('Checkout') {
             steps {
                 cleanWs()
@@ -45,6 +47,23 @@ pipeline {
                         ]]
                     ])
                     echo("End: Copying workspace")
+                }
+            }
+        }
+
+        stage ('Deploy') {
+            steps {
+                script {
+                    writeFile file: 'eliozoapp/eliozo.env', text: """\
+                        GOOGLE_CLIENT_ID=${env.GOOGLE_CLIENT_ID}
+                        GOOGLE_CLIENT_SECRET=${env.GOOGLE_CLIENT_SECRET}
+                        """.stripIndent()
+                    sh """
+                    cp eliozoapp/config-remote.py eliozoapp/config.py
+                    sudo -n /usr/local/bin/deploy-eliozo '${env.WORKSPACE}/eliozoapp/eliozo'
+                    sudo -n systemctl restart eliozo
+                    sudo -n systemctl reload nginx
+                    """
                 }
             }
         }
