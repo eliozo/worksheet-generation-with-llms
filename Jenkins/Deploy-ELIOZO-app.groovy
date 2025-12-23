@@ -60,7 +60,7 @@ pipeline {
                         """.stripIndent()
                     sh """
                     cp eliozoapp/config-remote.py eliozoapp/config.py
-                    sudo -n /usr/local/bin/deploy-eliozo '${env.WORKSPACE}/eliozoapp/eliozo'
+                    sudo -n /usr/local/bin/deploy-eliozo '${env.WORKSPACE}/eliozoapp'
                     sudo -n systemctl restart eliozo
                     sudo -n systemctl reload nginx
                     """
