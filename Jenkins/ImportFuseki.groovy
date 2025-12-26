@@ -64,7 +64,8 @@ pipeline {
 
 
                     sh """
-                    rm -fr resources/*.ttl
+                    rm -fr resources
+                    mkdir resources
                     ${PYTHON_PATH} \
                         worksheet-generation-with-llms/scripts/eliozo_client.py \
                         metadata-to-turtle \
