@@ -29,7 +29,7 @@ pipeline {
                     // ])
 
                     dir('stat-math-education') {
-                    git branch: 'master',
+                    git branch: '*/master',
                         url: 'https://github.com/kapsitis/stat-math-education.git',
                         credentialsId: 'github-pat-stat-math'
                     }
