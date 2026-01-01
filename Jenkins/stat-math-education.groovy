@@ -57,7 +57,7 @@ pipeline {
                         params = list(data_file = '${data_file}', region = '${region}', year = as.integer('${year}', number = '${number}')),
                         output_file = paste0('LV.AMO.', '${year}', '-', '${region}', '-report.pdf')
                     )"
-                    cp LV.AMO.${YEAR}-${REGION}-report.pdf /var/www/html/static/eliozo/reports
+                    cp LV.AMO.${year}-${region}-report.pdf /var/www/html/static/eliozo/reports
                     """
                 }
             }
