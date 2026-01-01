@@ -43,6 +43,12 @@ pipeline {
             steps {
                 script {
                     echo "Start: Run RScript"
+                    sh """
+                    mkdir -p 
+                    cd stat-math-education/nms-clean
+                    Rscript -e 'rmarkdown::render("LV.AMO.2014-report.Rmd", output_format="pdf_document")'
+                    cp LV.AMO.2014-report.Rmd /var/www/html/static/eliozo/reports
+                    """
                 }
             }
         }
