@@ -50,7 +50,6 @@ pipeline {
                     NUMBER="41"
 
                     sh """
-                    set -euo pipefail
                     cd stat-math-education/nms-clean
                     Rscript -e "rmarkdown::render(
                         'report.Rmd',
