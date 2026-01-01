@@ -46,7 +46,7 @@ pipeline {
                     sh """
                     cd stat-math-education/nms-clean
                     Rscript -e 'rmarkdown::render("LV.AMO.2014-report.Rmd", output_format="pdf_document")'
-                    cp LV.AMO.2014-report.Rmd /var/www/html/static/eliozo/reports
+                    cp LV.AMO.2014-report.pdf /var/www/html/static/eliozo/reports
                     """
                 }
             }
