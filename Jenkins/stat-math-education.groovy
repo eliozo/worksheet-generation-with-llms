@@ -44,18 +44,18 @@ pipeline {
                 script {
                     echo "Start: Run RScript"
 
-                    DATA_FILE="data-LV.AMO.2014.csv"
-                    REGION="Riga"
-                    YEAR="2014"
-                    NUMBER="41"
+                    def data_file="data-LV.AMO.2014.csv"
+                    def region="Riga"
+                    def year="2014"
+                    def number="41"
 
                     sh """
                     cd stat-math-education/nms-clean
                     Rscript -e "rmarkdown::render(
-                        'report.Rmd',
+                        'LV.AMO.2014-report.Rmd',
                         output_format = 'pdf_document',
-                        params = list(data_file = '${DATA_FILE}', region = '${REGION}', year = as.integer('${YEAR}', number = '${NUMBER}')),
-                        output_file = paste0('LV.AMO.', '${YEAR}', '-', '${REGION}', '-report.pdf')
+                        params = list(data_file = '${data_file}', region = '${region}', year = as.integer('${year}', number = '${number}')),
+                        output_file = paste0('LV.AMO.', '${year}', '-', '${region}', '-report.pdf')
                     )"
                     cp LV.AMO.${YEAR}-${REGION}-report.pdf /var/www/html/static/eliozo/reports
                     """
