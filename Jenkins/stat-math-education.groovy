@@ -54,6 +54,12 @@ pipeline {
                     Rscript -e "rmarkdown::render(
                         'LV.AMO.2014-report.Rmd',
                         output_format = 'pdf_document',
+                        output_options = list(
+                            pandoc_args = c(
+                            '--lua-filter=filters/hide-solutions.lua',
+                            '--metadata=show-solutions:false'
+                            )
+                        ),
                         params = list(data_file = '${data_file}', region = '${region}', year = as.integer('${year}', number = '${number}')),
                         output_file = paste0('LV.AMO.', '${year}', '-', '${region}', '-report.pdf')
                     )"
