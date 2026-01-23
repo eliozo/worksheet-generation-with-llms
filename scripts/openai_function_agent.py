@@ -169,14 +169,14 @@ class OpenaiFunctionAgent:
         print(f'CALLED find_topics({user_query})')
         # Replace this with your actual (encoder/transformer) logic
         # return ["PigeonholePrincipleBasic", "PigeonholePrincipleGeneralized", "PigeonholePrincipleGeometry"]
-        weaviateUtils = WeaviateUtils(self.weaviate_url, 
+        with WeaviateUtils(self.weaviate_url, 
                             self.weaviate_api_key, 
-                            self.openai_api_key)
+                            self.openai_api_key) as weaviateUtils:
 
-        print(f'get_classifiers: Getting classifier data from Weaviate')
-        #(retvalue, data) = weaviateUtils.ingest_classifier_data(property, turtle)
-        results = weaviateUtils.near_search("Classifier", user_query, 10)
-        print(results)
+            print(f'get_classifiers: Getting classifier data from Weaviate')
+            #(retvalue, data) = weaviateUtils.ingest_classifier_data(property, turtle)
+            results = weaviateUtils.near_search("Classifier", user_query, 10)
+            print(results)
         # TODO ar for ciklu iet cauri results un katram masīva elementam izvelk vērtību atslēgai label
         #  un piešķir tos jaunam sarakstam
         # Atgriezt nevis results, bet sarakstu, kurā ir tikai labels vērtības. 

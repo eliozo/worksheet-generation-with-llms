@@ -278,37 +278,35 @@ class EliozoClient:
     
     def drop_vectors(self, cluster):
         print(f'Dropping all collections from Weaviate cluster {cluster}')
-        utils = WeaviateUtils(self.weaviate_url, 
+        with WeaviateUtils(self.weaviate_url, 
                               self.weaviate_api_key, 
-                              self.openai_api_key)
-        (retvalue, data) = utils.drop_collections()                
+                              self.openai_api_key) as utils:
+            (retvalue, data) = utils.drop_collections()                
         return (retvalue, data)
     
     def create_schema_vectors(self, cluster): 
         print(f'Creating schema for Weaviate cluster {cluster}')
-        utils = WeaviateUtils(self.weaviate_url, 
+        with WeaviateUtils(self.weaviate_url, 
                               self.weaviate_api_key, 
-                              self.openai_api_key)
-        (retvalue, data) = utils.create_schema() 
+                              self.openai_api_key) as utils:
+            (retvalue, data) = utils.create_schema() 
         return (retvalue, data)
  
     
     def ingest_vectors(self, cluster, turtle):
         print(f'ingest_vectors: Importing data to Weaviate {cluster}')
-        utils = WeaviateUtils(self.weaviate_url, 
+        with WeaviateUtils(self.weaviate_url, 
                               self.weaviate_api_key, 
-                              self.openai_api_key)
-        (retvalue, data) = utils.ingest_to_weaviate(turtle)
-        utils.close_client()
+                              self.openai_api_key) as utils:
+            (retvalue, data) = utils.ingest_to_weaviate(turtle)
         return (retvalue, data)
 
     def ingest_classifiers(self, cluster, property, turtle):
-        weaviateUtils = WeaviateUtils(self.weaviate_url, 
-                              self.weaviate_api_key, 
-                              self.openai_api_key)
-
         print(f'ingest_classifiers: Importing classifier data to Weaviate {cluster}')
-        (retvalue, data) = weaviateUtils.ingest_classifier_data(property, turtle)
+        with WeaviateUtils(self.weaviate_url, 
+                              self.weaviate_api_key, 
+                              self.openai_api_key) as weaviateUtils:
+            (retvalue, data) = weaviateUtils.ingest_classifier_data(property, turtle)
         return (retvalue, data)
 
     def get_classifiers(self):
@@ -364,16 +362,16 @@ class EliozoClient:
         return (retvalue, task_data)
 
     def get_problems_vectors(self, output): 
-        weaviateUtils = WeaviateUtils(self.weaviate_url, 
+        with WeaviateUtils(self.weaviate_url, 
                               self.weaviate_api_key, 
-                              self.openai_api_key)
-        with open(self.reference, 'r', encoding='utf-8') as f:
-            task_data = json.load(f)
-        # This is actually a bad idea to ask Weaviate, 
-        # It would be better to generate some sample problem and then search for similar problems
-        query = task_data['task']['query']
+                              self.openai_api_key) as weaviateUtils:
+            with open(self.reference, 'r', encoding='utf-8') as f:
+                task_data = json.load(f)
+            # This is actually a bad idea to ask Weaviate, 
+            # It would be better to generate some sample problem and then search for similar problems
+            query = task_data['task']['query']
 
-        (retvalue, data) = weaviateUtils.get_problems(query, 10)
+            (retvalue, data) = weaviateUtils.get_problems(query, 10)
         with open(output, 'w', encoding ='utf8') as output_file:
             json.dump(data, output_file, indent=4, ensure_ascii=False)
         return (retvalue, task_data)

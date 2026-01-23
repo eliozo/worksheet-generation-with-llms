@@ -41,6 +41,12 @@ class WeaviateUtils:
             self.client.close()
             self.client = None
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close_client()
+
     def set_skipping_mode(self, skipping_mode):
         self.skipping_mode = skipping_mode
  

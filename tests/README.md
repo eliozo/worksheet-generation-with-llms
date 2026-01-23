@@ -23,7 +23,7 @@ pip install weaviate-client pytest python-dotenv rdflib requests
 1.  **Virtual Environment**: Ensure you are running in a Python virtual environment.
 2.  **Dependencies**: Install the required packages.
     ```bash
-    pip install weaviate-client python-dotenv pytest rdflib requests
+    pip install weaviate-client python-dotenv pytest rdflib requests jinja2 pypandoc pandas mistletoe
     ```
     *Note: Ensure `weaviate-client` version is compatible with the code (v4 client is used).*
 
