@@ -2,10 +2,13 @@
 export PYTHONPATH=..
 export RDF_PREF="setup/temp"
 
-rm -fr problemdata.json
-python eliozo_client.py drop-vectors eliozo-model --reference problemdata.json
-python eliozo_client.py create-schema-vectors eliozo-model --reference problemdata.json
-echo "Schema created"
+# rm -fr problemdata.json
+# python eliozo_client.py drop-vectors eliozo-model --reference problemdata.json
+# python eliozo_client.py create-schema-vectors eliozo-model --reference problemdata.json
+# echo "Schema created"
+# School/Preparation olympiads
+# python eliozo_client.py ingest-vectors eliozo-model ${RDF_PREF}/lv-sol-2020-content_lv.ttl --reference problemdata.json
+
 
 # Content in English
 # Skip for now - as they may have empty metadata... 
@@ -14,8 +17,6 @@ echo "Schema created"
 # python eliozo_client.py ingest-vectors eliozo-model ${RDF_PREF}/lv-nol-2023-content_en.ttl --reference problemdata.json
 
 
-# School/Preparation olympiads
-python eliozo_client.py ingest-vectors eliozo-model ${RDF_PREF}/lv-sol-2020-content_lv.ttl --reference problemdata.json
 
 
 # python eliozo_client.py ingest-vectors eliozo-model ${RDF_PREF}/lv-amo-2003-content_lv.ttl --reference problemdata.json
@@ -88,3 +89,4 @@ python eliozo_client.py ingest-vectors eliozo-model ${RDF_PREF}/lv-sol-2020-cont
 # python eliozo_client.py ingest-vectors eliozo-model ${RDF_PREF}/lv-nol-2025-content_lv.ttl --reference problemdata.json
 
 
+# TODO: Also migrate and ingest AMO.2025; NOL.2026 data.
