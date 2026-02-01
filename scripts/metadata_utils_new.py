@@ -23,6 +23,23 @@ class MetadataUtils:
             'Content-Type': 'application/json',
             'Authorization': f'Bearer {openai_api_key}'
         }
+        self.subdomains = self._load_subdomains()
+
+    def _load_subdomains(self):
+        subdomin_list = []
+        csv_path = os.path.join(os.path.dirname(__file__), 'setup/resources/skos-domains.csv')
+        try:
+            with open(csv_path, 'r', encoding='utf-8') as f:
+                import csv
+                reader = csv.DictReader(f)
+                for row in reader:
+                    label = row.get('Label')
+                    desc = row.get('DescriptionLv') or row.get('DescriptionEn')
+                    if label:
+                        subdomin_list.append(f"{label} ({desc})")
+        except Exception as e:
+            print(f"Error loading subdomains: {e}")
+        return subdomin_list
 
     def make_sys_instructions(self, property):
         if property == MetadataProperties.QUESTION_TYPE:
@@ -35,11 +52,16 @@ class MetadataUtils:
             You are a helpful assistant. Respond only with a valid JSON object like:
             {{"domain": "Alg"}}. Do not explain anything.
             """
+        elif property == MetadataProperties.SUBDOMAIN:
+            return f"""
+            You are a helpful assistant. Respond only with a valid JSON object like:
+            {{"subdomain": "DOM_Inequalities"}}. Do not explain anything.
+            """
     
     def make_prompt(self, property, problem_text):
         if property == MetadataProperties.QUESTION_TYPE:
             return f"""
-            Lūdzu, atrodi matemātikas uzdevuma tipu.
+            Atrodi matemātikas uzdevuma tipu.
             Atbildi **tikai** ar JSON formātā: {{"uzdevuma_tips": "..."}}.
             Uzdevums:
 
@@ -54,7 +76,18 @@ class MetadataUtils:
             'ProveDisprove' (uzdevumi, kuros apgalvojums ir jāpierāda vai jāapgāž); 
             'Algorithm' (uzdevumi, kuros jāatrod procedūra vai spēles stratēģija).
             """
-        
+        elif property == MetadataProperties.SUBDOMAIN:
+            subdomain_str = "\\n".join(self.subdomains)
+            return f"""
+            Atrodi uzdevumam atbilstošāko apakšnozari (subdomain).
+            Atbildi **tikai** ar JSON formātā: {{"subdomain": "DOM_..."}}.
+            
+            Uzdevums:
+            {problem_text.strip()}
+
+            Iespējamās apakšnozares ir:
+            {subdomain_str}
+            """
 
     def classify_problem(self, problem_text, problem_solution, property):
         prompt = self.make_prompt(property, problem_text)
@@ -62,16 +95,17 @@ class MetadataUtils:
         openaiUtils = OpenaiUtils(self.openai_api_key)
         result = openaiUtils.json_request(prompt, system_message, 42)
         try:
-            return result.get('uzdevuma_tips', 'NA')
-        except json.JSONDecodeError:
-            match = re.search(r'\{.*?\}', result, re.DOTALL)
-            if match:
-                try:
-                    result = json.loads(match.group(0))
-                    return result.get('uzdevuma_tips', 'NA')
-                except:
-                    return "NA"
+            if property == MetadataProperties.QUESTION_TYPE:
+                return result.get('uzdevuma_tips', 'NA')
+            elif property == MetadataProperties.SUBDOMAIN:
+                return result.get('subdomain', 'NA')
             return "NA"
+        except (AttributeError, TypeError):
+             # result might be string if error occurred or parsing failed inside openaiUtils but it returns dict usually
+             pass
+
+        # Fallback if result is string or dict access failed strangely
+        return "NA"
 
 
 input_md_file = 'C:/Users/eozolina/Documents/workspace-private/nms-uzdevumi/lv-vol-2019/content.md'
@@ -156,27 +190,27 @@ def add_generated_question_type(self, md_text, generated_qtype):
 
     return md_text[:match.start()] + new_small_block + md_text[match.end():]
 
-if __name__ == '__main__':
-    api_key = os.environ.get("OPENAI_API_KEY") or "sk-your-key-here"
-    metadata_utils = MetadataUtils(api_key)
+# if __name__ == '__main__':
+#     api_key = os.environ.get("OPENAI_API_KEY") or "sk-your-key-here"
+#     metadata_utils = MetadataUtils(api_key)
 
-    problemList = extract_sections_from_md(input_md_file)
-    updated_sections = []
+#     problemList = extract_sections_from_md(input_md_file)
+#     updated_sections = []
 
-    for (title, full_problem) in problemList:
-        clean_problem = normalize_text(full_problem)
-        try:
-            predicted_qtype = metadata_utils.classify_problem(clean_problem, "", 'questionType')
-        except Exception as e:
-            print(f"Error with {title}: {e}")
-            predicted_qtype = 'NA'
+#     for (title, full_problem) in problemList:
+#         clean_problem = normalize_text(full_problem)
+#         try:
+#             predicted_qtype = metadata_utils.classify_problem(clean_problem, "", 'questionType')
+#         except Exception as e:
+#             print(f"Error with {title}: {e}")
+#             predicted_qtype = 'NA'
 
-        new_section = add_generated_question_type(full_problem, predicted_qtype)
-        updated_sections.append(f'# <lo-sample/> {title}\n\n{new_section.strip()}\n')
+#         new_section = add_generated_question_type(full_problem, predicted_qtype)
+#         updated_sections.append(f'# <lo-sample/> {title}\n\n{new_section.strip()}\n')
 
-        print(f'Processed: {title} | _questionType: {predicted_qtype}')
+#         print(f'Processed: {title} | _questionType: {predicted_qtype}')
 
-    with open(output_md_file, 'w', encoding='utf-8') as out:
-        out.write('\n\n'.join(updated_sections))
+#     with open(output_md_file, 'w', encoding='utf-8') as out:
+#         out.write('\n\n'.join(updated_sections))
 
-    print(f'Output written to: {output_md_file}')
+#     print(f'Output written to: {output_md_file}')

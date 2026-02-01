@@ -43,11 +43,41 @@ def test_get_problems_returns_ten_results(utils):
     Test that searching for a specific problem returns exactly 10 results.
     Assumes data is already ingested.
     """
-    query = """
-    Mihailo izvēlējās 3 dažādus pozitīvus skaitļus $a,b,c$.
-    Viņš uz tāfeles uzrakstīja sekojošus 6 skaitļus: $a+b$, $b+c$, $c+a$, $ab$, $bc$, $ca$. Kāds ir mazākais iespējamais atšķirīgu skaitļu skaits, ko var šādi uzrakstīt uz tāfeles?
-    """
+    # query = """
+    # Mihailo izvēlējās 3 dažādus pozitīvus skaitļus $a,b,c$.
+    # Viņš uz tāfeles uzrakstīja sekojošus 6 skaitļus: $a+b$, $b+c$, $c+a$, $ab$, $bc$, $ca$. Kāds ir mazākais iespējamais atšķirīgu skaitļu skaits, ko var šādi uzrakstīt uz tāfeles?
+    # """
+
+    # query = """
+    # Petriks izveidoja tādu kalkulatoru, uz kura ekrāna ir viens skaitlis $x$. Ikreiz, kad tiek 
+    # nospiesta poga "=", skaitlis $x$ pārvēršas par $(x-1)/(x+1)$. 
+    # Petriks nospieda pogu "=" $2014$ reizes, un pēc tam uz ekrāna parādījās skaitlis $2016$. 
+    # Kāds skaitlis bija uz ekrāna pašā sākumā?
+    # """
+
+    # query = """
+    # Atrisināt vienādojumu reālos skaitļos: 
+    # x^2 - 7 = \sqrt(x+7).
+    # Ieteikums.
+    # Kāpināt abas puses kvadrātā, lai iegūtu 4. pakāpes algebrisku vienādojumu. 
+    # Mēģiniet uzminēt veselas saknes (piem., brīvā locekļa dalītājus). 
+    # (Viena no saknēm var būt lieka).
+    # """
+
+    # query = """
+    # Naturālu skaitļu virknes a(n) pirmais loceklis 
+    # $a_1 = 2$, bet visiem $i>1$, $a(i) = a(i-1) + i - 1$. 
+    # Pierādīt, ka šajā skaitļu virknē nav neviens naturāla 
+    # skaitļa kvadrāts. 
+    # """
     
+    query = """
+    Naturālu skaitli $N$ sauc par *amizantu*, ja katru $N$
+    pēc kārtas ņemtu naturālu skaitļu reizinājums dalās ar $N^2$. 
+    Kādi skaitļi nav amizanti?
+    """
+
+
     print(f"\n--- Test: Search for 'Mihailo' problem (limit=10) ---")
     
     # helper wrapper returns (code, data)
