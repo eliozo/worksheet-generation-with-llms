@@ -360,6 +360,48 @@ def get_suggested_grade(title):
         return []
 
 
+def process_metadata(g, problem_node, meta_dict):
+    # Handle _subdomain logic
+    subdomains = meta_dict.get('subdomain', [])
+    gen_subdomains = meta_dict.get('_subdomain', [])
+
+    # Filter empty strings just in case
+    subdomains = [s for s in subdomains if s]
+    gen_subdomains = [s for s in gen_subdomains if s]
+
+    if gen_subdomains:
+        if subdomains:
+            # Case 1: Both exist
+            # Compare sets to check for discrepancies (order agnostic)
+            if set(subdomains) != set(gen_subdomains):
+                print(f"***** WARNING: ***** Subdomain mismatch for {problem_node}. Manual: {subdomains}, Generated: {gen_subdomains}")
+            # Do nothing with _subdomain in RDF
+        else:
+            # Case 2: Only generated exists => Promote to subdomain
+            for vv in gen_subdomains:
+                add_problem_topiclike_prop(g, problem_node, 'subdomain', vv)
+
+    for k, vvv in meta_dict.items():
+        # Skip _subdomain as it is handled above
+        if k == '_subdomain':
+            continue
+
+        for vv in vvv:
+            if vv == '':
+                continue
+            
+            if k == 'topic':
+                add_problem_topiclike_prop(g, problem_node, 'topic', vv)
+            elif k == 'subdomain':
+                add_problem_topiclike_prop(g, problem_node, 'subdomain', vv)
+            elif k == 'method':
+                add_problem_topiclike_prop(g, problem_node, 'method', vv)                  
+            elif k == 'concepts':
+                add_problem_topiclike_prop(g, problem_node, 'concepts', "TRM-"+vv)
+            else:
+                add_problem_literal_prop(g, problem_node, k, vv)
+
+
 def markdown_md_to_turtle(md_file_path, ttl_file_path, lang_code, is_master):
     sections = extract_sections_from_md(md_file_path)
 
@@ -487,18 +529,8 @@ def markdown_md_to_turtle(md_file_path, ttl_file_path, lang_code, is_master):
                 add_problem_integer_prop(g, problem_node, 'suggestedGrade', sug_grade)
 
             meta_dict = extract_metadata(section)
-            for k, vvv in meta_dict.items():
-                for vv in vvv:
-                    if k == 'topic' and vv != '':
-                        add_problem_topiclike_prop(g, problem_node, 'topic', vv)
-                    elif k == 'subdomain' and vv != '': 
-                        add_problem_topiclike_prop(g, problem_node, 'subdomain', vv)
-                    elif k == 'method' and vv != '': 
-                        add_problem_topiclike_prop(g, problem_node, 'method', vv)                  
-                    elif k == 'concepts' and vv != '':
-                        add_problem_topiclike_prop(g, problem_node, 'concepts', "TRM-"+vv)
-                    else:
-                        add_problem_literal_prop(g, problem_node, k, vv)
+            meta_dict = extract_metadata(section)
+            process_metadata(g, problem_node, meta_dict)
 
 
         solution_part = extract_solution_part(section)

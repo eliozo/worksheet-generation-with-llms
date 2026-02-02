@@ -44,8 +44,11 @@ def copy_with_incremented_name(file_path):
     dir_name = os.path.dirname(file_path)
     base_name = os.path.basename(file_path)
     name_parts = base_name.split(".")
-    if len(name_parts) != 2: 
+
+    if len(name_parts) != 2:
         print(f"{base_name} must be a file with an extension - it should have a single dot (.)")
+        raise ValueError(f"Invalid filename format: {base_name}. Expected filename.ext")
+
     name = name_parts[0]
     ext = name_parts[1]
     print(f"(name, ext) = ({name}, {ext})")

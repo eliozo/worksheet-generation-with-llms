@@ -12,7 +12,7 @@ from scripts.weaviate_utils import WeaviateUtils
 def utils():
     # Try loading .env from current directory or tests directory
     load_dotenv()
-    load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env'))
+    load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', '.env'))
 
     weaviate_url = os.getenv('WEAVIATE_URL', 'NA')
     weaviate_api_key = os.getenv('WEAVIATE_API_KEY', 'NA')
