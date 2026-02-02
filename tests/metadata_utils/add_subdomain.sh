@@ -6,9 +6,9 @@ MATH_HOME="/Users/kapsitis/workspace-public/math/problembase"
 
 echo "Starting subdomain classification..."
 
-python $ELIOZO_HOME/eliozo_client.py add-metadata $MATH_HOME/LV.VOL/lv-vol-2004/content_lv.md subdomain --output ./lv-vol-2004/content_lv.md --reference problemdata.json
-# python $ELIOZO_HOME/eliozo_client.py add-metadata $MATH_HOME/LV.VOL/lv-vol-2005/content_lv.md subdomain --output ./lv-vol-2005/content_lv.md --reference problemdata.json
-# python $ELIOZO_HOME/eliozo_client.py add-metadata $MATH_HOME/LV.VOL/lv-vol-2006/content_lv.md subdomain --output ./lv-vol-2006/content_lv.md --reference problemdata.json
+# python $ELIOZO_HOME/eliozo_client.py add-metadata $MATH_HOME/LV.VOL/lv-vol-2004/content_lv.md subdomain --output ./lv-vol-2004/content_lv.md --reference problemdata.json
+python $ELIOZO_HOME/eliozo_client.py add-metadata $MATH_HOME/LV.VOL/lv-vol-2005/content_lv.md subdomain --output ./lv-vol-2005/content_lv.md --reference problemdata.json
+python $ELIOZO_HOME/eliozo_client.py add-metadata $MATH_HOME/LV.VOL/lv-vol-2006/content_lv.md subdomain --output ./lv-vol-2006/content_lv.md --reference problemdata.json
 # python $ELIOZO_HOME/eliozo_client.py add-metadata $MATH_HOME/LV.VOL/lv-vol-2007/content_lv.md subdomain --output ./lv-vol-2007/content_lv.md --reference problemdata.json
 # python $ELIOZO_HOME/eliozo_client.py add-metadata $MATH_HOME/LV.VOL/lv-vol-2008/content_lv.md subdomain --output ./lv-vol-2008/content_lv.md --reference problemdata.json
 # python $ELIOZO_HOME/eliozo_client.py add-metadata $MATH_HOME/LV.VOL/lv-vol-2009/content_lv.md subdomain --output ./lv-vol-2009/content_lv.md --reference problemdata.json

@@ -189,10 +189,32 @@ class EliozoClient:
                     return md_text
 
                 existing_content = middle_block.strip()
-                if existing_content:
-                    new_content = existing_content + f"\n* {check_tag} {generated_value}"
+                
+                lines_to_add = []
+                if isinstance(generated_value, dict):
+                    # Handle dictionary, specifically for subdomain
+                    val_main = generated_value.get(prop_name, [])
+                    if isinstance(val_main, list):
+                        val_str = ", ".join(val_main)
+                    else:
+                        val_str = str(val_main)
+                    
+                    lines_to_add.append(f"* {check_tag} {val_str}")
+                    
+                    # Check for alternative
+                    alt_key = f"{prop_name}_alternative"
+                    alt_val = generated_value.get(alt_key)
+                    if alt_val:
+                        lines_to_add.append(f"* _{alt_key}: {alt_val}")
                 else:
-                    new_content = f"* {check_tag} {generated_value}"
+                    lines_to_add.append(f"* {check_tag} {generated_value}")
+                
+                new_str = "\n".join(lines_to_add)
+
+                if existing_content:
+                    new_content = existing_content + "\n" + new_str
+                else:
+                    new_content = new_str
 
                 updated_block = f"{before_tag}\n\n{new_content}\n\n{after_tag}"
 
@@ -208,8 +230,15 @@ class EliozoClient:
         problemList = extract_sections_from_md(md_file)
         updated_sections = []
 
+        error_count = 0
+        total_count = 0
+        
         for (title, full_problem) in problemList:
+            total_count += 1
             clean_problem = normalize_text(full_problem)
+
+            # Default sleep to avoid hitting rate limits too aggressively
+            time.sleep(1.0) 
 
             try:
                 predicted_value = 'NA'
@@ -227,10 +256,30 @@ class EliozoClient:
                 print(f"❌ Error classifying {title}: {e}")
                 predicted_value = 'NA'
 
+            # Logic to decide icon
+            is_error = False
+            if predicted_value == 'NA' or (isinstance(predicted_value, dict) and not predicted_value):
+                 is_error = True
+            
+            if isinstance(predicted_value, dict):
+                # If specific keys are missing or empty specific to subdomain
+                if not predicted_value.get('subdomain') and not predicted_value.get('subdomain_alternative'):
+                    is_error = True
+
+            if is_error:
+                error_count += 1
+                icon = "⚠️" 
+            else:
+                icon = "✅"
+
             updated_problem = add_generated_metadata_property(full_problem, prop, predicted_value)
             updated_sections.append(f"# <lo-sample/> {title}\n\n{updated_problem.strip()}\n")
 
-            print(f"✅ Processed: {title} | _{prop}: {predicted_value}")
+            print(f"{icon} Processed: {title} | _{prop}: {predicted_value}")
+
+        if error_count > 3:
+            print(f"\n⚠️ Encountered {error_count} issues out of {total_count} problems.")
+            print("If these are due to Rate Limits, consider increasing the sleep interval or checking quota.")
 
         # Ensure folder exists
         os.makedirs(os.path.dirname(output) or ".", exist_ok=True)

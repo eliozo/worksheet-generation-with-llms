@@ -35,8 +35,25 @@ class MetadataUtils:
                 for row in reader:
                     label = row.get('Label')
                     desc = row.get('DescriptionLv') or row.get('DescriptionEn')
+                    l1 = row.get('L1', '')
+                    
+                    branch = "Other"
+                    if l1 == '1': 
+                        branch = "Algebra"
+                    elif l1 == '2': 
+                        branch = "Combinatorics"
+                    elif l1 == '3': 
+                        branch = "Geometry"
+                    elif l1 == '4': 
+                        branch = "NumberTheory"
+
                     if label:
-                        subdomin_list.append(f"{label} ({desc})")
+                        subdomin_list.append({
+                            "label": label,
+                            "desc": desc,
+                            "branch": branch,
+                            "formatted": f"{label} [Branch: {branch}] ({desc})"
+                        })
         except Exception as e:
             print(f"Error loading subdomains: {e}")
         return subdomin_list
@@ -44,18 +61,19 @@ class MetadataUtils:
     def make_sys_instructions(self, property):
         if property == MetadataProperties.QUESTION_TYPE:
             return f"""
-            You are a helpful assistant. Respond only with a valid JSON object like:
+            Respond only with a valid JSON object like:
             {{"uzdevuma_tips": "Prove"}}. Do not explain anything.
             """
         elif property == MetadataProperties.DOMAIN:
             return f"""
-            You are a helpful assistant. Respond only with a valid JSON object like:
+            Respond only with a valid JSON object like:
             {{"domain": "Alg"}}. Do not explain anything.
             """
         elif property == MetadataProperties.SUBDOMAIN:
-            return f"""
-            You are a helpful assistant. Respond only with a valid JSON object like:
-            {{"subdomain": "DOM_Inequalities"}}. Do not explain anything.
+             return f"""
+            Respond only with a valid JSON object like:
+            {{"subdomain": ["DOM_Inequalities"], "subdomain_alternative": "My_Label"}}. 
+            Do not append any additional text to the JSON object.
             """
     
     def make_prompt(self, property, problem_text):
@@ -77,11 +95,35 @@ class MetadataUtils:
             'Algorithm' (uzdevumi, kuros jāatrod procedūra vai spēles stratēģija).
             """
         elif property == MetadataProperties.SUBDOMAIN:
-            subdomain_str = "\\n".join(self.subdomains)
+            subdomain_str = "\\n".join([item['formatted'] for item in self.subdomains])
             return f"""
             Atrodi uzdevumam atbilstošāko apakšnozari (subdomain).
-            Atbildi **tikai** ar JSON formātā: {{"subdomain": "DOM_..."}}.
             
+            1. Atbildi **tikai** ar JSON formātā.
+            2. "subdomain" laukā ievieto sarakstu (array) ar vienu vai vairākām atbilstošām 
+               apakšnozarēm no saraksta. Gandrīz vienmēr (95% gadījumu) ir tikai viena vērtība, bet dažreiz uzdevuma 
+               teksts var atbilst 2 apakšnozarēm.
+            3. Retos gadījumos, kad esošās apakšnozares neapraksta uzdevumu precīzi, 
+                vari piedāvāt savu variantu laukā "subdomain_alternative" (piemēram, kā "Domain_XYZ").
+            4. Uzdevumos par veseliem skaitļiem dodiet priekšroku apakšnozarēm, kam [Branch: NumberTheory].
+               Uzdevumos par reāliem skaitļiem dodiet priekšroku apakšnozarēm, kam [Branch: Algebra].
+            
+            Piemērs 1 (visbiežākais atbildes formāts):
+            {{
+                "subdomain": ["DOM_And_So_On"]
+            }}
+
+            Piemērs 2 (reti - ja pieder 2 apakšnozarēm; nelieto 3 vai vairāk apakšnozares):
+            {{
+                "subdomain": ["DOM_And_So_On", "DOM_Another_One"]
+            }}
+
+            Piemērs 3 (reti - ja esošās apakšnozares neapraksta uzdevumu precīzi):
+            {{
+                "subdomain": ["DOM_Best_Guess"],
+                "subdomain_alternative": "Domain_XYZ"
+            }}
+
             Uzdevums:
             {problem_text.strip()}
 
@@ -98,7 +140,12 @@ class MetadataUtils:
             if property == MetadataProperties.QUESTION_TYPE:
                 return result.get('uzdevuma_tips', 'NA')
             elif property == MetadataProperties.SUBDOMAIN:
-                return result.get('subdomain', 'NA')
+                # Return the whole dict or specific structure, as we now expect multiple fields
+                # Default to empty list/NA if keys missing
+                return {
+                    "subdomain": result.get('subdomain', []),
+                    "subdomain_alternative": result.get('subdomain_alternative', None)
+                }
             return "NA"
         except (AttributeError, TypeError):
              # result might be string if error occurred or parsing failed inside openaiUtils but it returns dict usually
