@@ -173,19 +173,22 @@ class EliozoClient:
             meta_start = text.find('<small>')
             return text[:meta_start].strip() if meta_start > 0 else text.strip()
 
-        def add_generated_question_type(md_text, generated_qtype):
+        def add_generated_metadata_property(md_text, prop_name, generated_value):
             small_block_re = re.compile(r'(<small>)(.*?)(</small>)', re.DOTALL)
             match = small_block_re.search(md_text)
+            
+            # The property specific tag to check if it exists
+            check_tag = f"_{prop_name}:"
 
             if match:
                 before_tag = match.group(1)
                 middle_block = match.group(2)
                 after_tag = match.group(3)
 
-                if '_questionType:' in middle_block:
+                if check_tag in middle_block:
                     return md_text
 
-                updated_middle = middle_block.strip() + f"\n* _questionType: {generated_qtype}\n"
+                updated_middle = middle_block.strip() + f"\n* {check_tag} {generated_value}\n"
                 return (
                     md_text[:match.start()] +
                     before_tag + updated_middle + after_tag +
@@ -202,19 +205,25 @@ class EliozoClient:
             clean_problem = normalize_text(full_problem)
 
             try:
-                # predicted_qtype = metadata_utils.classify_problem(clean_problem, "", prop)
+                predicted_value = 'NA'
                 if prop == "questionType":
-                    predicted_qtype = metadata_utils.classify_problem(clean_problem, "", MetadataProperties.QUESTION_TYPE)
-                if isinstance(predicted_qtype, dict):
-                    predicted_qtype = predicted_qtype.get('uzdevuma_tips', 'NA')
+                    predicted_value = metadata_utils.classify_problem(clean_problem, "", MetadataProperties.QUESTION_TYPE)
+                elif prop == "subdomain":
+                    predicted_value = metadata_utils.classify_problem(clean_problem, "", MetadataProperties.SUBDOMAIN)
+                
+                # In case it returns dict, extract value (though classify_problem inside typically extracts it now)
+                # But just in case of future changes or if classify_problem behavior varies
+                if isinstance(predicted_value, dict):
+                     # fallback key logic if needed, but current classify_problem returns string
+                     pass
             except Exception as e:
                 print(f"❌ Error classifying {title}: {e}")
-                predicted_qtype = 'NA'
+                predicted_value = 'NA'
 
-            updated_problem = add_generated_question_type(full_problem, predicted_qtype)
+            updated_problem = add_generated_metadata_property(full_problem, prop, predicted_value)
             updated_sections.append(f"# <lo-sample/> {title}\n\n{updated_problem.strip()}\n")
 
-            print(f"✅ Processed: {title} | _questionType: {predicted_qtype}")
+            print(f"✅ Processed: {title} | _{prop}: {predicted_value}")
 
         # Ensure folder exists
         os.makedirs(os.path.dirname(output) or ".", exist_ok=True)

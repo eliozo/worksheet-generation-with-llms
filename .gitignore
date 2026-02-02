@@ -174,3 +174,5 @@ tests/adapt-worksheet/*.json
 tests/adapt-worksheet/*.rst
 tests/adapt-worksheet/*.docx
 scripts/setup/resources/*.ttl 
+tests/metadata_utils/*/content_*.md
+tests/**/problemdata.json
