@@ -188,10 +188,17 @@ class EliozoClient:
                 if check_tag in middle_block:
                     return md_text
 
-                updated_middle = middle_block.strip() + f"\n* {check_tag} {generated_value}\n"
+                existing_content = middle_block.strip()
+                if existing_content:
+                    new_content = existing_content + f"\n* {check_tag} {generated_value}"
+                else:
+                    new_content = f"* {check_tag} {generated_value}"
+
+                updated_block = f"{before_tag}\n\n{new_content}\n\n{after_tag}"
+
                 return (
                     md_text[:match.start()] +
-                    before_tag + updated_middle + after_tag +
+                    updated_block +
                     md_text[match.end():]
                 )
             else:
