@@ -51,12 +51,16 @@ pipeline {
             }
         }
 
+
         stage ('Deploy') {
             steps {
                 script {
                     writeFile file: 'eliozoapp/eliozo.env', text: """\
                         GOOGLE_CLIENT_ID=${env.GOOGLE_CLIENT_ID}
                         GOOGLE_CLIENT_SECRET=${env.GOOGLE_CLIENT_SECRET}
+                        WEAVIATE_API_KEY=${env.WEAVIATE_API_KEY}
+                        WEAVIATE_URL=${WEAVIATE_URL}
+                        OPENAI_API_KEY=${OPENAI_API_KEY}
                         """.stripIndent()
                     sh """
                     cp eliozoapp/config-remote.py eliozoapp/config.py
