@@ -346,4 +346,102 @@ class WeaviateUtils:
         return (0, {'problems':results})
 
 
+    def get_weaviate_info(self):
+        if not self.client.is_ready():
+            return (1, "Weaviate client is not ready!")
 
+        info = {}
+        
+        # 1. Client Version and Meta
+        try:
+            meta = self.client.get_meta()
+            info['version'] = meta.get('version', 'Unknown')
+            info['modules'] = meta.get('modules', {})
+        except Exception as e:
+            info['version_error'] = str(e)
+
+        # 2. Collection Info (specifically "Problem")
+        collection_name = "Problem"
+        if self.client.collections.exists(collection_name):
+            col = self.client.collections.get(collection_name)
+            cfg = col.config.get()
+            
+            # Vector Index Config
+            if cfg.vector_index_config:
+                # Depending on the client version, the config object might need different access
+                # For v4, it is usually an object. We try to extract relevant fields.
+                # Assuming typical HNSW or flat index
+                info['vector_index_type'] = getattr(cfg.vector_index_config, 'name', 'hnsw') # default generic name
+                
+                # Check for distance metric - it could be 'distance' or 'distance_metric' depending on client/version
+                # In output seen during verification: `distance_metric=<VectorDistances.COSINE: 'cosine'>`
+                dist = getattr(cfg.vector_index_config, 'distance', None)
+                if not dist:
+                    dist = getattr(cfg.vector_index_config, 'distance_metric', 'unknown')
+                
+                # If it is an enum (like VectorDistances.COSINE), get its value or name
+                if hasattr(dist, 'value'):
+                    info['distance_metric'] = dist.value
+                else:
+                    info['distance_metric'] = str(dist)
+
+                info['vector_index_config_dump'] = str(cfg.vector_index_config)
+            
+            # Vectorizer Config
+            if cfg.vectorizer_config:
+                 info['vectorizer'] = getattr(cfg.vectorizer_config, 'vectorizer', 'unknown')
+                 # Try to extract model name more cleanly if possible
+                 # Example: model={'baseURL': 'https://api.openai.com', 'isAzure': False, 'model': 'text-embedding-3-small'}
+                 model_info = getattr(cfg.vectorizer_config, 'model', {})
+                 if isinstance(model_info, dict):
+                     info['vectorizer_model'] = model_info.get('model', 'unknown')
+                 else:
+                     info['vectorizer_model'] = str(model_info)
+
+                 # Some configs stash model details inside specific vectorizer settings
+                 vect_settings = getattr(cfg.vectorizer_config, 'vectorizer_config', {}) # might act as dict or obj?
+                 if hasattr(cfg.vectorizer_config, 'source_properties'):
+                     info['source_properties'] = cfg.vectorizer_config.source_properties
+                 
+                 # Accessing specific vectorizer settings if possible
+                 # Common models: text-embedding-3-small, text-embedding-ada-002
+                 # If using weaviate-client v4, we can inspect .vectorizer_config object representation
+                 info['vectorizer_config_dump'] = str(cfg.vectorizer_config)
+
+            # In v4, named vectors are part of the config if multiple vectors are used.
+            # We check if there are named vector configurations.
+            # This is often under `vector_config` if using named vectors.
+            if getattr(cfg, 'vector_config', None):
+                 info['named_vectors'] = list(cfg.vector_config.keys())
+            else:
+                 info['named_vectors'] = "None (Single vector)"
+
+        else:
+            info['collection_status'] = f"Collection '{collection_name}' not found."
+
+        # Format the output for the user
+        output_lines = []
+        output_lines.append("=== Weaviate Instance Information ===")
+        output_lines.append(f"Version: {info.get('version')}")
+        
+        if 'collection_status' in info:
+            output_lines.append(f"Status: {info['collection_status']}")
+        else:
+            output_lines.append(f"--- Collection: {collection_name} ---")
+            output_lines.append(f"Vector Index Type: {info.get('vector_index_type', 'N/A')}")
+            output_lines.append(f"Vector Index Config: {info.get('vector_index_config_dump', 'N/A')}")
+            output_lines.append(f"Distance Metric: {info.get('distance_metric', 'N/A')}")
+            output_lines.append(f"Vectorizer: {info.get('vectorizer', 'N/A')}")
+            output_lines.append(f"Vectorizer Model: {info.get('vectorizer_model', 'N/A')}")
+            # Try to parse the model from the dump if possible, or just show the dump cleanly
+            output_lines.append(f"Vectorizer Config: {info.get('vectorizer_config_dump', 'N/A')}")
+            
+            named = info.get('named_vectors')
+            output_lines.append(f"Named Vectors: {named}")
+            
+            if named != "None (Single vector)" and  isinstance(named, list):
+                 output_lines.append("  (Named vectors allow searching by different vector representations in the same collection.)")
+            else:
+                 output_lines.append("  (Single vector per object. To search by different parameters/models, you currently need separate collections or named vectors.)")
+
+        return (0, "\n".join(output_lines))

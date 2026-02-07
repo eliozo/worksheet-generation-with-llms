@@ -443,6 +443,15 @@ class EliozoClient:
         with open(output, 'w', encoding ='utf8') as output_file:
             json.dump(data, output_file, indent=4, ensure_ascii=False)
         return (retvalue, task_data)
+
+    def get_weaviate_info(self):
+        print(f'Getting Weaviate info...')
+        with WeaviateUtils(self.weaviate_url, 
+                              self.weaviate_api_key, 
+                              self.openai_api_key) as weaviateUtils:
+            (retvalue, info_text) = weaviateUtils.get_weaviate_info()
+            print(info_text)
+        return (retvalue, {'info': info_text})
         
     def get_problems(self, worksheet):
         with open(self.reference, 'r', encoding='utf-8') as f:
@@ -571,7 +580,8 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         'derive-problem': 'Derive a new problem from an existing problem',
         'extend-worksheet': 'Add supplementary text; apply transformation filters',
         'adapt-worksheet': 'Evaluate prototype; create structured feedback',
-        'convert-worksheet': 'Convert worksheet to MS Word or PDF'
+        'convert-worksheet': 'Convert worksheet to MS Word or PDF',
+        'weaviate-info': 'Display information about Weaviate client and configuration'
     }
             
     HELP_REFERENCE = 'JSON file accumulating cmd status (defaults to task.json)'
@@ -710,6 +720,10 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
             'output': 'Output (e.g. MS Word or PDF file - use extension *.docx, or *.pdf)',
             '--template': 'Jinja2 template (only used for *.json to *.rst conversion) - overrides one in reference', 
             '--reference': HELP_REFERENCE
+        },
+
+        'weaviate-info': {
+            '--reference': HELP_REFERENCE
         }
     }
 
@@ -828,6 +842,9 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
     convert_worksheet_parser.add_argument('output', type=str, help=arg_h['convert-worksheet']['output'])
     convert_worksheet_parser.add_argument('--template', type=str, default=None, help=arg_h['convert-worksheet']['--template'])
     convert_worksheet_parser.add_argument('--reference', type=str, default=None, help=arg_h['convert-worksheet']['--reference'])
+
+    weaviate_info_parser = subparsers.add_parser('weaviate-info', help=cmd_h['weaviate-info'])
+    weaviate_info_parser.add_argument('--reference', type=str, default=None, help=arg_h['weaviate-info']['--reference'])
 
 
     args = parser.parse_args()
@@ -969,12 +986,17 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
             template = args.template
         (retvalue, data) = eliozo_client.convert_worksheet(args.input, args.output, template)
 
+    elif args.command == 'weaviate-info':
+        (retvalue, data) = eliozo_client.get_weaviate_info()
+
     else:
         parser.print_help()
         print(f"Invalid Parameters: Command name '{args.command}' not supported.")
         sys.exit(3)
 
-    if args.command in ['add-metadata', 'md-to-turtle', 'md-repository-to-turtle', 
+    if args.command == 'weaviate-info':
+        pass 
+    elif args.command in ['add-metadata', 'md-to-turtle', 'md-repository-to-turtle', 
                         'metadata-to-turtle', 'drop-rdf', 'create-rdf-dataset', 
                         'ingest-rdf', 'drop-vectors', 'create-schema-vectors', 
                         'ingest-vectors', 'ingest-classifiers']:
