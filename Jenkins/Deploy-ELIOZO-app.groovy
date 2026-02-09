@@ -61,6 +61,7 @@ pipeline {
                         WEAVIATE_API_KEY=${env.WEAVIATE_API_KEY}
                         WEAVIATE_URL=${WEAVIATE_URL}
                         OPENAI_API_KEY=${OPENAI_API_KEY}
+                        PROBLEMBASE_ROOT=${PROBLEMBASE_ROOT}
                         """.stripIndent()
                     sh """
                     cp eliozoapp/config-remote.py eliozoapp/config.py
