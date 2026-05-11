@@ -131,16 +131,6 @@ class EliozoClient:
             json.dump(data, file, indent=4, ensure_ascii=False)
 
 
-#     def add_metadata(self, md_file, prop, provider, output):
-#         print(f'Command = {self.command}(md_file = {md_file}, prop = {prop}, provider = {provider}, output= {output})')
-#         #return (0, {'key17':'value1'})
-#         metadataUtils = MetadataUtils(self.openai_api_key)
-#         result = metadataUtils.classify_problem("""Uz tāfeles pa reizei uzrakstīti visi naturālie skaitļi no $1$ līdz $n$ ieskaitot. 
-# Ar vienu gājienu var izvēlēties divus uz tāfeles uzrakstītus skaitļus 
-# (apzīmēsim tos ar $a$ un $b$), nodzēst tos un to vietā uzrakstīt $\left| a^2-b^2 \right|$. 
-# Pēc $n-1$ gājiena uz tāfeles paliek viens skaitlis.  
-# Vai tas var būt $0$, ja **(a)** $n=8$, **(b)** $n=9$?""", '', 'questionType')
-#         return (0, {'key17': result})
 
     def add_metadata(self, md_file, prop, provider, output):
         print(f'Command = {self.command}(md_file = {md_file}, prop = {prop}, provider = {provider}, output= {output})')
@@ -173,7 +163,19 @@ class EliozoClient:
             meta_start = text.find('<small>')
             return text[:meta_start].strip() if meta_start > 0 else text.strip()
 
-        def add_generated_question_type(md_text, generated_qtype):
+        def extract_solution(text):
+            f2 = text.find('## Atrisin')
+            f3 = text.find('## Solution')
+            if f2 >= 0:
+                return text[f2:].strip()
+            elif f3 >= 0:
+                return text[f3:].strip()
+            f1 = text.find('</small>')
+            if f1 >= 0:
+                return text[f1 + len('</small>'):].strip()
+            return ""
+
+        def add_generated_property(md_text, prop_name, generated_val):
             small_block_re = re.compile(r'(<small>)(.*?)(</small>)', re.DOTALL)
             match = small_block_re.search(md_text)
 
@@ -182,10 +184,11 @@ class EliozoClient:
                 middle_block = match.group(2)
                 after_tag = match.group(3)
 
-                if '_questionType:' in middle_block:
+                prop_marker = f'_{prop_name}:'
+                if prop_marker in middle_block:
                     return md_text
 
-                updated_middle = middle_block.strip() + f"\n* _questionType: {generated_qtype}\n"
+                updated_middle = "\n\n" + middle_block.strip() + f"\n* {prop_marker} {generated_val}\n\n"
                 return (
                     md_text[:match.start()] +
                     before_tag + updated_middle + after_tag +
@@ -200,21 +203,40 @@ class EliozoClient:
 
         for (title, full_problem) in problemList:
             clean_problem = normalize_text(full_problem)
+            solution_text = extract_solution(full_problem)
 
             try:
-                # predicted_qtype = metadata_utils.classify_problem(clean_problem, "", prop)
                 if prop == "questionType":
-                    predicted_qtype = metadata_utils.classify_problem(clean_problem, "", MetadataProperties.QUESTION_TYPE)
-                if isinstance(predicted_qtype, dict):
-                    predicted_qtype = predicted_qtype.get('uzdevuma_tips', 'NA')
+                    predicted_val = metadata_utils.classify_problem(title, clean_problem, "", MetadataProperties.QUESTION_TYPE)
+                elif prop == "hasSolutionStructure":
+                    predicted_val = metadata_utils.classify_problem(title, clean_problem, "", MetadataProperties.HAS_SOLUTION_STRUCTURE)
+                elif prop == "hasSolutionConcept":
+                    predicted_val = metadata_utils.classify_problem(title, clean_problem, solution_text, MetadataProperties.HAS_SOLUTION_CONCEPT)
+                else:
+                    predicted_val = 'NA'
+                    
+                if isinstance(predicted_val, dict):
+                    if prop == "questionType":
+                        predicted_val = predicted_val.get('uzdevuma_tips', 'NA')
+                    elif prop == "hasSolutionStructure":
+                        predicted_val = predicted_val.get('hasSolutionStructure', 'NA')
+                    elif prop == "hasSolutionConcept":
+                        # Return list of concepts separated by comma, or maybe JSON list?
+                        # The prompt says: returning {"concepts": ["A", "B"], "readingDifficulty": "low"}
+                        # Let's return just comma separated concepts for the markdown metadata
+                        concepts = predicted_val.get('concepts', [])
+                        if isinstance(concepts, list):
+                            predicted_val = ", ".join(concepts)
+                        else:
+                            predicted_val = str(concepts)
             except Exception as e:
                 print(f"❌ Error classifying {title}: {e}")
-                predicted_qtype = 'NA'
+                predicted_val = 'NA'
 
-            updated_problem = add_generated_question_type(full_problem, predicted_qtype)
+            updated_problem = add_generated_property(full_problem, prop, predicted_val)
             updated_sections.append(f"# <lo-sample/> {title}\n\n{updated_problem.strip()}\n")
 
-            print(f"✅ Processed: {title} | _questionType: {predicted_qtype}")
+            print(f"✅ Processed: {title} | _{prop}: {predicted_val}")
 
         # Ensure folder exists
         os.makedirs(os.path.dirname(output) or ".", exist_ok=True)

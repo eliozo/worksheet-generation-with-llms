@@ -1,0 +1,19 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX eliozo: <http://www.dudajevagatve.lv/eliozo#>
+
+SELECT ?problem ?youtubeID ?videoTitle ?tstamp ?bmtext WHERE {
+    ?problem eliozo:problemID 'LV.AMO.2011.5.1' .
+    ?problem eliozo:hasVideo ?video .
+    ?video eliozo:videoTitle ?videoTitle ;
+           eliozo:videoYoutube ?youtubeID .
+    OPTIONAL {
+        ?video eliozo:videoBookmarks ?seq .
+        ?seq ?p ?bm .
+        FILTER(REGEX(STR(?p), "http://www.w3.org/1999/02/22-rdf-syntax-ns#_[0-9]+"))
+        ?bm eliozo:videoBookmarkTstamp ?tstamp ;
+            eliozo:videoBookmarkText ?bmtext .
+    }
+}
+ORDER BY ?tstamp
