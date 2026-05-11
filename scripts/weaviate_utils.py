@@ -32,7 +32,8 @@ class WeaviateUtils:
             auth_credentials=Auth.api_key(weaviate_api_key),
             headers={
                 "X-OpenAI-Api-Key": openai_api_key
-            }
+            },
+            skip_init_checks=True
         )
 
     def close_client(self):
@@ -40,42 +41,77 @@ class WeaviateUtils:
             self.client.close()
             self.client = None
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close_client()
+
     def set_skipping_mode(self, skipping_mode):
         self.skipping_mode = skipping_mode
  
-    # Private method to drop a single collection by its name
-    def drop_collection(self, collection):
-        url = f"{self.weaviate_url}/v1/schema/{collection}"
-        headers = {
-            "Authorization": f"Bearer {self.weaviate_api_key}"
-        }
-
-        try:
-            response = requests.delete(url, headers=headers)
-            if response.status_code == 200:
-                print(f"Successfully deleted collection: {collection}")
-            else:
-                print(f"Failed to delete collection: {collection}")
-                print(f"Status Code: {response.status_code}")
-                print(f"Response: {response.text}")
-
-        except requests.exceptions.RequestException as e:
-            print(f"Exception in drop_collection(): {str(e)}")
-
     def drop_collections(self):
         if not self.client.is_ready():
             print("Weaviate client is not ready!")
             sys.exit(1)
 
-        try:
-            self.drop_collection("Problem")
-            self.drop_collection("Olympiad")
-        except Exception as e:
-            print(f"Exception in drop_collections(): {e}")
-        finally:
-            self.client.close()
+        for collection_name in ["Problem", "Olympiad", "Classifier"]:
+            try:
+                # Use v4 client to delete
+                self.client.collections.delete(collection_name)
+                print(f"Dropped collection: {collection_name}")
+            except Exception as e:
+                # We expect it might fail if it doesn't exist, though the client handles it gracefully usually?
+                # Actually v4 delete usually returns None. If it fails (e.g. connection), it raises.
+                print(f"Error dropping {collection_name}: {e}")
+
         return (0, {'keyNN':'drop_collections'})
 
+    
+    def _get_schema_config(self):
+        """Returns the configuration for all collections."""
+        return {
+            "Classifier": {
+                "name": "Classifier",
+                "properties": [
+                    wc.Property(name="property", data_type=wc.DataType.TEXT, skip_vectorization=True), 
+                    wc.Property(name="label", data_type=wc.DataType.TEXT, skip_vectorization=True), 
+                    wc.Property(name="shortName", data_type=wc.DataType.TEXT), 
+                    wc.Property(name="description", data_type=wc.DataType.TEXT)
+                ],
+                "vectorizer_config": wc.Configure.Vectorizer.text2vec_openai(),
+                "generative_config": wc.Configure.Generative.openai()
+            },
+            "Olympiad": {
+                "name": "Olympiad",
+                "properties": [
+                    wc.Property(name="olympiadCode", data_type=wc.DataType.TEXT, skip_vectorization=True), 
+                    wc.Property(name="olympiadCountry", data_type=wc.DataType.TEXT, skip_vectorization=True), 
+                    wc.Property(name="olympiadDescription_en", data_type=wc.DataType.TEXT), 
+                    wc.Property(name="olympiadDescription_lt", data_type=wc.DataType.TEXT), 
+                    wc.Property(name="olympiadDescription_lv", data_type=wc.DataType.TEXT), 
+                    wc.Property(name="olympiadID", data_type=wc.DataType.TEXT, skip_vectorization=True),
+                    wc.Property(name="olympiadName_en", data_type=wc.DataType.TEXT),
+                    wc.Property(name="olympiadName_lt", data_type=wc.DataType.TEXT),
+                    wc.Property(name="olympiadName_lv", data_type=wc.DataType.TEXT)
+                ],
+                "vectorizer_config": wc.Configure.Vectorizer.text2vec_openai(),
+                "generative_config": wc.Configure.Generative.openai()
+            },
+            "Problem": {
+                "name": "Problem",
+                "properties": [
+                    wc.Property(name="problemID", data_type=wc.DataType.TEXT, skip_vectorization=True), 
+                    wc.Property(name="problemGrade", data_type=wc.DataType.INT, skip_vectorization=True), 
+                    wc.Property(name="problemText_lv", data_type=wc.DataType.TEXT), 
+                    wc.Property(name="solutionText_lv", data_type=wc.DataType.TEXT), 
+                    wc.Property(name="olympiadType", data_type=wc.DataType.TEXT, skip_vectorization=True), 
+                    wc.Property(name="problemYear", data_type=wc.DataType.INT, skip_vectorization=True)
+                ],
+                "vectorizer_config": wc.Configure.Vectorizer.text2vec_openai(),
+                "generative_config": wc.Configure.Generative.openai()
+            }
+        }
 
     # This function attempts to create collections "Olympiad", "Problem", "Classifier"
     # If they already exist, then there are no changes (and a message is printed). 
@@ -84,81 +120,25 @@ class WeaviateUtils:
             print("Weaviate client is not ready!")
             sys.exit(1)
         
-        try:
-            collection_names = self.client.collections.list_all()
-            if "Classifier" in collection_names:
-                print(f"Collection 'Classifier' already exists; skip creation")
+        # Remove broad try/except to reveal errors
+        existing_collections = self.client.collections.list_all()
+        print(f"Existing collections before creation: {list(existing_collections.keys())}")
+        
+        schema_config = self._get_schema_config()
+
+        for collection_name, config in schema_config.items():
+            if collection_name in existing_collections:
+                print(f"Collection '{collection_name}' already exists; skip creation")
             else:
-                print(f"Creating collection 'Classifier'")
-                classifiers  = self.client.collections.create(
-                    name="Classifier", 
-                    properties=[
-                        wc.Property(name="property", data_type=wc.DataType.TEXT, skip_vectorization=True), 
-                        wc.Property(name="label", data_type=wc.DataType.TEXT, skip_vectorization=True), 
-                        wc.Property(name="shortName", data_type=wc.DataType.TEXT), 
-                        wc.Property(name="description", data_type=wc.DataType.TEXT)
-                    ],
-                    # vectorizer_config=wc.Configure.Vectorizer.text2vec_cohere(),
-                    vectorizer_config=wc.Configure.Vectorizer.text2vec_openai(),
-                    generative_config=wc.Configure.Generative.openai()
+                print(f"Creating collection '{collection_name}'")
+                new_collection = self.client.collections.create(
+                    name=config["name"], 
+                    properties=config["properties"],
+                    vectorizer_config=config["vectorizer_config"],
+                    generative_config=config["generative_config"]
                 )
-                print(classifiers.config.get(simple=False))
+                print(f"Created: {new_collection.name}")
 
-        except Exception as e:
-            print(f"Exception in create_schema(): {e}")
-
-        try: 
-            collection_names = self.client.collections.list_all()
-            if "Olympiad" in collection_names:
-                print(f"Collection 'Olympiad' already exists; skip creation")
-            else:
-                olympiads  = self.client.collections.create(
-                    name="Olympiad", 
-                    properties=[
-                        wc.Property(name="olympiadCode", data_type=wc.DataType.TEXT, skip_vectorization=True), 
-                        wc.Property(name="olympiadCountry", data_type=wc.DataType.TEXT, skip_vectorization=True), 
-                        wc.Property(name="olympiadDescription_en", data_type=wc.DataType.TEXT), 
-                        wc.Property(name="olympiadDescription_lt", data_type=wc.DataType.TEXT), 
-                        wc.Property(name="olympiadDescription_lv", data_type=wc.DataType.TEXT), 
-                        wc.Property(name="olympiadID", data_type=wc.DataType.TEXT, skip_vectorization=True),
-                        wc.Property(name="olympiadName_en", data_type=wc.DataType.TEXT),
-                        wc.Property(name="olympiadName_lt", data_type=wc.DataType.TEXT),
-                        wc.Property(name="olympiadName_lv", data_type=wc.DataType.TEXT)
-                    ],
-                    # vectorizer_config=wc.Configure.Vectorizer.text2vec_cohere(),
-                    vectorizer_config=wc.Configure.Vectorizer.text2vec_openai(),
-                    generative_config=wc.Configure.Generative.openai()
-                )
-                print(olympiads.config.get(simple=False))
-        except Exception as e:
-            print(f"Exception in create_schema(): {e}")
-
-
-        try: 
-            collection_names = self.client.collections.list_all()
-            if "Problem" in collection_names:
-                print(f"Collection 'Problem' already exists; skip creation")
-            else:
-                problems = self.client.collections.create(
-                    name="Problem", 
-                    properties=[
-                        wc.Property(name="problemID", data_type=wc.DataType.TEXT, skip_vectorization=True), 
-                        wc.Property(name="problemGrade", data_type=wc.DataType.INT, skip_vectorization=True), 
-                        wc.Property(name="problemText_lv", data_type=wc.DataType.TEXT), 
-                        wc.Property(name="solutionText_lv", data_type=wc.DataType.TEXT), 
-                        wc.Property(name="olympiadType", data_type=wc.DataType.TEXT, skip_vectorization=True), 
-                        wc.Property(name="problemYear", data_type=wc.DataType.INT, skip_vectorization=True)
-                    ],
-                    # vectorizer_config=wc.Configure.Vectorizer.text2vec_cohere(),
-                    vectorizer_config=wc.Configure.Vectorizer.text2vec_openai(),
-                    generative_config=wc.Configure.Generative.openai()
-                )
-                print(problems.config.get(simple=False))
-
-        except Exception as e:
-            print(f"Exception in create_schema(): {e}")
-        finally:
-            self.client.close()
         return (0, {'keyNN':'create_schema'})
 
 
@@ -250,41 +230,6 @@ class WeaviateUtils:
         return (0, {'keyMM':'ingest_to_weaviate'})
     
 
-    # def create_classifier_schema(self):
-    #     if not self.client.is_ready():
-    #         print("Weaviate client is not ready!")
-    #         sys.exit(1)
-        
-
-        
-    #     try:
-    #         collection_names = self.client.collections.list_all()
-    #         if "Classifier" in collection_names:
-    #             print(f"Collection 'Classifier' exists; skip schema creation")
-    #         else:
-    #             print(f"Creating collection 'Classifier'")
-    #             classifiers  = self.client.collections.create(
-    #                 name="Classifier", 
-    #                 properties=[
-    #                     wc.Property(name="property", data_type=wc.DataType.TEXT, skip_vectorization=True), 
-    #                     wc.Property(name="label", data_type=wc.DataType.TEXT, skip_vectorization=True), 
-    #                     wc.Property(name="shortName", data_type=wc.DataType.TEXT), 
-    #                     wc.Property(name="description", data_type=wc.DataType.TEXT)
-    #                 ],
-    #                 # vectorizer_config=wc.Configure.Vectorizer.text2vec_cohere(),
-    #                 vectorizer_config=wc.Configure.Vectorizer.text2vec_openai(),
-    #                 generative_config=wc.Configure.Generative.openai()
-    #             )
-    #             print(classifiers.config.get(simple=False))
-
-    #     except Exception as e:
-    #         print(f"Exception in create_schema(): {e}")
-    #     finally:
-    #         self.client.close()
-    #     return (0, {'keyNN':'create_schema'})
-
-
-
     # Currently only imports property=topic
     def ingest_classifier_data(self, property, filename):
         print(f'Importing classifier {property} to Weaviate')
@@ -297,16 +242,6 @@ class WeaviateUtils:
 
         print(f"Found triples: {len(graph)}")
         itemCount = 0
-        # for subj, obj in graph.subject_objects(predicate=RDF.type):
-        #     print(f"Subject: {subj}, RDF.type: {obj}")
-        #     itemCount += 1
-
-        # print(f"Total items with RDF.type: {itemCount}")
-
-
-
-
-
 
         for subj in graph.subjects(predicate=RDF.type, 
                                     object=self.eliozoNS.Topic):
@@ -370,13 +305,17 @@ class WeaviateUtils:
                 properties=data_object,
                 references={}
             )
-        self.client.close()
+        # self.client.close()  <-- removed
         return (0, {'keyMM':'ingest_to_weaviate'})
     
 
 
     # Private method called by "find_problems"
     def near_search(self, collection, myquery, mylimit): 
+        # Check if collection exists
+        if not self.client.collections.exists(collection):
+            raise Exception(f"Collection '{collection}' does not exist.")
+            
         problems = self.client.collections.get(collection)
         print(f'Searching query "{myquery}" with limit "{mylimit}"')
         response = problems.query.near_text(
@@ -387,31 +326,8 @@ class WeaviateUtils:
         result = []
         for o in response.objects:
             result.append(o.properties)
-        self.client.close()
         return result
         
-    # async def near_search(self, collection, myquery, mylimit):
-    #     async_client = WeaviateAsyncClient(
-    #         cluster_url=self.weaviate_url, 
-    #         auth_credentials=self.weaviate_api_key,
-    #     )
-    #     topics = await async_client.collections.get(collection)
-    #     print(f'Searching query "{myquery}" with limit "{mylimit}"')
-    #     try:
-    #         response = await topics.query.near_text(
-    #             query=myquery,
-    #             limit=mylimit,
-    #             return_metadata=MetadataQuery(distance=True),
-    #         )
-    #     except Exception as e:
-    #         print(f"Query failed: {e}")
-    #         return []
-    #     finally:
-    #        async_client.close()
-
-    #     result = [o.properties for o in response.objects]
-    #     return result
-
 
     def get_problems(self, query, mylimit):
         if not self.client.is_ready():
@@ -419,12 +335,113 @@ class WeaviateUtils:
             sys.exit(1)
         results = []
         try:
-            results = self.near_search("Problems", query, mylimit)
+            # Replaced "Problems" typoe with "Problem"
+            results = self.near_search("Problem", query, mylimit)
         except Exception as e:
-            print(f"{e.message}")
-        finally:
-            self.client.close()
+            # We want to propagate the "not exist" error, or handle it? 
+            # The prompt says: "get_problems(...) should return an exception telling that the collections do not exist."
+            # So we re-raise or just let it bubble up.
+            print(f"Error in get_problems: {e}")
+            raise e
         return (0, {'problems':results})
 
 
+    def get_weaviate_info(self):
+        if not self.client.is_ready():
+            return (1, "Weaviate client is not ready!")
 
+        info = {}
+        
+        # 1. Client Version and Meta
+        try:
+            meta = self.client.get_meta()
+            info['version'] = meta.get('version', 'Unknown')
+            info['modules'] = meta.get('modules', {})
+        except Exception as e:
+            info['version_error'] = str(e)
+
+        # 2. Collection Info (specifically "Problem")
+        collection_name = "Problem"
+        if self.client.collections.exists(collection_name):
+            col = self.client.collections.get(collection_name)
+            cfg = col.config.get()
+            
+            # Vector Index Config
+            if cfg.vector_index_config:
+                # Depending on the client version, the config object might need different access
+                # For v4, it is usually an object. We try to extract relevant fields.
+                # Assuming typical HNSW or flat index
+                info['vector_index_type'] = getattr(cfg.vector_index_config, 'name', 'hnsw') # default generic name
+                
+                # Check for distance metric - it could be 'distance' or 'distance_metric' depending on client/version
+                # In output seen during verification: `distance_metric=<VectorDistances.COSINE: 'cosine'>`
+                dist = getattr(cfg.vector_index_config, 'distance', None)
+                if not dist:
+                    dist = getattr(cfg.vector_index_config, 'distance_metric', 'unknown')
+                
+                # If it is an enum (like VectorDistances.COSINE), get its value or name
+                if hasattr(dist, 'value'):
+                    info['distance_metric'] = dist.value
+                else:
+                    info['distance_metric'] = str(dist)
+
+                info['vector_index_config_dump'] = str(cfg.vector_index_config)
+            
+            # Vectorizer Config
+            if cfg.vectorizer_config:
+                 info['vectorizer'] = getattr(cfg.vectorizer_config, 'vectorizer', 'unknown')
+                 # Try to extract model name more cleanly if possible
+                 # Example: model={'baseURL': 'https://api.openai.com', 'isAzure': False, 'model': 'text-embedding-3-small'}
+                 model_info = getattr(cfg.vectorizer_config, 'model', {})
+                 if isinstance(model_info, dict):
+                     info['vectorizer_model'] = model_info.get('model', 'unknown')
+                 else:
+                     info['vectorizer_model'] = str(model_info)
+
+                 # Some configs stash model details inside specific vectorizer settings
+                 vect_settings = getattr(cfg.vectorizer_config, 'vectorizer_config', {}) # might act as dict or obj?
+                 if hasattr(cfg.vectorizer_config, 'source_properties'):
+                     info['source_properties'] = cfg.vectorizer_config.source_properties
+                 
+                 # Accessing specific vectorizer settings if possible
+                 # Common models: text-embedding-3-small, text-embedding-ada-002
+                 # If using weaviate-client v4, we can inspect .vectorizer_config object representation
+                 info['vectorizer_config_dump'] = str(cfg.vectorizer_config)
+
+            # In v4, named vectors are part of the config if multiple vectors are used.
+            # We check if there are named vector configurations.
+            # This is often under `vector_config` if using named vectors.
+            if getattr(cfg, 'vector_config', None):
+                 info['named_vectors'] = list(cfg.vector_config.keys())
+            else:
+                 info['named_vectors'] = "None (Single vector)"
+
+        else:
+            info['collection_status'] = f"Collection '{collection_name}' not found."
+
+        # Format the output for the user
+        output_lines = []
+        output_lines.append("=== Weaviate Instance Information ===")
+        output_lines.append(f"Version: {info.get('version')}")
+        
+        if 'collection_status' in info:
+            output_lines.append(f"Status: {info['collection_status']}")
+        else:
+            output_lines.append(f"--- Collection: {collection_name} ---")
+            output_lines.append(f"Vector Index Type: {info.get('vector_index_type', 'N/A')}")
+            output_lines.append(f"Vector Index Config: {info.get('vector_index_config_dump', 'N/A')}")
+            output_lines.append(f"Distance Metric: {info.get('distance_metric', 'N/A')}")
+            output_lines.append(f"Vectorizer: {info.get('vectorizer', 'N/A')}")
+            output_lines.append(f"Vectorizer Model: {info.get('vectorizer_model', 'N/A')}")
+            # Try to parse the model from the dump if possible, or just show the dump cleanly
+            output_lines.append(f"Vectorizer Config: {info.get('vectorizer_config_dump', 'N/A')}")
+            
+            named = info.get('named_vectors')
+            output_lines.append(f"Named Vectors: {named}")
+            
+            if named != "None (Single vector)" and  isinstance(named, list):
+                 output_lines.append("  (Named vectors allow searching by different vector representations in the same collection.)")
+            else:
+                 output_lines.append("  (Single vector per object. To search by different parameters/models, you currently need separate collections or named vectors.)")
+
+        return (0, "\n".join(output_lines))

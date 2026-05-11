@@ -1,5 +1,7 @@
 import os
 import sys
+import time
+import random
 import requests
 import json
 from enum import Enum
@@ -122,16 +124,44 @@ class OpenaiUtils:
             "temperature": 1.0
         }
         
-        try:
-            response = requests.post(
-                "https://api.openai.com/v1/chat/completions",
-                headers=self.headers,
-                json=data
-            )
-            response.raise_for_status()  # Raise an error for bad HTTP status codes
-        except requests.RequestException as e:
-            sys.stderr.write(f"API request error: {e}\n")
-            return {"error": "API request failed"}
+        max_retries = 5
+        base_delay = 1
+        
+        for attempt in range(max_retries):
+            try:
+                response = requests.post(
+                    "https://api.openai.com/v1/chat/completions",
+                    headers=self.headers,
+                    json=data
+                )
+                
+                if response.status_code == 429:
+                    sleep_time = base_delay * (2 ** attempt)
+                    sys.stderr.write(f"Rate limit hit (429). Retrying in {sleep_time} seconds...\n")
+                    time.sleep(sleep_time)
+                    continue
+                    
+                response.raise_for_status()  # Raise an error for bad HTTP status codes
+                
+                # If success, break loop
+                break
+                
+            except requests.RequestException as e:
+                # If it is the last attempt, log error and return
+                if attempt == max_retries - 1:
+                    sys.stderr.write(f"API request error after {max_retries} attempts: {e}\n")
+                    return {"error": "API request failed"}
+                
+                # For non-429 errors (like connection errors), prompt retry logic could also apply, 
+                # but typically we focus on 429. If connection error, maybe we should also retry?
+                # For now let's just retry on 429 specifically handled above, or general exception handled here?
+                # If response was not created (connection error), status_code check fails.
+                # So let's generic retry for connection issues too.
+                sleep_time = base_delay * (2 ** attempt)
+                sys.stderr.write(f"Request failed: {e}. Retrying in {sleep_time} seconds...\n")
+                time.sleep(sleep_time)
+        else:
+             return {"error": "API request failed after retries"}
 
         try:
             result = response.json()

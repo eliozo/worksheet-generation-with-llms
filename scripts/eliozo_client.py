@@ -44,8 +44,11 @@ def copy_with_incremented_name(file_path):
     dir_name = os.path.dirname(file_path)
     base_name = os.path.basename(file_path)
     name_parts = base_name.split(".")
-    if len(name_parts) != 2: 
+
+    if len(name_parts) != 2:
         print(f"{base_name} must be a file with an extension - it should have a single dot (.)")
+        raise ValueError(f"Invalid filename format: {base_name}. Expected filename.ext")
+
     name = name_parts[0]
     ext = name_parts[1]
     print(f"(name, ext) = ({name}, {ext})")
@@ -178,6 +181,9 @@ class EliozoClient:
         def add_generated_property(md_text, prop_name, generated_val):
             small_block_re = re.compile(r'(<small>)(.*?)(</small>)', re.DOTALL)
             match = small_block_re.search(md_text)
+            
+            # The property specific tag to check if it exists
+            check_tag = f"_{prop_name}:"
 
             if match:
                 before_tag = match.group(1)
@@ -188,10 +194,45 @@ class EliozoClient:
                 if prop_marker in middle_block:
                     return md_text
 
+
+                # if check_tag in middle_block:
+                #     return md_text
+
+                # existing_content = middle_block.strip()
+                
+                # lines_to_add = []
+                # if isinstance(generated_value, dict):
+                #     # Handle dictionary, specifically for subdomain
+                #     val_main = generated_value.get(prop_name, [])
+                #     if isinstance(val_main, list):
+                #         val_str = ", ".join(val_main)
+                #     else:
+                #         val_str = str(val_main)
+                    
+                #     lines_to_add.append(f"* {check_tag} {val_str}")
+                    
+                #     # Check for alternative
+                #     alt_key = f"{prop_name}_alternative"
+                #     alt_val = generated_value.get(alt_key)
+                #     if alt_val:
+                #         lines_to_add.append(f"* _{alt_key}: {alt_val}")
+                # else:
+                #     lines_to_add.append(f"* {check_tag} {generated_value}")
+                
+                # new_str = "\n".join(lines_to_add)
+
+                # if existing_content:
+                #     new_content = existing_content + "\n" + new_str
+                # else:
+                #     new_content = new_str
+
+                # updated_block = f"{before_tag}\n\n{new_content}\n\n{after_tag}"
+
+
                 updated_middle = "\n\n" + middle_block.strip() + f"\n* {prop_marker} {generated_val}\n\n"
                 return (
                     md_text[:match.start()] +
-                    before_tag + updated_middle + after_tag +
+                    updated_block +
                     md_text[match.end():]
                 )
             else:
@@ -201,13 +242,22 @@ class EliozoClient:
         problemList = extract_sections_from_md(md_file)
         updated_sections = []
 
+        error_count = 0
+        total_count = 0
+        
         for (title, full_problem) in problemList:
+            total_count += 1
             clean_problem = normalize_text(full_problem)
             solution_text = extract_solution(full_problem)
+
+            # Default sleep to avoid hitting rate limits too aggressively
+            time.sleep(1.0) 
 
             try:
                 if prop == "questionType":
                     predicted_val = metadata_utils.classify_problem(title, clean_problem, "", MetadataProperties.QUESTION_TYPE)
+                elif prop == "subdomain":
+                    predicted_value = metadata_utils.classify_problem(clean_problem, "", MetadataProperties.SUBDOMAIN)
                 elif prop == "hasSolutionStructure":
                     predicted_val = metadata_utils.classify_problem(title, clean_problem, "", MetadataProperties.HAS_SOLUTION_STRUCTURE)
                 elif prop == "hasSolutionConcept":
@@ -300,37 +350,35 @@ class EliozoClient:
     
     def drop_vectors(self, cluster):
         print(f'Dropping all collections from Weaviate cluster {cluster}')
-        utils = WeaviateUtils(self.weaviate_url, 
+        with WeaviateUtils(self.weaviate_url, 
                               self.weaviate_api_key, 
-                              self.openai_api_key)
-        (retvalue, data) = utils.drop_collections()                
+                              self.openai_api_key) as utils:
+            (retvalue, data) = utils.drop_collections()                
         return (retvalue, data)
     
     def create_schema_vectors(self, cluster): 
         print(f'Creating schema for Weaviate cluster {cluster}')
-        utils = WeaviateUtils(self.weaviate_url, 
+        with WeaviateUtils(self.weaviate_url, 
                               self.weaviate_api_key, 
-                              self.openai_api_key)
-        (retvalue, data) = utils.create_schema() 
+                              self.openai_api_key) as utils:
+            (retvalue, data) = utils.create_schema() 
         return (retvalue, data)
  
     
     def ingest_vectors(self, cluster, turtle):
         print(f'ingest_vectors: Importing data to Weaviate {cluster}')
-        utils = WeaviateUtils(self.weaviate_url, 
+        with WeaviateUtils(self.weaviate_url, 
                               self.weaviate_api_key, 
-                              self.openai_api_key)
-        (retvalue, data) = utils.ingest_to_weaviate(turtle)
-        utils.close_client()
+                              self.openai_api_key) as utils:
+            (retvalue, data) = utils.ingest_to_weaviate(turtle)
         return (retvalue, data)
 
     def ingest_classifiers(self, cluster, property, turtle):
-        weaviateUtils = WeaviateUtils(self.weaviate_url, 
-                              self.weaviate_api_key, 
-                              self.openai_api_key)
-
         print(f'ingest_classifiers: Importing classifier data to Weaviate {cluster}')
-        (retvalue, data) = weaviateUtils.ingest_classifier_data(property, turtle)
+        with WeaviateUtils(self.weaviate_url, 
+                              self.weaviate_api_key, 
+                              self.openai_api_key) as weaviateUtils:
+            (retvalue, data) = weaviateUtils.ingest_classifier_data(property, turtle)
         return (retvalue, data)
 
     def get_classifiers(self):
@@ -386,19 +434,28 @@ class EliozoClient:
         return (retvalue, task_data)
 
     def get_problems_vectors(self, output): 
-        weaviateUtils = WeaviateUtils(self.weaviate_url, 
+        with WeaviateUtils(self.weaviate_url, 
                               self.weaviate_api_key, 
-                              self.openai_api_key)
-        with open(self.reference, 'r', encoding='utf-8') as f:
-            task_data = json.load(f)
-        # This is actually a bad idea to ask Weaviate, 
-        # It would be better to generate some sample problem and then search for similar problems
-        query = task_data['task']['query']
+                              self.openai_api_key) as weaviateUtils:
+            with open(self.reference, 'r', encoding='utf-8') as f:
+                task_data = json.load(f)
+            # This is actually a bad idea to ask Weaviate, 
+            # It would be better to generate some sample problem and then search for similar problems
+            query = task_data['task']['query']
 
-        (retvalue, data) = weaviateUtils.get_problems(query, 10)
+            (retvalue, data) = weaviateUtils.get_problems(query, 10)
         with open(output, 'w', encoding ='utf8') as output_file:
             json.dump(data, output_file, indent=4, ensure_ascii=False)
         return (retvalue, task_data)
+
+    def get_weaviate_info(self):
+        print(f'Getting Weaviate info...')
+        with WeaviateUtils(self.weaviate_url, 
+                              self.weaviate_api_key, 
+                              self.openai_api_key) as weaviateUtils:
+            (retvalue, info_text) = weaviateUtils.get_weaviate_info()
+            print(info_text)
+        return (retvalue, {'info': info_text})
         
     def get_problems(self, worksheet):
         with open(self.reference, 'r', encoding='utf-8') as f:
@@ -527,7 +584,8 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         'derive-problem': 'Derive a new problem from an existing problem',
         'extend-worksheet': 'Add supplementary text; apply transformation filters',
         'adapt-worksheet': 'Evaluate prototype; create structured feedback',
-        'convert-worksheet': 'Convert worksheet to MS Word or PDF'
+        'convert-worksheet': 'Convert worksheet to MS Word or PDF',
+        'weaviate-info': 'Display information about Weaviate client and configuration'
     }
             
     HELP_REFERENCE = 'JSON file accumulating cmd status (defaults to task.json)'
@@ -666,6 +724,10 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
             'output': 'Output (e.g. MS Word or PDF file - use extension *.docx, or *.pdf)',
             '--template': 'Jinja2 template (only used for *.json to *.rst conversion) - overrides one in reference', 
             '--reference': HELP_REFERENCE
+        },
+
+        'weaviate-info': {
+            '--reference': HELP_REFERENCE
         }
     }
 
@@ -784,6 +846,9 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
     convert_worksheet_parser.add_argument('output', type=str, help=arg_h['convert-worksheet']['output'])
     convert_worksheet_parser.add_argument('--template', type=str, default=None, help=arg_h['convert-worksheet']['--template'])
     convert_worksheet_parser.add_argument('--reference', type=str, default=None, help=arg_h['convert-worksheet']['--reference'])
+
+    weaviate_info_parser = subparsers.add_parser('weaviate-info', help=cmd_h['weaviate-info'])
+    weaviate_info_parser.add_argument('--reference', type=str, default=None, help=arg_h['weaviate-info']['--reference'])
 
 
     args = parser.parse_args()
@@ -925,12 +990,17 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
             template = args.template
         (retvalue, data) = eliozo_client.convert_worksheet(args.input, args.output, template)
 
+    elif args.command == 'weaviate-info':
+        (retvalue, data) = eliozo_client.get_weaviate_info()
+
     else:
         parser.print_help()
         print(f"Invalid Parameters: Command name '{args.command}' not supported.")
         sys.exit(3)
 
-    if args.command in ['add-metadata', 'md-to-turtle', 'md-repository-to-turtle', 
+    if args.command == 'weaviate-info':
+        pass 
+    elif args.command in ['add-metadata', 'md-to-turtle', 'md-repository-to-turtle', 
                         'metadata-to-turtle', 'drop-rdf', 'create-rdf-dataset', 
                         'ingest-rdf', 'drop-vectors', 'create-schema-vectors', 
                         'ingest-vectors', 'ingest-classifiers']:
