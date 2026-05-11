@@ -195,41 +195,49 @@ class EliozoClient:
                     return md_text
 
 
-                # if check_tag in middle_block:
-                #     return md_text
-
-                # existing_content = middle_block.strip()
+                existing_content = middle_block.strip()
                 
-                # lines_to_add = []
-                # if isinstance(generated_value, dict):
-                #     # Handle dictionary, specifically for subdomain
-                #     val_main = generated_value.get(prop_name, [])
-                #     if isinstance(val_main, list):
-                #         val_str = ", ".join(val_main)
-                #     else:
-                #         val_str = str(val_main)
-                    
-                #     lines_to_add.append(f"* {check_tag} {val_str}")
-                    
-                #     # Check for alternative
-                #     alt_key = f"{prop_name}_alternative"
-                #     alt_val = generated_value.get(alt_key)
-                #     if alt_val:
-                #         lines_to_add.append(f"* _{alt_key}: {alt_val}")
-                # else:
-                #     lines_to_add.append(f"* {check_tag} {generated_value}")
+                lines_to_add = []
+                if isinstance(generated_val, dict):
+                    if prop_name == "hasSolutionConcept":
+                        main_val = generated_val.get('solutionConcepts') or generated_val.get('concepts', [])
+                        rd_val = generated_val.get('readingDifficulty')
+                        
+                        if isinstance(main_val, list):
+                            val_str = ", ".join(main_val)
+                        else:
+                            val_str = str(main_val)
+                        lines_to_add.append(f"* {check_tag} {val_str}")
+                        
+                        if rd_val:
+                            lines_to_add.append(f"* _readingDifficulty: {rd_val}")
+                    else:
+                        # Handle dictionary, specifically for subdomain
+                        val_main = generated_val.get(prop_name, [])
+                        if isinstance(val_main, list):
+                            val_str = ", ".join(val_main)
+                        else:
+                            val_str = str(val_main)
+                        
+                        lines_to_add.append(f"* {check_tag} {val_str}")
+                        
+                        # Check for alternative
+                        alt_key = f"{prop_name}_alternative"
+                        alt_val = generated_val.get(alt_key)
+                        if alt_val:
+                            lines_to_add.append(f"* _{alt_key}: {alt_val}")
+                else:
+                    lines_to_add.append(f"* {check_tag} {generated_val}")
                 
-                # new_str = "\n".join(lines_to_add)
+                new_str = "\n".join(lines_to_add)
 
-                # if existing_content:
-                #     new_content = existing_content + "\n" + new_str
-                # else:
-                #     new_content = new_str
+                if existing_content:
+                    new_content = existing_content + "\n" + new_str
+                else:
+                    new_content = new_str
 
-                # updated_block = f"{before_tag}\n\n{new_content}\n\n{after_tag}"
+                updated_block = f"{before_tag}\n\n{new_content}\n\n{after_tag}"
 
-
-                updated_middle = "\n\n" + middle_block.strip() + f"\n* {prop_marker} {generated_val}\n\n"
                 return (
                     md_text[:match.start()] +
                     updated_block +
@@ -249,6 +257,23 @@ class EliozoClient:
             total_count += 1
             clean_problem = normalize_text(full_problem)
             solution_text = extract_solution(full_problem)
+
+            # Skip processing if grade (next to last part of title) > 9
+            skip_processing = False
+            title_parts = title.split('.')
+            if len(title_parts) >= 2:
+                grade_str = title_parts[-2]
+                # Sometimes grades have suffixes or are multiple like 10_11. Let's just extract the first number part.
+                m = re.match(r'^(\d+)', grade_str)
+                if m:
+                    grade = int(m.group(1))
+                    if grade > 9:
+                        skip_processing = True
+
+            if skip_processing:
+                print(f"⏩ Skipping {title} (Grade > 9)")
+                updated_sections.append(f"# <lo-sample/> {title}\n\n{full_problem.strip()}\n")
+                continue
 
             # Default sleep to avoid hitting rate limits too aggressively
             time.sleep(1.0) 
@@ -270,15 +295,7 @@ class EliozoClient:
                         predicted_val = predicted_val.get('uzdevuma_tips', 'NA')
                     elif prop == "hasSolutionStructure":
                         predicted_val = predicted_val.get('hasSolutionStructure', 'NA')
-                    elif prop == "hasSolutionConcept":
-                        # Return list of concepts separated by comma, or maybe JSON list?
-                        # The prompt says: returning {"concepts": ["A", "B"], "readingDifficulty": "low"}
-                        # Let's return just comma separated concepts for the markdown metadata
-                        concepts = predicted_val.get('concepts', [])
-                        if isinstance(concepts, list):
-                            predicted_val = ", ".join(concepts)
-                        else:
-                            predicted_val = str(concepts)
+                    # for hasSolutionConcept, leave it as a dict so add_generated_property can parse it
             except Exception as e:
                 print(f"❌ Error classifying {title}: {e}")
                 predicted_val = 'NA'

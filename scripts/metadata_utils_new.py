@@ -79,7 +79,8 @@ class MetadataUtils:
         elif property == MetadataProperties.HAS_SOLUTION_CONCEPT:
             return f"""
             You are a helpful assistant. Respond only with a valid JSON object like:
-            {{"solutionConcepts": ["PrimeNumbers", "DivisibilityRelation", "ParityInvariant"]}}.
+            {{"solutionConcepts": ["PrimeNumbers", "DivisibilityRelation", "ParityInvariant"], 
+            "readingDifficulty": <"low"|"medium"|"high"> }}.
             Do not explain anything.
             """
         elif property == MetadataProperties.SUBDOMAIN:
