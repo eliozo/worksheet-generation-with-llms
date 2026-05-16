@@ -24,8 +24,8 @@ from scripts.word_utils import WordUtils
 from scripts.openai_utils import OpenaiUtils
 from scripts.openai_utils import AnalysisType
 from scripts.openai_function_agent import OpenaiFunctionAgent
-from scripts.metadata_utils_new import MetadataUtils
-from scripts.metadata_utils_new import MetadataProperties
+from scripts.metadata_utils import MetadataUtils
+from scripts.metadata_utils import MetadataProperties
 from scripts.adapt_utils import AdaptExtension, AdaptUtils
 from scripts.markdown_proc.convert_to_ttl_main import markdown_repository_to_turtle, crawl_markdown_problemdata
 from scripts.markdown_proc.mdchunk_reader import markdown_md_to_turtle

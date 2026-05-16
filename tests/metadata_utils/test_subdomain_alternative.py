@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch
 # Ensure strict path setup so we can import 'scripts'
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
-from scripts.metadata_utils_new import MetadataUtils, MetadataProperties
+from scripts.metadata_utils import MetadataUtils, MetadataProperties
 
 # -----------------------------------------------------------------------------
 # Helper function copied from eliozo_client.py for testing purposes

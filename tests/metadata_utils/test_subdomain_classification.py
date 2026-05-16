@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 # Add scripts directory to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
-from scripts.metadata_utils_new import MetadataUtils, MetadataProperties
+from scripts.metadata_utils import MetadataUtils, MetadataProperties
 
 @pytest.fixture
 def metadata_utils():

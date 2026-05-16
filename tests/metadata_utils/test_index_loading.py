@@ -6,7 +6,7 @@ from unittest.mock import MagicMock
 # Ensure strict path setup so we can import 'scripts'
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
-from scripts.metadata_utils_new import MetadataUtils, MetadataProperties
+from scripts.metadata_utils import MetadataUtils, MetadataProperties
 
 @pytest.fixture
 def metadata_utils():
