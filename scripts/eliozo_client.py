@@ -156,6 +156,7 @@ class EliozoClient:
             full_problem = problem.full_problem
             clean_problem = problem.problem_text
             solution_text = problem.solution_text
+            meta_dict = problem.meta_dict
 
             # Skip processing if grade > 9
             skip_processing = problem.grade > 9
@@ -177,6 +178,12 @@ class EliozoClient:
                     predicted_val = metadata_utils.classify_problem(title, clean_problem, "", MetadataProperties.HAS_SOLUTION_STRUCTURE)
                 elif prop == "hasSolutionConcept":
                     predicted_val = metadata_utils.classify_problem(title, clean_problem, solution_text, MetadataProperties.HAS_SOLUTION_CONCEPT)
+                elif prop == "hasReasoningMethod":
+                    predicted_val = metadata_utils.classify_problem(
+                        title, clean_problem, solution_text,
+                        MetadataProperties.HAS_REASONING_METHOD,
+                        meta_dict=meta_dict
+                    )
                 else:
                     predicted_val = 'NA'
                     
@@ -185,7 +192,7 @@ class EliozoClient:
                         predicted_val = predicted_val.get('uzdevuma_tips', 'NA')
                     elif prop == "hasSolutionStructure":
                         predicted_val = predicted_val.get('hasSolutionStructure', 'NA')
-                    # for hasSolutionConcept, leave it as a dict so add_generated_property can parse it
+                    # for hasSolutionConcept and hasReasoningMethod, leave as dict so add_generated_property can parse it
             except Exception as e:
                 print(f"❌ Error classifying {title}: {e}")
                 predicted_val = 'NA'

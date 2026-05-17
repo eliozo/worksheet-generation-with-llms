@@ -242,6 +242,21 @@ class ProblemMarkdownParser:
                 lines_to_add.append(f"* {check_tag} {val_str}")
                 if rd_val:
                     lines_to_add.append(f"* _readingDifficulty: {rd_val}")
+            elif prop_name == "hasReasoningMethod":
+                methods = generated_val.get('methods', [])
+                if isinstance(methods, list):
+                    val_str = ", ".join(methods)
+                else:
+                    val_str = str(methods)
+                lines_to_add.append(f"* {check_tag} {val_str}")
+                new_method = generated_val.get('newMethod')
+                if new_method and isinstance(new_method, dict):
+                    new_label = new_method.get('label', '')
+                    new_desc = new_method.get('shortDescriptionEn', '')
+                    if new_label:
+                        lines_to_add.append(f"* _newReasoningMethodLabel: {new_label}")
+                    if new_desc:
+                        lines_to_add.append(f"* _newReasoningMethodDescription: {new_desc}")
             else:
                 val_main = generated_val.get(prop_name, [])
                 if isinstance(val_main, list):

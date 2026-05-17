@@ -11,6 +11,7 @@ class MetadataProperties(Enum):
     QUESTION_TYPE = "questionType"
     HAS_SOLUTION_STRUCTURE = "hasSolutionStructure"
     HAS_SOLUTION_CONCEPT = "hasSolutionConcept"
+    HAS_REASONING_METHOD = "hasReasoningMethod"
     DOMAIN = "domain"
     SUBDOMAIN = "subdomain"
     CONCEPTS = "concepts"
@@ -26,6 +27,26 @@ class MetadataUtils:
             'Authorization': f'Bearer {openai_api_key}'
         }
         self.subdomains = self._load_subdomains()
+        self.reasoning_methods = self._load_reasoning_methods()
+
+    def _load_reasoning_methods(self):
+        methods_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'setup', 'reasoning_methods')
+        domain_file_map = {
+            'Alg': 'alg_reasoning_methods.md',
+            'Comb': 'comb_reasoning_methods.md',
+            'Geom': 'geom_reasoning_methods.md',
+            'NT': 'nt_reasoning_methods.md',
+        }
+        result = {}
+        for domain_code, filename in domain_file_map.items():
+            filepath = os.path.join(methods_dir, filename)
+            try:
+                with open(filepath, 'r', encoding='utf-8') as f:
+                    result[domain_code] = f.read()
+            except Exception as e:
+                print(f"Warning: could not read {filepath}: {e}")
+                result[domain_code] = ''
+        return result
 
     def _load_subdomains(self):
         subdomin_list = []
@@ -89,8 +110,14 @@ class MetadataUtils:
             {{"subdomain": ["DOM_Inequalities"], "subdomain_alternative": "My_Label"}}. 
             Do not append any additional text to the JSON object.
             """
+        elif property == MetadataProperties.HAS_REASONING_METHOD:
+            return f"""
+            You are a helpful assistant. Respond only with a valid JSON object like:
+            {{"methods": ["MethodLabel1", "MethodLabel2"], "newMethod": null}}.
+            Do not explain anything.
+            """
     
-    def make_prompt(self, property, title, problem_text, solution_text="", meta_dict={}):
+    def make_prompt(self, property, title, problem_text, solution_text="", meta_dict=None):
         if property == MetadataProperties.QUESTION_TYPE:
             return f"""
             Atrodi matemātikas uzdevuma tipu.
@@ -261,25 +288,12 @@ class MetadataUtils:
                  "readingDifficulty": "medium"}}```
             """
         
-        elif property == MetadataProperties.DOMAIN:
-
-            # """
-            # Build a prompt asking an LLM to identify reasoning methods used in a problem's solution.
-        
-            # Args:
-            #     title: Problem identifier (e.g. "LV.AMO.2024.7.3"); class number can be inferred from it.
-            #     problem_text: The problem statement (Latvian, possibly with LaTeX).
-            #     solution_text: The official solution (Latvian, possibly with LaTeX).
-            #     domain: Problem domain code, e.g. "Geom", "NT", "Alg", "Comb".
-            #     reasoning_methods_md: Markdown-formatted catalogue of 20–25 reasoning methods
-            #         for this domain (each with CamelScript label, Latvian/English short names,
-            #         description, and 2–3 examples). Same format as
-            #         `geometrijas_pamatojumu_metodes.md` and `skaitlu_teorijas_metodes.md`.
-        
-            # Returns:
-            #     A formatted prompt string ready to send to an LLM.
-            # """
-
+        elif property == MetadataProperties.HAS_REASONING_METHOD:
+            if meta_dict is None:
+                meta_dict = {}
+            domain_list = meta_dict.get('domain', [])
+            domain = domain_list[0] if domain_list else 'Comb'
+            domain_methods = self.reasoning_methods.get(domain, '')
 
             return f"""
             Lūdzu, identificē spriedumu un secināšanas metodes, kas faktiski izmantotas šī uzdevuma
@@ -297,7 +311,7 @@ class MetadataUtils:
             latviski un angliski, vienas rindkopas aprakstu un 2–3 raksturīgiem piemēriem):
             
             ```
-            {reasoning_methods_md[meta_dict['Domain']].strip()}
+            {domain_methods.strip()}
             ```
             
             ## Norādījumi atlasei
@@ -365,12 +379,22 @@ class MetadataUtils:
             """
 
 
-    def classify_problem(self, title, problem_text, problem_solution, property):
-        prompt = self.make_prompt(property, title, problem_text, problem_solution)
+    def classify_problem(self, title, problem_text, problem_solution, property, meta_dict=None):
+        prompt = self.make_prompt(property, title, problem_text, problem_solution, meta_dict=meta_dict)
         system_message = self.make_sys_instructions(property)
         openaiUtils = OpenaiUtils(self.openai_api_key)
         result = openaiUtils.json_request(prompt, system_message, 42)
         
+        if property == MetadataProperties.HAS_REASONING_METHOD:
+            if isinstance(result, str):
+                match = re.search(r'\{.*\}', result, re.DOTALL)
+                if match:
+                    try:
+                        result = json.loads(match.group(0))
+                    except:
+                        pass
+            return result
+
         if property == MetadataProperties.HAS_SOLUTION_CONCEPT:
             if isinstance(result, str):
                 match = re.search(r'\{.*?\}', result, re.DOTALL)
