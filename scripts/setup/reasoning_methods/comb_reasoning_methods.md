@@ -341,3 +341,74 @@ Iespējamības uzdevumi (`questionType:ProveDisprove`) parasti sadalās: pozitī
 - `LV.AMO.2024.11.5(B)` (hameleoni krāsās): sarkanos hameleonus apzīmē ar $1$, zaļos ar $0$; krāsojumu kombinācija = 7-bitu virkne; kopā $2^7 = 128$ kombinācijas. Tālāk analīzē izmanto kongruences pēc moduļa 2.
 - *Klasisks piemērs:* ceļus rūtiņu tīklā no $(0.0)$ uz $(m,n)$ kodē kā burtu virknes ar $m$ burtiem $L$ un $n$ burtiem $U$; bijekcija ar šādām virknēm tieši dod $C(m+n, m)$ ceļu skaitu.
 - *Permutāciju kodēšana:* `LV.NOL.2023.11.5` (virkņu $a_i$, $b_i$, $c_i$ permutācijas): risinājumā virknes uzraksta vienu zem otras un strādā ar pozīciju kodējumu, lai izsekotu, kā skaitļi pārvietojas.
+
+---
+
+## 23. InclusionExclusionCounting
+
+**(1)** No 6.–7. klases.
+**(2)** Ieslēgšanas un izslēgšanas princips.
+**(3)** Inclusion–exclusion principle.
+**(4) Apraksts.** Kopu apvienojuma elementu skaitu izsaka caur atsevišķu kopu un to šķēlumu
+elementu skaitiem: $|A \cup B| = |A| + |B| - |A \cap B|$; trīs kopām $|A \cup B \cup C| = |A| + |B|
++ |C| - |A \cap B| - |A \cap C| - |B \cap C| + |A \cap B \cap C|$. Šī metode ir izšķiroša, kad
+tieši saskaitīt apvienojuma elementus ir grūti, bet šķēlumus — viegli. Dalāmības kontekstā
+šķēlumi atbilst dalāmībai ar mazāko kopīgo dalāmo: skaitļi, kas dalās gan ar $3$, gan ar $5$,
+ir tieši tie, kas dalās ar $15$. Metode ir noderīga arī uzdevumos par “tieši $k$ no $n$ īpašībām”
+(skaita ieslēgti tieši divos, tieši trijos krāsotos sarakstos utt.).
+**(5) Piemēri.** LV.AMO.2022B.6.1 (Amanda apvelk skaitļus, kas dalās ar $3$, $5$, $7$; jāatrod,
+cik dalās ar vismaz divām krāsām — tas ir $|A \cap B| + |A \cap C| + |B \cap C| - 2 |A \cap B \cap C|$,
+kur $A$, $B$, $C$ ir attiecīgi $3, 5, 7$ daudzkārtņu kopas, un šķēlumi atbilst dalāmībai ar $15$,
+$21$, $35$, $105$); klasisks olimpiāžu uzdevums “cik skaitļu no $1$ līdz $100$ nedalās ne ar $2$,
+ne ar $3$, ne ar $5$?” — atbilde $100 - |A \cup B \cup C|$, kur tieši pielieto trīsobjektu formulu;
+LV.NOL.2018./19. 7. klase (Eilera funkcijas tipa uzdevums par savstarpēji pirmskaitļiem ar
+$n$).
+
+---
+
+## 24. InvariantByColoring
+
+**(1)** No 5.–7. klases.
+**(2)** Krāsošanas invariants tabulās un režģos.
+**(3)** Coloring-based invariant.
+**(4) Apraksts.** Lai pierādītu, ka kāds rezultāts nav sasniedzams, rūtiņas vai elementi tiek
+nokrāsoti vairākās krāsās (piem., šaha krāsošana ar $2$ krāsām; krāsošana pa $3$ vai $4$
+modulo; vai diagonāļu krāsošana). Pēc tam aplūko invariantu, kas saglabājas pie atļautām
+darbībām — visbiežāk tā ir dažādu krāsu rūtiņās ierakstīto skaitļu summu starpība vai
+attiecība. Sākotnējais un mērķa stāvoklis atšķiras šī invarianta vērtībā, tādēļ pāreja nav
+iespējama. Vienkāršākais variants — klasiskā šaha krāsošana $8 \times 8$ tabulā ar
+$32$ baltām un $32$ melnām rūtiņām. Sarežģītāki invarianti rodas, kad tabulā ierakstīti
+skaitļi un saskaita atsevišķi melno un balto rūtiņu skaitļu summas.
+**(5) Piemēri.** LV.AMO.2007.6.3 (četru reizes četru tabulā ar veseliem pozitīviem skaitļiem,
+ar gājienu pieskaitot $1$ divām blakus rūtiņām — šaha krāsojumā divas blakus rūtiņas
+vienmēr ir dažādās krāsās, tādēļ summu starpība starp melnajām un baltajām rūtiņām
+saglabājas invariantā; ja sākotnējā konfigurācijā starpība nav $0$, vienādu skaitļu izvietojumu
+sasniegt nevar); klasisks uzdevums par $8 \times 8$ rūtiņu tabulas pārklāšanu ar $1 \times 3$
+domino, izņemot vienu stūra rūtiņu — pārklāšana neiespējama, jo modulo $3$ krāsojumā
+katra $1 \times 3$ domino pārklāj pa vienai katras krāsas rūtiņai, bet izņemtā stūra rūtiņa
+sabojā krāsu līdzsvaru; LV.NOL.2014./15. 6. klase 4. uzd. (figūru izgriešana no krāsotas
+tabulas).
+
+
+---
+
+## 25. DynamicProgramming
+
+**(1)** No 7.–8. klases.
+**(2)** Dinamiskā programmēšana (pakāpeniska skaitīšana ar starprezultātiem).
+**(3)** Dynamic programming.
+**(4) Apraksts.** Skaita iespējamo variantu skaitu pakāpeniski, sākot no mazākiem
+apakšuzdevumiem un veidojot rezultātu lielākiem. Vienkāršākajā variantā tas ir rekurents
+sakarību lietojums virknē — piem., $a_n = a_{n-1} + a_{n-2}$, ja katra nākamā pozīcija atkarīga
+no pēdējām divām. Vispārīgāks variants — režģī vai labirintā, kur katras rūtiņas “sasniegšanas
+veidu skaits” iegūstams kā summa pa visiem ceļiem no kaimiņrūtiņām, no kurām var ienākt.
+Šķēršļi (rūtiņas, kuras nevar apmeklēt) tiek apstrādāti, šajās rūtiņās ierakstot vērtību $0$.
+Tipiska uzdevuma struktūra: iezīmē sākuma rūtiņu ar $1$ un secīgi aprēķina visu pārējo
+rūtiņu vērtības atbilstoši atļautajām pārvietošanās kustībām.
+**(5) Piemēri.** LV.NOL/LV.AMO uzdevums par “ziloņa” (figūras ar pārvietošanos uz augšu,
+pa labi vai pa diagonāli) ceļu skaitu no rūtiņas $A$ uz rūtiņu $B$ ar šķērsli — katras
+rūtiņas vērtība iegūta kā summa no kreisās, apakšējās un kreisi-apakšējās rūtiņas vērtībām;
+šķērsļa rūtiņā vērtība $0$; GRAMATA piemērs par 12 pakāpienu kāpšanu pa $1$, $2$ vai $3$
+soļiem ($a_n = a_{n-1} + a_{n-2} + a_{n-3}$ ar sākotnējām vērtībām $a_1 = 1$, $a_2 = 2$,
+$a_3 = 4$, iegūstot $a_{12} = 927$); klasiska olimpiāžu uzdevums par karaļa vai tornīša
+ceļu skaitu uz šaha galda no $A1$ uz $H8$ ar šķēršļiem.

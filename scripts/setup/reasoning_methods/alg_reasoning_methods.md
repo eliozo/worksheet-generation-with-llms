@@ -509,6 +509,55 @@ materiālos, kur šī metode parādās — un pat tur tikai komentāra veidā.
 
 ---
 
+## 25. DetectPeriodInRecursiveSequence
+
+**(1)** No 7.–8. klases.
+**(2)** Periodisks raksturs rekurentā virknē ar galīgu stāvokļu kopu.
+**(3)** Detecting a period in a recursive sequence.
+**(4) Apraksts.** Ja virknē katrs nākamais loceklis viennozīmīgi noteikts ar iepriekšējo (vai
+ar galīgu skaitu iepriekšējo locekļu vai citu galīgu stāvokli), un visi iespējamie stāvokļi pieder
+galīgai kopai, tad virkne agrāk vai vēlāk sāk atkārtoties — izveidojas periods. Pēc periodicitātes
+atklāšanas patvaļīgi tālu virknes locekli iegūst, atrodot tā indeksa atlikumu pa moduļa $T$
+(perioda), kur $T$ ir perioda garums. Metode strādā gan ar skaitliskām virknēm, gan ar
+stāvokļu virknēm (piem., šaha figūras pozīcijas, atlikumu virknes pa moduli). Atšķirībā no
+parastās invariantu metodes, te svarīga ir tieši stāvokļu galīgā kopa un determinētība — bez
+tiem periodicitāte nav garantēta.
+**(5) Piemēri.** LV.AMO.2018.7.2 (virkne ar pirmo locekli $4$ un rekurenci $x \mapsto \tfrac{1}{1-x}$
+— pārrēķinot, $4 \to -\tfrac{1}{3} \to \tfrac{3}{4} \to 4$, periods $3$; tādēļ $2018.$ loceklis ir
+tas pats, kas $2018 \bmod 3 = 2$ pozīcijā, t.i., $-\tfrac{1}{3}$, un summa $2018$ locekļiem ir
+$672 \cdot (4 - \tfrac{1}{3} + \tfrac{3}{4}) + 4 + (-\tfrac{1}{3})$); GRAMATA piemērs par virkni
+$1, 2, 3, 5, 8, 3, 1, 4, 5, 9, \ldots$, kur katrs nākamais ir iepriekšējā kvadrāta ciparu summa —
+ar galīgu stāvokļu kopu virkne kļūst periodiska; klasisks uzdevums par pakāpes $2^n$ pēdējo
+ciparu (periods $4$: $2, 4, 8, 6, 2, 4, \ldots$).
+
+---
+
+## 26. SlopesOnCoordinatePlane
+
+**(1)** No 8.–9. klases.
+**(2)** Virziena koeficients koordinātu plaknē.
+**(3)** Slopes (gradients) on the coordinate plane.
+**(4) Apraksts.** Taisnei caur diviem dažādiem punktiem $A(x_1, y_1)$ un $B(x_2, y_2)$ virziena
+koeficients ir $k_{AB} = \tfrac{y_2 - y_1}{x_2 - x_1}$ (ja $x_1 \neq x_2$). Divas taisnes ir paralēlas
+tad un tikai tad, ja to virziena koeficienti ir vienādi; perpendikulāras tad un tikai tad, ja
+koeficientu reizinājums ir $-1$. Metode ir centrāla koordinātu ģeometrijas uzdevumos ar
+punktu kolinearitāti, taisņu paralēlismu, viduspunktu un nogriežņu krustpunktu īpašībām.
+Bieži apvienota ar viduspunkta formulu $M = (\tfrac{x_1+x_2}{2}, \tfrac{y_1+y_2}{2})$ vai ar
+nogriežņu sadalīšanu noteiktā attiecībā.
+**(5) Piemēri.** LV.AMO.2010.9.2 (četri dažādi punkti uz parabolas $y = x^2$ — punktiem
+$P_i = (a_i, a_i^2)$ uz parabolas hordas $PQ$ virziena koeficients ir $\tfrac{a^2 - b^2}{a - b}
+= a + b$; ja $E$ būtu gan $AB$, gan $CD$ viduspunkts, tad $\tfrac{x_A + x_B}{2} = \tfrac{x_C + x_D}{2}$
+un $\tfrac{y_A + y_B}{2} = \tfrac{y_C + y_D}{2}$, no kā secina $x_A + x_B = x_C + x_D$ un
+$x_A^2 + x_B^2 = x_C^2 + x_D^2$ — pretruna ar punktu dažādību); LV.NOL.2022.10.1 (taisne caur
+$C(10, 2)$ paralēli taisnei $AB$ ar $A(21, 1)$ un $B(20, 22)$ — autors iegūst $k_{AB} = -21$ no
+divu punktu starpības un raksta meklēto taisni formā $y = -21x + b$); GRAMATA 5.3.4. uzdevumi
+par lineārām funkcijām $y = ax + k$ un $y = bx + m$ (no grafiku slīpuma salīdzina koeficientus
+$a$ un $b$).
+
+
+
+---
+
 ## Citas metodes
 
 Metodes, kuras neizmanto Latvijas pamatskolā, bet 

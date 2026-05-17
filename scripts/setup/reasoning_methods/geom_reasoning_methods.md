@@ -294,9 +294,9 @@ figūru sašķidrināšanu šaha galdiņā paritāte tiek skaitīta uz iekrāsot
 **(2)** Simetrijas izmantošana (spēlēs un konstrukcijās).
 **(3)** Symmetry strategy.
 **(4) Apraksta.** Daudzos kombinatoriskās ģeometrijas un spēļu uzdevumos otrais (vai
-pirmais) spēlētājs uzvar, atbildot uz pretinieka gājieniem simetriski — vai nu attiecībā pret
-figūras centru, vai attiecībā pret simetrijas asi. Šī metode darbojas, kad figūrai piemīt centrāla
-vai axsiāla simetrija. Tipisks plāns: ja figūrai ir centrs/ass, otrais spēlētājs garantē, ka pēc
+pirmais) spēlētājs uzvar, atbildot uz pretinieka gājieniem simetriski — vai nu attiecībā pret figūras centru, vai attiecībā pret simetrijas asi. 
+Šī metode darbojas, kad figūrai piemīt centrāla
+vai aksiāla simetrija. Tipisks plāns: ja figūrai ir centrs/ass, otrais spēlētājs garantē, ka pēc
 viņa gājiena situācija paliek simetriska — līdz ar to viņš vienmēr var atbildēt, ja pretinieks
 var iet. Ne-ģeometriskās spēlēs simetrija parādās arī kā skaitļu sadalīšana pa pāriem.
 **(5) Piemēri.** LV.AMO.2019.8.2 (spēle $6 \times 6$ tabulā ar simetriju pret centru — uzvar
@@ -411,3 +411,48 @@ parādās konfigurācijās ar vienādu malu summām un perpendikuliem.
 $\tfrac{1}{2}$ no $CD$, no kā $HM = BC$, kas ļauj parādīt paralelogramu $BCMH$);
 LV.AMO.2023.10.3. (taisnleņķa trijstūrī $BED$ leņķis pret kateti, kas ir divreiz īsāka par
 hipotenūzu, ir $30^\circ$); LV.AMO.2015./16. 9. klase 2. uzd. (katete pret $30^\circ$ leņķi).
+
+
+## 26. ScalingByLinearRatio
+
+**(1)** No 7.–8. klases.
+**(2)** Lineāra izmēra un laukuma sakarība līdzīgās figūrās.
+**(3)** Scaling: areas grow as the square of linear ratio.
+**(4) Apraksts.** Ja divas figūras ir līdzīgas ar lineāro koeficientu $k$ (t.i., visas atbilstošās malas
+attiecībā $1 : k$), tad to laukumi attiecībā $1 : k^2$, tilpumi attiecībā $1 : k^3$, un otrādi — no
+laukumu attiecības iegūst lineāra izmēra attiecību kā kvadrātsakni. Skolēns metodi izmanto,
+lai pārtulkotu informāciju starp lineārajiem un laukuma lielumiem: ja dots laukumu attiecības
+$80\%$ vai $125\%$, tad malas attiecība ir attiecīgi $\sqrt{0.8}$ vai $\sqrt{1.25}$; un tieši
+saskaitot un salīdzinot laukumus, var izlemt, kura figūra ir mazākā. Vispārīgākais šīs metodes
+variants ir formulu izmantošana, kurās piedalās viens vai vairāki līdzības koeficienti — piem.,
+trijstūra laukums ar koeficientu $k$ palielinās $k^2$ reizes, perimetrs $k$ reizes.
+**(5) Piemēri.** LV.AMO.2018.6.1 (sarkanā, zilā un zaļā kvadrāta laukumu attiecības $80\%$
+un $125\%$ — visīsākā mala ir tam kvadrātam, kuram mazākais laukums; zaļā kvadrāta malas
+garumu var aprēķināt, izsakot zaļā kvadrāta laukumu caur sarkanā, un pēc tam izvelkot
+kvadrātsakni); LV.AMO.2017./18. 8. klase 3. uzd. (paralelograma vidusnogriežņu sadalītie
+trijstūri — laukumu attiecības seko līdzības koeficienta kvadrātam); LV.NOL.2015./16.
+9. klase 2. uzd. ($\triangle BMN \sim \triangle CDN$ ar līdzības koeficientu $\tfrac{1}{2}$ —
+laukumu attiecība $\tfrac{1}{4}$).
+
+
+27. PackingDisjointShapes
+
+**(1)** No 7.–8. klases.
+**(2)** Lielas figūras sadalīšana nepārklājošās mazākās figūrās novērtējuma iegūšanai.
+**(3)** Packing disjoint shapes to establish a lower bound.
+**(4) Apraksts.** Lai pierādītu, ka nepieciešamas vismaz $N$ iekrāsotas (vai citādi “atzīmētas”)
+rūtiņas, lai kādā lielākā figūrā nevarētu novietot doto formu, lielāko figūru sadala $N$
+nepārklājošās ($k$-formātos vai citās formās) kopijās. Tā kā katrā no šīm kopijām atrodas
+vismaz viena iekrāsota rūtiņa, kopējais iekrāsoto rūtiņu skaits ir vismaz $N$. Tas dod apakšējo
+novērtējumu — tā ir tikai puse no risinājuma; otra puse ir uzrādīt konkrētu piemēru ar tieši
+$N$ iekrāsotām rūtiņām, kas patiešām atbilst nosacījumiem. Šī metode ir ļoti raksturīga
+kombinatoriskajai ģeometrijai, jo tieši savieno lielas figūras laukumu vai struktūru ar
+mazākas formas “ietilpību”.
+**(5) Piemēri.** LV.AMO.2018.8.5 (uzdevumā par mazāko iekrāsoto rūtiņu skaitu $6 \times 6$
+kvadrātā, lai katrā $2 \times 3$ taisnstūrī būtu vismaz viena iekrāsota — $6 \times 6$ kvadrātu
+var sadalīt sešos nepārklājošos $2 \times 3$ taisnstūros, tādēļ nepieciešamas vismaz $6$
+rūtiņas; tālāk parāda konkrētu piemēru); LV.AMO.2022A.9.5 ($8 \times 8$ tabulā, lai nebūtu
+$1 \times 5$ neaizkrāsotas rīkas — sadalījums dod apakšējo robežu $12$); klasiska kombinatorika
+par $2n \times 2n$ rūtiņu galdu un $L$-formas figūrām (parastais $n^2$ figūru bloks tiek
+sadalīts $n^2$ nepārklājošos $2 \times 2$ kvadrātos).
+
