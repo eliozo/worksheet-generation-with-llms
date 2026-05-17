@@ -1,6 +1,12 @@
+import os
 from openai import OpenAI
+from scripts.openai_utils import normalize_openai_provider
+
 client = OpenAI()
 import json
+
+
+PROVIDER = normalize_openai_provider(os.getenv("OPENAI_PROVIDER"), warn=True)
 
 def classify_math_problem(problem_text,prompt_name):
     # Classify the type of math problem using OpenAI
@@ -155,7 +161,7 @@ f"'{problem_text}'''\n\n"
 
 
     response = client.chat.completions.create(
-      model="gpt-4-turbo",
+      model=PROVIDER,
       response_format={ "type": "json_object" },
       messages=[
         {"role": "system", "content": all_system_messages[prompt_name]},
@@ -176,7 +182,7 @@ f"'{problem_text}'''\n\n"
 def main():
 
     # User input
-    problem_text = """Uz tāfeles pa reizei uzrakstīti visi naturālie skaitļi no $1$ līdz $n$ ieskaitot. 
+    problem_text = r"""Uz tāfeles pa reizei uzrakstīti visi naturālie skaitļi no $1$ līdz $n$ ieskaitot. 
 Ar vienu gājienu var izvēlēties divus uz tāfeles uzrakstītus skaitļus 
 (apzīmēsim tos ar $a$ un $b$), nodzēst tos un to vietā uzrakstīt $\left| a^2-b^2 \right|$. 
 Pēc $n-1$ gājiena uz tāfeles paliek viens skaitlis.  

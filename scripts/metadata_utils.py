@@ -20,8 +20,9 @@ class MetadataProperties(Enum):
     COMPLEXITY = "complexity"
 
 class MetadataUtils:
-    def __init__(self, openai_api_key): 
+    def __init__(self, openai_api_key, provider=None): 
         self.openai_api_key = openai_api_key
+        self.provider = provider
         self.headers = {
             'Content-Type': 'application/json',
             'Authorization': f'Bearer {openai_api_key}'
@@ -382,7 +383,7 @@ class MetadataUtils:
     def classify_problem(self, title, problem_text, problem_solution, property, meta_dict=None):
         prompt = self.make_prompt(property, title, problem_text, problem_solution, meta_dict=meta_dict)
         system_message = self.make_sys_instructions(property)
-        openaiUtils = OpenaiUtils(self.openai_api_key)
+        openaiUtils = OpenaiUtils(self.openai_api_key, self.provider)
         result = openaiUtils.json_request(prompt, system_message, 42)
         
         if property == MetadataProperties.HAS_REASONING_METHOD:

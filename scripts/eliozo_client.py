@@ -23,12 +23,16 @@ from scripts.weaviate_utils import WeaviateUtils
 from scripts.word_utils import WordUtils
 from scripts.openai_utils import OpenaiUtils
 from scripts.openai_utils import AnalysisType
+from scripts.openai_utils import DEFAULT_OPENAI_PROVIDER
+from scripts.openai_utils import SUPPORTED_OPENAI_PROVIDERS
+from scripts.openai_utils import normalize_openai_provider
 from scripts.openai_function_agent import OpenaiFunctionAgent
 from scripts.metadata_utils import MetadataUtils
 from scripts.metadata_utils import MetadataProperties
 from scripts.adapt_utils import AdaptExtension, AdaptUtils
 from scripts.markdown_proc.convert_to_ttl_main import markdown_repository_to_turtle, crawl_markdown_problemdata
 from scripts.markdown_proc.mdchunk_reader import markdown_md_to_turtle
+from scripts.markdown_proc.merge_directories import try_merge_directory, resolve_directories
 
 from scripts.rdfgen.csv_to_skos import CsvToSkos
 from scripts.rdfgen.csv_to_table import CsvToTable
@@ -84,6 +88,9 @@ def get_json_field(fname, field_list):
 class EliozoClient:
     reference = "NA.json"
     command = "NA"
+    default_openai_provider = DEFAULT_OPENAI_PROVIDER
+    supported_openai_providers = SUPPORTED_OPENAI_PROVIDERS
+    task_commands_using_provider = {'create-task', 'get-classifiers', 'get-problems', 'adapt-worksheet'}
     weaviate_url = "NA"
     weaviate_api_key = "NA"
     openai_api_key = "NA"
@@ -105,6 +112,9 @@ class EliozoClient:
 
     def set_command(self, command): 
         self.command = command
+
+    def validate_openai_provider(self, provider):
+        return normalize_openai_provider(provider, warn=True)
 
     # Store reference file for preliminary (data preparation) commands
     def store_prelim(self, command, data):
@@ -131,6 +141,10 @@ class EliozoClient:
 
     # Store task.json with worksheet-related data
     def store_task(self, data): 
+        if isinstance(data, dict):
+            task_info = data.get('task')
+            if isinstance(task_info, dict) and self.command not in self.task_commands_using_provider:
+                task_info.pop('provider', None)
         with open(self.reference, 'w', encoding='utf-8') as file:
             json.dump(data, file, indent=4, ensure_ascii=False)
 
@@ -139,7 +153,8 @@ class EliozoClient:
     def add_metadata(self, md_file, prop, provider, output):
         print(f'Command = {self.command}(md_file = {md_file}, prop = {prop}, provider = {provider}, output= {output})')
 
-        metadata_utils = MetadataUtils(self.openai_api_key)
+        provider = self.validate_openai_provider(provider)
+        metadata_utils = MetadataUtils(self.openai_api_key, provider)
 
         parser = ProblemMarkdownParser
 
@@ -209,7 +224,7 @@ class EliozoClient:
             out.write('\n\n'.join(updated_sections))
 
         print(f"\n✅ Output written to: {output}")
-        return (0, {"status": "success", "output": output})
+        return (0, {"status": "success", "output": output, "provider": provider})
 
     def md_to_turtle(self, markdown, turtle, langcode, is_master):
         # print(f'Command = {self.command}(markdown = {markdown}, turtle = {turtle})')
@@ -303,15 +318,17 @@ class EliozoClient:
         (retvalue, new_task_data) = agentUtils.ask_to_find_topics(task_data)
         return (retvalue, new_task_data)
 
-    def create_task(self, query):
+    def create_task(self, query, provider=None):
         retcode = 0
-        openaiUtils = OpenaiUtils(self.openai_api_key)
+        provider = self.validate_openai_provider(provider)
+        openaiUtils = OpenaiUtils(self.openai_api_key, provider)
         seed = 42
         (retcode, analysis1) = openaiUtils.analyze(query, AnalysisType.TASK_ANALYSIS)
         dir_name = os.path.dirname(self.reference)
         task_data = {
             "task": { 
                 "query": query,
+                "provider": provider,
                 #"title": analysis1['title'], 
                 "grade": analysis1['grade'],
                 "age": analysis1['age'],
@@ -371,12 +388,13 @@ class EliozoClient:
             print(info_text)
         return (retvalue, {'info': info_text})
         
-    def get_problems(self, worksheet):
+    def get_problems(self, worksheet, provider=None):
         with open(self.reference, 'r', encoding='utf-8') as f:
             task_data = json.load(f)
+        provider = self.validate_openai_provider(provider)
         print("BBBBBBBBBBBB")
         print(json.dumps(task_data))
-        agentUtils = OpenaiFunctionAgent(self.openai_api_key, self.fuseki_url, self.fuseki_user, self.fuseki_password, self.weaviate_url, self.weaviate_api_key, task_data)
+        agentUtils = OpenaiFunctionAgent(self.openai_api_key, self.fuseki_url, self.fuseki_user, self.fuseki_password, self.weaviate_url, self.weaviate_api_key, task_data, provider)
         (retvalue, new_task_data) = agentUtils.get_problems_for_query(task_data, worksheet)
         return (retvalue, new_task_data)
 
@@ -389,9 +407,12 @@ class EliozoClient:
     #     print(f'Command not supported')
     #     return (0, {'key9':'value9'})
     
-    def adapt_worksheet(self, property, value, location):
+    def adapt_worksheet(self, property, value, location, provider=None):
         with open(self.reference, 'r', encoding='utf-8') as f:
             task_data = json.load(f)
+        provider = self.validate_openai_provider(provider)
+        if isinstance(task_data.get('task'), dict):
+            task_data['task']['provider'] = provider
         if location != "*":
             print(f'Command adapt-worksheet only supported for location=*')
             return (1, task_data)
@@ -404,7 +425,7 @@ class EliozoClient:
 
         current_worksheet = task_data['result']['current_worksheet']
         print(f'Run adapt-worksheet {property} {value} on {current_worksheet}')
-        adaptUtils = AdaptUtils(self.openai_api_key)
+        adaptUtils = AdaptUtils(self.openai_api_key, provider)
         if value == "Theory":
             output_json = adaptUtils.extend(current_worksheet, AdaptExtension.THEORY)
             backup_worksheet = copy_with_incremented_name(current_worksheet)
@@ -424,7 +445,7 @@ class EliozoClient:
             task_data['result']['worksheet_before_title'] = backup_worksheet
 
         elif value == "StyleRules":
-            adaptUtils = AdaptUtils(self.openai_api_key)
+            adaptUtils = AdaptUtils(self.openai_api_key, provider)
 
             json_fixes = adaptUtils.extend(current_worksheet, AdaptExtension.STYLE_RULES)
             with open("rule_fixes.json", 'w', encoding='utf-8') as file:
@@ -499,7 +520,8 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         'extend-worksheet': 'Add supplementary text; apply transformation filters',
         'adapt-worksheet': 'Evaluate prototype; create structured feedback',
         'convert-worksheet': 'Convert worksheet to MS Word or PDF',
-        'weaviate-info': 'Display information about Weaviate client and configuration'
+        'weaviate-info': 'Display information about Weaviate client and configuration',
+        'merge-directories': 'Merge content_lv2.md into content_lv.md when only allowed properties differ'
     }
             
     HELP_REFERENCE = 'JSON file accumulating cmd status (defaults to task.json)'
@@ -510,7 +532,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
             'property': 'Which Eliozo ontology property should be added',
             '--output' : 'Location to place Markdown with added metadata',
             '--mode': 'What input is used for classification',
-            '--provider': 'Which classifier is used; OpenAI GPT-4o by default',
+            '--provider': 'Which OpenAI model to use; defaults to gpt-5.4-mini if omitted or invalid',
             '--reference': HELP_REFERENCE
         },
 
@@ -582,6 +604,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
 
         'create-task': {
             '--query': 'User request expressed in human language',
+            '--provider': 'Which OpenAI model to use; defaults to gpt-5.4-mini if omitted or invalid',
             '--reference': HELP_REFERENCE
         }, 
 
@@ -609,6 +632,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
 
         'get-problems': {
             '--worksheet': 'JSON output file; defaults to worksheet.json', 
+            '--provider': 'Which OpenAI model to use; defaults to gpt-5.4-mini if omitted or invalid',
             '--reference': HELP_REFERENCE
         },
 
@@ -630,6 +654,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
             'property': 'The language/content property to adapt (complexity, register, extension, paraphrase, reorder)', 
             'value': 'How to adapt the propert (see User Guide)',
             '--location': 'The path in worksheet.json to modify',
+            '--provider': 'Which OpenAI model to use; defaults to gpt-5.4-mini if omitted or invalid',
             '--reference': HELP_REFERENCE
         }, 
 
@@ -642,6 +667,11 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
 
         'weaviate-info': {
             '--reference': HELP_REFERENCE
+        },
+
+        'merge-directories': {
+            'directory': 'Directory path or glob (e.g. dirname or dirname/*)',
+            'properties': 'Comma-separated list of metadata properties allowed as extras in content_lv2.md'
         }
     }
 
@@ -714,6 +744,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
 
     create_task_parser = subparsers.add_parser('create-task', help=cmd_h['create-task'])
     create_task_parser.add_argument('--query', type=str, help=arg_h['create-task']['--query'])
+    create_task_parser.add_argument('--provider', type=str, default=None, help=arg_h['create-task']['--provider'])
     create_task_parser.add_argument('--reference', type=str, default=None, help=arg_h['create-task']['--reference'])
 
     adapt_topics_parser = subparsers.add_parser('set-topic', help=cmd_h['set-topic'])
@@ -736,6 +767,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
 
     get_problems_parser = subparsers.add_parser('get-problems', help=cmd_h['get-problems'])
     get_problems_parser.add_argument('--worksheet', type=str, default=None, help=arg_h['get-problems']['--worksheet'])
+    get_problems_parser.add_argument('--provider', type=str, default=None, help=arg_h['get-problems']['--provider'])
     get_problems_parser.add_argument('--reference', type=str, default=None, help=arg_h['get-problems']['--reference'])
 
     # drop_problem_parser = subparsers.add_parser('drop-problem', help=cmd_h['drop-problem'])
@@ -753,6 +785,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
     adapt_worksheet_parser.add_argument('property', type=str, help=arg_h['adapt-worksheet']['property'])
     adapt_worksheet_parser.add_argument('value', type=str, help=arg_h['adapt-worksheet']['value'])
     adapt_worksheet_parser.add_argument('--location', type=str, default=None, help=arg_h['adapt-worksheet']['--location'])
+    adapt_worksheet_parser.add_argument('--provider', type=str, default=None, help=arg_h['adapt-worksheet']['--provider'])
     adapt_worksheet_parser.add_argument('--reference', type=str, default=None, help=arg_h['adapt-worksheet']['--reference'])
 
     convert_worksheet_parser = subparsers.add_parser('convert-worksheet', help=cmd_h['convert-worksheet'])
@@ -763,6 +796,11 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
 
     weaviate_info_parser = subparsers.add_parser('weaviate-info', help=cmd_h['weaviate-info'])
     weaviate_info_parser.add_argument('--reference', type=str, default=None, help=arg_h['weaviate-info']['--reference'])
+
+    merge_directories_parser = subparsers.add_parser('merge-directories', help=cmd_h['merge-directories'])
+    merge_directories_parser.add_argument('directory', type=str, help=arg_h['merge-directories']['directory'])
+    merge_directories_parser.add_argument('properties', type=str, help=arg_h['merge-directories']['properties'])
+    merge_directories_parser.add_argument('--reference', type=str, default=None, help=HELP_REFERENCE)
 
 
     args = parser.parse_args()
@@ -780,7 +818,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         eliozo_client.set_reference(args.reference)
 
     if args.command == 'add-metadata':
-        provider = args.provider if args.provider else 'OpenAI'
+        provider = args.provider
         if args.output == None:
             print("--output is mandatory for add-metadata")
             sys.exit(1)
@@ -864,7 +902,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         query_file = args.query
         with open(query_file, "r", encoding='utf-8') as file:
             content = file.read()
-        (retvalue, data) = eliozo_client.create_task(content)
+        (retvalue, data) = eliozo_client.create_task(content, args.provider)
 
     elif args.command == 'set-topic': 
         (retvalue, data) = eliozo_client.set_topic(args.topic, args.level)
@@ -882,7 +920,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
 
     elif args.command == 'get-problems':
         worksheet = args.worksheet if args.worksheet else 'worksheet.json'
-        (retvalue, data) = eliozo_client.get_problems(worksheet)
+        (retvalue, data) = eliozo_client.get_problems(worksheet, args.provider)
 
     # elif args.command == 'drop-problem':
     #     (retvalue, data) = eliozo_client.drop_problem(args.problemID)
@@ -895,7 +933,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
 
     elif args.command == 'adapt-worksheet':
         location = args.location if args.location else '*'
-        (retvalue, data) = eliozo_client.adapt_worksheet(args.property, args.value, location)
+        (retvalue, data) = eliozo_client.adapt_worksheet(args.property, args.value, location, args.provider)
 
     elif args.command == 'convert-worksheet':
         if args.template is None:
@@ -907,12 +945,21 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
     elif args.command == 'weaviate-info':
         (retvalue, data) = eliozo_client.get_weaviate_info()
 
+    elif args.command == 'merge-directories':
+        allowed_props = [p.strip() for p in args.properties.split(',') if p.strip()]
+        dirs = resolve_directories(args.directory)
+        for dirpath in dirs:
+            result = try_merge_directory(dirpath, allowed_props)
+            print(f'directory {dirpath} {result}')
+        retvalue = 0
+        data = None
+
     else:
         parser.print_help()
         print(f"Invalid Parameters: Command name '{args.command}' not supported.")
         sys.exit(3)
 
-    if args.command == 'weaviate-info':
+    if args.command in ('weaviate-info', 'merge-directories'):
         pass 
     elif args.command in ['add-metadata', 'md-to-turtle', 'md-repository-to-turtle', 
                         'metadata-to-turtle', 'drop-rdf', 'create-rdf-dataset', 

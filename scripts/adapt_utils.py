@@ -3,6 +3,7 @@ import json
 import os
 
 from scripts.openai_utils import OpenaiUtils
+from scripts.openai_utils import normalize_openai_provider
 from scripts.style_rules_utils import StyleRulesUtils
 
 class AdaptExtension(Enum):
@@ -150,8 +151,9 @@ class AdaptUtils:
     }
 
 
-    def __init__(self, OPENAI_API_KEY):
+    def __init__(self, OPENAI_API_KEY, provider=None):
         self.openai_api_key = OPENAI_API_KEY
+        self.provider = normalize_openai_provider(provider, warn=True)
 
     def extend(self, input_worksheet, extension_value):
         if isinstance(extension_value, AdaptExtension):
@@ -162,7 +164,7 @@ class AdaptUtils:
         with open(input_worksheet, 'r', encoding='utf-8') as file:
             input_content = file.read()
 
-        openaiUtils = OpenaiUtils(self.openai_api_key)
+        openaiUtils = OpenaiUtils(self.openai_api_key, self.provider)
         promptTemplate = self.prompts[extension_value]
 
         if extension_value == AdaptExtension.STYLE_RULES:

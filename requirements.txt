@@ -1,0 +1,13 @@
+openai>=1.30.0
+requests>=2.31.0
+python-dotenv>=1.0.0
+urllib3>=2.0.0
+rdflib>=7.0.0
+weaviate-client>=4.6.0
+pandas>=2.0.0
+pypandoc>=1.13
+Jinja2>=3.1.0
+Markdown>=3.5.0
+mistletoe>=1.3.0
+
+# Note: pypandoc also requires the pandoc binary to be installed separately.

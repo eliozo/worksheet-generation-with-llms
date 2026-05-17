@@ -1,10 +1,46 @@
 import os
 import sys
 import time
-import random
-import requests
 import json
 from enum import Enum
+from openai import OpenAI
+from openai import APIError
+from openai import RateLimitError
+
+
+DEFAULT_OPENAI_PROVIDER = "gpt-5.4-mini"
+SUPPORTED_OPENAI_PROVIDERS = {
+    "gpt-5.5": "gpt-5.5",
+    "gpt-5.4": "gpt-5.4",
+    "gpt-5.4-mini": "gpt-5.4-mini",
+    "gpt-5.4-nano": "gpt-5.4-nano",
+    "gpt-4.1": "gpt-4.1",
+    "gpt-4.1-mini": "gpt-4.1-mini",
+    "gpt-4o": "gpt-4o",
+    "gpt-4o-mini": "gpt-4o-mini"
+}
+
+
+def normalize_openai_provider(provider, warn=False):
+    if provider is None or not str(provider).strip():
+        return DEFAULT_OPENAI_PROVIDER
+
+    normalized = str(provider).strip().lower()
+    if normalized.startswith('openai'):
+        normalized = normalized[len('openai'):].lstrip(':/ ')
+        if not normalized:
+            return DEFAULT_OPENAI_PROVIDER
+
+    if normalized in SUPPORTED_OPENAI_PROVIDERS:
+        return SUPPORTED_OPENAI_PROVIDERS[normalized]
+
+    if warn:
+        supported = ', '.join(sorted(SUPPORTED_OPENAI_PROVIDERS.values()))
+        print(
+            f"Warning: provider '{provider}' is not in the supported OpenAI model list ({supported}). "
+            f"Using default '{DEFAULT_OPENAI_PROVIDER}'."
+        )
+    return DEFAULT_OPENAI_PROVIDER
 
 
 class AnalysisType(Enum):
@@ -19,8 +55,8 @@ class AnalysisType(Enum):
 class OpenaiUtils:
     openai_api_key = "NA"
     client = None
-    headers = dict()
     seed = 42
+    provider = DEFAULT_OPENAI_PROVIDER
 
     prompts = {
         AnalysisType.TASK_ANALYSIS: "Analyze this worksheet prompt: ```{user_query}```", 
@@ -85,12 +121,10 @@ class OpenaiUtils:
     }
 
 
-    def __init__(self, openai_api_key): 
+    def __init__(self, openai_api_key, provider=None): 
         self.openai_api_key = openai_api_key
-        self.headers = {
-            'Content-Type': 'application/json',
-            'Authorization': f'Bearer {openai_api_key}'
-        }
+        self.provider = normalize_openai_provider(provider, warn=True)
+        self.client = OpenAI(api_key=openai_api_key)
         # self.instructions = {
 
         #     "domain" : "This query is meant to create a worksheet for a mathematics class. "
@@ -105,58 +139,48 @@ class OpenaiUtils:
 
     # submit a JSON file to an LLM and get back JSON
     def json_request(self, prompt, system_message, seed):
-        model = "gpt-4.1"
-        
-        data = {
-            "model": model,
-            "messages": [
-                {
-                    "role": "system",
-                    "content": system_message
-                },
-                {
-                    "role": "user",
-                    "content": prompt
-                }
-            ],
-            "max_tokens": 8192, 
-            "seed": seed, 
-            "temperature": 1.0
-        }
+        model = self.provider
         
         max_retries = 5
         base_delay = 1
         
         for attempt in range(max_retries):
             try:
-                response = requests.post(
-                    "https://api.openai.com/v1/chat/completions",
-                    headers=self.headers,
-                    json=data
+                response = self.client.chat.completions.create(
+                    model=model,
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": system_message
+                        },
+                        {
+                            "role": "user",
+                            "content": prompt
+                        }
+                    ],
+                    response_format={"type": "json_object"},
+                    seed=seed,
+                    temperature=0.2
                 )
-                
-                if response.status_code == 429:
+
+                # If success, break loop
+                break
+
+            except RateLimitError:
+                if attempt == max_retries - 1:
+                    sys.stderr.write(f"Rate limit hit for model {model} after {max_retries} attempts.\n")
+                    return {"error": "API request failed"}
+
                     sleep_time = base_delay * (2 ** attempt)
                     sys.stderr.write(f"Rate limit hit (429). Retrying in {sleep_time} seconds...\n")
                     time.sleep(sleep_time)
                     continue
-                    
-                response.raise_for_status()  # Raise an error for bad HTTP status codes
-                
-                # If success, break loop
-                break
-                
-            except requests.RequestException as e:
-                # If it is the last attempt, log error and return
+
+            except APIError as e:
                 if attempt == max_retries - 1:
                     sys.stderr.write(f"API request error after {max_retries} attempts: {e}\n")
                     return {"error": "API request failed"}
-                
-                # For non-429 errors (like connection errors), prompt retry logic could also apply, 
-                # but typically we focus on 429. If connection error, maybe we should also retry?
-                # For now let's just retry on 429 specifically handled above, or general exception handled here?
-                # If response was not created (connection error), status_code check fails.
-                # So let's generic retry for connection issues too.
+
                 sleep_time = base_delay * (2 ** attempt)
                 sys.stderr.write(f"Request failed: {e}. Retrying in {sleep_time} seconds...\n")
                 time.sleep(sleep_time)
@@ -164,8 +188,7 @@ class OpenaiUtils:
              return {"error": "API request failed after retries"}
 
         try:
-            result = response.json()
-            completion = result['choices'][0]['message']['content']
+            completion = response.choices[0].message.content or "{}"
             # Strip delimiters
             start = completion.find('{')
             end = completion.rfind('}')
