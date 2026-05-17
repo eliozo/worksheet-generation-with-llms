@@ -90,7 +90,7 @@ class MetadataUtils:
             Do not append any additional text to the JSON object.
             """
     
-    def make_prompt(self, property, title, problem_text, solution_text=""):
+    def make_prompt(self, property, title, problem_text, solution_text="", meta_dict={}):
         if property == MetadataProperties.QUESTION_TYPE:
             return f"""
             Atrodi matemātikas uzdevuma tipu.
@@ -260,6 +260,110 @@ class MetadataUtils:
             ```{{"concepts": ["TruthTellersAndLiars", "LogicalCaseAnalysis", "ExhaustiveCheck"], 
                  "readingDifficulty": "medium"}}```
             """
+        
+        elif property == MetadataProperties.DOMAIN:
+
+            # """
+            # Build a prompt asking an LLM to identify reasoning methods used in a problem's solution.
+        
+            # Args:
+            #     title: Problem identifier (e.g. "LV.AMO.2024.7.3"); class number can be inferred from it.
+            #     problem_text: The problem statement (Latvian, possibly with LaTeX).
+            #     solution_text: The official solution (Latvian, possibly with LaTeX).
+            #     domain: Problem domain code, e.g. "Geom", "NT", "Alg", "Comb".
+            #     reasoning_methods_md: Markdown-formatted catalogue of 20–25 reasoning methods
+            #         for this domain (each with CamelScript label, Latvian/English short names,
+            #         description, and 2–3 examples). Same format as
+            #         `geometrijas_pamatojumu_metodes.md` and `skaitlu_teorijas_metodes.md`.
+        
+            # Returns:
+            #     A formatted prompt string ready to send to an LLM.
+            # """
+
+
+            return f"""
+            Lūdzu, identificē spriedumu un secināšanas metodes, kas faktiski izmantotas šī uzdevuma
+            oficiālajā atrisinājumā. Uzdevuma matemātiskā nozare ir **{domain}**.
+            
+            Uzdevums: "{title.strip()}"
+            
+            ```{problem_text.strip()}```
+            
+            Atrisinājums:
+            
+            ```{solution_text.strip()}```
+            
+            Pieejamo spriedumu metožu saraksts (Markdown formātā, ar CamelScript Label, īsu nosaukumu
+            latviski un angliski, vienas rindkopas aprakstu un 2–3 raksturīgiem piemēriem):
+            
+            ```
+            {reasoning_methods_md[meta_dict['Domain']].strip()}
+            ```
+            
+            ## Norādījumi atlasei
+            
+            **Ko atlasīt.** Atlasi tās metodes no saraksta, kuras patiešām tiek lietotas atrisinājumā kā
+            spriedumu solis vai pamatojuma paņēmiens. Tās var būt:
+            - skaidri saskatāmas metodes (piem., risinājumā parādās leņķu izteikšana ar mainīgo $\\alpha$
+            un trijstūra leņķu summas izmantošana → AngleChasing un TriangleAngleSum; vai ciparu summa
+            tiek pārbaudīta dalāmībai ar 9 → DigitSumProperty);
+            - metodes, kas atrisinājumā ir izmantotas implicīti, bet kuru loģiskā funkcija ir skaidra
+            (piem., autors nesaka "pierādījums no pretējā", bet sāk ar "pieņemsim pretējo, ka...");
+            - pamata aritmētiskās vai algebriskās identitātes, kas izmantotas pārveidojumos
+            (piem., kvadrātu starpība $a^2 - b^2 = (a-b)(a+b)$ → FactoringAlgebraicExpressions).
+            
+            **Cik daudz metožu atlasīt.** Tipiski 2–5 metodes vienam uzdevumam. Olimpiāžu uzdevums
+            parasti izmanto vairākas metodes vienlaikus — piemēram, leņķu meklēšana savienota ar
+            vienādu trijstūru pazīmes lietojumu un palīglīnijas vilkšanu. Vienkāršos 5.–6. klases
+            uzdevumos var pietikt ar 1–2 metodēm; sarežģītākos 8.–9. klases uzdevumos var būt 4–6.
+            
+            **No kā izvairīties.**
+            - Neuzskaiti metodes, kas tikai netieši saistītas ar uzdevumu, bet atrisinājumā neparādās
+            (piem., ja atrisinājumā nav nevienas modulārās aritmētikas darbības, neuzskaiti
+            ModularArithmetic, pat ja teorētiski uzdevumu varētu risināt ar to).
+            - Neatlasi tādas metodes, kuru tipiskā lietojuma klase (Label apraksta "(1) No N.klases") ir
+            krietni augstāka nekā uzdevuma klase. Klase ir lasāma no virsraksta — piem.,
+            "LV.AMO.2024.7.3" norāda uz 7. klases uzdevumu. Dod priekšroku vienkāršākai metodei, ja
+            tā paskaidro atrisinājuma loģiku (piem., ParityInvariant 5.–6. klasē, nevis
+            ModularArithmetic; LastDigitAnalysis 7. klasē, nevis pilna kongruences valoda).
+            - Neuzskaiti visu metožu sarakstu — atlasi tikai tās, kas patiesi parādās atrisinājumā.
+            - Neatlasi metodi tikai tāpēc, ka atrisinājumā parādās atbilstošs jēdziens; metodei jābūt
+            spriedumu solim (piem., ja uzdevumā ir trijstūris, bet tas tiek tikai aprakstīts, nevis
+            izmantots trijstūra leņķu summa, neatlasi TriangleAngleSum).
+            
+            **Identifikatoru pieraksts.** Atbildē izmanto tieši tos Label, kas parādās metožu sarakstā.
+            Saglabā precīzu rakstību (CamelScript, bez atstarpēm).
+            
+            **Jaunas metodes pievienošana (konservatīvi).** Ja atrisinājumā ir spriedumu solis, kuram
+            nav atbilstoša Label esošajā sarakstā, drīksti pievienot **ne vairāk kā vienu** jaunu
+            metodi. Lieto šo iespēju tikai tad, ja patiešām nekas no esošā saraksta neatbilst — ne
+            pat tuvi. Ja nepieciešamais ir tikai esošās metodes specializēts variants, izvēlies esošo
+            metodi. Jaunā metode jāpieraksta ar:
+            - `label`: jauna CamelScript identifikators, kas neatkārtojas ar esošajiem;
+            - `shortDescriptionEn`: īsa (5–12 vārdi) apraksts angliski.
+            
+            **Atbildes formāts.** Atgriež **tikai** JSON objektu ar divām atslēgām:
+            (1) `methods`: Label saraksts no esošajām metodēm, kuras atrisinājumā tiek lietotas.
+                Saraksts sakārtots no būtiskākās uz mazāk būtisko (būtiskākā = bez kuras risinājums
+                neizdotos; mazāk būtiskā = palīgsolis vai tehniska identitāte).
+            (2) `newMethod`: jaunās metodes apraksts (ja nepieciešams), formātā
+                `{{"label": "<CamelScriptLabel>", "shortDescriptionEn": "<short description>"}}`,
+                vai `null`, ja jauna metode nav nepieciešama.
+            
+            Neiekļauj paskaidrojumus, komentārus vai citus laukus.
+            
+            Atbildes piemēri:
+            
+            Bez jaunas metodes:
+            ```{{"methods": ["AngleChasing", "IsoscelesTriangleProperties", "TriangleAngleSum"],
+                "newMethod": null}}```
+            
+            Ar jaunu metodi:
+            ```{{"methods": ["DivisibilityRules", "PositionalNotation"],
+                "newMethod": {{"label": "RepunitFactorization",
+                                "shortDescriptionEn": "Using factorization of repunits like 111 = 3·37 or 1001 = 7·11·13"}}}}```
+            """
+
 
     def classify_problem(self, title, problem_text, problem_solution, property):
         prompt = self.make_prompt(property, title, problem_text, problem_solution)
