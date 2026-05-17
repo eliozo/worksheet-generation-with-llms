@@ -49,7 +49,7 @@ def main():
                 client.set_reference("NA.json")
 
             # Call add_metadata directly, skipping command-line invocation
-            client.add_metadata(md_file, "hasSolutionConcept", "gpt-4o", output_file)
+            client.add_metadata(md_file, "hasSolutionConcept", "gpt-5.4", output_file)
             
 
 if __name__ == "__main__":
