@@ -418,3 +418,169 @@ class TestRealFile:
         assert p.meta_dict["topic"] == ["ArithmeticOperations"]
         assert p.meta_dict["questionType"] == ["FindExample"]
         assert p.meta_dict["domain"] == ["Comb"]
+
+
+# ===================================================================
+#  Tests for domain / _domain merging logic
+# ===================================================================
+
+# Problem has both "domain" and "_domain"; "domain" must win and "_domain" must
+# not appear as a key.
+DOMAIN_BOTH_MD = """\
+# <lo-sample/> LV.AMO.2004.8.5
+
+Problem text.
+
+<small>
+
+* questionType:FindAll
+* domain:NT
+* _domain: Comb
+
+</small>
+
+## Atrisinājums
+
+Solution text.
+"""
+
+# Only "_domain" is present; its value must be promoted to "domain".
+DOMAIN_ONLY_UNDERSCORE_MD = """\
+# <lo-sample/> LV.AMO.2004.8.1
+
+Problem text.
+
+<small>
+
+* questionType:Prove
+* _domain: Geom
+
+</small>
+
+## Atrisinājums
+
+Solution text.
+"""
+
+# Only "domain" is present; "_domain" key must not appear.
+DOMAIN_ONLY_PLAIN_MD = """\
+# <lo-sample/> LV.AMO.2004.8.2
+
+Problem text.
+
+<small>
+
+* questionType:FindAll
+* domain:Alg
+
+</small>
+
+## Atrisinājums
+
+Solution text.
+"""
+
+# Neither "domain" nor "_domain" present; neither key should appear.
+DOMAIN_NEITHER_MD = """\
+# <lo-sample/> LV.AMO.2004.8.3
+
+Problem text.
+
+<small>
+
+* questionType:Prove
+
+</small>
+
+## Atrisinājums
+
+Solution text.
+"""
+
+# Both present but "domain" is a comma-separated list; full list must be kept.
+DOMAIN_BOTH_MULTI_MD = """\
+# <lo-sample/> LV.AMO.2004.8.4
+
+Problem text.
+
+<small>
+
+* questionType:FindAll
+* domain:NT,Comb
+* _domain: Alg
+
+</small>
+
+## Atrisinājums
+
+Solution text.
+"""
+
+# Only "_domain" present and it is a comma-separated list.
+DOMAIN_UNDERSCORE_MULTI_MD = """\
+# <lo-sample/> LV.AMO.2004.8.6
+
+Problem text.
+
+<small>
+
+* questionType:FindAll
+* _domain: NT, Alg
+
+</small>
+
+## Atrisinājums
+
+Solution text.
+"""
+
+
+class TestDomainMerge:
+    """Verify that 'domain' and '_domain' are merged correctly in meta_dict."""
+
+    def _meta(self, md: str) -> dict:
+        problems = ProblemMarkdownParser.parse_text(md)
+        assert len(problems) == 1
+        return problems[0].meta_dict
+
+    def test_both_present_domain_wins(self):
+        """When both 'domain' and '_domain' exist, 'domain' value is kept."""
+        meta = self._meta(DOMAIN_BOTH_MD)
+        assert meta["domain"] == ["NT"]
+        assert "_domain" not in meta
+
+    def test_both_present_no_underscore_key(self):
+        """'_domain' key must never appear in meta_dict."""
+        meta = self._meta(DOMAIN_BOTH_MD)
+        assert "_domain" not in meta
+
+    def test_only_underscore_domain_promoted(self):
+        """When only '_domain' is present it is promoted to 'domain'."""
+        meta = self._meta(DOMAIN_ONLY_UNDERSCORE_MD)
+        assert meta["domain"] == ["Geom"]
+        assert "_domain" not in meta
+
+    def test_only_plain_domain_unchanged(self):
+        """When only 'domain' is present it is preserved as-is."""
+        meta = self._meta(DOMAIN_ONLY_PLAIN_MD)
+        assert meta["domain"] == ["Alg"]
+        assert "_domain" not in meta
+
+    def test_neither_domain_absent(self):
+        """When neither field is present, 'domain' and '_domain' are both absent."""
+        meta = self._meta(DOMAIN_NEITHER_MD)
+        assert "domain" not in meta
+        assert "_domain" not in meta
+
+    def test_both_present_multivalue_domain_wins_fully(self):
+        """When 'domain' is a comma-separated list and '_domain' also present,
+        the full 'domain' list is kept without concatenation with '_domain'."""
+        meta = self._meta(DOMAIN_BOTH_MULTI_MD)
+        assert meta["domain"] == ["NT", "Comb"]
+        assert "_domain" not in meta
+
+    def test_underscore_domain_multivalue_promoted(self):
+        """A comma-separated '_domain' list is promoted correctly to 'domain'."""
+        meta = self._meta(DOMAIN_UNDERSCORE_MULTI_MD)
+        assert meta["domain"] == ["NT", "Alg"]
+        assert "_domain" not in meta

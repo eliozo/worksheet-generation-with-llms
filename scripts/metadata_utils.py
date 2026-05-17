@@ -90,8 +90,8 @@ class MetadataUtils:
             """
         elif property == MetadataProperties.DOMAIN:
             return f"""
-            Respond only with a valid JSON object like:
-            {{"domain": "Alg"}}. Do not explain anything.
+            You are a helpful assistant. Respond only with a valid JSON  
+            object like: {{"domain": ["Alg"]}}. Do not explain anything.
             """
         elif property == MetadataProperties.HAS_SOLUTION_STRUCTURE:
             return f"""
@@ -136,7 +136,57 @@ class MetadataUtils:
             'ProveDisprove' (uzdevumi, kuros apgalvojums ir jāpierāda vai jāapgāž); 
             'Algorithm' (uzdevumi, kuros jāatrod procedūra vai spēles stratēģija).
             """
+        
+        elif property == MetadataProperties.DOMAIN:
+            return f"""
+            Atrodi matemātikas uzdevuma nozari (domain).
+            Ir 4 galvenās nozares: 
+            * Algebra - darbības ar skaitļiem (it īpaši, ja nav 
+              uzsvērts, ka skaitļi ir veseli un nav jāaplūko dalāmības 
+              attiecība un atlikumi). 
+              Arī teksta uzdevumi, kam veido algebrisku modeli. 
+            * Kombinatorika - uzdevumi par objektu skaitīšanu un izlasēm 
+              galīgās kopās. Arī algoritmu veidošana un vairums 
+              spēļu stratēģiju, ja spēles objekti tieši neattiecas uz citu nozari.  
+            * Ģeometrija - uzdevumi par plaknes un telpas figūrām, 
+              leņķiem, attālumiem, laukumiem, tilpumiem.
+              Arī figūru konfigurācijas un kombinatoriskā ģeometrija ar 
+              rūtiņām, krāsojumiem, simetriju utml.
+            * Skaitļu teorija - uzdevumi par veseliem skaitļiem. 
+              Arī uzdevumi par pierakstu decimālajā un citās skaitīšanas 
+              sistēmās un ciparu rēbusi. Veselu skaitļu spēles. 
+
+            Retos gadījumos var būt uzdevums vairākās nozarēs vienlaikus
+            (piemēram, kvadrātvienādojuma saknes kļūst par nogriežņu 
+            garumiem). Šādos gadījumos jāatgriež 
+            saraksts, piemēram: {{"domain": ["Alg", "Geom"]}}, 
+            sākot ar svarīgāko nozari. 
             
+            Uzdevuma teksts:
+
+            ```
+            {problem_text.strip()}
+            ```
+
+            Nozares apzīmē šādi:
+            'Alg' (algebra);
+            'Comb' (kombinatorika);
+            'Geom' (ģeometrija);
+            'NT' (skaitļu teorija).
+
+            Biežākais atbildes formāts:
+            {{
+                "domain": ["Alg"]
+            }}
+
+            Rets atbildes formāts, ja uzdevums būtiski pieder 2 nozarēm:
+            {{
+                "domain": ["Alg", "Comb"]
+            }}
+
+            Atbildē neiekļauj paskaidrojumus, komentārus vai citus laukus.
+            """
+
         elif property == MetadataProperties.SUBDOMAIN:
             subdomain_str = "\\n".join([item['formatted'] for item in self.subdomains])
             return f"""

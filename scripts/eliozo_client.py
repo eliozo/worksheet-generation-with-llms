@@ -187,6 +187,12 @@ class EliozoClient:
             try:
                 if prop == "questionType":
                     predicted_val = metadata_utils.classify_problem(title, clean_problem, "", MetadataProperties.QUESTION_TYPE)
+                elif prop == "domain":
+                    domain_result = metadata_utils.classify_problem(title, clean_problem, "", MetadataProperties.DOMAIN)
+                    if isinstance(domain_result, list):
+                        predicted_val = ",".join(domain_result)
+                    else:
+                        predicted_val = domain_result
                 elif prop == "subdomain":
                     predicted_value = metadata_utils.classify_problem(clean_problem, "", MetadataProperties.SUBDOMAIN)
                 elif prop == "hasSolutionStructure":

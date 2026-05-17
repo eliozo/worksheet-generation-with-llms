@@ -154,6 +154,11 @@ class ProblemMarkdownParser:
                         metadata[key].extend([v.strip() for v in values])
                     else:
                         metadata[key] = [v.strip() for v in values]
+        # Merge "_domain" into "domain": "domain" takes precedence; "_domain" is removed.
+        if '_domain' in metadata:
+            if 'domain' not in metadata or not any(metadata['domain']):
+                metadata['domain'] = metadata['_domain']
+            del metadata['_domain']
         return metadata
 
     # ------------------------------------------------------------------ #

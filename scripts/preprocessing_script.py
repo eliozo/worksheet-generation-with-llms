@@ -25,7 +25,7 @@ def main():
     client.set_command("add-metadata")
 
     # Define the base directory containing the LV.AMO directories
-    base_dir = os.path.normpath(os.path.join(script_dir, "..", "..", "math", "problembase", "LV.NOL"))
+    base_dir = os.path.normpath(os.path.join(script_dir, "..", "..", "math", "problembase", "LV.NOL2"))
     
     print(f"Searching for content_lv.md files in: {base_dir}")
     
@@ -49,7 +49,9 @@ def main():
                 client.set_reference("NA.json")
 
             # Call add_metadata directly, skipping command-line invocation
-            client.add_metadata(md_file, "hasSolutionConcept", "gpt-5.4", output_file)
+            # hasSolutionConcept; 
+            # domain
+            client.add_metadata(md_file, "domain", "gpt-5.4", output_file)
             
 
 if __name__ == "__main__":
