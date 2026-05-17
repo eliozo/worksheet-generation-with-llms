@@ -35,6 +35,7 @@ from scripts.rdfgen.csv_to_table import CsvToTable
 from scripts.rdfgen.csv_to_concepts import CsvToConcepts
 from scripts.rdfgen.csv_to_nested_table import CsvToNestedTable
 from scripts.rdfgen.csv_to_problemsru import CsvToProblemsru
+from scripts.problem_markdown_parser import ProblemMarkdownParser
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -140,135 +141,24 @@ class EliozoClient:
 
         metadata_utils = MetadataUtils(self.openai_api_key)
 
-        # Read markdown and extract tasks
-        def extract_sections_from_md(filepath):
-            heading_re = re.compile(r'^#\s+<lo-sample/>\s+(.*)')
-            current_section = None
-            sections = []
-            title = "NA"
-
-            with open(filepath, 'r', encoding='utf-8') as file:
-                for line in file:
-                    m = heading_re.match(line)
-                    if m:
-                        new_title = m.group(1)
-                        if current_section is not None:
-                            sections.append((title, current_section))
-                        title = new_title
-                        current_section = ''
-                    elif current_section is not None:
-                        current_section += line
-            if current_section:
-                sections.append((title, current_section))
-            return sections
-
-        def normalize_text(text):
-            meta_start = text.find('<small>')
-            return text[:meta_start].strip() if meta_start > 0 else text.strip()
-
-        def extract_solution(text):
-            f2 = text.find('## Atrisin')
-            f3 = text.find('## Solution')
-            if f2 >= 0:
-                return text[f2:].strip()
-            elif f3 >= 0:
-                return text[f3:].strip()
-            f1 = text.find('</small>')
-            if f1 >= 0:
-                return text[f1 + len('</small>'):].strip()
-            return ""
-
-        def add_generated_property(md_text, prop_name, generated_val):
-            small_block_re = re.compile(r'(<small>)(.*?)(</small>)', re.DOTALL)
-            match = small_block_re.search(md_text)
-            
-            # The property specific tag to check if it exists
-            check_tag = f"_{prop_name}:"
-
-            if match:
-                before_tag = match.group(1)
-                middle_block = match.group(2)
-                after_tag = match.group(3)
-
-                prop_marker = f'_{prop_name}:'
-                if prop_marker in middle_block:
-                    return md_text
-
-
-                existing_content = middle_block.strip()
-                
-                lines_to_add = []
-                if isinstance(generated_val, dict):
-                    if prop_name == "hasSolutionConcept":
-                        main_val = generated_val.get('solutionConcepts') or generated_val.get('concepts', [])
-                        rd_val = generated_val.get('readingDifficulty')
-                        
-                        if isinstance(main_val, list):
-                            val_str = ", ".join(main_val)
-                        else:
-                            val_str = str(main_val)
-                        lines_to_add.append(f"* {check_tag} {val_str}")
-                        
-                        if rd_val:
-                            lines_to_add.append(f"* _readingDifficulty: {rd_val}")
-                    else:
-                        # Handle dictionary, specifically for subdomain
-                        val_main = generated_val.get(prop_name, [])
-                        if isinstance(val_main, list):
-                            val_str = ", ".join(val_main)
-                        else:
-                            val_str = str(val_main)
-                        
-                        lines_to_add.append(f"* {check_tag} {val_str}")
-                        
-                        # Check for alternative
-                        alt_key = f"{prop_name}_alternative"
-                        alt_val = generated_val.get(alt_key)
-                        if alt_val:
-                            lines_to_add.append(f"* _{alt_key}: {alt_val}")
-                else:
-                    lines_to_add.append(f"* {check_tag} {generated_val}")
-                
-                new_str = "\n".join(lines_to_add)
-
-                if existing_content:
-                    new_content = existing_content + "\n" + new_str
-                else:
-                    new_content = new_str
-
-                updated_block = f"{before_tag}\n\n{new_content}\n\n{after_tag}"
-
-                return (
-                    md_text[:match.start()] +
-                    updated_block +
-                    md_text[match.end():]
-                )
-            else:
-                return md_text
+        parser = ProblemMarkdownParser
 
         # Read tasks from markdown
-        problemList = extract_sections_from_md(md_file)
+        problemList = parser.parse_file(md_file)
         updated_sections = []
 
         error_count = 0
         total_count = 0
         
-        for (title, full_problem) in problemList:
+        for problem in problemList:
             total_count += 1
-            clean_problem = normalize_text(full_problem)
-            solution_text = extract_solution(full_problem)
+            title = problem.title
+            full_problem = problem.full_problem
+            clean_problem = problem.problem_text
+            solution_text = problem.solution_text
 
-            # Skip processing if grade (next to last part of title) > 9
-            skip_processing = False
-            title_parts = title.split('.')
-            if len(title_parts) >= 2:
-                grade_str = title_parts[-2]
-                # Sometimes grades have suffixes or are multiple like 10_11. Let's just extract the first number part.
-                m = re.match(r'^(\d+)', grade_str)
-                if m:
-                    grade = int(m.group(1))
-                    if grade > 9:
-                        skip_processing = True
+            # Skip processing if grade > 9
+            skip_processing = problem.grade > 9
 
             if skip_processing:
                 print(f"⏩ Skipping {title} (Grade > 9)")
@@ -300,7 +190,7 @@ class EliozoClient:
                 print(f"❌ Error classifying {title}: {e}")
                 predicted_val = 'NA'
 
-            updated_problem = add_generated_property(full_problem, prop, predicted_val)
+            updated_problem = parser.add_generated_property(full_problem, prop, predicted_val)
             updated_sections.append(f"# <lo-sample/> {title}\n\n{updated_problem.strip()}\n")
 
             print(f"✅ Processed: {title} | _{prop}: {predicted_val}")

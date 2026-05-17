@@ -10,6 +10,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../e
 
 # from .webmd_utils import extract_latex, replace_placeholders, proc_markdown
 from scripts.markdown_proc.webmd_utils import extract_latex, replace_placeholders, proc_markdown
+from scripts.problem_markdown_parser import ProblemMarkdownParser
 
 import rdflib
 # from rdflib.namespace import RDF, FOAF, SKOS, XSD
@@ -74,16 +75,7 @@ def addImageToRDFGraph(g, title, image_src, image_width):
 
 
 def extract_problem(text):
-    problem_text = []
-    lines = text.split('\n')
-    for line in lines:
-        if line.startswith('# '):
-            continue
-        elif re.fullmatch(r'^\s*<small>\s*', line) or re.fullmatch(r'## .*', line):
-            break
-        else:
-            problem_text.append(line)
-    return '\n'.join(problem_text)
+    return ProblemMarkdownParser.extract_problem_body(text)
 
 
 def get_image_filename(arg):
@@ -110,40 +102,14 @@ def get_image_filename(arg):
 
 
 def extract_solution_part(text):
-    # Drop the starting portion
-    f1 = text.find('</small>')
-    f2 = text.find('## Atrisin')
-    f3 = text.find('## Solution')
-    if f1 >= 0:
-        text = text[f1 + len('</small>'):]
-    elif f2 >= 0:
-        text = text[f2:]
-    elif f3 >= 0:
-        text = text[f3:]
-    return text
+    return ProblemMarkdownParser.extract_solution(text)
 
 
 import re
 from typing import List
 
 def get_solutions(input: str) -> List[str]:
-    if not input:
-        return []
-
-    # H2 header line: "## Atrisinājums" or "## Atrisinājums-<digits>"
-    # ^ and $ are multiline anchors; we allow extra spaces after '##'.
-    header_re = re.compile(r'(?m)^##\s+(Atrisinājums|Solution)(?:-\d+)?\s*$')
-
-    matches = list(header_re.finditer(input))
-    if not matches:
-        return [input]
-
-    sections = []
-    for i, m in enumerate(matches):
-        start = m.start()
-        end = matches[i + 1].start() if i + 1 < len(matches) else len(input)
-        sections.append(input[start:end])
-    return sections
+    return ProblemMarkdownParser.get_solutions(input)
 
 
 # def extract_solutions(title, text):
@@ -225,73 +191,16 @@ def get_solutions(input: str) -> List[str]:
 
 
 def extract_metadata(text):
-    metadata = dict()
-    lines = text.split('\n')
-    meta_opened = False
-    for line in lines:
-        if re.fullmatch(r'\s*<small>\s*', line):
-            meta_opened = True
-        elif re.fullmatch(r'\s*</small>\s*', line):
-            meta_opened = False
-            break
-        elif meta_opened:
-            if line.startswith('* ['):
-                continue
-            key_val = line.split(":")
-            if len(key_val) == 2:
-                key = key_val[0]
-                if key.startswith('* '):
-                    key = key[2:]
-                values = key_val[1].split(",")
-                if key in metadata:
-                    metadata[key].extend([i.strip() for i in values])
-                else:
-                    metadata[key] = [i.strip() for i in values]
-    return metadata
+    return ProblemMarkdownParser.extract_metadata(text)
 
 
 def extract_images(text):
-    images = []
-    lines = text.split('\n')
-    image_regex = re.compile(r"^!\[.*\]\((.*)\)(\{\s*width=(\S*)\s*\})?")  # LV.AO.2000.7.1
-    for line in lines:
-        line = line.strip()
-        match_id = image_regex.match(line)
-        if match_id:
-            image_id = match_id.group(1)
-            width = ''
-            if match_id.group(3):
-                width = match_id.group(3)
-            images.append((image_id, width))
-    return images
+    return ProblemMarkdownParser.extract_images(text)
 
 
 # Read problems one by one from Markdown file "filepath"
 def extract_sections_from_md(filepath):
-    section_titles = []
-    current_section = None
-    sections = []
-    title = "NA"
-
-    heading_re = re.compile(r'^#\s+<lo-sample/>\s+(.*)')
-
-    with open(filepath, 'r', encoding='UTF-8') as file:
-        for line in file:
-            m = heading_re.match(line)
-            if m:
-                new_title = m.group(1)
-                # append the previous (title, current_section)
-                if current_section is not None:
-                    sections.append((title, current_section))
-                title = new_title
-                current_section = line
-            elif current_section is not None:
-                # before seeing the first title, we do not append anything
-                current_section += line
-    # Append the last (title, current_section)
-    if current_section:
-        sections.append((title, current_section))
-    return sections
+    return ProblemMarkdownParser.extract_sections_from_file(filepath)
 
 
 # def remove_translation_tags(text):
