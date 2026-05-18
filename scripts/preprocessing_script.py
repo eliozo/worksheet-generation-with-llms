@@ -25,7 +25,7 @@ def main():
     client.set_command("add-metadata")
 
     # Define the base directory containing the LV.AMO directories
-    base_dir = os.path.normpath(os.path.join(script_dir, "..", "..", "math", "problembase", "LV.NOL"))
+    base_dir = os.path.normpath(os.path.join(script_dir, "..", "..", "math", "problembase", "LV.AMO2"))
     
     print(f"Searching for content_lv.md files in: {base_dir}")
     
@@ -52,7 +52,7 @@ def main():
             # hasSolutionConcept; 
             # domain
             # hasReasoningMethod
-            client.add_metadata(md_file, "hasReasoningMethod", "gpt-5.4", output_file)
+            client.add_metadata(md_file, "hasReasoningMistake", "gpt-5.4", output_file)
             
 
 if __name__ == "__main__":

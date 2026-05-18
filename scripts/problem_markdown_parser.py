@@ -262,6 +262,16 @@ class ProblemMarkdownParser:
                         lines_to_add.append(f"* _newReasoningMethodLabel: {new_label}")
                     if new_desc:
                         lines_to_add.append(f"* _newReasoningMethodDescription: {new_desc}")
+            elif prop_name == "hasReasoningMistake":
+                mistakes = generated_val.get('mistakes', [])
+                if isinstance(mistakes, list):
+                    val_str = ", ".join(mistakes)
+                else:
+                    val_str = str(mistakes)
+                lines_to_add.append(f"* _hasReasoningMistake: {val_str}")
+                likelihood = generated_val.get('mistakeLikelihood')
+                if likelihood:
+                    lines_to_add.append(f"* _mistakeLikelihood: {likelihood}")
             else:
                 val_main = generated_val.get(prop_name, [])
                 if isinstance(val_main, list):

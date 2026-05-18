@@ -205,6 +205,12 @@ class EliozoClient:
                         MetadataProperties.HAS_REASONING_METHOD,
                         meta_dict=meta_dict
                     )
+                elif prop == "hasReasoningMistake":
+                    predicted_val = metadata_utils.classify_problem(
+                        title, clean_problem, solution_text,
+                        MetadataProperties.HAS_REASONING_MISTAKE,
+                        meta_dict=meta_dict
+                    )
                 else:
                     predicted_val = 'NA'
                     

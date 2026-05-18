@@ -12,6 +12,7 @@ class MetadataProperties(Enum):
     HAS_SOLUTION_STRUCTURE = "hasSolutionStructure"
     HAS_SOLUTION_CONCEPT = "hasSolutionConcept"
     HAS_REASONING_METHOD = "hasReasoningMethod"
+    HAS_REASONING_MISTAKE = "hasReasoningMistake"
     DOMAIN = "domain"
     SUBDOMAIN = "subdomain"
     CONCEPTS = "concepts"
@@ -29,6 +30,7 @@ class MetadataUtils:
         }
         self.subdomains = self._load_subdomains()
         self.reasoning_methods = self._load_reasoning_methods()
+        self.reasoning_mistakes = self._load_reasoning_mistakes()
 
     def _load_reasoning_methods(self):
         methods_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'setup', 'reasoning_methods')
@@ -48,6 +50,26 @@ class MetadataUtils:
                 print(f"Warning: could not read {filepath}: {e}")
                 result[domain_code] = ''
         return result
+
+    def _load_reasoning_mistakes(self):
+        mistakes_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'setup', 'reasoning_mistakes')
+        domain_file_map = {
+            'Alg': 'alg_reasoning_mistakes.md',
+            'Comb': 'comb_reasoning_mistakes.md',
+            'Geom': 'geom_reasoning_mistakes.md',
+            'NT': 'nt_reasoning_mistakes.md',
+        }
+        result = {}
+        for domain_code, filename in domain_file_map.items():
+            filepath = os.path.join(mistakes_dir, filename)
+            try:
+                with open(filepath, 'r', encoding='utf-8') as f:
+                    result[domain_code] = f.read()
+            except Exception as e:
+                print(f"Warning: could not read {filepath}: {e}")
+                result[domain_code] = ''
+        return result
+
 
     def _load_subdomains(self):
         subdomin_list = []
@@ -115,6 +137,12 @@ class MetadataUtils:
             return f"""
             You are a helpful assistant. Respond only with a valid JSON object like:
             {{"methods": ["MethodLabel1", "MethodLabel2"], "newMethod": null}}.
+            Do not explain anything.
+            """
+        elif property == MetadataProperties.HAS_REASONING_MISTAKE:
+            return f"""
+            You are a helpful assistant. Respond only with a valid JSON object like:
+            {{"mistakes": ["MistakeLabel1", "MistakeLabel2"], "mistakeLikelihood": <"low"|"medium"|"high">}}.
             Do not explain anything.
             """
     
@@ -429,6 +457,68 @@ class MetadataUtils:
                                 "shortDescriptionEn": "Using factorization of repunits like 111 = 3·37 or 1001 = 7·11·13"}}}}```
             """
 
+        elif property == MetadataProperties.HAS_REASONING_MISTAKE:
+            if meta_dict is None:
+                meta_dict = {}
+            domain_list = meta_dict.get('domain', [])
+            domain = domain_list[0] if domain_list else 'Comb'
+            domain_mistakes = self.reasoning_mistakes.get(domain, '')
+
+            return f"""
+            Lūdzu, identificē spriedumu un secināšanas kļūdas, kas var būt izplatītas, 
+            risinot šādu uzdevumu. Uzdevuma matemātiskā nozare ir **{domain}**.
+            
+            Uzdevums: "{title.strip()}"
+            
+            ```{problem_text.strip()}```
+            
+            Atrisinājums:
+            
+            ```{solution_text.strip()}```
+            
+            Tipisko kļūdu saraksts šai nozarei (Markdown, ar CamelScript Label, īsu nosaukumu
+            latviski un angliski, vienas rindkopas aprakstu un dažiem piemēriem):
+            
+            ```
+            {domain_mistakes.strip()}
+            ```
+            
+            ## Norādījumi atlasei
+            
+            **Ko atlasīt.** Atlasi 0-3 iespējamās kļūdas (to CamelScriptLabel sarakstu) 
+            no dotā kļūdu dokumenta, ja tās var būt izplatītas, risinot citēto uzdevumu. 
+            Ja uzdevums nemēdz novest pie "tipiskām", apspriežamām kļūdām, atgriez tukšu sarakstu 
+            ar 0 labels: `{{"mistakes": []}}`. 
+            
+            Iespējamās neuzmanības kļūdas, pārpratumi, un arī izlaistas sadaļas atrisinājumā 
+            (ja vien uzdevuma formulējums īpaši neveicina šādu izlaišanu vai atrisinājuma 
+            struktūras sajaukšanu) nav jānorāda vai jāmeklē tām label-s, 
+            jo tādas būs praktiski katrā uzdevumā.
+            
+            **Identifikatoru pieraksts.** Atbildē izmanto tos Label, kas sastopami kļūdu sarakstā.
+            Katru label raksta precīzi (CamelScript, bez atstarpēm). Sākt ar tiem Label, kuri 
+            varētu būt visizplatītākās kļūdas šim uzdevuma tipam.
+            
+            **Atrast "tipisko" kļūdu varbūtību:** Norādiet, cik lielas izredzes iegūt 
+            kādu ar "Label" apzīmēto kļūdu. Iespējamas trīs vērības: 
+
+            * "low" - "mistake" saraksts ir tukšs, vai arī uzdevums nav tipisks tur norādīto kļūdu avots.
+            * "medium" - uzdevums ir tipisks piemērs kādai kļūdai "mistake" sarakstā. 
+              Zinot par kļūdas iespējamību, viegli no tās izvairīties. 
+            * "high" - uzdevums mēdz novest pie "mistakes" saraksta kļūdām; turklāt uzdevuma nosacījumi 
+              jāinterpretē rūpīgi, lai nerastos pārpratumi.
+
+            **Atbildes formāts.** Atgriež **tikai** JSON objektu ar divām atslēgām:
+            (1) `mistakes`: Label saraksts (0-3 labels) no Markdown dokumentā dotā kļūdu saraksta.
+            (2) `mistakeLikelihood`: <"low"|"medium"|"high"> - kā aprakstīts augstāk. 
+
+            Neiekļauj paskaidrojumus, komentārus vai citus laukus.
+            Atbildes piemērs:
+            
+            ```{{"mistakes": ["IncorrectTranslationOfWordProblem", "SignFlipForgottenInInequality"],
+                "mistakeLikelihood": "medium"}}```
+            """
+
 
     def classify_problem(self, title, problem_text, problem_solution, property, meta_dict=None):
         prompt = self.make_prompt(property, title, problem_text, problem_solution, meta_dict=meta_dict)
@@ -449,6 +539,16 @@ class MetadataUtils:
         if property == MetadataProperties.HAS_SOLUTION_CONCEPT:
             if isinstance(result, str):
                 match = re.search(r'\{.*?\}', result, re.DOTALL)
+                if match:
+                    try:
+                        result = json.loads(match.group(0))
+                    except:
+                        pass
+            return result
+
+        if property == MetadataProperties.HAS_REASONING_MISTAKE:
+            if isinstance(result, str):
+                match = re.search(r'\{.*\}', result, re.DOTALL)
                 if match:
                     try:
                         result = json.loads(match.group(0))
