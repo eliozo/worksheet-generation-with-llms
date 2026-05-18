@@ -269,9 +269,9 @@ class ProblemMarkdownParser:
                 else:
                     val_str = str(mistakes)
                 lines_to_add.append(f"* _hasReasoningMistake: {val_str}")
-                likelihood = generated_val.get('mistakeLikelihood')
-                if likelihood:
-                    lines_to_add.append(f"* _mistakeLikelihood: {likelihood}")
+                mistakes_fit = generated_val.get('mistakesFit')
+                if mistakes_fit:
+                    lines_to_add.append(f"* _mistakesFit: {mistakes_fit}")
             else:
                 val_main = generated_val.get(prop_name, [])
                 if isinstance(val_main, list):

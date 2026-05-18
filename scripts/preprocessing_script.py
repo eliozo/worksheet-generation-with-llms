@@ -25,7 +25,7 @@ def main():
     client.set_command("add-metadata")
 
     # Define the base directory containing the LV.AMO directories
-    base_dir = os.path.normpath(os.path.join(script_dir, "..", "..", "math", "problembase", "LV.AMO2"))
+    base_dir = os.path.normpath(os.path.join(script_dir, "..", "..", "math", "problembase", "LV.NOL"))
     
     print(f"Searching for content_lv.md files in: {base_dir}")
     

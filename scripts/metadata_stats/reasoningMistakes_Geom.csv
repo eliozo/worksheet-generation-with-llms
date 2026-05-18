@@ -1,0 +1,15 @@
+Label,Count
+RelyingOnDiagramAppearance,193
+ProofByExampleForUniversalClaim,133
+FromSpecialToGeneral,110
+WrongAngleDecomposition,51
+UnstatedDirectionAssumption,48
+WrongTriangleSimilarityOrCongruence,45
+UpperBoundWithoutExample,44
+SkippingCaseAnalysis,36
+AreaWithoutPosition,24
+ConcludingFromZeroOrEdgeCase,19
+ConflatingPropertyAndCriterion,16
+MisuseOfMidpointOrParallel,11
+UnjustifiedAuxiliaryLineExists,10
+WrongAreaProportionality,5

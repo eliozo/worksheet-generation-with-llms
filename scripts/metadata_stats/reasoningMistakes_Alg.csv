@@ -1,0 +1,12 @@
+Label,Count
+IncorrectTranslationOfWordProblem,100
+UncheckedConsistencyOfFoundValues,80
+ConcreteToGeneralLeap,71
+CaseAnalysisIncomplete,55
+UnjustifiedCancellationOrCombination,34
+CircularReasoningOrAssumingTheConclusion,29
+WrongDirectionOfInequalityChain,29
+RootLossByDivisionByExpression,7
+MissedSolutionsWhenSquareRootOfSquare,5
+ExtraneousRootsAfterSquaring,4
+SignFlipForgottenInInequality,2

@@ -142,7 +142,7 @@ class MetadataUtils:
         elif property == MetadataProperties.HAS_REASONING_MISTAKE:
             return f"""
             You are a helpful assistant. Respond only with a valid JSON object like:
-            {{"mistakes": ["MistakeLabel1", "MistakeLabel2"], "mistakeLikelihood": <"low"|"medium"|"high">}}.
+            {{"mistakes": ["MistakeLabel1", "MistakeLabel2"], "mistakesFit": <"low"|"medium"|"high">}}.
             Do not explain anything.
             """
     
@@ -499,24 +499,25 @@ class MetadataUtils:
             Katru label raksta precīzi (CamelScript, bez atstarpēm). Sākt ar tiem Label, kuri 
             varētu būt visizplatītākās kļūdas šim uzdevuma tipam.
             
-            **Atrast "tipisko" kļūdu varbūtību:** Norādiet, cik lielas izredzes iegūt 
-            kādu ar "Label" apzīmēto kļūdu. Iespējamas trīs vērības: 
+            **Atrast "mistakesFit":** Cik tipisks piemērs ir šis uzdevuma tips kādai 
+            no "mistakes" sarakstā apzīmētajām kļūdām. Izvēlēties no 3 vērtībām: 
 
-            * "low" - "mistake" saraksts ir tukšs, vai arī uzdevums nav tipisks tur norādīto kļūdu avots.
+            * "low" - "mistakes" saraksts ir tukšs, vai arī uzdevumu parasti neuzskata par 
+              tipisku piemēru kādai no "mistakes" kļūdām. 
             * "medium" - uzdevums ir tipisks piemērs kādai kļūdai "mistake" sarakstā. 
-              Zinot par kļūdas iespējamību, viegli no tās izvairīties. 
-            * "high" - uzdevums mēdz novest pie "mistakes" saraksta kļūdām; turklāt uzdevuma nosacījumi 
-              jāinterpretē rūpīgi, lai nerastos pārpratumi.
+            * "high" - uzdevums ir tipisks piemērs kādai kļūdai "mistakes" sarakstā; 
+              bez tam var radīt arī citus uzdevuma nosacījuma pārpratumus, nepareizus 
+              spriedumus vai neatbilstošu atrisinājuma struktūru. 
 
             **Atbildes formāts.** Atgriež **tikai** JSON objektu ar divām atslēgām:
             (1) `mistakes`: Label saraksts (0-3 labels) no Markdown dokumentā dotā kļūdu saraksta.
-            (2) `mistakeLikelihood`: <"low"|"medium"|"high"> - kā aprakstīts augstāk. 
+            (2) `mistakesFit`: <"low"|"medium"|"high"> - kā aprakstīts augstāk. 
 
             Neiekļauj paskaidrojumus, komentārus vai citus laukus.
             Atbildes piemērs:
             
             ```{{"mistakes": ["IncorrectTranslationOfWordProblem", "SignFlipForgottenInInequality"],
-                "mistakeLikelihood": "medium"}}```
+                "mistakesFit": "medium"}}```
             """
 
 

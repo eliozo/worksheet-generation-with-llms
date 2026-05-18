@@ -1,0 +1,13 @@
+Label,Count
+ExampleInsteadOfProof,146
+WrongDivisibilityRule,71
+MissingBoundOrExample,52
+PrimeOnePointConfusion,36
+UnstatedNumberSetAssumption,34
+ConfusingDivisorAndMultiple,24
+IncompleteResidueCases,24
+CarelessModularComputation,23
+WrongDivisibilityDirection,23
+NonCoprimeFactorDivisibility,21
+WrongDigitSumRange,19
+FactoringWithoutIntegerCondition,6
