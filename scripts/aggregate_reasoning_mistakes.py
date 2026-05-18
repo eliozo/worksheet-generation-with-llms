@@ -5,6 +5,10 @@ Walk two problem-base directories (LV.AMO and LV.NOL), parse every
 content_lv.md file, and build per-domain count tables for the
 _hasReasoningMistake metadata label.
 
+Only the *first* entry in _hasReasoningMistake is counted per problem
+(the most important mistake).  Each count is split by _mistakesFit value
+("high", "medium", "low").
+
 Outputs (written to scripts/metadata_stats/):
   reasoningMistakes_Alg.csv   reasoningMistakes_Alg.png
   reasoningMistakes_Comb.csv  reasoningMistakes_Comb.png
@@ -12,7 +16,6 @@ Outputs (written to scripts/metadata_stats/):
   reasoningMistakes_NT.csv    reasoningMistakes_NT.png
 """
 
-import os
 import sys
 import csv
 from collections import defaultdict
@@ -40,6 +43,14 @@ PARENT_DIRS = [
 ]
 
 DOMAINS = ["Alg", "Comb", "Geom", "NT"]
+FIT_LEVELS = ["high", "medium", "low"]
+
+# Chart colours per fit level
+FIT_COLORS = {
+    "high":   "#8B0000",   # dark red
+    "medium": "#FFA500",   # amber
+    "low":    "#90EE90",   # light green
+}
 
 OUT_DIR = SCRIPTS_DIR / "metadata_stats"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -69,13 +80,22 @@ def get_domain(meta_dict):
     return first if first else None
 
 
+def get_fit(meta_dict):
+    """Return the _mistakesFit value normalised to lower-case, or None."""
+    raw = meta_dict.get("_mistakesFit")
+    if not raw:
+        return None
+    val = (raw[0] if isinstance(raw, list) else str(raw)).strip().lower()
+    return val if val in FIT_LEVELS else None
+
+
 # ---------------------------------------------------------------------------
 # Main aggregation
 # ---------------------------------------------------------------------------
 
 def aggregate():
-    # counts[domain][label] = int
-    counts = {d: defaultdict(int) for d in DOMAINS}
+    # counts[domain][label][fit_level] = int
+    counts = {d: defaultdict(lambda: defaultdict(int)) for d in DOMAINS}
     files_parsed = 0
     problems_counted = 0
     skipped_no_domain = 0
@@ -100,10 +120,14 @@ def aggregate():
                 skipped_no_mistake += 1
                 continue
 
-            for mistake in mistakes:
-                label = mistake.strip()
-                if label:
-                    counts[domain][label] += 1
+            # Only count the first (most important) mistake
+            first_label = mistakes[0].strip() if isinstance(mistakes, list) else str(mistakes).strip()
+            if not first_label:
+                skipped_no_mistake += 1
+                continue
+
+            fit = get_fit(prob.meta_dict) or "low"   # default to "low" if unset
+            counts[domain][first_label][fit] += 1
             problems_counted += 1
 
     print(f"Files parsed        : {files_parsed}")
@@ -115,51 +139,82 @@ def aggregate():
 
 
 # ---------------------------------------------------------------------------
+# Sorting key: descending high, then medium, then low
+# ---------------------------------------------------------------------------
+
+def sort_key_desc(item):
+    _label, fit_dict = item
+    return (
+        -fit_dict.get("high", 0),
+        -fit_dict.get("medium", 0),
+        -fit_dict.get("low", 0),
+    )
+
+
+# ---------------------------------------------------------------------------
 # Output: CSV
 # ---------------------------------------------------------------------------
 
-def write_csv(domain, label_counts):
+def write_csv(domain, label_fit_counts):
     out_path = OUT_DIR / f"reasoningMistakes_{domain}.csv"
-    sorted_items = sorted(label_counts.items(), key=lambda x: (-x[1], x[0]))
+    sorted_items = sorted(label_fit_counts.items(), key=sort_key_desc)
     with open(out_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        writer.writerow(["Label", "Count"])
-        for label, count in sorted_items:
-            writer.writerow([label, count])
+        writer.writerow(["Label", "HighCount", "MediumCount", "LowCount"])
+        for label, fit_dict in sorted_items:
+            writer.writerow([
+                label,
+                fit_dict.get("high", 0),
+                fit_dict.get("medium", 0),
+                fit_dict.get("low", 0),
+            ])
     print(f"Wrote {out_path}")
 
 
 # ---------------------------------------------------------------------------
-# Output: PNG bar chart (horizontal bars)
+# Output: PNG bar chart (stacked horizontal bars)
 # ---------------------------------------------------------------------------
 
-def write_chart(domain, label_counts):
-    if not label_counts:
+def write_chart(domain, label_fit_counts):
+    if not label_fit_counts:
         print(f"No data for domain={domain}, skipping chart.")
         return
 
-    sorted_items = sorted(label_counts.items(), key=lambda x: x[1])  # ascending so top = most
+    # barh draws index 0 at the bottom and the last item at the top.
+    # Sorting with reverse=True and sort_key_desc (which uses negatives) gives
+    # [lowest, ..., highest] so the highest HighCount bar ends up at the top.
+    sorted_items = sorted(label_fit_counts.items(), key=sort_key_desc, reverse=True)
+
     labels = [item[0] for item in sorted_items]
-    counts = [item[1] for item in sorted_items]
+    high_counts   = [item[1].get("high",   0) for item in sorted_items]
+    medium_counts = [item[1].get("medium", 0) for item in sorted_items]
+    low_counts    = [item[1].get("low",    0) for item in sorted_items]
+    totals        = [h + m + l for h, m, l in zip(high_counts, medium_counts, low_counts)]
 
     fig_height = max(4, len(labels) * 0.35 + 1.5)
     fig, ax = plt.subplots(figsize=(10, fig_height))
 
-    bars = ax.barh(labels, counts, color="indianred", height=0.6)
+    bars_high   = ax.barh(labels, high_counts,   color=FIT_COLORS["high"],   height=0.6,
+                          label="high")
+    bars_medium = ax.barh(labels, medium_counts, color=FIT_COLORS["medium"], height=0.6,
+                          left=high_counts, label="medium")
+    bars_low    = ax.barh(labels, low_counts,    color=FIT_COLORS["low"],    height=0.6,
+                          left=[h + m for h, m in zip(high_counts, medium_counts)],
+                          label="low")
 
     # Grid lines at multiples of 5
-    max_count = max(counts) if counts else 10
+    max_total = max(totals) if totals else 10
     step = 5
-    ax.set_xticks(range(0, max_count + step + 1, step))
+    ax.set_xticks(range(0, max_total + step + 1, step))
     ax.xaxis.grid(True, linestyle="--", linewidth=0.6, alpha=0.7)
     ax.set_axisbelow(True)
 
-    # Label value at the front of each bar (right side)
-    for bar, val in zip(bars, counts):
+    # Total count label to the right of each bar
+    for i, total in enumerate(totals):
         ax.text(
-            bar.get_width() + 0.15,
-            bar.get_y() + bar.get_height() / 2,
-            str(val),
+            total + 0.15,
+            i,
+            str(total),
             va="center",
             ha="left",
             fontsize=7,
@@ -170,6 +225,8 @@ def write_chart(domain, label_counts):
     ax.set_title(f"Reasoning Mistakes – domain: {domain}", fontsize=11)
     ax.tick_params(axis="y", labelsize=7)
     ax.tick_params(axis="x", labelsize=8)
+    ax.legend(title="_mistakesFit", fontsize=7, title_fontsize=7,
+              loc="lower right")
 
     plt.tight_layout()
     out_path = OUT_DIR / f"reasoningMistakes_{domain}.png"
