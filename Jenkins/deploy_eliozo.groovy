@@ -2,7 +2,8 @@ pipeline {
     agent any
     
     environment {
-        CONFIG_DIR = '/var/lib/jenkins/hidden_files'
+        CONFIG_DIR   = '/var/lib/jenkins/hidden_files'
+        DEPLOY_TARGET = '/home/eliozo/workspace/qualification-project/eliozoapp'
     }
    
     parameters {
@@ -63,7 +64,7 @@ pipeline {
                         """.stripIndent()
                     sh """
                     cp eliozoapp/config-remote.py eliozoapp/config.py
-                    sudo -n /usr/local/bin/deploy-eliozo '${env.WORKSPACE}/eliozoapp'
+                    sudo -n rsync -av --delete '${env.WORKSPACE}/eliozoapp/' '${env.DEPLOY_TARGET}/'
                     sudo -n systemctl restart eliozo-gunicorn
                     sudo -n systemctl reload nginx
                     """
