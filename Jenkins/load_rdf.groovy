@@ -43,6 +43,22 @@ pipeline {
             }
         }
 
+        stage('Generate metadata TTL files') {
+            steps {
+                dir("worksheet-generation-with-llms/scripts/setup") {
+                    sh "${env.PYTHON_PATH} metadata_export.py"
+                }
+            }
+        }
+
+        stage('Generate problem TTL files') {
+            steps {
+                dir("worksheet-generation-with-llms/scripts/setup") {
+                    sh "${env.PYTHON_PATH} problems_to_turtle.py"
+                }
+            }
+        }
+
         stage('Drop existing Oxigraph store') {
             steps {
                 sh 'rm -rf "$OXIGRAPH_DB_PATH"'
@@ -51,12 +67,8 @@ pipeline {
 
         stage('Load RDF into Oxigraph') {
             steps {
-                script {
-                    def resourcesDir = "${env.WORKSPACE}/worksheet-generation-with-llms/scripts/setup/resources"
-                    sh """
-                        cd qualification-project/eliozoapp
-                        ${env.PYTHON_PATH} -m eliozo_dao.load_rdf '${resourcesDir}'
-                    """
+                dir("qualification-project/eliozoapp") {
+                    sh "${env.PYTHON_PATH} -m eliozo_dao.load_rdf"
                 }
             }
         }
