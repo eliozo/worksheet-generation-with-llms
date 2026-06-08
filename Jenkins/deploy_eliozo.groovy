@@ -64,7 +64,7 @@ pipeline {
                     sh """
                     cp eliozoapp/config-remote.py eliozoapp/config.py
                     sudo -n /usr/local/bin/deploy-eliozo '${env.WORKSPACE}/eliozoapp'
-                    sudo -n systemctl restart eliozo
+                    sudo -n systemctl restart eliozo-gunicorn
                     sudo -n systemctl reload nginx
                     """
                 }
