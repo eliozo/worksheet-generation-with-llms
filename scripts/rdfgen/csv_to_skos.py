@@ -3,6 +3,7 @@ import copy
 from rdflib import Graph, Namespace, URIRef, Literal, RDF, XSD
 # from rdflib.namespace import RDF, FOAF, SKOS, XSD
 import csv
+import re
 import rdflib
 import requests
 import urllib3
@@ -20,75 +21,94 @@ def getGoogleSpreadsheet(url_spreadsheet, csv_file_name): # Funkcija, kas iegūs
     with open(csv_file_name, "wb") as file: 
         file.write(response.content)
 
+# The Google Sheets behind these exports have gained columns over time
+# (TitleEn, DescriptionEn, SeeAlso, ...) and "questions" gained a second level
+# column, so column positions cannot be hard-coded. Resolve them from the
+# header row instead, falling back to the historic fixed layout.
+LEVEL_COLUMN = re.compile(r'^L\d+$')
+
+HISTORIC_LEVEL_COUNT = {'topics': 5, 'domains': 3, 'methods': 2, 'questions': 1}
+
+
+def resolveColumns(header, class_name):
+    """Return (num_count, id_col, name_col, description_col) for this sheet."""
+    num_count = 0
+    while num_count < len(header) and LEVEL_COLUMN.match(header[num_count].strip()):
+        num_count += 1
+
+    if num_count == 0:
+        # No recognisable header - assume the original fixed layout.
+        num_count = HISTORIC_LEVEL_COUNT[class_name]
+        return num_count, num_count, num_count + 1, num_count + 2
+
+    by_name = {name.strip(): i for i, name in enumerate(header)}
+
+    def pick(names, default):
+        for name in names:
+            if name in by_name:
+                return by_name[name]
+        return default
+
+    id_col = pick(['Label'], num_count)
+    name_col = pick(['TitleLv', 'ShortNameLv', 'TitleEn'], num_count + 1)
+    description_col = pick(['DescriptionLv', 'DescriptionEn'], num_count + 2)
+    return num_count, id_col, name_col, description_col
+
+
 def readCSVfile(csv_file_name, g, class_name):
-    if class_name == 'topics':
-        num_count = 5
-        label_nums = [4,3,2,1,0]
-        num_zeroes = '0.0.0.0.0'
-    if class_name == 'domains':
-        num_count = 3
-        label_nums = [2,1,0]
-        num_zeroes = '0.0.0'
-    if class_name == 'methods':
-        num_count = 2
-        label_nums = [1,0]
-        num_zeroes = '0.0'
-    if class_name == 'questions': 
-        num_count = 1
-        label_nums = [0]
-        num_zeroes = '0'
-
-    # num_count = 5 if class_name == 'topic' else 2
-    # label_nums = [4,3,2,1,0] if class_name == 'topic' else [1,0]
-    # num_zeroes = '0.0.0.0.0' if class_name == 'topic' else '0.0'
-
-    # result = []
-    label_dictionary = dict()
-    with open(csv_file_name, 'r',  encoding='utf-8') as file:
+    with open(csv_file_name, 'r', encoding='utf-8') as file:
         csv_data = list(csv.reader(file, delimiter=','))
-        
-    line_count = 0
-    for row in csv_data:
-        line_count += 1
+
+    if not csv_data:
+        print(f'WARNING: {csv_file_name} is empty')
+        return
+
+    num_count, id_col, name_col, description_col = resolveColumns(csv_data[0], class_name)
+    label_nums = list(reversed(range(num_count)))
+    num_zeroes = '.'.join(['0'] * num_count)
+
+    # Two passes: the rows are not guaranteed to list a parent before its
+    # children, so collect every numeric id -> label first.
+    label_dictionary = dict()
+    for line_count, row in enumerate(csv_data, start=1):
+        if line_count == 1:
+            continue
+        try:
+            topic_numeric_id = [int(i) for i in row[0:num_count]]
+        except Exception:
+            continue
+        label_dictionary['.'.join([str(i) for i in topic_numeric_id])] = row[id_col]
+
+    for line_count, row in enumerate(csv_data, start=1):
         if line_count == 1:
             continue
         try:
             topic_numeric_id = [int(i) for i in row[0:num_count]]
         except Exception as e:
             print(f"Error processing line {line_count}: {e}")
-        last_non_zero = 0
+            continue
 
-        for nnum in label_nums: 
+        last_non_zero = 0
+        for nnum in label_nums:
             if topic_numeric_id[nnum] != 0:
                 last_non_zero = nnum
                 break
 
-        # if topic_numeric_id[4] != 0:
-        #     last_non_zero = 4
-        # elif topic_numeric_id[3] != 0:
-        #     last_non_zero = 3
-        # elif topic_numeric_id[2] != 0:
-        #     last_non_zero = 2
-        # elif topic_numeric_id[1] != 0:
-        #     last_non_zero = 1
-        # elif topic_numeric_id[0] != 0:
-        #     last_non_zero = 0
-
-        topic_id = row[num_count + 0]
-        topic_prefLabel = row[num_count + 0]
-        topic_name = row[num_count + 1]
-        topic_description = row[num_count + 2]
+        topic_id = row[id_col]
+        topic_prefLabel = row[id_col]
+        topic_name = row[name_col]
+        topic_description = row[description_col]
         current_label = '.'.join([str(i) for i in topic_numeric_id])
-        label_dictionary[current_label] = topic_id
         parent_topic_id = copy.copy(topic_numeric_id)
-        # print(f'parent_topic_id = {parent_topic_id}, last_non_zero = {last_non_zero}')
         parent_topic_id[last_non_zero] = 0
         parent_id_str = '.'.join([str(i) for i in parent_topic_id])
         if parent_id_str == num_zeroes:
             parent_label = ''
         else:
-            # print(f'current_label = {current_label}, parent_id_str = {parent_id_str}, topic_id = {topic_id}, last_non_zero = {last_non_zero}')
-            parent_label = label_dictionary[parent_id_str]
+            parent_label = label_dictionary.get(parent_id_str, '')
+            if parent_label == '':
+                print(f"WARNING: line {line_count} ({current_label} = {topic_id}) "
+                      f"has no parent row {parent_id_str}; skipping broader/narrower")
 
         addToRdfGraph(g,
                         class_name,
@@ -98,7 +118,8 @@ def readCSVfile(csv_file_name, g, class_name):
                         topic_prefLabel,
                         topic_name,
                         parent_label)
-	
+
+
 # topicDescription ir string mainīgais, kurā glabājas RDF objekta vērtība
 def addToRdfGraph(g, class_name, numeric_id, topicID, topicDescription, prefLabel, topicName, parentTopicID):
     
@@ -155,15 +176,12 @@ def addToRdfGraph(g, class_name, numeric_id, topicID, topicDescription, prefLabe
     g.add((topicNode, topic_rdf_type_property, rdflib.URIRef(eliozo_ns+propNames[class_name]['class'])))
     g.add((topicNode, topic_numeric_id_property, rdflib.term.Literal(numeric_id)))
     # Add levels L1, L2 (possibly also L3-L5) as integers
+    sorter_properties = [topic_sorter_l1_property, topic_sorter_l2_property,
+                         topic_sorter_l3_property, topic_sorter_l4_property,
+                         topic_sorter_l5_property]
     sorters = [int(num) for num in numeric_id.split(".")]
-    g.add((topicNode, topic_sorter_l1_property, rdflib.term.Literal(sorters[0], datatype=XSD.integer)))
-    if class_name in ['methods', 'domains', 'topics']:
-        g.add((topicNode, topic_sorter_l2_property, rdflib.term.Literal(sorters[1], datatype=XSD.integer)))
-    if class_name in ['domains', 'topics']:
-        g.add((topicNode, topic_sorter_l3_property, rdflib.term.Literal(sorters[2], datatype=XSD.integer)))
-    if class_name == 'topics':
-        g.add((topicNode, topic_sorter_l4_property, rdflib.term.Literal(sorters[3], datatype=XSD.integer)))
-        g.add((topicNode, topic_sorter_l5_property, rdflib.term.Literal(sorters[4], datatype=XSD.integer)))
+    for level, value in enumerate(sorters[:len(sorter_properties)]):
+        g.add((topicNode, sorter_properties[level], rdflib.term.Literal(value, datatype=XSD.integer)))
     g.add((topicNode, topic_prefLabel_property, rdflib.term.Literal(prefLabel)))
     if parentTopicID != '':
         parent_topic_node = rdflib.URIRef(eliozo_ns+parentTopicID)

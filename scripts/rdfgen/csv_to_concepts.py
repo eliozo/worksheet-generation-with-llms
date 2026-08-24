@@ -22,11 +22,12 @@ def getGoogleSpreadsheet(URL, outpath):
 
 
 # skillDescription ir string mainīgais, kurā glabājas RDF objekta vērtība
-def addToRdfGraph(g, conceptID, termLV, descLV):
+def addToRdfGraph(g, conceptID, termLV, descLV, termEN=None):
     rdf_type_property = rdflib.URIRef(RDF_NS + 'type')
     topic_node = rdflib.URIRef(eliozo_ns + "TRM-" + conceptID)
     g.add((topic_node, rdf_type_property, rdflib.URIRef(eliozo_ns + "Concept")))
-    termEN = conceptID.replace("-", " ")
+    if not termEN:
+        termEN = conceptID.replace("-", " ")
     termEN_property = rdflib.URIRef(eliozo_ns + 'termEN')
     termLV_property = rdflib.URIRef(eliozo_ns + 'termLV')
     descLV_property = rdflib.URIRef(eliozo_ns + 'descLV')
@@ -37,24 +38,45 @@ def addToRdfGraph(g, conceptID, termLV, descLV):
     if descLV and descLV != "" and descLV != "NA":
         g.add((topic_node, descLV_property, rdflib.term.Literal(descLV, lang=u'lv')))
 
+
+def resolveColumns(header):
+    """Return (id_col, termLV_col, descLV_col, termEN_col) for this sheet.
+
+    The original sheet was a bare "en,lv,skaidrojums" triple. The current one
+    is a full metadata tab (L1,L2,Label,TitleLv,TitleEn,DescriptionLv,...), so
+    resolve the columns by header name and fall back to the old fixed layout.
+    """
+    by_name = {name.strip(): i for i, name in enumerate(header)}
+    if 'Label' not in by_name:
+        return 0, 1, 2, None
+    return (by_name['Label'],
+            by_name.get('TitleLv', by_name.get('lv', 1)),
+            by_name.get('DescriptionLv', 2),
+            by_name.get('TitleEn'))
+
+
 def produceCSVtoRDF(in_file, out_file):
     g = rdflib.Graph()
     g.bind("skos", SKOS)
     g.bind("eliozo", eliozo_ns)
-    line_count = 0
     with open(in_file, 'r', encoding='utf-8') as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
-        for row in csv_reader:
-            line_count += 1
-            if line_count == 1:
-                # skip header
-                continue
-            elif row[0] == '':
-                print(f'WARNING: empty concept on line {line_count}')
-                continue
-            else:
-                # print(f'"{row[0]}" --> "{row[1]}"')
-                addToRdfGraph(g, row[0], row[1], row[2])
+        csv_data = list(csv.reader(csv_file, delimiter=','))
+
+    if not csv_data:
+        print(f'WARNING: {in_file} is empty')
+        return
+
+    id_col, termLV_col, descLV_col, termEN_col = resolveColumns(csv_data[0])
+
+    for line_count, row in enumerate(csv_data, start=1):
+        if line_count == 1:
+            # skip header
+            continue
+        if len(row) <= descLV_col or row[id_col] == '':
+            print(f'WARNING: empty concept on line {line_count}')
+            continue
+        termEN = row[termEN_col] if termEN_col is not None and len(row) > termEN_col else None
+        addToRdfGraph(g, row[id_col], row[termLV_col], row[descLV_col], termEN)
     g.serialize(destination=out_file)
 
 # if __name__ == '__main__':
