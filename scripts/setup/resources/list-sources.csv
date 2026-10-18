@@ -23,6 +23,14 @@ eliozo:SRC_PL_EDU_SEM,sourceNameLv,Polijas matemātiskās izglītības biedrība
 eliozo:SRC_PL_EDU_SEM,sourceDescriptionEn,Archive of the Polish Mathematical Olympiad with problem statements and official solutions for stages 1 to 3
 eliozo:SRC_PL_EDU_SEM,sourceDescriptionLt,Lenkijos matematikos olimpiados archyvas: 1-3 etapų uždavinių tekstai ir oficialūs sprendimai
 eliozo:SRC_PL_EDU_SEM,sourceDescriptionLv,Polijas Matemātikas olimpiādes arhīvs: 1-3 posmu uzdevumu teksti un oficiālie risinājumi
+eliozo:SRC_PL_EDU_OMJ,url,https://omj.edu.pl/
+eliozo:SRC_PL_EDU_OMJ,label,PL_EDU_OMJ
+eliozo:SRC_PL_EDU_OMJ,sourceNameEn,Polish Junior Mathematical Olympiad
+eliozo:SRC_PL_EDU_OMJ,sourceNameLt,Lenkijos jaunių matematikos olimpiada
+eliozo:SRC_PL_EDU_OMJ,sourceNameLv,Polijas Junioru matemātikas olimpiāde
+eliozo:SRC_PL_EDU_OMJ,sourceDescriptionEn,Archive of the Polish Junior Mathematical Olympiad with problem statements and official solutions for stages 1 to 3.
+eliozo:SRC_PL_EDU_OMJ,sourceDescriptionLt,Lenkijos jaunių matematikos olimpiados archyvas: 1–3 etapų uždavinių tekstai ir oficialūs sprendimai.
+eliozo:SRC_PL_EDU_OMJ,sourceDescriptionLv,Polijas Junioru matemātikas olimpiādes arhīvs: 1.–3. posma uzdevumu teksti un oficiālie risinājumi.
 eliozo:SRC_LT_VU_MIF,url,https://mif.vu.lt/matematikos-olimpiados/
 eliozo:SRC_LT_VU_MIF,label,LT_VU_MIF
 eliozo:SRC_LT_VU_MIF,sourceNameEn,Lithuanian Mathematical Olympiads
