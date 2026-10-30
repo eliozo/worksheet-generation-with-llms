@@ -36,6 +36,7 @@ def getMarkdownFile(URL, content_file_name, file_suffix, directory): # Funkcija,
     URL = URL.replace('github.com','raw.githubusercontent.com')
     URL = URL + '/' + content_file_name + '.md'
     URL = URL.replace('/tree', '')
+    URL = URL.replace('/blob', '')  # some spreadsheet rows use .../blob/master/... links
     print(f'Getting markdown: {URL}')
     response = requests.get(URL)
     with open(os.path.join(directory, file_suffix+'-'+content_file_name + '.md'), "wb") as file: 
