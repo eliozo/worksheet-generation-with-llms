@@ -49,11 +49,16 @@ def add_problem_topiclike_prop(g, problem_node, key, value):
     value_resource = rdflib.URIRef(eliozo_ns + value)
     g.add((problem_node, problem_property, value_resource))
 
+# The solution numbered i (from its "## Atrisinājums-i" / "## Solution-i" heading)
+# becomes the resource SOLN.{title}.SUB{i}; the Latvian and English texts of the
+# same solution are two language-tagged literals on that one resource.
 def addSolutionToRdfProblem(g, title, i, solution_text, theLang):
     problem_node = rdflib.URIRef(eliozo_ns + title)  # subjekts
-    solution_node = rdflib.URIRef(eliozo_ns + f"SOLN.{title}.SUB{i}")
+    solution_id = f"SOLN.{title}.SUB{i}"
+    solution_node = rdflib.URIRef(eliozo_ns + solution_id)
     problem_rdf_property = rdflib.URIRef(RDF_NS + 'type')
     g.add((solution_node, problem_rdf_property, rdflib.URIRef(eliozo_ns + "Solution")))
+    add_problem_literal_prop(g, solution_node, 'solutionID', solution_id)
     add_problem_literal_prop_lang(g, solution_node, 'solutionText', solution_text, theLang)
     add_problem_integer_prop(g, solution_node, 'solutionNum', i)
     add_problem_literal_prop_lang(g, solution_node, 'solutionTextHtml',
@@ -110,6 +115,9 @@ from typing import List
 
 def get_solutions(input: str) -> List[str]:
     return ProblemMarkdownParser.get_solutions(input)
+
+def get_solution_number(solution: str):
+    return ProblemMarkdownParser.get_solution_number(solution)
 
 
 # def extract_solutions(title, text):
@@ -446,9 +454,10 @@ def markdown_md_to_turtle(md_file_path, ttl_file_path, lang_code, is_master):
 
         solutions = get_solutions(solution_part)
 
-        for i, soln_text in enumerate(solutions):
+        for i, soln_text in enumerate(solutions, start=1):
             soln_text = soln_text.strip()
-            addSolutionToRdfProblem(g, title, i, soln_text, lang_code)
+            soln_num = get_solution_number(soln_text) or i
+            addSolutionToRdfProblem(g, title, soln_num, soln_text, lang_code)
 
         # solutions = extract_solutions(title,solution_part)
 

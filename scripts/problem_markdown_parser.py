@@ -108,13 +108,16 @@ class ProblemMarkdownParser:
             return text[f1 + len('</small>'):].strip()
         return ""
 
+    # Solution headings: "## Atrisinājums-1", "## Solution-2", ... (older files
+    # may still have an unnumbered "## Atrisinājums" / "## Solution").
+    SOLUTION_HEADER_RE = re.compile(r'(?m)^##\s+(?:Atrisinājums|Solution)(?:-(\d+))?\s*$')
+
     @staticmethod
     def get_solutions(text: str) -> List[str]:
         """Split the solution portion into individual solution blocks."""
         if not text:
             return []
-        header_re = re.compile(r'(?m)^##\s+(Atrisinājums|Solution)(?:-\d+)?\s*$')
-        matches = list(header_re.finditer(text))
+        matches = list(ProblemMarkdownParser.SOLUTION_HEADER_RE.finditer(text))
         if not matches:
             return [text] if text.strip() else []
         sections = []
@@ -123,6 +126,12 @@ class ProblemMarkdownParser:
             end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
             sections.append(text[start:end])
         return sections
+
+    @staticmethod
+    def get_solution_number(solution: str) -> Optional[int]:
+        """Return N from a solution block starting with "## Atrisinājums-N" / "## Solution-N", else None."""
+        m = ProblemMarkdownParser.SOLUTION_HEADER_RE.match(solution.lstrip())
+        return int(m.group(1)) if m and m.group(1) else None
 
     # ------------------------------------------------------------------ #
     #  Metadata extraction
