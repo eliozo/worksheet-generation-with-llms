@@ -29,10 +29,12 @@ from scripts.openai_utils import normalize_openai_provider
 from scripts.openai_function_agent import OpenaiFunctionAgent
 from scripts.metadata_utils import MetadataUtils
 from scripts.metadata_utils import MetadataProperties
+from scripts.metadata_utils import ADD_METADATA_PROPERTIES
 from scripts.adapt_utils import AdaptExtension, AdaptUtils
 from scripts.markdown_proc.convert_to_ttl_main import markdown_repository_to_turtle, crawl_markdown_problemdata
 from scripts.markdown_proc.mdchunk_reader import markdown_md_to_turtle
 from scripts.markdown_proc.merge_directories import try_merge_directory, resolve_directories
+from scripts.markdown_proc.clean_metadata import clean_metadata
 
 from scripts.rdfgen.csv_to_skos import CsvToSkos
 from scripts.rdfgen.csv_to_table import CsvToTable
@@ -510,6 +512,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
 
     cmd_h = {
         'add-metadata': 'Add a machine-generated metadata property to a markdown file',
+        'add-metadata-list-properties': 'List the properties that add-metadata can generate',
         'md-to-turtle': 'Convert a markdown file to RDF Turtle',
         'md-repository-to-turtle': 'Convert all problems to RDF Turtle',
         'metadata-to-turtle': 'Download ELIOZO classifiers from Google docs to Turtle',
@@ -533,7 +536,8 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         'adapt-worksheet': 'Evaluate prototype; create structured feedback',
         'convert-worksheet': 'Convert worksheet to MS Word or PDF',
         'weaviate-info': 'Display information about Weaviate client and configuration',
-        'merge-directories': 'Merge content_lv2.md into content_lv.md when only allowed properties differ'
+        'merge-directories': 'Merge content_lv2.md into content_lv.md when only allowed properties differ',
+        'clean-metadata': 'Remove _property lines duplicating property lines; report mismatches'
     }
             
     HELP_REFERENCE = 'JSON file accumulating cmd status (defaults to task.json)'
@@ -541,7 +545,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
     arg_h = {
         'add-metadata': {
             'markdown': 'A markdown file to be processed',
-            'property': 'Which Eliozo ontology property should be added',
+            'property': 'Which Eliozo ontology property should be added (see add-metadata-list-properties)',
             '--output' : 'Location to place Markdown with added metadata',
             '--mode': 'What input is used for classification',
             '--provider': 'Which OpenAI model to use; defaults to gpt-5.4-mini if omitted or invalid',
@@ -684,6 +688,11 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         'merge-directories': {
             'directory': 'Directory path or glob (e.g. dirname or dirname/*)',
             'properties': 'Comma-separated list of metadata properties allowed as extras in content_lv2.md'
+        },
+
+        'clean-metadata': {
+            'directory': 'Parent directory with content_xx.md files to clean (visited recursively)',
+            '--reference': HELP_REFERENCE
         }
     }
 
@@ -698,6 +707,9 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
     add_metadata_parser.add_argument('--mode', type=str, help=arg_h['add-metadata']['--mode'])    
     add_metadata_parser.add_argument('--provider', type=str, default=None, help=arg_h['add-metadata']['--provider'])
     add_metadata_parser.add_argument('--reference', type=str, default=None, help=arg_h['add-metadata']['--reference'])
+
+    list_properties_parser = subparsers.add_parser('add-metadata-list-properties', help=cmd_h['add-metadata-list-properties'])
+    list_properties_parser.add_argument('--reference', type=str, default=None, help=HELP_REFERENCE)
 
     md_to_turtle_parser = subparsers.add_parser('md-to-turtle', help=cmd_h['md-to-turtle'])
     md_to_turtle_parser.add_argument('markdown', type=str, help=arg_h['md-to-turtle']['markdown'])
@@ -814,6 +826,10 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
     merge_directories_parser.add_argument('properties', type=str, help=arg_h['merge-directories']['properties'])
     merge_directories_parser.add_argument('--reference', type=str, default=None, help=HELP_REFERENCE)
 
+    clean_metadata_parser = subparsers.add_parser('clean-metadata', help=cmd_h['clean-metadata'])
+    clean_metadata_parser.add_argument('directory', type=str, help=arg_h['clean-metadata']['directory'])
+    clean_metadata_parser.add_argument('--reference', type=str, default=None, help=arg_h['clean-metadata']['--reference'])
+
 
     args = parser.parse_args()
 
@@ -834,7 +850,19 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         if args.output == None:
             print("--output is mandatory for add-metadata")
             sys.exit(1)
+        if args.property not in {p.value for p in ADD_METADATA_PROPERTIES}:
+            print(f"Unsupported property '{args.property}'; "
+                  "run 'python eliozo_client.py add-metadata-list-properties' to see the supported ones")
+            sys.exit(1)
         (retvalue, data) = eliozo_client.add_metadata(args.markdown, args.property, provider, args.output)
+
+    elif args.command == 'add-metadata-list-properties':
+        width = max(len(p.value) for p in ADD_METADATA_PROPERTIES)
+        print('Properties supported by "eliozo_client.py add-metadata <markdown> <property>":')
+        for prop, description in ADD_METADATA_PROPERTIES.items():
+            print(f'  {prop.value:{width}}  {description}')
+        retvalue = 0
+        data = None
 
     elif args.command == 'md-to-turtle':
         (retvalue, data) = eliozo_client.md_to_turtle(args.markdown, args.turtle, args.langcode, args.master_flag)
@@ -966,12 +994,20 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
         retvalue = 0
         data = None
 
+    elif args.command == 'clean-metadata':
+        if not os.path.isdir(args.directory):
+            print(f"Not a directory: {args.directory}")
+            sys.exit(1)
+        clean_metadata(args.directory)
+        retvalue = 0
+        data = None
+
     else:
         parser.print_help()
         print(f"Invalid Parameters: Command name '{args.command}' not supported.")
         sys.exit(3)
 
-    if args.command in ('weaviate-info', 'merge-directories'):
+    if args.command in ('weaviate-info', 'merge-directories', 'add-metadata-list-properties', 'clean-metadata'):
         pass 
     elif args.command in ['add-metadata', 'md-to-turtle', 'md-repository-to-turtle', 
                         'metadata-to-turtle', 'drop-rdf', 'create-rdf-dataset', 

@@ -20,6 +20,24 @@ class MetadataProperties(Enum):
     METHOD = "method"
     COMPLEXITY = "complexity"
 
+
+# Properties that "eliozo_client.py add-metadata" can generate, with what each
+# one means and what the LLM classifies it from.
+ADD_METADATA_PROPERTIES = {
+    MetadataProperties.QUESTION_TYPE:
+        'Question type, e.g. Prove, FindAll, FindOptimal (from the problem text)',
+    MetadataProperties.DOMAIN:
+        'Mathematical domain(s): Alg, Comb, Geom, NT (from the problem text)',
+    MetadataProperties.HAS_SOLUTION_STRUCTURE:
+        'Structure of the expected solution, e.g. eliozo:FindAll (from the problem text)',
+    MetadataProperties.HAS_SOLUTION_CONCEPT:
+        'Concepts used in the solution, and its reading difficulty (from the problem and solution)',
+    MetadataProperties.HAS_REASONING_METHOD:
+        'Reasoning methods used in the solution (from the problem, solution and its domain)',
+    MetadataProperties.HAS_REASONING_MISTAKE:
+        'Typical reasoning mistakes for the problem (from the problem, solution and its domain)',
+}
+
 class MetadataUtils:
     def __init__(self, openai_api_key, provider=None): 
         self.openai_api_key = openai_api_key
