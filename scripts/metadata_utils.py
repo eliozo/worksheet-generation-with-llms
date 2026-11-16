@@ -4,6 +4,7 @@ import re
 import json
 import requests
 import time
+import yaml
 from enum import Enum
 from scripts.openai_utils import OpenaiUtils
 
@@ -38,6 +39,22 @@ ADD_METADATA_PROPERTIES = {
         'Typical reasoning mistakes for the problem (from the problem, solution and its domain)',
 }
 
+# Prompts and system instructions, one entry per property (see the file's header)
+PROMPTS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'metadata_utils.yaml')
+PLACEHOLDER_RE = re.compile(r'\{(\w+)\}')
+
+
+def load_prompts(path=PROMPTS_FILE):
+    with open(path, 'r', encoding='utf-8') as f:
+        return yaml.safe_load(f)
+
+
+def fill_placeholders(template, values):
+    """Replace {name} for the names in *values*, in one pass (inserted texts are not
+    scanned again); all other braces stay as they are."""
+    return PLACEHOLDER_RE.sub(lambda m: values.get(m.group(1), m.group(0)), template)
+
+
 class MetadataUtils:
     def __init__(self, openai_api_key, provider=None): 
         self.openai_api_key = openai_api_key
@@ -47,6 +64,8 @@ class MetadataUtils:
             'Authorization': f'Bearer {openai_api_key}'
         }
         self.subdomains = self._load_subdomains()
+        self.question_types = self._load_question_types()
+        self.prompts = load_prompts()
         self.reasoning_methods = self._load_reasoning_methods()
         self.reasoning_mistakes = self._load_reasoning_mistakes()
 
@@ -89,6 +108,27 @@ class MetadataUtils:
         return result
 
 
+    def _load_question_types(self):
+        """The questionType values to choose from: the QTY_ leaves (L2 != 0) of questionTypes2.csv."""
+        csv_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'setup', 'resources', 'questionTypes2.csv')
+        import csv
+        with open(csv_path, 'r', encoding='utf-8') as f:
+            return [row for row in csv.DictReader(f)
+                    if row['Label'].startswith('QTY_') and row['L2'].strip() not in ('', '0')]
+
+    def _question_types_text(self):
+        """The question type vocabulary for the prompt, in Latvian."""
+        parts = []
+        for row in self.question_types:
+            lines = [f"* {row['Label']} – {row['TitleLv']}",
+                     f"  Kanoniskais jautājums: {row['QuestionLv']}"]
+            if row['OtherQuestionsLv'].strip():
+                lines.append(f"  Citi tipiski formulējumi: {row['OtherQuestionsLv']}")
+            lines.append(f"  Nepieciešamās atrisinājuma daļas: {row['RequiredPartsLv']}")
+            lines.append(f"  Apraksts: {row['DescriptionLv']}")
+            parts.append("\n".join(lines))
+        return "\n\n".join(parts)
+
     def _load_subdomains(self):
         subdomin_list = []
         csv_path = os.path.join(os.path.dirname(__file__), 'setup/resources/skos-domains.csv')
@@ -123,421 +163,49 @@ class MetadataUtils:
         return subdomin_list
 
     def make_sys_instructions(self, property):
-        if property == MetadataProperties.QUESTION_TYPE:
-            return f"""
-            Respond only with a valid JSON object like:
-            {{"uzdevuma_tips": "Prove"}}. Do not explain anything.
-            """
-        elif property == MetadataProperties.DOMAIN:
-            return f"""
-            You are a helpful assistant. Respond only with a valid JSON  
-            object like: {{"domain": ["Alg"]}}. Do not explain anything.
-            """
-        elif property == MetadataProperties.HAS_SOLUTION_STRUCTURE:
-            return f"""
-            You are a helpful assistant. Respond only with a valid JSON object like:
-            {{"hasSolutionStructure": "eliozo:FindAll"}}. Do not explain anything.
-            """
-        elif property == MetadataProperties.HAS_SOLUTION_CONCEPT:
-            return f"""
-            You are a helpful assistant. Respond only with a valid JSON object like:
-            {{"solutionConcepts": ["PrimeNumbers", "DivisibilityRelation", "ParityInvariant"], 
-            "readingDifficulty": <"low"|"medium"|"high"> }}.
-            Do not explain anything.
-            """
-        elif property == MetadataProperties.SUBDOMAIN:
-            return f"""
-            Respond only with a valid JSON object like:
-            {{"subdomain": ["DOM_Inequalities"], "subdomain_alternative": "My_Label"}}. 
-            Do not append any additional text to the JSON object.
-            """
-        elif property == MetadataProperties.HAS_REASONING_METHOD:
-            return f"""
-            You are a helpful assistant. Respond only with a valid JSON object like:
-            {{"methods": ["MethodLabel1", "MethodLabel2"], "newMethod": null}}.
-            Do not explain anything.
-            """
-        elif property == MetadataProperties.HAS_REASONING_MISTAKE:
-            return f"""
-            You are a helpful assistant. Respond only with a valid JSON object like:
-            {{"mistakes": ["MistakeLabel1", "MistakeLabel2"], "mistakesFit": <"low"|"medium"|"high">}}.
-            Do not explain anything.
-            """
-    
+        entry = self.prompts.get(property.value)
+        return entry['system'] if entry else None
+
     def make_prompt(self, property, title, problem_text, solution_text="", meta_dict=None):
+        """The user message for *property*: its template in metadata_utils.yaml with the placeholders filled in."""
+        entry = self.prompts.get(property.value)
+        if not entry:
+            return None
+        values = {
+            'problem_text': problem_text.strip(),
+            'solution_text': solution_text.strip(),
+            'title': title.strip(),
+        }
         if property == MetadataProperties.QUESTION_TYPE:
-            return f"""
-            Atrodi matemātikas uzdevuma tipu.
-            Atbildi **tikai** ar JSON formātā: {{"uzdevuma_tips": "..."}}.
-            Uzdevuma nosaukums:
-
-            {problem_text.strip()}
-
-            Iespējamie jautājumu tipi ir:
-            'FindAll' (uzdevumi, kuros jāatrod visi atrisinājumi);
-            'FindCount' (uzdevumi, kuros jāsaskaita cik iespēju vai atrisinājumu skaits); 
-            'FindOptimal' (uzdevumi, kuros jāatrod maksimālais vai minimālais risinājums); 
-            'FindExample' (uzdevumi, kuros jāatrod 1 piemērs vai pretpiemērs); 
-            'Prove' (uzdevumi, kuros jāpierāda apgalvojums); 
-            'ProveDisprove' (uzdevumi, kuros apgalvojums ir jāpierāda vai jāapgāž); 
-            'Algorithm' (uzdevumi, kuros jāatrod procedūra vai spēles stratēģija).
-            """
-        
-        elif property == MetadataProperties.DOMAIN:
-            return f"""
-            Atrodi matemātikas uzdevuma nozari (domain).
-            Ir 4 galvenās nozares: 
-            * Algebra - darbības ar skaitļiem (it īpaši, ja nav 
-              uzsvērts, ka skaitļi ir veseli un nav jāaplūko dalāmības 
-              attiecība un atlikumi). 
-              Arī teksta uzdevumi, kam veido algebrisku modeli. 
-            * Kombinatorika - uzdevumi par objektu skaitīšanu un izlasēm 
-              galīgās kopās. Arī algoritmu veidošana un vairums 
-              spēļu stratēģiju, ja spēles objekti tieši neattiecas uz citu nozari.  
-            * Ģeometrija - uzdevumi par plaknes un telpas figūrām, 
-              leņķiem, attālumiem, laukumiem, tilpumiem.
-              Arī figūru konfigurācijas un kombinatoriskā ģeometrija ar 
-              rūtiņām, krāsojumiem, simetriju utml.
-            * Skaitļu teorija - uzdevumi par veseliem skaitļiem. 
-              Arī uzdevumi par pierakstu decimālajā un citās skaitīšanas 
-              sistēmās un ciparu rēbusi. Veselu skaitļu spēles. 
-
-            Retos gadījumos var būt uzdevums vairākās nozarēs vienlaikus
-            (piemēram, kvadrātvienādojuma saknes kļūst par nogriežņu 
-            garumiem). Šādos gadījumos jāatgriež 
-            saraksts, piemēram: {{"domain": ["Alg", "Geom"]}}, 
-            sākot ar svarīgāko nozari. 
-            
-            Uzdevuma teksts:
-
-            ```
-            {problem_text.strip()}
-            ```
-
-            Nozares apzīmē šādi:
-            'Alg' (algebra);
-            'Comb' (kombinatorika);
-            'Geom' (ģeometrija);
-            'NT' (skaitļu teorija).
-
-            Biežākais atbildes formāts:
-            {{
-                "domain": ["Alg"]
-            }}
-
-            Rets atbildes formāts, ja uzdevums būtiski pieder 2 nozarēm:
-            {{
-                "domain": ["Alg", "Comb"]
-            }}
-
-            Atbildē neiekļauj paskaidrojumus, komentārus vai citus laukus.
-            """
-
+            values['question_types'] = self._question_types_text()
         elif property == MetadataProperties.SUBDOMAIN:
-            subdomain_str = "\\n".join([item['formatted'] for item in self.subdomains])
-            return f"""
-            Atrodi uzdevumam atbilstošāko apakšnozari (subdomain).
-            
-            1. Atbildi **tikai** ar JSON formātā.
-            2. "subdomain" laukā ievieto sarakstu (array) ar vienu vai vairākām atbilstošām 
-               apakšnozarēm no saraksta. Gandrīz vienmēr (95% gadījumu) ir tikai viena vērtība, bet dažreiz uzdevuma 
-               teksts var atbilst 2 apakšnozarēm.
-            3. Retos gadījumos, kad esošās apakšnozares neapraksta uzdevumu precīzi, 
-                vari piedāvāt savu variantu laukā "subdomain_alternative" (piemēram, kā "Domain_XYZ").
-            4. Uzdevumos par veseliem skaitļiem dodiet priekšroku apakšnozarēm, kam [Branch: NumberTheory].
-               Uzdevumos par reāliem skaitļiem dodiet priekšroku apakšnozarēm, kam [Branch: Algebra].
-            
-            Piemērs 1 (visbiežākais atbildes formāts):
-            {{
-                "subdomain": ["DOM_And_So_On"]
-            }}
-
-            Piemērs 2 (reti - ja pieder 2 apakšnozarēm; nelieto 3 vai vairāk apakšnozares):
-            {{
-                "subdomain": ["DOM_And_So_On", "DOM_Another_One"]
-            }}
-
-            Piemērs 3 (reti - ja esošās apakšnozares neapraksta uzdevumu precīzi):
-            {{
-                "subdomain": ["DOM_Best_Guess"],
-                "subdomain_alternative": "Domain_XYZ"
-            }}
-
-            Uzdevums:
-            {problem_text.strip()}
-
-            Iespējamās apakšnozares ir:
-            {subdomain_str}
-            """
-
-        if property == MetadataProperties.HAS_SOLUTION_STRUCTURE: 
-            return f"""
-            Lūdzu, atrodi uzdevuma jautājumam atbilstošo atrisinājuma struktūru.
-            Atbildi **tikai** ar JSON formātā: {{"hasSolutionStructure": "..."}}.
-            Uzdevums:
-
-            ```{problem_text.strip()}```
-
-            Iespējamās atrisinājumu struktūras ir:
-
-            * 'eliozo:FindAll' (Uzdevumi, kur jāatrod visi atrisinājumi. 
-              Jautājumu piemēri: "Kāds var būt...?", "Cik...?", "Atrisināt vienādojumu". 
-              Atrisinājumā norādāmas visas atbildes + pierādījums, ka citu nav.)
-            * 'eliozo:FindOptimal' (Uzdevumi, kur jāatrod maksimālā vai minimālā vērtība.
-              Jautājumu piemēri: "Kāds lielākais (mazākais)...?".
-              Atrisinājumā dots piemērs, kas dod optimālo vērtību + pierādījums, ka labāka nav.) 
-            * 'eliozo:ProveOrDisproveExists' (Uzdevumi, kur jāpierāda vai jāapgāž eksistence.
-              Jautājumu piemēri: "Vai var...?", "Vai iespējams...?", "Vai eksistē...?"
-              vai arī "Pierādiet, ka eksistē...". 
-              Atrisinājumā vai nu 'Jā' (un piemērs) vai 'Nē' (vispārīgs pierādījums, kāpēc neeksistē).
-            * 'eliozo:ProveOrDisproveForAll' (Uzdevumi, kur jāpierāda vai jāapgāž vispārīgs apgalvojums.
-              Jautājumu piemēri: "Vai visiem...?", "Vai noteikti...?" 
-              vai arī "Pierādiet, ka visiem...", "Pamatojiet, ka...". 
-              Atrisinājumā vai nu 'Jā' (vispārīgs pierādījums) vai 'Nē' (pretpiemērs)). 
-            * 'eliozo:ConstructOrDescribe' (Uzdevumi, kur jāatrod konstrukcija algoritms vai spēles stratēģija.
-              Jautājumu piemēri: "Parādi, kā...", "Apraksti stratēģiju...", "Kā svērt..." 
-              vai arī "Pierādiet, ka var...", ja sagaidāms konstruktīvs pamatojums. 
-              Atrisinājumā ir konstrukcija/algoritms + pārbaude, ka tā vienmēr strādā.
-            """
-
+            values['subdomains'] = "\n".join(item['formatted'] for item in self.subdomains)
         elif property == MetadataProperties.HAS_SOLUTION_CONCEPT:
-            concepts_csv = ""
-            current_dir = os.path.dirname(os.path.abspath(__file__))
-            concepts_path = os.path.join(current_dir, 'setup', 'resources', 'concepts.csv')
+            concepts_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'setup', 'resources', 'concepts.csv')
             try:
                 with open(concepts_path, 'r', encoding='utf-8') as f:
-                    concepts_csv = f.read()
+                    values['concepts'] = f.read()
             except Exception as e:
                 print(f"Warning: could not read concepts.csv: {e}")
-
-            return f"""
-            Lūdzu, identificē matemātiskos jēdzienus un struktūras, kas parādās šajā uzdevumā
-            vai ir nepieciešami tā risināšanai. 
-
-            Uzdevums: "{title.strip()}"
-
-            ```{problem_text.strip()}```
-
-            Atrisinājums:
-
-            ```{solution_text.strip()}```
-
-            Pieejamo jēdzienu saraksts (CSV formātā ar kolonnām 
-            Label, TitleLv, TitleEn, DescriptionLv, Domain, ConceptGroup, Grade):
-
-            ```
-            {concepts_csv}
-            ```
-            
-            ## Norādījumi atlasei
-
-            **Ko atlasīt.** Atlasi tos jēdzienus, kurus uzdevuma risinātājam ir 
-            jāatpazīst uzdevuma tekstā vai jāizmanto risinājumā. Tie var būt:
-            - jēdzieni, kas tieši nosaukti uzdevuma formulējumā 
-            (piem., "naturāls skaitlis", "trijstūris", "pirmskaitlis");
-            - matemātiskās struktūras, kas slēpjas aiz vārdiskā formulējuma 
-            (piem., "pilsētas un aviolīnijas" → GraphConcept; 
-            "skolēni saka patiesību vai melo" → TruthTellersAndLiars; 
-            "pārkārto ciparus" → DigitRepresentation);
-            - struktūras, ko risinājumā nepieciešams ieviest, lai uzdevumu atrisinātu 
-            (piem., uzdevumā par monētu svēršanu var nebūt vārda "grafs", 
-            bet risinājumā parādās lēmumu koks → DecisionTree).
-
-            **Cik daudz jēdzienu atlasīt.** Tipiski 2-5 jēdzieni vienam uzdevumam. 
-            Mērķis ir atrast būtiskākos, ne visus iespējami saistītos. Ja uzdevums 
-            ir vienkāršs (piemēram, dalāmības pārbaude), pietiek ar 1-2 jēdzieniem; 
-            sarežģītākos olimpiāžu uzdevumos var būt 4-6.
-
-            **No kā izvairīties.**
-            - Neuzskaiti jēdzienus, kas ir tikai netieši klātesoši (piem., 
-            ja uzdevumā ir vārds "skaitlis", tas pats par sevi nenozīmē, 
-            ka jāmin PositiveIntegers, ja vien skaitļu kopa nav būtiska).
-            - Neatlasi tādus jēdzienus, kuru `Grade` ir krietni lielāks par 
-            uzdevuma virsrakstā norādīto klasi 
-            Meklē vienkāršāku alternatīvu, ar kuru pietiek (piem., 
-            dod priekšroku ParityInvariant nevis 
-            ModularArithmetic 5. klases uzdevumā).
-            Klase dota virsrakstā, piemēram "LV.AMO.2024.7.5" norāda uz "7.klases" uzdevumu.
-
-            - Neatlasi visu attiecīgās ConceptGroup saturu — atlasi tikai tos 
-            konkrētos jēdzienus, kas patiešām piedalās uzdevumā.
-
-            **Identifikatoru pieraksts.** Atbildē izmanto tieši tos Label, 
-            kas parādās CSV failā. Saglabā precīzu rakstību (CamelCase, bez 
-            atstarpēm). Ja nepieciešamais jēdziens CSV failā nav atrodams, 
-            izlaid to (vēlāk papildināsim sarakstu).
-            
-            **Lasāmība (readingDifficulty):** "low", ja uzdevumā matemātiskie 
-            jēdzieni saukti parastajos vārdos; "medium", ja uzdevumā izmantoti 
-            daži standarti teksta uzdevumu paņēmieni (velosipēdisti, kas ilustrē 
-            vienmērīgu kustību; monētu svēršana, kas ilustrē salīdzināšanas darbības). 
-            "high", ja uzdevumā lasītājam ir aktīvi jāinterpretē teksts, nestandartā 
-            veidā jāatrod jēdzieni un modeļi, kuri der dotajā situācijā.
-
-            **Atbildes formāts.** Atgriež **tikai** JSON objektu ar divām atslēgām: 
-            (1) `concepts`, kuras vērtība ir Label saraksts. Saraksta secība — 
-            no būtiskākā uz mazāk būtisko. 
-            (2) `readingDifficulty`: <low|medium|high>
-            Neiekļauj paskaidrojumus, komentārus vai citus laukus.
-
-            Atbildes piemērs:
-            ```{{"concepts": ["TruthTellersAndLiars", "LogicalCaseAnalysis", "ExhaustiveCheck"], 
-                 "readingDifficulty": "medium"}}```
-            """
-        
-        elif property == MetadataProperties.HAS_REASONING_METHOD:
-            if meta_dict is None:
-                meta_dict = {}
-            domain_list = meta_dict.get('domain', [])
+                values['concepts'] = ''
+        elif property in (MetadataProperties.HAS_REASONING_METHOD, MetadataProperties.HAS_REASONING_MISTAKE):
+            domain_list = (meta_dict or {}).get('domain', [])
             domain = domain_list[0] if domain_list else 'Comb'
-            domain_methods = self.reasoning_methods.get(domain, '')
+            values['domain'] = domain
+            values['domain_methods'] = self.reasoning_methods.get(domain, '').strip()
+            values['domain_mistakes'] = self.reasoning_mistakes.get(domain, '').strip()
+        return fill_placeholders(entry['prompt'], values)
 
-            return f"""
-            Lūdzu, identificē spriedumu un secināšanas metodes, kas faktiski izmantotas šī uzdevuma
-            oficiālajā atrisinājumā. Uzdevuma matemātiskā nozare ir **{domain}**.
-            
-            Uzdevums: "{title.strip()}"
-            
-            ```{problem_text.strip()}```
-            
-            Atrisinājums:
-            
-            ```{solution_text.strip()}```
-            
-            Pieejamo spriedumu metožu saraksts (Markdown formātā, ar CamelScript Label, īsu nosaukumu
-            latviski un angliski, vienas rindkopas aprakstu un 2–3 raksturīgiem piemēriem):
-            
-            ```
-            {domain_methods.strip()}
-            ```
-            
-            ## Norādījumi atlasei
-            
-            **Ko atlasīt.** Atlasi tās metodes no saraksta, kuras patiešām tiek lietotas atrisinājumā kā
-            spriedumu solis vai pamatojuma paņēmiens. Tās var būt:
-            - skaidri saskatāmas metodes (piem., risinājumā parādās leņķu izteikšana ar mainīgo $\\alpha$
-            un trijstūra leņķu summas izmantošana → AngleChasing un TriangleAngleSum; vai ciparu summa
-            tiek pārbaudīta dalāmībai ar 9 → DigitSumProperty);
-            - metodes, kas atrisinājumā ir izmantotas implicīti, bet kuru loģiskā funkcija ir skaidra
-            (piem., autors nesaka "pierādījums no pretējā", bet sāk ar "pieņemsim pretējo, ka...");
-            - pamata aritmētiskās vai algebriskās identitātes, kas izmantotas pārveidojumos
-            (piem., kvadrātu starpība $a^2 - b^2 = (a-b)(a+b)$ → FactoringAlgebraicExpressions).
-            
-            **Cik daudz metožu atlasīt.** Tipiski 2–5 metodes vienam uzdevumam. Olimpiāžu uzdevums
-            parasti izmanto vairākas metodes vienlaikus — piemēram, leņķu meklēšana savienota ar
-            vienādu trijstūru pazīmes lietojumu un palīglīnijas vilkšanu. Vienkāršos 5.–6. klases
-            uzdevumos var pietikt ar 1–2 metodēm; sarežģītākos 8.–9. klases uzdevumos var būt 4–6.
-            
-            **No kā izvairīties.**
-            - Neuzskaiti metodes, kas tikai netieši saistītas ar uzdevumu, bet atrisinājumā neparādās
-            (piem., ja atrisinājumā nav nevienas modulārās aritmētikas darbības, neuzskaiti
-            ModularArithmetic, pat ja teorētiski uzdevumu varētu risināt ar to).
-            - Neatlasi tādas metodes, kuru tipiskā lietojuma klase (Label apraksta "(1) No N.klases") ir
-            krietni augstāka nekā uzdevuma klase. Klase ir lasāma no virsraksta — piem.,
-            "LV.AMO.2024.7.3" norāda uz 7. klases uzdevumu. Dod priekšroku vienkāršākai metodei, ja
-            tā paskaidro atrisinājuma loģiku (piem., ParityInvariant 5.–6. klasē, nevis
-            ModularArithmetic; LastDigitAnalysis 7. klasē, nevis pilna kongruences valoda).
-            - Neuzskaiti visu metožu sarakstu — atlasi tikai tās, kas patiesi parādās atrisinājumā.
-            - Neatlasi metodi tikai tāpēc, ka atrisinājumā parādās atbilstošs jēdziens; metodei jābūt
-            spriedumu solim (piem., ja uzdevumā ir trijstūris, bet tas tiek tikai aprakstīts, nevis
-            izmantots trijstūra leņķu summa, neatlasi TriangleAngleSum).
-            
-            **Identifikatoru pieraksts.** Atbildē izmanto tieši tos Label, kas parādās metožu sarakstā.
-            Saglabā precīzu rakstību (CamelScript, bez atstarpēm).
-            
-            **Jaunas metodes pievienošana (konservatīvi).** Ja atrisinājumā ir spriedumu solis, kuram
-            nav atbilstoša Label esošajā sarakstā, drīksti pievienot **ne vairāk kā vienu** jaunu
-            metodi. Lieto šo iespēju tikai tad, ja patiešām nekas no esošā saraksta neatbilst — ne
-            pat tuvi. Ja nepieciešamais ir tikai esošās metodes specializēts variants, izvēlies esošo
-            metodi. Jaunā metode jāpieraksta ar:
-            - `label`: jauna CamelScript identifikators, kas neatkārtojas ar esošajiem;
-            - `shortDescriptionEn`: īsa (5–12 vārdi) apraksts angliski.
-            
-            **Atbildes formāts.** Atgriež **tikai** JSON objektu ar divām atslēgām:
-            (1) `methods`: Label saraksts no esošajām metodēm, kuras atrisinājumā tiek lietotas.
-                Saraksts sakārtots no būtiskākās uz mazāk būtisko (būtiskākā = bez kuras risinājums
-                neizdotos; mazāk būtiskā = palīgsolis vai tehniska identitāte).
-            (2) `newMethod`: jaunās metodes apraksts (ja nepieciešams), formātā
-                `{{"label": "<CamelScriptLabel>", "shortDescriptionEn": "<short description>"}}`,
-                vai `null`, ja jauna metode nav nepieciešama.
-            
-            Neiekļauj paskaidrojumus, komentārus vai citus laukus.
-            
-            Atbildes piemēri:
-            
-            Bez jaunas metodes:
-            ```{{"methods": ["AngleChasing", "IsoscelesTriangleProperties", "TriangleAngleSum"],
-                "newMethod": null}}```
-            
-            Ar jaunu metodi:
-            ```{{"methods": ["DivisibilityRules", "PositionalNotation"],
-                "newMethod": {{"label": "RepunitFactorization",
-                                "shortDescriptionEn": "Using factorization of repunits like 111 = 3·37 or 1001 = 7·11·13"}}}}```
-            """
-
-        elif property == MetadataProperties.HAS_REASONING_MISTAKE:
-            if meta_dict is None:
-                meta_dict = {}
-            domain_list = meta_dict.get('domain', [])
-            domain = domain_list[0] if domain_list else 'Comb'
-            domain_mistakes = self.reasoning_mistakes.get(domain, '')
-
-            return f"""
-            Lūdzu, identificē spriedumu un secināšanas kļūdas, kas var būt izplatītas, 
-            risinot šādu uzdevumu. Uzdevuma matemātiskā nozare ir **{domain}**.
-            
-            Uzdevums: "{title.strip()}"
-            
-            ```{problem_text.strip()}```
-            
-            Atrisinājums:
-            
-            ```{solution_text.strip()}```
-            
-            Tipisko kļūdu saraksts šai nozarei (Markdown, ar CamelScript Label, īsu nosaukumu
-            latviski un angliski, vienas rindkopas aprakstu un dažiem piemēriem):
-            
-            ```
-            {domain_mistakes.strip()}
-            ```
-            
-            ## Norādījumi atlasei
-            
-            **Ko atlasīt.** Atlasi 0-3 iespējamās kļūdas (to CamelScriptLabel sarakstu) 
-            no dotā kļūdu dokumenta, ja tās var būt izplatītas, risinot citēto uzdevumu. 
-            Ja uzdevums nemēdz novest pie "tipiskām", apspriežamām kļūdām, atgriez tukšu sarakstu 
-            ar 0 labels: `{{"mistakes": []}}`. 
-            
-            Iespējamās neuzmanības kļūdas, pārpratumi, un arī izlaistas sadaļas atrisinājumā 
-            (ja vien uzdevuma formulējums īpaši neveicina šādu izlaišanu vai atrisinājuma 
-            struktūras sajaukšanu) nav jānorāda vai jāmeklē tām label-s, 
-            jo tādas būs praktiski katrā uzdevumā.
-            
-            **Identifikatoru pieraksts.** Atbildē izmanto tos Label, kas sastopami kļūdu sarakstā.
-            Katru label raksta precīzi (CamelScript, bez atstarpēm). Sākt ar tiem Label, kuri 
-            varētu būt visizplatītākās kļūdas šim uzdevuma tipam.
-            
-            **Atrast "mistakesFit":** Cik tipisks piemērs ir šis uzdevuma tips kādai 
-            no "mistakes" sarakstā apzīmētajām kļūdām. Izvēlēties no 3 vērtībām: 
-
-            * "low" - "mistakes" saraksts ir tukšs, vai arī uzdevumu parasti neuzskata par 
-              tipisku piemēru kādai no "mistakes" kļūdām. 
-            * "medium" - uzdevums ir tipisks piemērs kādai kļūdai "mistake" sarakstā. 
-            * "high" - uzdevums ir tipisks piemērs kādai kļūdai "mistakes" sarakstā; 
-              bez tam var radīt arī citus uzdevuma nosacījuma pārpratumus, nepareizus 
-              spriedumus vai neatbilstošu atrisinājuma struktūru. 
-
-            **Atbildes formāts.** Atgriež **tikai** JSON objektu ar divām atslēgām:
-            (1) `mistakes`: Label saraksts (0-3 labels) no Markdown dokumentā dotā kļūdu saraksta.
-            (2) `mistakesFit`: <"low"|"medium"|"high"> - kā aprakstīts augstāk. 
-
-            Neiekļauj paskaidrojumus, komentārus vai citus laukus.
-            Atbildes piemērs:
-            
-            ```{{"mistakes": ["IncorrectTranslationOfWordProblem", "SignFlipForgottenInInequality"],
-                "mistakesFit": "medium"}}```
-            """
-
+    def _checked_value(self, property, value):
+        """A questionType answer outside the vocabulary counts as no answer ('NA')."""
+        if property == MetadataProperties.QUESTION_TYPE:
+            allowed = {row['Label'] for row in self.question_types}
+            if not isinstance(value, str) or value.strip() not in allowed:
+                if value != 'NA':
+                    print(f"Warning: questionType '{value}' is not one of {', '.join(sorted(allowed))}")
+                return 'NA'
+            return value.strip()
+        return value
 
     def classify_problem(self, title, problem_text, problem_solution, property, meta_dict=None):
         prompt = self.make_prompt(property, title, problem_text, problem_solution, meta_dict=meta_dict)
@@ -582,7 +250,7 @@ class MetadataUtils:
             json_key = 'domain'
             
         try:
-            return result.get(json_key, 'NA')
+            return self._checked_value(property, result.get(json_key, 'NA'))
         except AttributeError:
             pass # result might be a string
         except json.JSONDecodeError:
@@ -593,7 +261,7 @@ class MetadataUtils:
             if match:
                 try:
                     parsed_result = json.loads(match.group(0))
-                    return parsed_result.get(json_key, 'NA')
+                    return self._checked_value(property, parsed_result.get(json_key, 'NA'))
                 except:
                     return "NA"
         return "NA"

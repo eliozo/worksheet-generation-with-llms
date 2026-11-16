@@ -226,24 +226,9 @@ class ProblemMarkdownParser:
     # ------------------------------------------------------------------ #
 
     @classmethod
-    def add_generated_property(cls, md_text: str, prop_name: str, generated_val) -> str:
-        """Insert a generated metadata property into the <small>…</small> block."""
-        match = cls.SMALL_BLOCK_RE.search(md_text)
+    def generated_property_lines(cls, prop_name: str, generated_val) -> List[str]:
+        """The metadata lines ("* _prop: value", ...) for a generated property value."""
         check_tag = f"_{prop_name}:"
-
-        if not match:
-            return md_text
-
-        before_tag = match.group(1)
-        middle_block = match.group(2)
-        after_tag = match.group(3)
-
-        prop_marker = f'_{prop_name}:'
-        if prop_marker in middle_block:
-            return md_text
-
-        existing_content = middle_block.strip()
-
         lines_to_add = []
         if isinstance(generated_val, dict):
             if prop_name == "hasSolutionConcept":
@@ -294,6 +279,26 @@ class ProblemMarkdownParser:
                     lines_to_add.append(f"* _{alt_key}: {alt_val}")
         else:
             lines_to_add.append(f"* {check_tag} {generated_val}")
+
+        return lines_to_add
+
+    @classmethod
+    def add_generated_property(cls, md_text: str, prop_name: str, generated_val) -> str:
+        """Insert a generated metadata property into the <small>…</small> block."""
+        match = cls.SMALL_BLOCK_RE.search(md_text)
+        if not match:
+            return md_text
+
+        before_tag = match.group(1)
+        middle_block = match.group(2)
+        after_tag = match.group(3)
+
+        prop_marker = f'_{prop_name}:'
+        if prop_marker in middle_block:
+            return md_text
+
+        existing_content = middle_block.strip()
+        lines_to_add = cls.generated_property_lines(prop_name, generated_val)
 
         new_str = "\n".join(lines_to_add)
         if existing_content:

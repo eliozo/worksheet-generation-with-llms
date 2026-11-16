@@ -2,6 +2,7 @@ import os
 import sys
 import requests
 import json
+from scripts.openai_utils import default_openai_model
 
 class MetadataUtils:
     openai_api_key = "NA"
@@ -32,7 +33,7 @@ class MetadataUtils:
         }
 
     def classify_problem(self, problem_text, problem_solution, property):
-        model = "gpt-4.1"
+        model = default_openai_model()
         
         data = {
             "model": model,
@@ -47,9 +48,10 @@ class MetadataUtils:
 
                 }
             ],
-            "max_tokens": 1000, 
-            "seed": 42, 
-            "temperature": 1.0
+            "max_tokens": 1000,
+            # Not sent for now: not all models accept them
+            # "seed": 42,
+            # "temperature": 1.0
         }
         
         try:
@@ -91,7 +93,7 @@ class MetadataUtils:
 
         
     def get_query_param(self, query, seed):
-        model = "gpt-4.1"
+        model = default_openai_model()
         
         data = {
             "model": model,
@@ -105,9 +107,10 @@ class MetadataUtils:
                     "content": query
                 }
             ],
-            "max_tokens": 1000, 
-            "seed": seed, 
-            "temperature": 1.0
+            "max_tokens": 1000,
+            # Not sent for now: not all models accept them
+            # "seed": seed,
+            # "temperature": 1.0
         }
         
         try:

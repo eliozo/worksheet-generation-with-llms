@@ -23,8 +23,6 @@ from scripts.weaviate_utils import WeaviateUtils
 from scripts.word_utils import WordUtils
 from scripts.openai_utils import OpenaiUtils
 from scripts.openai_utils import AnalysisType
-from scripts.openai_utils import DEFAULT_OPENAI_PROVIDER
-from scripts.openai_utils import SUPPORTED_OPENAI_PROVIDERS
 from scripts.openai_utils import normalize_openai_provider
 from scripts.openai_function_agent import OpenaiFunctionAgent
 from scripts.metadata_utils import MetadataUtils
@@ -90,8 +88,6 @@ def get_json_field(fname, field_list):
 class EliozoClient:
     reference = "NA.json"
     command = "NA"
-    default_openai_provider = DEFAULT_OPENAI_PROVIDER
-    supported_openai_providers = SUPPORTED_OPENAI_PROVIDERS
     task_commands_using_provider = {'create-task', 'get-classifiers', 'get-problems', 'adapt-worksheet'}
     weaviate_url = "NA"
     weaviate_api_key = "NA"
@@ -152,93 +148,118 @@ class EliozoClient:
 
 
 
-    def add_metadata(self, md_file, prop, provider, output):
+    METADATA_LINE_RE = re.compile(r'^\s*\*\s*(_?[A-Za-z][\w-]*)\s*:')
+
+    @staticmethod
+    def classify_metadata(metadata_utils, prop, problem):
+        """Ask the LLM for the value of *prop* for one parsed problem.
+
+        questionType, domain and hasSolutionStructure are classified from the problem
+        text alone; the other properties also get the solution (and the domain metadata).
+        """
+        if prop == "questionType":
+            return metadata_utils.classify_problem('', problem.problem_text, '', MetadataProperties.QUESTION_TYPE)
+        elif prop == "domain":
+            value = metadata_utils.classify_problem('', problem.problem_text, '', MetadataProperties.DOMAIN)
+            return ",".join(value) if isinstance(value, list) else value
+        elif prop == "hasSolutionStructure":
+            value = metadata_utils.classify_problem('', problem.problem_text, '', MetadataProperties.HAS_SOLUTION_STRUCTURE)
+            return value.get('hasSolutionStructure', 'NA') if isinstance(value, dict) else value
+        elif prop == "hasSolutionConcept":
+            return metadata_utils.classify_problem(problem.title, problem.problem_text, problem.solution_text,
+                                                   MetadataProperties.HAS_SOLUTION_CONCEPT)
+        elif prop == "hasReasoningMethod":
+            return metadata_utils.classify_problem(problem.title, problem.problem_text, problem.solution_text,
+                                                   MetadataProperties.HAS_REASONING_METHOD, meta_dict=problem.meta_dict)
+        elif prop == "hasReasoningMistake":
+            return metadata_utils.classify_problem(problem.title, problem.problem_text, problem.solution_text,
+                                                   MetadataProperties.HAS_REASONING_MISTAKE, meta_dict=problem.meta_dict)
+        raise ValueError(f"Unsupported property '{prop}'")
+
+    def add_metadata(self, md_file, prop, provider, output=None, dry_run=False):
+        """Add "* _<prop>: <value>" to every problem in md_file whose <small> block has no _<prop> yet.
+
+        The result goes to *output* (default: md_file itself, edited in place). Only the
+        generated lines are inserted; the rest of the file is kept byte for byte. The
+        output is saved after each problem, so an interrupted run can simply be restarted:
+        problems that already have _<prop> are skipped without an LLM call. Failed
+        classifications are reported and not written. With dry_run, only lists the
+        problems that would be classified.
+        """
         print(f'Command = {self.command}(md_file = {md_file}, prop = {prop}, provider = {provider}, output= {output})')
-
+        output = output or md_file
         provider = self.validate_openai_provider(provider)
-        metadata_utils = MetadataUtils(self.openai_api_key, provider)
+        metadata_utils = None if dry_run else MetadataUtils(self.openai_api_key, provider)
+        heading_re = ProblemMarkdownParser.HEADING_RE
+        counts = {'added': 0, 'existing': 0, 'failed': 0, 'no_metadata_block': 0}
 
-        parser = ProblemMarkdownParser
+        with open(md_file, encoding='utf-8', newline='') as f:
+            lines = f.read().splitlines(keepends=True)
 
-        # Read tasks from markdown
-        problemList = parser.parse_file(md_file)
-        updated_sections = []
+        def save():
+            if not dry_run:
+                os.makedirs(os.path.dirname(output) or ".", exist_ok=True)
+                with open(output, 'w', encoding='utf-8', newline='') as out:
+                    out.write(''.join(lines))
 
-        error_count = 0
-        total_count = 0
-        
-        for problem in problemList:
-            total_count += 1
+        start = next((i for i, line in enumerate(lines) if heading_re.match(line)), len(lines))
+        while start < len(lines):
+            end = next((i for i in range(start + 1, len(lines)) if heading_re.match(lines[i])), len(lines))
+            problem = ProblemMarkdownParser.parse_text(''.join(lines[start:end]))[0]
             title = problem.title
-            full_problem = problem.full_problem
-            clean_problem = problem.problem_text
-            solution_text = problem.solution_text
-            meta_dict = problem.meta_dict
-
-            # Skip processing if grade > 9
-            skip_processing = problem.grade > 9
-
-            if skip_processing:
-                print(f"⏩ Skipping {title} (Grade > 9)")
-                updated_sections.append(f"# <lo-sample/> {title}\n\n{full_problem.strip()}\n")
+            small_start = next((i for i in range(start + 1, end) if '<small>' in lines[i]), None)
+            small_end = None if small_start is None else next(
+                (i for i in range(small_start, end) if '</small>' in lines[i]), None)
+            if small_end is None:
+                print(f"⚠️  {title}: no <small>...</small> block, skipped")
+                counts['no_metadata_block'] += 1
+                start = end
                 continue
 
-            # Default sleep to avoid hitting rate limits too aggressively
-            time.sleep(1.0) 
+            props = [i for i in range(small_start + 1, small_end) if self.METADATA_LINE_RE.match(lines[i])]
+            if any(self.METADATA_LINE_RE.match(lines[i]).group(1) == f'_{prop}' for i in props):
+                counts['existing'] += 1
+                start = end
+                continue
+
+            if dry_run:
+                print(f"🔎 {title}: _{prop} would be classified")
+                counts['added'] += 1
+                start = end
+                continue
 
             try:
-                if prop == "questionType":
-                    predicted_val = metadata_utils.classify_problem(title, clean_problem, "", MetadataProperties.QUESTION_TYPE)
-                elif prop == "domain":
-                    domain_result = metadata_utils.classify_problem(title, clean_problem, "", MetadataProperties.DOMAIN)
-                    if isinstance(domain_result, list):
-                        predicted_val = ",".join(domain_result)
-                    else:
-                        predicted_val = domain_result
-                elif prop == "subdomain":
-                    predicted_value = metadata_utils.classify_problem(clean_problem, "", MetadataProperties.SUBDOMAIN)
-                elif prop == "hasSolutionStructure":
-                    predicted_val = metadata_utils.classify_problem(title, clean_problem, "", MetadataProperties.HAS_SOLUTION_STRUCTURE)
-                elif prop == "hasSolutionConcept":
-                    predicted_val = metadata_utils.classify_problem(title, clean_problem, solution_text, MetadataProperties.HAS_SOLUTION_CONCEPT)
-                elif prop == "hasReasoningMethod":
-                    predicted_val = metadata_utils.classify_problem(
-                        title, clean_problem, solution_text,
-                        MetadataProperties.HAS_REASONING_METHOD,
-                        meta_dict=meta_dict
-                    )
-                elif prop == "hasReasoningMistake":
-                    predicted_val = metadata_utils.classify_problem(
-                        title, clean_problem, solution_text,
-                        MetadataProperties.HAS_REASONING_MISTAKE,
-                        meta_dict=meta_dict
-                    )
-                else:
-                    predicted_val = 'NA'
-                    
-                if isinstance(predicted_val, dict):
-                    if prop == "questionType":
-                        predicted_val = predicted_val.get('uzdevuma_tips', 'NA')
-                    elif prop == "hasSolutionStructure":
-                        predicted_val = predicted_val.get('hasSolutionStructure', 'NA')
-                    # for hasSolutionConcept and hasReasoningMethod, leave as dict so add_generated_property can parse it
+                value = self.classify_metadata(metadata_utils, prop, problem)
             except Exception as e:
-                print(f"❌ Error classifying {title}: {e}")
-                predicted_val = 'NA'
+                print(f"❌ {title}: classification failed: {e}")
+                counts['failed'] += 1
+                start = end
+                continue
+            if (value is None or (isinstance(value, str) and value.strip() in ('', 'NA'))
+                    or (isinstance(value, dict) and (not value or 'error' in value))):
+                print(f"❌ {title}: no usable _{prop} in the model's answer ({value!r})")
+                counts['failed'] += 1
+                start = end
+                continue
 
-            updated_problem = parser.add_generated_property(full_problem, prop, predicted_val)
-            updated_sections.append(f"# <lo-sample/> {title}\n\n{updated_problem.strip()}\n")
+            # Insert after the block's last property line (or right after <small>)
+            new_lines = ProblemMarkdownParser.generated_property_lines(prop, value)
+            insert_at = (props[-1] if props else small_start) + 1
+            newline = '\r\n' if lines[insert_at - 1].endswith('\r\n') else '\n'
+            if not lines[insert_at - 1].endswith(('\n', '\r')):
+                lines[insert_at - 1] += newline
+            lines[insert_at:insert_at] = [line + newline for line in new_lines]
+            save()
+            print(f"✅ {title}: " + " | ".join(new_lines))
+            counts['added'] += 1
+            start = end + len(new_lines)
 
-            print(f"✅ Processed: {title} | _{prop}: {predicted_val}")
-
-        # Ensure folder exists
-        os.makedirs(os.path.dirname(output) or ".", exist_ok=True)
-
-        with open(output, 'w', encoding='utf-8') as out:
-            out.write('\n\n'.join(updated_sections))
-
-        print(f"\n✅ Output written to: {output}")
-        return (0, {"status": "success", "output": output, "provider": provider})
+        save()
+        if not dry_run:
+            print(f"\n✅ Output written to: {output}")
+        data = {"status": "success" if not counts['failed'] else "failures", "output": output,
+                "provider": provider, **counts}
+        return (1 if counts['failed'] else 0, data)
 
     def md_to_turtle(self, markdown, turtle, langcode, is_master):
         # print(f'Command = {self.command}(markdown = {markdown}, turtle = {turtle})')
@@ -548,7 +569,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
             'property': 'Which Eliozo ontology property should be added (see add-metadata-list-properties)',
             '--output' : 'Location to place Markdown with added metadata',
             '--mode': 'What input is used for classification',
-            '--provider': 'Which OpenAI model to use; defaults to gpt-5.4-mini if omitted or invalid',
+            '--provider': 'Which OpenAI model to use; defaults to OPENAI_MODEL in scripts/.env',
             '--reference': HELP_REFERENCE
         },
 
@@ -620,7 +641,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
 
         'create-task': {
             '--query': 'User request expressed in human language',
-            '--provider': 'Which OpenAI model to use; defaults to gpt-5.4-mini if omitted or invalid',
+            '--provider': 'Which OpenAI model to use; defaults to OPENAI_MODEL in scripts/.env',
             '--reference': HELP_REFERENCE
         }, 
 
@@ -648,7 +669,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
 
         'get-problems': {
             '--worksheet': 'JSON output file; defaults to worksheet.json', 
-            '--provider': 'Which OpenAI model to use; defaults to gpt-5.4-mini if omitted or invalid',
+            '--provider': 'Which OpenAI model to use; defaults to OPENAI_MODEL in scripts/.env',
             '--reference': HELP_REFERENCE
         },
 
@@ -670,7 +691,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
             'property': 'The language/content property to adapt (complexity, register, extension, paraphrase, reorder)', 
             'value': 'How to adapt the propert (see User Guide)',
             '--location': 'The path in worksheet.json to modify',
-            '--provider': 'Which OpenAI model to use; defaults to gpt-5.4-mini if omitted or invalid',
+            '--provider': 'Which OpenAI model to use; defaults to OPENAI_MODEL in scripts/.env',
             '--reference': HELP_REFERENCE
         }, 
 

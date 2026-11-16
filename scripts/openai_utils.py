@@ -6,41 +6,31 @@ from enum import Enum
 from openai import OpenAI
 from openai import APIError
 from openai import RateLimitError
+from dotenv import load_dotenv
 
 
-DEFAULT_OPENAI_PROVIDER = "gpt-5.4-mini"
-SUPPORTED_OPENAI_PROVIDERS = {
-    "gpt-5.5": "gpt-5.5",
-    "gpt-5.4": "gpt-5.4",
-    "gpt-5.4-mini": "gpt-5.4-mini",
-    "gpt-5.4-nano": "gpt-5.4-nano",
-    "gpt-4.1": "gpt-4.1",
-    "gpt-4.1-mini": "gpt-4.1-mini",
-    "gpt-4o": "gpt-4o",
-    "gpt-4o-mini": "gpt-4o-mini"
-}
+# The default OpenAI model is configured in scripts/.env (or the environment),
+# never in the code:  OPENAI_MODEL=<model name>
+OPENAI_MODEL_ENV = "OPENAI_MODEL"
+ENV_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
+
+
+def default_openai_model():
+    """The model named by OPENAI_MODEL (the environment wins over scripts/.env)."""
+    load_dotenv(ENV_FILE)
+    model = os.getenv(OPENAI_MODEL_ENV, '').strip()
+    if not model:
+        raise RuntimeError(f"No default OpenAI model: set {OPENAI_MODEL_ENV}=<model name> in {ENV_FILE}")
+    return model
 
 
 def normalize_openai_provider(provider, warn=False):
-    if provider is None or not str(provider).strip():
-        return DEFAULT_OPENAI_PROVIDER
-
-    normalized = str(provider).strip().lower()
-    if normalized.startswith('openai'):
+    """The model to use: *provider* if given (an optional "openai:" prefix is dropped),
+    otherwise the default from OPENAI_MODEL. (*warn* is kept for older callers.)"""
+    normalized = str(provider).strip() if provider is not None else ''
+    if normalized.lower().startswith('openai'):
         normalized = normalized[len('openai'):].lstrip(':/ ')
-        if not normalized:
-            return DEFAULT_OPENAI_PROVIDER
-
-    if normalized in SUPPORTED_OPENAI_PROVIDERS:
-        return SUPPORTED_OPENAI_PROVIDERS[normalized]
-
-    if warn:
-        supported = ', '.join(sorted(SUPPORTED_OPENAI_PROVIDERS.values()))
-        print(
-            f"Warning: provider '{provider}' is not in the supported OpenAI model list ({supported}). "
-            f"Using default '{DEFAULT_OPENAI_PROVIDER}'."
-        )
-    return DEFAULT_OPENAI_PROVIDER
+    return normalized or default_openai_model()
 
 
 class AnalysisType(Enum):
@@ -56,7 +46,7 @@ class OpenaiUtils:
     openai_api_key = "NA"
     client = None
     seed = 42
-    provider = DEFAULT_OPENAI_PROVIDER
+    provider = None
 
     prompts = {
         AnalysisType.TASK_ANALYSIS: "Analyze this worksheet prompt: ```{user_query}```", 
@@ -159,8 +149,9 @@ class OpenaiUtils:
                         }
                     ],
                     response_format={"type": "json_object"},
-                    seed=seed,
-                    temperature=0.2
+                    # Not sent for now: not all models accept them
+                    # seed=seed,
+                    # temperature=0.2
                 )
 
                 # If success, break loop
@@ -171,10 +162,10 @@ class OpenaiUtils:
                     sys.stderr.write(f"Rate limit hit for model {model} after {max_retries} attempts.\n")
                     return {"error": "API request failed"}
 
-                    sleep_time = base_delay * (2 ** attempt)
-                    sys.stderr.write(f"Rate limit hit (429). Retrying in {sleep_time} seconds...\n")
-                    time.sleep(sleep_time)
-                    continue
+                sleep_time = base_delay * (2 ** attempt)
+                sys.stderr.write(f"Rate limit hit (429). Retrying in {sleep_time} seconds...\n")
+                time.sleep(sleep_time)
+                continue
 
             except APIError as e:
                 if attempt == max_retries - 1:

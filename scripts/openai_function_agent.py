@@ -4,7 +4,6 @@ import uuid
 from openai import OpenAI
 
 import pprint
-from scripts.openai_utils import DEFAULT_OPENAI_PROVIDER
 from scripts.openai_utils import normalize_openai_provider
 from scripts.weaviate_utils import WeaviateUtils
 from scripts.fuseki_utils import FusekiUtils
@@ -15,7 +14,7 @@ class OpenaiFunctionAgent:
     openai_api_key = "NA"
     weaviate_url = "NA"
     weaviate_api_key = "NA"
-    gpt_model = DEFAULT_OPENAI_PROVIDER
+    gpt_model = None
     client = None
     #task_data = ""
     topic_list = []
