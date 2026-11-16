@@ -7,6 +7,7 @@ import time
 import yaml
 from enum import Enum
 from scripts.openai_utils import OpenaiUtils
+from scripts.problem_markdown_parser import ProblemMarkdownParser
 
 class MetadataProperties(Enum):
     QUESTION_TYPE = "questionType"
@@ -178,6 +179,13 @@ class MetadataUtils:
         }
         if property == MetadataProperties.QUESTION_TYPE:
             values['question_types'] = self._question_types_text()
+            rubrics = ProblemMarkdownParser.find_rubrics(problem_text)
+            if rubrics:
+                example = json.dumps({'uzdevuma_tips': {r: ['...'] for r in rubrics}}, ensure_ascii=False)
+                values['answer_format'] = fill_placeholders(entry['answer_with_rubrics'].strip(), {
+                    'rubrics': ', '.join(f'({r})' for r in rubrics), 'rubric_example': example})
+            else:
+                values['answer_format'] = entry['answer_without_rubrics'].strip()
         elif property == MetadataProperties.SUBDOMAIN:
             values['subdomains'] = "\n".join(item['formatted'] for item in self.subdomains)
         elif property == MetadataProperties.HAS_SOLUTION_CONCEPT:
@@ -196,16 +204,40 @@ class MetadataUtils:
             values['domain_mistakes'] = self.reasoning_mistakes.get(domain, '').strip()
         return fill_placeholders(entry['prompt'], values)
 
-    def _checked_value(self, property, value):
-        """A questionType answer outside the vocabulary counts as no answer ('NA')."""
-        if property == MetadataProperties.QUESTION_TYPE:
-            allowed = {row['Label'] for row in self.question_types}
-            if not isinstance(value, str) or value.strip() not in allowed:
-                if value != 'NA':
-                    print(f"Warning: questionType '{value}' is not one of {', '.join(sorted(allowed))}")
+    def _checked_question_type(self, value, rubrics):
+        """Check a questionType answer against the vocabulary and the problem's sub-parts.
+
+        Returns "QTY_A" (or "QTY_A,QTY_B" for implicit sub-parts) for a problem without
+        sub-parts, {"A": "QTY_...", "B": "QTY_..."} for one with sub-parts **(A)**, **(B)**,
+        or 'NA' if the answer does not fit (it is then not written).
+        """
+        allowed = {row['Label'] for row in self.question_types}
+
+        def types(v):
+            items = v.split(',') if isinstance(v, str) else v if isinstance(v, list) else None
+            if not items:
+                return None
+            items = list(dict.fromkeys(str(i).strip() for i in items))
+            return ','.join(items) if all(i in allowed for i in items) else None
+
+        if rubrics:
+            if not isinstance(value, dict):
+                print(f"Warning: expected questionType for each of the sub-parts {rubrics}, got {value!r}")
                 return 'NA'
-            return value.strip()
-        return value
+            # Accept "A", "(A)" or "**(A)**" as keys
+            answers = {re.sub(r'[^A-Za-z0-9]', '', str(k)): v for k, v in value.items()}
+            result = {r: types(answers.get(r)) for r in rubrics}
+            if set(answers) != set(rubrics) or None in result.values():
+                print(f"Warning: questionType answer {value!r} does not fit the sub-parts {rubrics} "
+                      f"or is not one of {', '.join(sorted(allowed))}")
+                return 'NA'
+            return result
+        checked = types(value)
+        if checked is None:
+            if value != 'NA':
+                print(f"Warning: questionType {value!r} is not a list of {', '.join(sorted(allowed))}")
+            return 'NA'
+        return checked
 
     def classify_problem(self, title, problem_text, problem_solution, property, meta_dict=None):
         prompt = self.make_prompt(property, title, problem_text, problem_solution, meta_dict=meta_dict)
@@ -213,6 +245,16 @@ class MetadataUtils:
         openaiUtils = OpenaiUtils(self.openai_api_key, self.provider)
         result = openaiUtils.json_request(prompt, system_message, 42)
         
+        if property == MetadataProperties.QUESTION_TYPE:
+            if isinstance(result, str):
+                match = re.search(r'\{.*\}', result, re.DOTALL)
+                try:
+                    result = json.loads(match.group(0)) if match else {}
+                except json.JSONDecodeError:
+                    result = {}
+            value = result.get('uzdevuma_tips', 'NA') if isinstance(result, dict) else 'NA'
+            return self._checked_question_type(value, ProblemMarkdownParser.find_rubrics(problem_text))
+
         if property == MetadataProperties.HAS_REASONING_METHOD:
             if isinstance(result, str):
                 match = re.search(r'\{.*\}', result, re.DOTALL)
@@ -250,7 +292,7 @@ class MetadataUtils:
             json_key = 'domain'
             
         try:
-            return self._checked_value(property, result.get(json_key, 'NA'))
+            return result.get(json_key, 'NA')
         except AttributeError:
             pass # result might be a string
         except json.JSONDecodeError:
@@ -261,7 +303,7 @@ class MetadataUtils:
             if match:
                 try:
                     parsed_result = json.loads(match.group(0))
-                    return self._checked_value(property, parsed_result.get(json_key, 'NA'))
+                    return parsed_result.get(json_key, 'NA')
                 except:
                     return "NA"
         return "NA"

@@ -277,6 +277,57 @@ def get_suggested_grade(title):
         return []
 
 
+# Metadata keys written by add_question_types() rather than as plain literals
+QUESTION_TYPE_KEYS = {'questionType', '_questionType', '_questionTypeSource', '_questionTypeModel'}
+DEFAULT_RESPONSE_FORMAT = 'RSP_SolutionFull'
+
+
+def add_question_types(g, title, problem_node, section, problem_text_md):
+    """Add the problem's sub-parts and question types.
+
+    Each sub-part (**(A)**, **(B)** in the text, or "questionType:A:" in the metadata)
+    becomes a resource eliozo:PART.<problemID>.<label> of type eliozo:ProblemPart with
+    eliozo:partLabel, eliozo:partNumber and its eliozo:questionType. The problem itself
+    gets all the question types of its sub-parts too, so that one query finds problems
+    with and without sub-parts.
+
+    The human value ("* questionType:") wins; if it is missing or empty, the LLM value
+    ("* _questionType:") is promoted. LLM values are also kept as eliozo:_questionType,
+    with eliozo:_questionTypeSource (prompt/vocabulary version) and eliozo:_questionTypeModel.
+    """
+    parser = ProblemMarkdownParser
+    human = parser.extract_part_values(section, 'questionType')
+    llm = parser.extract_part_values(section, '_questionType')
+    source = parser.extract_part_values(section, '_questionTypeSource', split=False).get('', [])
+    model = parser.extract_part_values(section, '_questionTypeModel', split=False).get('', [])
+
+    def add_types(node, label):
+        llm_types = llm.get(label, [])
+        for value in human.get(label) or llm_types:
+            add_problem_literal_prop(g, node, 'questionType', value)
+            add_problem_literal_prop(g, problem_node, 'questionType', value)
+        for value in llm_types:
+            add_problem_literal_prop(g, node, '_questionType', value)
+            add_problem_literal_prop(g, problem_node, '_questionType', value)
+        if llm_types:
+            for target in {node, problem_node}:
+                for value in source:
+                    add_problem_literal_prop(g, target, '_questionTypeSource', value)
+                for value in model:
+                    add_problem_literal_prop(g, target, '_questionTypeModel', value)
+
+    labels = parser.find_rubrics(problem_text_md)
+    labels += [label for label in list(human) + list(llm) if label and label not in labels]
+    for number, label in enumerate(labels, start=1):
+        part_node = rdflib.URIRef(eliozo_ns + f"PART.{title}.{label}")
+        g.add((part_node, RDF.type, ELIOZO.ProblemPart))
+        add_problem_literal_prop(g, part_node, 'partLabel', label)
+        add_problem_integer_prop(g, part_node, 'partNumber', number)
+        g.add((problem_node, ELIOZO.problemPart, part_node))
+        add_types(part_node, label)
+    add_types(problem_node, '')
+
+
 def process_metadata(g, problem_node, meta_dict):
     # Handle _subdomain logic
     subdomains = meta_dict.get('subdomain', [])
@@ -299,8 +350,8 @@ def process_metadata(g, problem_node, meta_dict):
                 add_problem_topiclike_prop(g, problem_node, 'subdomain', vv)
 
     for k, vvv in meta_dict.items():
-        # Skip _subdomain as it is handled above
-        if k == '_subdomain':
+        # Skip _subdomain as it is handled above, question types in add_question_types()
+        if k == '_subdomain' or k in QUESTION_TYPE_KEYS:
             continue
 
         for vv in vvv:
@@ -446,8 +497,10 @@ def markdown_md_to_turtle(md_file_path, ttl_file_path, lang_code, is_master):
                 add_problem_integer_prop(g, problem_node, 'suggestedGrade', sug_grade)
 
             meta_dict = extract_metadata(section)
-            meta_dict = extract_metadata(section)
             process_metadata(g, problem_node, meta_dict)
+            add_question_types(g, title, problem_node, section, problem_text_md)
+            if not any(meta_dict.get('responseFormat', [])):
+                add_problem_literal_prop(g, problem_node, 'responseFormat', DEFAULT_RESPONSE_FORMAT)
 
 
         solution_part = extract_solution_part(section)

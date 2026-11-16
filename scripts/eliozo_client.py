@@ -35,6 +35,7 @@ from scripts.markdown_proc.merge_directories import try_merge_directory, resolve
 from scripts.markdown_proc.clean_metadata import clean_metadata
 
 from scripts.rdfgen.csv_to_skos import CsvToSkos
+from scripts.rdfgen.csv_to_question_types import CsvToQuestionTypes
 from scripts.rdfgen.csv_to_table import CsvToTable
 from scripts.rdfgen.csv_to_concepts import CsvToConcepts
 from scripts.rdfgen.csv_to_nested_table import CsvToNestedTable
@@ -244,6 +245,9 @@ class EliozoClient:
 
             # Insert after the block's last property line (or right after <small>)
             new_lines = ProblemMarkdownParser.generated_property_lines(prop, value)
+            judgement_source = metadata_utils.prompts.get(prop, {}).get('judgement_source')
+            if judgement_source:
+                new_lines += [f"* _{prop}Source: {judgement_source}", f"* _{prop}Model: {provider}"]
             insert_at = (props[-1] if props else small_start) + 1
             newline = '\r\n' if lines[insert_at - 1].endswith('\r\n') else '\n'
             if not lines[insert_at - 1].endswith(('\n', '\r')):
@@ -292,6 +296,10 @@ class EliozoClient:
             exporter.export_to_turtle(output)
         elif property in ['problemsru']:
             exporter = CsvToProblemsru(url)
+            exporter.export_to_turtle(output)
+        elif property in ['questionTypes']:
+            # questionTypes2.csv (a local file or a CSV URL): question types and response formats
+            exporter = CsvToQuestionTypes(url)
             exporter.export_to_turtle(output)
         return (0, {'property':property, 'output':output})
     
@@ -590,7 +598,7 @@ def main(WEAVIATE_URL, WEAVIATE_API_KEY, OPENAI_API_KEY, FUSEKI_URL, FUSEKI_USER
 
         'metadata-to-turtle': {
             'url': 'Link to a Google Docs file',
-            'property': 'topics, methods, domains, questions, concepts, olympiads, sources, videos',
+            'property': 'topics, methods, domains, questions, questionTypes, concepts, olympiads, sources, videos',
             'turtle': 'Path to save RDF (Turtle format)',
             '--reference': HELP_REFERENCE 
         },

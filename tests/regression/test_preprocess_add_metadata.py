@@ -70,6 +70,7 @@ def test_adds_missing_property_from_problem_text_only(tmp_path, monkeypatch, cap
 
     monkeypatch.setattr(MetadataUtils, 'classify_problem', fake_classify)
     monkeypatch.setenv('OPENAI_API_KEY', 'test')
+    monkeypatch.setenv('OPENAI_MODEL', 'test-model')
     problem_dir = tmp_path / 'lv-tst-2020'
     problem_dir.mkdir()
     content = problem_dir / 'content_lv.md'
@@ -83,9 +84,11 @@ def test_adds_missing_property_from_problem_text_only(tmp_path, monkeypatch, cap
         ('', 'Cik ir pirmskaitļu?', '', MetadataProperties.QUESTION_TYPE, None),
         ('', 'Kļūdains uzdevums.', '', MetadataProperties.QUESTION_TYPE, None),
     ]
+    judgement = '* _questionTypeSource: questionTypes2-v2/prompt-v1\n* _questionTypeModel: test-model\n'
     expected = (CONTENT
-                .replace('* domain:NT\n\n</small>', '* domain:NT\n* _questionType: QTY_ProveUniversal\n\n</small>')
-                .replace('* domain:NT\n</small>', '* domain:NT\n* _questionType: QTY_FindValue\n</small>'))
+                .replace('* domain:NT\n\n</small>', '* domain:NT\n* _questionType: QTY_ProveUniversal\n'
+                         + judgement + '\n</small>')
+                .replace('* domain:NT\n</small>', '* domain:NT\n* _questionType: QTY_FindValue\n' + judgement + '</small>'))
     assert content.read_text(encoding='utf-8') == expected
     out = capsys.readouterr().out
     assert 'added: 2, already present: 1, failed: 1' in out
@@ -123,7 +126,45 @@ def test_question_type_prompt_and_answer_check():
     prompt = utils.make_prompt(MetadataProperties.QUESTION_TYPE, 'LV.TST.2020.5.1', 'Uzdevuma teksts.')
     assert prompt.rstrip().endswith('Uzdevums:\n\nUzdevuma teksts.')
     assert 'LV.TST' not in prompt and 'QTY_Prove –' not in prompt and 'RSP_' not in prompt
-    check = utils._checked_value
-    assert check(MetadataProperties.QUESTION_TYPE, ' QTY_FindAll ') == 'QTY_FindAll'
-    assert check(MetadataProperties.QUESTION_TYPE, 'FindAll') == 'NA'
-    assert check(MetadataProperties.QUESTION_TYPE, 'QTY_Prove') == 'NA'
+    check = utils._checked_question_type
+    assert check([' QTY_FindAll '], []) == 'QTY_FindAll'
+    assert check(['QTY_FindOptimal', 'QTY_ConstructProcedure'], []) == 'QTY_FindOptimal,QTY_ConstructProcedure'
+    assert check('QTY_FindAll', []) == 'QTY_FindAll'
+    assert check(['FindAll'], []) == 'NA'           # legacy value
+    assert check(['QTY_Prove'], []) == 'NA'         # group type, not a leaf
+    assert check({'A': ['QTY_FindAll']}, []) == 'NA'
+
+
+def test_question_type_with_sub_parts():
+    utils = MetadataUtils('test')
+    text = 'Dots skaitlis $n$. **(A)** Atrodi visus $n$. **(B)** Pierādi, ka $n>1$. **(A)** vēlreiz.'
+    prompt = utils.make_prompt(MetadataProperties.QUESTION_TYPE, '', text)
+    assert 'Uzdevumam ir apakšpunkti (A), (B).' in prompt
+    assert '{"uzdevuma_tips": {"A": ["..."], "B": ["..."]}}' in prompt
+    assert 'Uzdevumam nav apakšpunktu' not in prompt
+    assert 'Uzdevumam nav apakšpunktu' in utils.make_prompt(MetadataProperties.QUESTION_TYPE, '', 'Bez apakšpunktiem.')
+
+    check = utils._checked_question_type
+    assert check({'A': ['QTY_FindAll'], '(B)': ['QTY_ProveUniversal']}, ['A', 'B']) == \
+        {'A': 'QTY_FindAll', 'B': 'QTY_ProveUniversal'}
+    assert check({'A': ['QTY_FindAll'], 'B': ['QTY_FindOptimal', 'QTY_ConstructProcedure']}, ['A', 'B']) == \
+        {'A': 'QTY_FindAll', 'B': 'QTY_FindOptimal,QTY_ConstructProcedure'}
+    assert check({'A': ['QTY_FindAll']}, ['A', 'B']) == 'NA'                       # sub-part missing
+    assert check({'A': ['QTY_FindAll'], 'B': ['Prove']}, ['A', 'B']) == 'NA'      # invalid value
+    assert check(['QTY_FindAll'], ['A', 'B']) == 'NA'                             # not per sub-part
+
+
+def test_sub_part_answers_become_separate_lines(tmp_path, monkeypatch):
+    monkeypatch.setattr(MetadataUtils, 'classify_problem',
+                        lambda self, *args, **kwargs: {'A': 'QTY_FindValue', 'B': 'QTY_DecideExistence'})
+    monkeypatch.setenv('OPENAI_API_KEY', 'test')
+    monkeypatch.setenv('OPENAI_MODEL', 'test-model')
+    content = tmp_path / 'lv-tst-2020' / 'content_lv.md'
+    content.parent.mkdir()
+    content.write_text('# <lo-sample/> LV.TST.2020.7.1\n\n**(A)** Cik ...? **(B)** Vai var ...?\n\n'
+                       '<small>\n\n* questionType:A: QTY_FindValue\n* questionType:B: QTY_Decide\n\n</small>\n',
+                       encoding='utf-8')
+    preprocess_add_metadata.main([str(tmp_path), 'questionType'])
+    assert ('* questionType:B: QTY_Decide\n* _questionType:A: QTY_FindValue\n'
+            '* _questionType:B: QTY_DecideExistence\n* _questionTypeSource: questionTypes2-v2/prompt-v1\n'
+            '* _questionTypeModel: test-model\n\n</small>') in content.read_text(encoding='utf-8')

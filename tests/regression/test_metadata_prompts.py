@@ -9,7 +9,8 @@ from scripts.metadata_utils import (ADD_METADATA_PROPERTIES, PLACEHOLDER_RE, Met
                                     MetadataUtils, fill_placeholders, load_prompts)
 
 KNOWN_PLACEHOLDERS = {'problem_text', 'solution_text', 'title', 'domain', 'question_types',
-                      'subdomains', 'concepts', 'domain_methods', 'domain_mistakes'}
+                      'subdomains', 'concepts', 'domain_methods', 'domain_mistakes',
+                      'answer_format', 'rubrics', 'rubric_example'}
 
 
 def test_every_property_has_a_system_message_and_a_prompt():

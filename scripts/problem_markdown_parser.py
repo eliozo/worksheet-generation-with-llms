@@ -19,6 +19,37 @@ class ProblemMarkdownParser:
 
     HEADING_RE = re.compile(r'^#\s+<lo-sample/>\s+(.*)')
     SMALL_BLOCK_RE = re.compile(r'(<small>)(.*?)(</small>)', re.DOTALL)
+    RUBRIC_RE = re.compile(r'\*\*\(([A-Za-z0-9]{1,2})\)\*\*')
+
+    @classmethod
+    def extract_part_values(cls, text: str, prop: str, split: bool = True) -> Dict[str, List[str]]:
+        """Values of the metadata property *prop* in the first <small> block, by sub-part.
+
+        "* questionType:A: QTY_FindAll,QTY_FindValue" gives {"A": ["QTY_FindAll", "QTY_FindValue"]};
+        lines without a sub-part ("* questionType: QTY_Prove") are under "". A sub-part line
+        with no values still gives its label (with an empty list). With split=False the
+        whole value is kept as one string.
+        """
+        match = cls.SMALL_BLOCK_RE.search(text)
+        result: Dict[str, List[str]] = {}
+        if not match:
+            return result
+        line_re = re.compile(r'^\s*\*\s*' + re.escape(prop) + r'\s*:(.*)$')
+        for line in match.group(2).split('\n'):
+            m = line_re.match(line)
+            if not m:
+                continue
+            part = re.match(r'^\s*([A-Za-z0-9]{1,2})\s*:(.*)$', m.group(1))
+            label, value = (part.group(1), part.group(2)) if part else ('', m.group(1))
+            values = [v.strip() for v in value.split(',')] if split else [value]
+            result.setdefault(label, []).extend(v.strip() for v in values if v.strip())
+        return result
+
+    @classmethod
+    def find_rubrics(cls, problem_text: str) -> List[str]:
+        """Sub-part labels of a problem marked **(A)**, **(B)**, ... in order (empty if fewer than two)."""
+        labels = list(dict.fromkeys(cls.RUBRIC_RE.findall(problem_text)))
+        return labels if len(labels) >= 2 else []
 
     # ------------------------------------------------------------------ #
     #  Core parsing: file -> list of Problem
@@ -230,7 +261,11 @@ class ProblemMarkdownParser:
         """The metadata lines ("* _prop: value", ...) for a generated property value."""
         check_tag = f"_{prop_name}:"
         lines_to_add = []
-        if isinstance(generated_val, dict):
+        if isinstance(generated_val, dict) and prop_name == "questionType":
+            # One line per sub-part: {"A": "QTY_FindAll", "B": "QTY_ProveUniversal"}
+            for rubric, val in generated_val.items():
+                lines_to_add.append(f"* _{prop_name}:{rubric}: {val}")
+        elif isinstance(generated_val, dict):
             if prop_name == "hasSolutionConcept":
                 main_val = generated_val.get('solutionConcepts') or generated_val.get('concepts', [])
                 rd_val = generated_val.get('readingDifficulty')

@@ -416,7 +416,7 @@ class TestRealFile:
         """Spot-check known metadata for problem LV.AMO.2023.5.1."""
         p = problems[0]
         assert p.meta_dict["topic"] == ["ArithmeticOperations"]
-        assert p.meta_dict["questionType"] == ["FindExample"]
+        assert p.meta_dict["questionType"] == ["QTY_ConstructExample"]  # migrated from FindExample
         assert p.meta_dict["domain"] == ["Comb"]
 
 

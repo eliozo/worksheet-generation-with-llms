@@ -12,14 +12,41 @@ LLM-generated ("* _domain: NT"):
 
 Values are compared as sets: a property may span several lines and each line
 may hold a comma-separated list, so order and spacing do not matter.
+
+questionType may be given per sub-part ("* questionType:A: QTY_FindAll",
+"* _questionType:A: QTY_FindAll"); then each sub-part is compared separately,
+and different sub-parts on the two sides are a mismatch. An LLM value that is a
+subtype of the human one (QTY_DecideExistence for QTY_Decide, per
+questionTypes2.csv) is consistent: not a mismatch, but kept, as it is more precise.
 """
 
+import csv
 import os
 import re
 
 CONTENT_FILE_RE = re.compile(r'^content_[a-z]{2}\.md$')
 PROBLEM_TITLE_RE = re.compile(r'^#\s+<lo-sample\s*/>\s*(\S+)')
 PROPERTY_RE = re.compile(r'^\s*\*\s*(_?)([A-Za-z][\w-]*)\s*:(.*)$')
+
+# Properties that may be given per sub-part: "questionType:A: value"
+RUBRIC_PROPERTIES = {'questionType'}
+RUBRIC_VALUE_RE = re.compile(r'^\s*([A-Za-z0-9]{1,2})\s*:(.*)$')
+QUESTION_TYPES_CSV = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'setup', 'resources',
+                                  'questionTypes2.csv')
+_question_type_parents = None
+
+
+def _parents():
+    """questionType label -> its group label (QTY_FindAll -> QTY_Find), from questionTypes2.csv."""
+    global _question_type_parents
+    if _question_type_parents is None:
+        _question_type_parents = {}
+        if os.path.exists(QUESTION_TYPES_CSV):
+            with open(QUESTION_TYPES_CSV, encoding='utf-8') as f:
+                rows = list(csv.DictReader(f))
+            groups = {r['L1']: r['Label'] for r in rows if r['L2'].strip() == '0'}
+            _question_type_parents = {r['Label']: groups.get(r['L1']) for r in rows if r['L2'].strip() != '0'}
+    return _question_type_parents
 
 
 def find_content_files(parent_dir):
@@ -35,6 +62,45 @@ def find_content_files(parent_dir):
 
 def _values(lines):
     return {v.strip() for line in lines for v in PROPERTY_RE.match(line).group(3).split(',') if v.strip()}
+
+
+def _rubric_values(lines):
+    """{sub-part: set of values} ('' for lines without a sub-part)."""
+    result = {}
+    for line in lines:
+        value = PROPERTY_RE.match(line).group(3)
+        m = RUBRIC_VALUE_RE.match(value)
+        rubric, value = (m.group(1), m.group(2)) if m else ('', value)
+        result.setdefault(rubric, set()).update(v.strip() for v in value.split(',') if v.strip())
+    return result
+
+
+def _refines(llm_vals, human_vals):
+    """Each value on either side equals, or is a subtype of, a value on the other side."""
+    parents = _parents()
+    match = lambda v, h: v == h or parents.get(v) == h
+    return (all(any(match(v, h) for h in human_vals) for v in llm_vals)
+            and all(any(match(v, h) for v in llm_vals) for h in human_vals))
+
+
+def _compare_rubrics(human_lines, llm_lines):
+    """'duplicate', 'mismatch' or None (nothing to do) for a per-sub-part property."""
+    human, llm = _rubric_values(human_lines), _rubric_values(llm_lines)
+    if not any(human.values()) or not any(llm.values()):
+        return None
+    if set(human) != set(llm):
+        return 'mismatch'
+    outcomes = set()
+    for rubric in human:
+        if not human[rubric] or not llm[rubric]:
+            outcomes.add('incomplete')
+        elif human[rubric] == llm[rubric]:
+            outcomes.add('equal')
+        elif _refines(llm[rubric], human[rubric]):
+            outcomes.add('refined')
+        else:
+            return 'mismatch'
+    return 'duplicate' if outcomes == {'equal'} else None
 
 
 def _clean_block(lines, start, end, report):
@@ -55,11 +121,19 @@ def _clean_block(lines, start, end, report):
             continue
         human_lines = [lines[i] for i in human[prop]]
         llm_lines = [lines[i] for i in llm_idx]
+        if prop in RUBRIC_PROPERTIES:
+            outcome = _compare_rubrics(human_lines, llm_lines)
+            if outcome == 'duplicate':
+                # with the value, also its "_<prop>Source" and "_<prop>Model" lines
+                to_remove.extend(llm_idx + llm.get(prop + 'Source', []) + llm.get(prop + 'Model', []))
+            if outcome:
+                report(outcome, prop, human_lines, llm_lines)
+            continue
         human_vals, llm_vals = _values(human_lines), _values(llm_lines)
         if not human_vals or not llm_vals:
             continue
         if human_vals == llm_vals:
-            to_remove.extend(llm_idx)
+            to_remove.extend(llm_idx + llm.get(prop + 'Source', []) + llm.get(prop + 'Model', []))
             report('duplicate', prop, human_lines, llm_lines)
         else:
             report('mismatch', prop, human_lines, llm_lines)

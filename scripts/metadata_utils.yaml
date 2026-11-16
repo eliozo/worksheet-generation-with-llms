@@ -13,16 +13,29 @@
 #   {concepts}         setup/resources/concepts.csv
 #   {domain_methods}   setup/reasoning_methods/<domain>_reasoning_methods.md
 #   {domain_mistakes}  setup/reasoning_mistakes/<domain>_reasoning_mistakes.md
+#   {answer_format}    questionType: answer_with_rubrics or answer_without_rubrics,
+#                      depending on whether the problem has sub-parts **(A)**, **(B)**, ...
+#   {rubrics}          the sub-part labels found in the problem, e.g. "(A), (B)"
+#   {rubric_example}   the expected JSON answer for these sub-parts
 # Only these names are replaced; every other brace (e.g. in JSON examples) is
 # literal text and is written as is, without doubling.
 #
 # Texts are YAML literal blocks ("|"): keep the 4-space indentation of their
 # lines, and do not use tabs.
+#
+# judgement_source (optional): a short tag of the prompt and vocabulary version.
+# add-metadata writes it next to each generated value ("* _questionTypeSource: ...",
+# together with "* _questionTypeModel: <model>"), so that later we know which
+# prompt produced it. Change it whenever the prompt or the vocabulary changes;
+# do not use commas in it.
 
 questionType:
+  # questionTypes2.csv (question types v2) with this prompt, version 1
+  judgement_source: questionTypes2-v2/prompt-v1
   system: |
     Atbildi tikai ar derīgu JSON objektu, piemēram:
-    {"uzdevuma_tips": "QTY_ProveUniversal"}. Neko nepaskaidro.
+    {"uzdevuma_tips": ["QTY_ProveUniversal"]} vai
+    {"uzdevuma_tips": {"A": ["QTY_FindValue"], "B": ["QTY_ProveUniversal"]}}. Neko nepaskaidro.
   prompt: |
     Nosaki matemātikas olimpiādes uzdevuma jautājuma tipu.
 
@@ -60,16 +73,33 @@ questionType:
     spēlētājs var uzvarēt" ir QTY_ConstructProcedure; "Pierādi, ka pirmais spēlētājs var
     uzvarēt" ir QTY_ProveExistence; "Kurām $n$ vērtībām uzvar pirmais spēlētājs?" ir QTY_FindAll.
 
-    Ja uzdevumā ir divu tipu nepieciešamās daļas vai vairāki apakšpunkti, norādi vienu tipu –
-    to, kas nosaka atrisinājuma kopējo uzbūvi. Piemēram, "Ar kādu mazāko svēršanu skaitu var
-    atrast viltoto monētu?" ir QTY_FindOptimal.
-
-    Atbildi tikai JSON formātā: {"uzdevuma_tips": "..."}, kur vērtība ir viens no iepriekš
-    uzskaitītajiem identifikatoriem (ar prefiksu QTY_).
+    {answer_format}
 
     Uzdevums:
 
     {problem_text}
+  answer_without_rubrics: |
+    Uzdevumam nav apakšpunktu, kas atzīmēti ar **(A)**, **(B)** utt. Atbildi tikai JSON formātā:
+    {"uzdevuma_tips": ["..."]}, kur saraksta vērtības ir iepriekš uzskaitītie identifikatori
+    (ar prefiksu QTY_).
+
+    Parasti sarakstā ir tieši viens tips. Vairākus tipus norādi tikai izņēmuma gadījumā, ja
+    uzdevums vienā teikumā vai jautājumā prasa paveikt vairākas atšķirīgas darbības ("netiešie
+    apakšpunkti"), piemēram, "Vai var …? Vai to var, ja …?" vai "Ar kādu mazāko svēršanu skaitu
+    var atrast viltoto monētu?" – {"uzdevuma_tips": ["QTY_FindOptimal", "QTY_ConstructProcedure"]}.
+    Tādā gadījumā pirmais ir tips, kas nosaka atrisinājuma kopējo uzbūvi, un katru tipu norādi
+    tikai vienreiz.
+  answer_with_rubrics: |
+    Uzdevumam ir apakšpunkti {rubrics}. Nosaki jautājuma tipu katram apakšpunktam atsevišķi
+    (ņemot vērā arī uzdevuma kopīgo tekstu pirms apakšpunktiem). Atbildi tikai JSON formātā,
+    kur katram apakšpunktam ir tipu saraksts:
+
+    {rubric_example}
+
+    Saraksta vērtības ir iepriekš uzskaitītie identifikatori (ar prefiksu QTY_). Parasti katram
+    apakšpunktam ir tieši viens tips. Vairākus tipus norādi tikai izņēmuma gadījumā, ja
+    apakšpunkts vienā teikumā vai jautājumā prasa paveikt vairākas atšķirīgas darbības
+    ("netiešie apakšpunkti"); tad pirmais ir tips, kas nosaka atrisinājuma kopējo uzbūvi.
 
 domain:
   system: |

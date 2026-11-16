@@ -40,7 +40,8 @@ SOURCES = [
     (METADATA_WORKBOOK.format(gid=2064489418), "topics",     "resources/skos-topics.ttl"),
     (METADATA_WORKBOOK.format(gid=295466032),  "methods",    "resources/skos-methods.ttl"),
     (METADATA_WORKBOOK.format(gid=203131352),  "domains",    "resources/skos-domains.ttl"),
-    (METADATA_WORKBOOK.format(gid=1929564498), "questions",  "resources/skos-questions.ttl"),
+    # Question types v2 and response formats come from the local questionTypes2.csv
+    (os.path.join(current_dir, "resources", "questionTypes2.csv"), "questionTypes", "resources/skos-questions.ttl"),
     (METADATA_WORKBOOK.format(gid=1895950034), "olympiads",  "resources/list-olympiads.ttl"),
     (METADATA_WORKBOOK.format(gid=1391589989), "sources",    "resources/list-sources.ttl"),
     (CONCEPT_WORKBOOK.format(gid=133948398),   "concepts",   "resources/list-concepts.ttl"),
@@ -53,6 +54,7 @@ SOURCES = [
 #   hintTypes -> gid=964486517
 #   models    -> gid=1391678755
 #   concepts  -> gid=1549620638  (see CONCEPT_WORKBOOK note above)
+#   questions -> gid=1929564498  (the legacy question types, replaced by questionTypes2.csv)
 
 
 def main():
